@@ -1,5 +1,7 @@
 package io.jexxa.commons.wrapper.jdbc;
 
+import io.jexxa.commons.facade.jdbc.JDBCConnection;
+import io.jexxa.commons.facade.jdbc.JDBCQuery;
 import io.jexxa.commons.wrapper.TestConstants;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.parallel.Execution;

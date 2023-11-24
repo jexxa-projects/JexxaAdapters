@@ -2,7 +2,7 @@ package io.jexxa.commons.wrapper.jdbc;
 
 
 import io.jexxa.commons.wrapper.TestConstants;
-import io.jexxa.commons.wrapper.component.persistence.repository.jdbc.JDBCKeyValueRepository;
+import io.jexxa.commons.component.persistence.repository.jdbc.JDBCKeyValueRepository;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
@@ -10,8 +10,8 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 
 import java.util.Properties;
 
-import static io.jexxa.commons.wrapper.jdbc.JDBCProperties.JDBC_DRIVER;
-import static io.jexxa.commons.wrapper.jdbc.JDBCProperties.JDBC_URL;
+import static io.jexxa.commons.facade.jdbc.JDBCProperties.JDBC_DRIVER;
+import static io.jexxa.commons.facade.jdbc.JDBCProperties.JDBC_URL;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Tag(TestConstants.UNIT_TEST)

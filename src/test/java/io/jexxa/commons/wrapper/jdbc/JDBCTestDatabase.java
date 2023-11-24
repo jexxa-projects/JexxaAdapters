@@ -1,7 +1,8 @@
 package io.jexxa.commons.wrapper.jdbc;
 
-import io.jexxa.commons.wrapper.jdbc.builder.JDBCTableBuilder;
-import io.jexxa.commons.wrapper.jdbc.builder.SQLDataType;
+import io.jexxa.commons.facade.jdbc.JDBCConnection;
+import io.jexxa.commons.facade.jdbc.builder.JDBCTableBuilder;
+import io.jexxa.commons.facade.jdbc.builder.SQLDataType;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;

@@ -1,7 +1,7 @@
 package io.jexxa.commons.wrapper.testapplication;
 
 
-import io.jexxa.commons.wrapper.logger.SLF4jLogger;
+import io.jexxa.commons.facade.logger.SLF4jLogger;
 
 import java.io.Serial;
 import java.util.ArrayList;

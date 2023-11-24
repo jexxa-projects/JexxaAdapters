@@ -2,6 +2,7 @@ package io.jexxa.commons.wrapper.factory;
 
 
 
+import io.jexxa.commons.facade.factory.ClassFactory;
 import io.jexxa.commons.wrapper.TestConstants;
 import io.jexxa.commons.wrapper.testapplication.SimpleApplicationService;
 import org.junit.jupiter.api.Assertions;
@@ -13,7 +14,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.jexxa.commons.wrapper.utils.function.ThrowingConsumer.exceptionCollector;
+import static io.jexxa.commons.facade.utils.function.ThrowingConsumer.exceptionCollector;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

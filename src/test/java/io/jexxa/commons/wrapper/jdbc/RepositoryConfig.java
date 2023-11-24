@@ -4,13 +4,13 @@ package io.jexxa.commons.wrapper.jdbc;
 import java.util.Properties;
 import java.util.stream.Stream;
 
-import static io.jexxa.commons.wrapper.jdbc.JDBCProperties.JDBC_AUTOCREATE_DATABASE;
-import static io.jexxa.commons.wrapper.jdbc.JDBCProperties.JDBC_AUTOCREATE_TABLE;
-import static io.jexxa.commons.wrapper.jdbc.JDBCProperties.JDBC_DRIVER;
-import static io.jexxa.commons.wrapper.jdbc.JDBCProperties.JDBC_PASSWORD;
-import static io.jexxa.commons.wrapper.jdbc.JDBCProperties.JDBC_TRANSACTION_ISOLATION_LEVEL;
-import static io.jexxa.commons.wrapper.jdbc.JDBCProperties.JDBC_URL;
-import static io.jexxa.commons.wrapper.jdbc.JDBCProperties.JDBC_USERNAME;
+import static io.jexxa.commons.facade.jdbc.JDBCProperties.JDBC_AUTOCREATE_DATABASE;
+import static io.jexxa.commons.facade.jdbc.JDBCProperties.JDBC_AUTOCREATE_TABLE;
+import static io.jexxa.commons.facade.jdbc.JDBCProperties.JDBC_DRIVER;
+import static io.jexxa.commons.facade.jdbc.JDBCProperties.JDBC_PASSWORD;
+import static io.jexxa.commons.facade.jdbc.JDBCProperties.JDBC_TRANSACTION_ISOLATION_LEVEL;
+import static io.jexxa.commons.facade.jdbc.JDBCProperties.JDBC_URL;
+import static io.jexxa.commons.facade.jdbc.JDBCProperties.JDBC_USERNAME;
 
 public class RepositoryConfig {
     static private final String USER_NAME = "postgres";
