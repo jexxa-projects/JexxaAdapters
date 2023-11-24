@@ -36,7 +36,7 @@ public final class JDBCTestDatabase
         TIMESTAMP_TYPE,
     }
 
-    public static final String JDBC_REPOSITORY_CONFIG = "io.jexxa.commons.wrapper.jdbc.JDBCTestDatabase#repositoryConfigJDBC";
+    public static final String JDBC_REPOSITORY_CONFIG = "io.jexxa.commons.facade.jdbc.JDBCTestDatabase#repositoryConfigJDBC";
 
     @SuppressWarnings("unused")
     public static Stream<Properties> repositoryConfigJDBC() {
