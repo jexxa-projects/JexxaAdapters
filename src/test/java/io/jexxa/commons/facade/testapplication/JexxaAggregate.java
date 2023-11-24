@@ -1,39 +1,38 @@
-package io.jexxa.commons.wrapper.jdbc;
+package io.jexxa.commons.facade.testapplication;
 
-import io.jexxa.commons.wrapper.testapplication.JexxaValueObject;
+import io.jexxa.commons.facade.jdbc.JexxaEntity;
 
 import java.util.Objects;
 
-public final class JexxaEntity
+public final class JexxaAggregate
 {
+    private final JexxaEntity jexxaEntity;
     private final JexxaValueObject jexxaValueObject;
 
-    private int internalValue;
-
-    public static JexxaEntity create(JexxaValueObject key)
+    private JexxaAggregate(JexxaValueObject jexxaValueObject)
     {
-        return new JexxaEntity(key);
+        this.jexxaEntity = JexxaEntity.create(jexxaValueObject);
+        this.jexxaValueObject = jexxaValueObject;
     }
 
     public void setInternalValue(int value)
     {
-        internalValue = value;
+        jexxaEntity.setInternalValue(value);
     }
 
     public int getInternalValue()
     {
-        return internalValue;
+        return jexxaEntity.getInternalValue();
     }
-
 
     public JexxaValueObject getKey()
     {
         return jexxaValueObject;
     }
 
-    private JexxaEntity(JexxaValueObject jexxaValueObject)
+    public static JexxaAggregate create(JexxaValueObject key)
     {
-        this.jexxaValueObject = jexxaValueObject;
+        return new JexxaAggregate(key);
     }
 
     @Override
@@ -47,7 +46,7 @@ public final class JexxaEntity
         {
             return false;
         }
-        JexxaEntity that = (JexxaEntity) o;
+        JexxaAggregate that = (JexxaAggregate) o;
         return Objects.equals(getKey(), that.getKey());     // Only compare keys
     }
 

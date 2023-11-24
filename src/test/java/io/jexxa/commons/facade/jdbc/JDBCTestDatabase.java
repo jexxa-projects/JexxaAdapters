@@ -1,6 +1,5 @@
-package io.jexxa.commons.wrapper.jdbc;
+package io.jexxa.commons.facade.jdbc;
 
-import io.jexxa.commons.facade.jdbc.JDBCConnection;
 import io.jexxa.commons.facade.jdbc.builder.JDBCTableBuilder;
 import io.jexxa.commons.facade.jdbc.builder.SQLDataType;
 
@@ -11,7 +10,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Properties;
 import java.util.stream.Stream;
 
-import static io.jexxa.commons.wrapper.jdbc.RepositoryConfig.jdbcRepositoryConfig;
+import static io.jexxa.commons.facade.jdbc.RepositoryConfig.jdbcRepositoryConfig;
 
 public final class JDBCTestDatabase
 {

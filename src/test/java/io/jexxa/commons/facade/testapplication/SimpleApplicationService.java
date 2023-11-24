@@ -1,4 +1,4 @@
-package io.jexxa.commons.wrapper.testapplication;
+package io.jexxa.commons.facade.testapplication;
 
 
 import io.jexxa.commons.facade.logger.SLF4jLogger;

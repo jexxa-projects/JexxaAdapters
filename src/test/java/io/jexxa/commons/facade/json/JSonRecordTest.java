@@ -1,4 +1,4 @@
-package io.jexxa.commons.wrapper.json;
+package io.jexxa.commons.facade.json;
 
 import com.google.gson.reflect.TypeToken;
 import org.junit.jupiter.api.Test;

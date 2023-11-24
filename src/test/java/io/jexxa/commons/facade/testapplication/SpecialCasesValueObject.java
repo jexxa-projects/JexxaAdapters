@@ -1,4 +1,4 @@
-package io.jexxa.commons.wrapper.testapplication;
+package io.jexxa.commons.facade.testapplication;
 
 import java.util.Objects;
 

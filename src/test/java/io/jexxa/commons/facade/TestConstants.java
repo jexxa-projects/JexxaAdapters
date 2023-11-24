@@ -1,4 +1,4 @@
-package io.jexxa.commons.wrapper;
+package io.jexxa.commons.facade;
 
 public class TestConstants
 {

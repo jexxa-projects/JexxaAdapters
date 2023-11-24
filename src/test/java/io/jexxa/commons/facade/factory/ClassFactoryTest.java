@@ -1,10 +1,9 @@
-package io.jexxa.commons.wrapper.factory;
+package io.jexxa.commons.facade.factory;
 
 
 
-import io.jexxa.commons.facade.factory.ClassFactory;
-import io.jexxa.commons.wrapper.TestConstants;
-import io.jexxa.commons.wrapper.testapplication.SimpleApplicationService;
+import io.jexxa.commons.facade.TestConstants;
+import io.jexxa.commons.facade.testapplication.SimpleApplicationService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;

@@ -1,9 +1,7 @@
-package io.jexxa.commons.wrapper.json;
+package io.jexxa.commons.facade.json;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import io.jexxa.commons.facade.json.JSONConverter;
-import io.jexxa.commons.facade.json.JSONManager;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;

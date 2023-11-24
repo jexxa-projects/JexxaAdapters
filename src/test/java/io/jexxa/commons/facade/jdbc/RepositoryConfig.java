@@ -1,4 +1,4 @@
-package io.jexxa.commons.wrapper.jdbc;
+package io.jexxa.commons.facade.jdbc;
 
 
 import java.util.Properties;

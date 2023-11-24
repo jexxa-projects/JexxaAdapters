@@ -1,4 +1,4 @@
-package io.jexxa.commons.wrapper.testapplication;
+package io.jexxa.commons.facade.testapplication;
 
 public record JexxaRecord(String jexxaRecord) {
 }
