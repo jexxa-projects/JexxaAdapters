@@ -2,7 +2,7 @@ package io.jexxa.commons.facade.jdbc;
 
 
 import io.jexxa.commons.facade.TestConstants;
-import io.jexxa.commons.component.persistence.repository.jdbc.JDBCKeyValueRepository;
+import io.jexxa.commons.adapter.persistence.repository.jdbc.JDBCKeyValueRepository;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
