@@ -11,15 +11,15 @@ public abstract class MessageSender
     public enum MessageType{TEXT_MESSAGE, BYTE_MESSAGE }
 
     @CheckReturnValue
-    public <T> MessageFactory send(T message)
+    public <T> MessageBuilder send(T message)
     {
-        return new MessageFactory(message, this, MessageType.TEXT_MESSAGE);
+        return new MessageBuilder(message, this, MessageType.TEXT_MESSAGE);
     }
 
     @CheckReturnValue
-    public <T> MessageFactory sendByteMessage(T message)
+    public <T> MessageBuilder sendByteMessage(T message)
     {
-        return new MessageFactory(message, this, MessageType.BYTE_MESSAGE);
+        return new MessageBuilder(message, this, MessageType.BYTE_MESSAGE);
     }
 
     /**

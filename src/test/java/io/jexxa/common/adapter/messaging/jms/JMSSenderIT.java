@@ -3,7 +3,7 @@ package io.jexxa.common.adapter.messaging.jms;
 
 import io.jexxa.common.adapter.messaging.receive.jms.JMSAdapter;
 import io.jexxa.common.adapter.messaging.send.MessageSender;
-import io.jexxa.common.adapter.messaging.send.MessageSenderFactory;
+import io.jexxa.common.adapter.messaging.send.MessageSenderManager;
 import io.jexxa.common.adapter.messaging.send.jms.JMSSender;
 import io.jexxa.common.facade.TestConstants;
 import io.jexxa.common.facade.jms.JMSProperties;
@@ -79,8 +79,8 @@ class JMSSenderIT
     void sendMessageToTopic(Class<? extends MessageSender> messageSender)
     {
         //Arrange
-        MessageSenderFactory.setDefaultStrategy(messageSender);
-        var objectUnderTest = MessageSenderFactory.getMessageSender(JMSSenderIT.class, jmsProperties);
+        MessageSenderManager.setDefaultStrategy(messageSender);
+        var objectUnderTest = MessageSenderManager.getMessageSender(JMSSenderIT.class, jmsProperties);
 
         //Act
         objectUnderTest
@@ -103,8 +103,8 @@ class JMSSenderIT
     void sendMessageToQueue(Class<? extends MessageSender> messageSender)
     {
         //Arrange
-        MessageSenderFactory.setDefaultStrategy(messageSender);
-        var objectUnderTest = MessageSenderFactory.getMessageSender(JMSSenderIT.class, jmsProperties);
+        MessageSenderManager.setDefaultStrategy(messageSender);
+        var objectUnderTest = MessageSenderManager.getMessageSender(JMSSenderIT.class, jmsProperties);
 
         //Act
         objectUnderTest
@@ -124,8 +124,8 @@ class JMSSenderIT
     void sendMessageToQueueAsString(Class<? extends MessageSender> messageSender)
     {
         //Arrange
-        MessageSenderFactory.setDefaultStrategy(messageSender);
-        var objectUnderTest = MessageSenderFactory.getMessageSender(JMSSenderIT.class, jmsProperties);
+        MessageSenderManager.setDefaultStrategy(messageSender);
+        var objectUnderTest = MessageSenderManager.getMessageSender(JMSSenderIT.class, jmsProperties);
 
         //Act
         objectUnderTest
@@ -146,8 +146,8 @@ class JMSSenderIT
     void sendByteMessageToTopic(Class<? extends MessageSender> messageSender)
     {
         //Arrange
-        MessageSenderFactory.setDefaultStrategy(messageSender);
-        var objectUnderTest = MessageSenderFactory.getMessageSender(JMSSenderIT.class, jmsProperties);
+        MessageSenderManager.setDefaultStrategy(messageSender);
+        var objectUnderTest = MessageSenderManager.getMessageSender(JMSSenderIT.class, jmsProperties);
 
         //Act
         objectUnderTest
@@ -167,8 +167,8 @@ class JMSSenderIT
     void sendByteMessageToQueue(Class<? extends MessageSender> messageSender)
     {
         //Arrange
-        MessageSenderFactory.setDefaultStrategy(messageSender);
-        var objectUnderTest = MessageSenderFactory.getMessageSender(JMSSenderIT.class, jmsProperties);
+        MessageSenderManager.setDefaultStrategy(messageSender);
+        var objectUnderTest = MessageSenderManager.getMessageSender(JMSSenderIT.class, jmsProperties);
 
         //Act
         objectUnderTest
@@ -187,8 +187,8 @@ class JMSSenderIT
     void sendMessageReconnectQueue() throws JMSException
     {
         //Arrange
-        MessageSenderFactory.setDefaultStrategy(JMSSender.class); // Reconnect is only meaningful for JMSSender
-        var objectUnderTest = MessageSenderFactory.getMessageSender(JMSSenderIT.class, jmsProperties);
+        MessageSenderManager.setDefaultStrategy(JMSSender.class); // Reconnect is only meaningful for JMSSender
+        var objectUnderTest = MessageSenderManager.getMessageSender(JMSSenderIT.class, jmsProperties);
 
         //Act (simulate an error in between sending two messages
         objectUnderTest
@@ -218,9 +218,9 @@ class JMSSenderIT
         properties.putAll(jmsProperties);
         properties.remove(JMSProperties.JNDI_PASSWORD_KEY);
         properties.put(JMSProperties.JNDI_PASSWORD_FILE, "src/test/resources/secrets/jndiPassword");
-        MessageSenderFactory.setDefaultStrategy(JMSSender.class);
+        MessageSenderManager.setDefaultStrategy(JMSSender.class);
 
-        var objectUnderTest = MessageSenderFactory.getMessageSender(JMSSenderIT.class, properties);
+        var objectUnderTest = MessageSenderManager.getMessageSender(JMSSenderIT.class, properties);
 
         //Act
         objectUnderTest

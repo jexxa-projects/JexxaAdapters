@@ -12,7 +12,7 @@ import static io.jexxa.common.facade.json.JSONManager.getJSONConverter;
 
 
 @CheckReturnValue
-public class MessageFactory
+public class MessageBuilder
 {
     public enum DestinationType { TOPIC, QUEUE }
     private Properties properties;
@@ -23,7 +23,7 @@ public class MessageFactory
     private DestinationType destinationType;
     private String destination;
 
-    protected <T> MessageFactory(T message, MessageSender messageSender, MessageSender.MessageType messageType)
+    protected <T> MessageBuilder(T message, MessageSender messageSender, MessageSender.MessageType messageType)
     {
         this.message = Objects.requireNonNull(message);
         this.messageSender = Objects.requireNonNull(messageSender);
@@ -31,7 +31,7 @@ public class MessageFactory
     }
 
     @CheckReturnValue
-    public MessageFactory toQueue(String destination)
+    public MessageBuilder toQueue(String destination)
     {
         this.destination = Objects.requireNonNull(destination);
         this.destinationType = DestinationType.QUEUE;
@@ -40,7 +40,7 @@ public class MessageFactory
     }
 
     @CheckReturnValue
-    public MessageFactory toTopic(String destination)
+    public MessageBuilder toTopic(String destination)
     {
         this.destination = Objects.requireNonNull(destination);
         this.destinationType = DestinationType.TOPIC;
@@ -49,7 +49,7 @@ public class MessageFactory
     }
 
     @CheckReturnValue
-    public MessageFactory addHeader(String key, String value)
+    public MessageBuilder addHeader(String key, String value)
     {
         if (properties == null)
         {

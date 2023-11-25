@@ -13,14 +13,14 @@ import java.util.Properties;
 import static io.jexxa.common.facade.jms.JMSProperties.JNDI_FACTORY_KEY;
 
 
-public final class MessageSenderFactory
+public final class MessageSenderManager
 {
-    private static final MessageSenderFactory MESSAGE_SENDER_MANAGER = new MessageSenderFactory();
+    private static final MessageSenderManager MESSAGE_SENDER_MANAGER = new MessageSenderManager();
 
     private static final Map<Class<?> , Class<? extends MessageSender>> STRATEGY_MAP = new HashMap<>();
     private static Class<? extends MessageSender> defaultStrategy = null;
 
-    private MessageSenderFactory()
+    private MessageSenderManager()
     {
     }
 
@@ -73,7 +73,7 @@ public final class MessageSenderFactory
     {
         Objects.requireNonNull(defaultStrategy);
 
-        MessageSenderFactory.defaultStrategy = defaultStrategy;
+        MessageSenderManager.defaultStrategy = defaultStrategy;
     }
 
 
