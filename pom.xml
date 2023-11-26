@@ -52,9 +52,6 @@
         <junit.jupiter.params.version>5.10.1</junit.jupiter.params.version>
         <awaitility.version>4.2.0</awaitility.version>
         <jackson.databind.version>2.16.0</jackson.databind.version>
-        <apache.commons.lang3>3.14.0</apache.commons.lang3>
-
-
 
         <!-- server-name used in mavens settings.xml to find to your repository credentials -->
         <project.scm.id>github</project.scm.id>
@@ -123,11 +120,6 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.simple.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${apache.commons.lang3}</version>
         </dependency>
 
 
