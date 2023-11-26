@@ -28,7 +28,7 @@ Maven:
     <dependency>
         <groupId>io.jexxa.common</groupId>
         <artifactId>common-adapters</artifactId>
-        <version>0.1.0</version>
+        <version>0.1.1</version>
     </dependency>
 </dependencies>
 ```
@@ -36,7 +36,7 @@ Maven:
 Gradle:
 
 ```groovy
-compile "io.jexxa.common:common-adapters:0.1.0"
+compile "io.jexxa.common:common-adapters:0.1.1"
 ``` 
 
 ## Build the library
