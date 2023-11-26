@@ -7,6 +7,9 @@
   <artifactId>common-adapters</artifactId>
   <version>0.1.1-SNAPSHOT</version>
 
+  <!-- Project Information -->
+  <name>Common Adapters</name>
+  <url>https://github.com/jexxa-projects/CommonAdapters</url>
 
   <description>common-adapters</description>
   <licenses>
