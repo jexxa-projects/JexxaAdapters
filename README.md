@@ -11,7 +11,7 @@ These adapters are based on typical microservices and messaging patterns to simp
 * [Repository](https://martinfowler.com/eaaCatalog/repository.html) that isolates the data layer from the rest of the app on object/entity level 
 * [Transactional Outbox Pattern](https://microservices.io/patterns/data/transactional-outbox.html) to atomically update the database and send messages to a message broker when 2FC is not an option
 * [Idempotent Consumer](https://microservices.io/patterns/communication-style/idempotent-consumer.html) to handle duplicate messages correctly
-* Facade to Java JDBC and JMS API to simplify implementation of additional adapters   
+* Facade to Java JDBC and JMS API to simplify the implementation of additional adapters   
 
 
 ## Requirements
