@@ -1,6 +1,8 @@
-package io.jexxa.common.adapter.messaging.jms;
+package io.jexxa.common.adapter.messaging.jms.send;
 
 
+import io.jexxa.common.adapter.messaging.jms.listener.QueueListener;
+import io.jexxa.common.adapter.messaging.jms.listener.TopicListener;
 import io.jexxa.common.adapter.messaging.receive.jms.JMSAdapter;
 import io.jexxa.common.adapter.messaging.send.MessageSender;
 import io.jexxa.common.adapter.messaging.send.MessageSenderManager;
@@ -28,8 +30,8 @@ import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
-import static io.jexxa.common.adapter.messaging.jms.QueueListener.QUEUE_DESTINATION;
-import static io.jexxa.common.adapter.messaging.jms.TopicListener.TOPIC_DESTINATION;
+import static io.jexxa.common.adapter.messaging.jms.listener.QueueListener.QUEUE_DESTINATION;
+import static io.jexxa.common.adapter.messaging.jms.listener.TopicListener.TOPIC_DESTINATION;
 import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertTimeout;

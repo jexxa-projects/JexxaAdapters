@@ -1,4 +1,4 @@
-package io.jexxa.common.adapter.messaging;
+package io.jexxa.common.adapter.messaging.jms.send;
 
 import io.jexxa.common.adapter.messaging.send.MessageBuilder;
 import io.jexxa.common.adapter.messaging.send.MessageSender;
@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class MessageProducerTest
+class MessageSenderTest
 {
 
     @Test

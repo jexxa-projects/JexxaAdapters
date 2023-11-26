@@ -1,4 +1,4 @@
-package io.jexxa.common.adapter.messaging.jms;
+package io.jexxa.common.adapter.messaging.jms.receive;
 
 import io.jexxa.common.adapter.messaging.receive.jms.JMSAdapter;
 import io.jexxa.common.adapter.messaging.receive.jms.JMSConfiguration;
@@ -21,21 +21,19 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
-import static io.jexxa.common.adapter.messaging.jms.QueueListener.QUEUE_DESTINATION;
-import static io.jexxa.common.adapter.messaging.jms.TopicListener.TOPIC_DESTINATION;
+import static io.jexxa.common.adapter.messaging.jms.listener.QueueListener.QUEUE_DESTINATION;
+import static io.jexxa.common.adapter.messaging.jms.listener.TopicListener.TOPIC_DESTINATION;
 import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Execution(ExecutionMode.SAME_THREAD)
 @Tag(TestConstants.INTEGRATION_TEST)
-class MessageListenerIT
+class MessageReceiverIT
 {
     private static final String MESSAGE_SENDER_CONFIG = "getMessageSenderConfig";
     private final JexxaValueObject message = new JexxaValueObject(42);
@@ -80,7 +78,7 @@ class MessageListenerIT
     {
         //Arrange
         MessageSenderManager.setDefaultStrategy(messageSender);
-        var objectUnderTest = MessageSenderManager.getMessageSender(JMSSenderIT.class, jmsProperties);
+        var objectUnderTest = MessageSenderManager.getMessageSender(MessageReceiverIT.class, jmsProperties);
 
         //Act
         objectUnderTest
@@ -99,7 +97,7 @@ class MessageListenerIT
     {
         //Arrange
         MessageSenderManager.setDefaultStrategy(messageSender);
-        var objectUnderTest = MessageSenderManager.getMessageSender(JMSSenderIT.class, jmsProperties);
+        var objectUnderTest = MessageSenderManager.getMessageSender(MessageReceiverIT.class, jmsProperties);
 
         //Act
         objectUnderTest
@@ -117,8 +115,6 @@ class MessageListenerIT
 
     private static class TextMessageListener extends JSONMessageListener
     {
-        private final List<String> receivedMessages = new ArrayList<>();
-
         private String textMessage;
 
         @SuppressWarnings("unused")
@@ -127,17 +123,12 @@ class MessageListenerIT
         public void onMessage(String textMessage)
         {
             this.textMessage = textMessage;
-            receivedMessages.add(textMessage);
         }
 
         public String getTextMessage()
         {
             return textMessage;
         }
-        public List<String> getReceivedMessages() {
-            return receivedMessages;
-        }
-
     }
 
     private static class JexxaValueObjectListener extends TypedMessageListener<JexxaValueObject>

@@ -1,4 +1,5 @@
-package io.jexxa.common.adapter.messaging.jms;
+package io.jexxa.common.adapter.messaging.jms.listener;
+
 
 import io.jexxa.common.adapter.messaging.receive.jms.JMSConfiguration;
 
@@ -7,14 +8,14 @@ import javax.jms.MessageListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TopicListener implements MessageListener
+public class QueueListener implements MessageListener
 {
-    public static final String TOPIC_DESTINATION = "JEXXA_TOPIC";
+    public static final String QUEUE_DESTINATION = "JEXXA_QUEUE";
 
     private final List<Message> messageList = new ArrayList<>();
 
     @Override
-    @JMSConfiguration(destination = TOPIC_DESTINATION, messagingType = JMSConfiguration.MessagingType.TOPIC)
+    @JMSConfiguration(destination = QUEUE_DESTINATION, messagingType = JMSConfiguration.MessagingType.QUEUE)
     public void onMessage(Message message)
     {
         messageList.add(message);
@@ -24,5 +25,4 @@ public class TopicListener implements MessageListener
     {
         return messageList;
     }
-
 }
