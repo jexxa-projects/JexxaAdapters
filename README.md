@@ -20,7 +20,8 @@ These adapters are based on typical microservices and messaging patterns to simp
 *   IDE with maven support
 
 
-### Add Dependencies
+
+### Use the library 
 
 Maven:
 ```xml
@@ -40,7 +41,11 @@ compile "io.jexxa.common:common-adapters:0.1.1"
 ``` 
 
 ## Build the library
+This section describes how to build the library by yourself, if you want to contribute.
+### Requirements 
+*   A locally running [developer stack](deploy/developerStack.yml) providing a Postgres database, and ActiveMQ broker
 
+### Build 
 *   Checkout the new project in your favorite IDE
 
 *   Without running integration tests:
