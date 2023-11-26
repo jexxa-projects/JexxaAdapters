@@ -1,6 +1,7 @@
 package io.jexxa.common.adapter.messaging.send;
 
 
+import io.jexxa.common.adapter.messaging.DestinationType;
 import io.jexxa.common.facade.utils.annotation.CheckReturnValue;
 
 import java.util.Objects;
@@ -14,7 +15,6 @@ import static io.jexxa.common.facade.json.JSONManager.getJSONConverter;
 @CheckReturnValue
 public class MessageBuilder
 {
-    public enum DestinationType { TOPIC, QUEUE }
     private Properties properties;
     private final Object message;
     private final MessageSender messageSender;

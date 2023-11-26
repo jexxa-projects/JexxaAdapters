@@ -1,6 +1,6 @@
 package io.jexxa.common.adapter.messaging.jms.send;
 
-import io.jexxa.common.adapter.messaging.send.MessageBuilder;
+import io.jexxa.common.adapter.messaging.DestinationType;
 import io.jexxa.common.adapter.messaging.send.MessageSender;
 import io.jexxa.common.facade.testapplication.TestValueObject;
 import org.junit.jupiter.api.Test;
@@ -29,7 +29,7 @@ class MessageSenderTest
 
         //Assertions
         assertNotNull(localMessageSender.getMessage());
-        assertEquals(MessageBuilder.DestinationType.QUEUE, localMessageSender.getDestinationType());
+        assertEquals(DestinationType.QUEUE, localMessageSender.getDestinationType());
 
         assertEquals(testData.toString(), localMessageSender.getMessage());
     }
@@ -48,7 +48,7 @@ class MessageSenderTest
 
         //Assertions
         assertNotNull(localMessageSender.getMessage());
-        assertEquals(MessageBuilder.DestinationType.QUEUE, localMessageSender.getDestinationType());
+        assertEquals(DestinationType.QUEUE, localMessageSender.getDestinationType());
 
         assertEquals(getJSONConverter().toJson(testData), localMessageSender.getMessage());
     }
@@ -69,20 +69,20 @@ class MessageSenderTest
     private static class LocalMessageSender extends MessageSender
     {
         private String message;
-        private MessageBuilder.DestinationType destinationType = null;
+        private DestinationType destinationType = null;
 
         @Override
         protected void sendToQueue(String message, String destination, Properties messageProperties, MessageType messageType)
         {
             this.message = message;
-            this.destinationType = MessageBuilder.DestinationType.QUEUE;
+            this.destinationType = DestinationType.QUEUE;
         }
 
         @Override
         protected void sendToTopic(String message, String destination, Properties messageProperties, MessageType messageType)
         {
             this.message = message;
-            this.destinationType = MessageBuilder.DestinationType.TOPIC;
+            this.destinationType = DestinationType.TOPIC;
         }
 
         String getMessage()
@@ -90,7 +90,7 @@ class MessageSenderTest
             return message;
         }
 
-        MessageBuilder.DestinationType getDestinationType()
+        DestinationType getDestinationType()
         {
             return destinationType;
         }
