@@ -1,25 +1,25 @@
 package io.jexxa.common.adapter.persistence.objectstore;
 
 
-import io.jexxa.common.facade.jdbc.JexxaEntity;
-import io.jexxa.common.facade.testapplication.JexxaValueObject;
+import io.jexxa.common.facade.jdbc.TestEntity;
+import io.jexxa.common.facade.testapplication.TestValueObject;
 
 import java.util.Objects;
 
 import static java.lang.Math.floor;
 import static java.lang.Math.log;
 
-public final class JexxaObject
+public final class TestObject
 {
-    private final JexxaEntity jexxaEntity;
-    private final JexxaValueObject jexxaValueObject;
-    private JexxaValueObject optionalJexxaValue;
+    private final TestEntity testEntity;
+    private final TestValueObject testValueObject;
+    private TestValueObject optionalValueObject;
     private String optionalString;
     private final String internalString;
 
-    public void setOptionalValue(JexxaValueObject optionalJexxaValue)
+    public void setOptionalValue(TestValueObject optionalValueObject)
     {
-        this.optionalJexxaValue = optionalJexxaValue;
+        this.optionalValueObject = optionalValueObject;
     }
 
     public void setOptionalString(String optionalString)
@@ -37,18 +37,18 @@ public final class JexxaObject
         return internalString;
     }
 
-    public JexxaValueObject getOptionalValue()
+    public TestValueObject getOptionalValue()
     {
-        return optionalJexxaValue;
+        return optionalValueObject;
     }
 
-    private JexxaObject(JexxaValueObject jexxaValueObject, String internalString)
+    private TestObject(TestValueObject testValueObject, String internalString)
     {
-        this.jexxaEntity = JexxaEntity.create(jexxaValueObject);
-        this.jexxaValueObject = jexxaValueObject;
+        this.testEntity = TestEntity.create(testValueObject);
+        this.testValueObject = testValueObject;
         this.internalString = internalString;
         this.optionalString = null;
-        this.optionalJexxaValue = null;
+        this.optionalValueObject = null;
     }
 
     // Create a sequence of chars of alphabet 'A' .. 'Z', 'AA', ...
@@ -66,22 +66,22 @@ public final class JexxaObject
 
     public void setInternalValue(int value)
     {
-        jexxaEntity.setInternalValue(value);
+        testEntity.setInternalValue(value);
     }
 
     public int getInternalValue()
     {
-        return jexxaEntity.getInternalValue();
+        return testEntity.getInternalValue();
     }
 
-    public JexxaValueObject getKey()
+    public TestValueObject getKey()
     {
-        return jexxaValueObject;
+        return testValueObject;
     }
 
-    public static JexxaObject create(JexxaValueObject key)
+    public static TestObject create(TestValueObject key)
     {
-        return new JexxaObject(key, createCharSequence(key.getValue()));
+        return new TestObject(key, createCharSequence(key.getValue()));
     }
 
     @Override
@@ -95,13 +95,13 @@ public final class JexxaObject
         {
             return false;
         }
-        JexxaObject that = (JexxaObject) o;
+        TestObject that = (TestObject) o;
         return Objects.equals(getKey(), that.getKey());     // Only compare keys
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash(jexxaValueObject);
+        return Objects.hash(testValueObject);
     }
 }

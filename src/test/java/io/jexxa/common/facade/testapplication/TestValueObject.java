@@ -1,12 +1,12 @@
 package io.jexxa.common.facade.testapplication;
 
 
-public class JexxaValueObject
+public class TestValueObject
 {
     private final int value;
     private final double valueInPercent;
 
-    public JexxaValueObject(int value) {
+    public TestValueObject(int value) {
         this.value = value;
         this.valueInPercent = value / 100.0;
     }
@@ -37,7 +37,7 @@ public class JexxaValueObject
         if (getClass() != other.getClass()) {
             return false;
         }
-        JexxaValueObject otherObject = (JexxaValueObject) other;
+        TestValueObject otherObject = (TestValueObject) other;
 
 
         return (this.value == otherObject.getValue() &&
@@ -47,7 +47,7 @@ public class JexxaValueObject
     @Override
     public String toString()
     {
-        return JexxaValueObject.class.getSimpleName() + " : {" +
+        return TestValueObject.class.getSimpleName() + " : {" +
                 " value = " + value +
                 " valueInPercent = " + valueInPercent +
                 " } ";

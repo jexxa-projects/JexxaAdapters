@@ -6,8 +6,8 @@ import io.jexxa.common.adapter.messaging.receive.jms.JMSConfiguration;
 import io.jexxa.common.adapter.messaging.send.MessageSenderManager;
 import io.jexxa.common.adapter.messaging.send.jms.JMSSender;
 import io.jexxa.common.adapter.outbox.listener.IdempotentListener;
-import io.jexxa.common.facade.testapplication.JexxaDomainEvent;
-import io.jexxa.common.facade.testapplication.JexxaValueObject;
+import io.jexxa.common.facade.testapplication.TestDomainEvent;
+import io.jexxa.common.facade.testapplication.TestValueObject;
 import io.jexxa.common.facade.utils.properties.PropertiesUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,9 +27,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TransactionalOutboxSenderIT {
 
-    private final JexxaValueObject message = new JexxaValueObject(42);
+    private final TestValueObject message = new TestValueObject(42);
 
-    private JexxaValueObjectIdempotentListener idempotentListener;
+    private ValueObjectIdempotentListener idempotentListener;
     private Properties jmsProperties;
     private JMSAdapter jmsAdapter;
 
@@ -40,7 +40,7 @@ class TransactionalOutboxSenderIT {
         properties.load(getClass().getResourceAsStream("/application.properties"));
         jmsProperties = PropertiesUtils.getSubset(properties,"test-jms-connection");
 
-        idempotentListener = new JexxaValueObjectIdempotentListener(jmsProperties);
+        idempotentListener = new ValueObjectIdempotentListener(jmsProperties);
 
         jmsAdapter = new JMSAdapter(jmsProperties);
         jmsAdapter.register(idempotentListener);
@@ -102,21 +102,21 @@ class TransactionalOutboxSenderIT {
         await().atMost(15, TimeUnit.SECONDS).until(() -> idempotentListener.getReceivedMessages().size() == messageCount);
     }
 
-    private static class JexxaValueObjectIdempotentListener extends IdempotentListener<JexxaDomainEvent>
+    private static class ValueObjectIdempotentListener extends IdempotentListener<TestDomainEvent>
     {
-        private final List<JexxaDomainEvent> receivedMessages = new ArrayList<>();
+        private final List<TestDomainEvent> receivedMessages = new ArrayList<>();
 
-        protected JexxaValueObjectIdempotentListener(Properties properties) {
-            super(JexxaDomainEvent.class, properties);
+        protected ValueObjectIdempotentListener(Properties properties) {
+            super(TestDomainEvent.class, properties);
         }
 
         @Override
         @JMSConfiguration(destination = TOPIC_DESTINATION, messagingType = JMSConfiguration.MessagingType.TOPIC)
-        public void onMessage(JexxaDomainEvent message) {
+        public void onMessage(TestDomainEvent message) {
             receivedMessages.add(message);
         }
 
-        public List<JexxaDomainEvent> getReceivedMessages() {
+        public List<TestDomainEvent> getReceivedMessages() {
             return receivedMessages;
         }
     }

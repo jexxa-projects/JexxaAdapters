@@ -9,8 +9,8 @@ import io.jexxa.common.adapter.messaging.send.MessageSenderManager;
 import io.jexxa.common.adapter.messaging.send.jms.JMSSender;
 import io.jexxa.common.adapter.outbox.TransactionalOutboxSender;
 import io.jexxa.common.facade.TestConstants;
-import io.jexxa.common.facade.testapplication.JexxaDomainEvent;
-import io.jexxa.common.facade.testapplication.JexxaValueObject;
+import io.jexxa.common.facade.testapplication.TestDomainEvent;
+import io.jexxa.common.facade.testapplication.TestValueObject;
 import io.jexxa.common.facade.utils.properties.PropertiesUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,11 +36,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class MessageReceiverIT
 {
     private static final String MESSAGE_SENDER_CONFIG = "getMessageSenderConfig";
-    private final JexxaValueObject message = new JexxaValueObject(42);
-    private final JexxaDomainEvent domainEvent = JexxaDomainEvent.create(message);
+    private final TestValueObject message = new TestValueObject(42);
+    private final TestDomainEvent domainEvent = TestDomainEvent.create(message);
 
 
-    private JexxaValueObjectListener typedListener;
+    private ValueObjectListener typedListener;
     private TextMessageListener jsonMessageListener;
     private Properties jmsProperties;
     private JMSAdapter jmsAdapter;
@@ -53,7 +53,7 @@ class MessageReceiverIT
         jmsProperties = PropertiesUtils.getSubset(properties,"test-jms-connection");
 
         jsonMessageListener = new TextMessageListener();
-        typedListener = new JexxaValueObjectListener();
+        typedListener = new ValueObjectListener();
 
         jmsAdapter = new JMSAdapter(jmsProperties);
         jmsAdapter.register(jsonMessageListener);
@@ -106,8 +106,8 @@ class MessageReceiverIT
                 .asJson();
 
         //Assert
-        await().atMost(1, TimeUnit.SECONDS).until(() -> typedListener.getJexxaValueObject() != null);
-        assertEquals(message, typedListener.getJexxaValueObject());
+        await().atMost(1, TimeUnit.SECONDS).until(() -> typedListener.valueObject() != null);
+        assertEquals(message, typedListener.valueObject());
     }
 
 
@@ -131,27 +131,27 @@ class MessageReceiverIT
         }
     }
 
-    private static class JexxaValueObjectListener extends TypedMessageListener<JexxaValueObject>
+    private static class ValueObjectListener extends TypedMessageListener<TestValueObject>
     {
-        private JexxaValueObject jexxaValueObject;
+        private TestValueObject testValueObject;
 
-        public JexxaValueObjectListener()
+        public ValueObjectListener()
         {
-            super(JexxaValueObject.class);
+            super(TestValueObject.class);
         }
 
         @SuppressWarnings("unused")
         @Override
         @JMSConfiguration(destination = QUEUE_DESTINATION, messagingType = JMSConfiguration.MessagingType.QUEUE)
-        public void onMessage(JexxaValueObject jexxaValueObject)
+        public void onMessage(TestValueObject testValueObject)
         {
             assertTrue(messageContains("valueInPercent"));
-            this.jexxaValueObject = jexxaValueObject;
+            this.testValueObject = testValueObject;
         }
 
-        public JexxaValueObject getJexxaValueObject()
+        public TestValueObject valueObject()
         {
-            return jexxaValueObject;
+            return testValueObject;
         }
 
     }

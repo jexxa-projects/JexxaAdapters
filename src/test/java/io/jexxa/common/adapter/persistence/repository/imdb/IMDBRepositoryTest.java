@@ -2,8 +2,8 @@ package io.jexxa.common.adapter.persistence.repository.imdb;
 
 
 import io.jexxa.common.facade.TestConstants;
-import io.jexxa.common.facade.jdbc.JexxaEntity;
-import io.jexxa.common.facade.testapplication.JexxaValueObject;
+import io.jexxa.common.facade.jdbc.TestEntity;
+import io.jexxa.common.facade.testapplication.TestValueObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -22,17 +22,17 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Tag(TestConstants.UNIT_TEST)
 class IMDBRepositoryTest
 {
-    private JexxaEntity aggregate;
-    private IMDBRepository<JexxaEntity, JexxaValueObject> objectUnderTest;
+    private TestEntity aggregate;
+    private IMDBRepository<TestEntity, TestValueObject> objectUnderTest;
 
     @BeforeEach
     void initTest()
     {
         //Arrange
-        aggregate = JexxaEntity.create(new JexxaValueObject(42));
+        aggregate = TestEntity.create(new TestValueObject(42));
         objectUnderTest = new IMDBRepository<>(
-                JexxaEntity.class,
-                JexxaEntity::getKey,
+                TestEntity.class,
+                TestEntity::getKey,
                 new Properties()
         );
         objectUnderTest.removeAll();
@@ -80,8 +80,8 @@ class IMDBRepositoryTest
 
         //act
         var newConnection = new IMDBRepository<>(
-                JexxaEntity.class,
-                JexxaEntity::getKey,
+                TestEntity.class,
+                TestEntity::getKey,
                 new Properties()
         );
 
@@ -99,12 +99,12 @@ class IMDBRepositoryTest
 
         //act
         var newConnection = new IMDBRepository<>(
-                JexxaValueObject.class,
-                JexxaValueObject::getValue,
+                TestValueObject.class,
+                TestValueObject::getValue,
                 new Properties()
         );
         newConnection.removeAll();
-        newConnection.add(new JexxaValueObject(42));
+        newConnection.add(new TestValueObject(42));
 
         //Assert that connections are different but refer to the same repository
         assertEquals(1, objectUnderTest.get().size());
@@ -136,8 +136,8 @@ class IMDBRepositoryTest
         objectUnderTest.add(aggregate);
 
         var newConnection = new IMDBRepository<>(
-                JexxaEntity.class,
-                JexxaEntity::getKey,
+                TestEntity.class,
+                TestEntity::getKey,
                 new Properties()
         );
 

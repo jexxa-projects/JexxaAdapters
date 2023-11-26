@@ -1,18 +1,18 @@
 package io.jexxa.common.facade.jdbc;
 
-import io.jexxa.common.facade.testapplication.JexxaValueObject;
+import io.jexxa.common.facade.testapplication.TestValueObject;
 
 import java.util.Objects;
 
-public final class JexxaEntity
+public final class TestEntity
 {
-    private final JexxaValueObject jexxaValueObject;
+    private final TestValueObject testValueObject;
 
     private int internalValue;
 
-    public static JexxaEntity create(JexxaValueObject key)
+    public static TestEntity create(TestValueObject key)
     {
-        return new JexxaEntity(key);
+        return new TestEntity(key);
     }
 
     public void setInternalValue(int value)
@@ -26,14 +26,14 @@ public final class JexxaEntity
     }
 
 
-    public JexxaValueObject getKey()
+    public TestValueObject getKey()
     {
-        return jexxaValueObject;
+        return testValueObject;
     }
 
-    private JexxaEntity(JexxaValueObject jexxaValueObject)
+    private TestEntity(TestValueObject testValueObject)
     {
-        this.jexxaValueObject = jexxaValueObject;
+        this.testValueObject = testValueObject;
     }
 
     @Override
@@ -47,13 +47,13 @@ public final class JexxaEntity
         {
             return false;
         }
-        JexxaEntity that = (JexxaEntity) o;
+        TestEntity that = (TestEntity) o;
         return Objects.equals(getKey(), that.getKey());     // Only compare keys
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash(jexxaValueObject);
+        return Objects.hash(testValueObject);
     }
 }

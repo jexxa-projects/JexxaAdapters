@@ -19,37 +19,55 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class JDBCPropertiesTest
 {
     @Test
-    void invalidProperties()
+    void emptyProperties()
+    {
+        //Arrange
+        var emptyProperties = new Properties();
+
+        //Act / Assert
+        assertThrows(IllegalArgumentException.class, () -> new JDBCKeyValueRepository<>(
+                TestEntity.class,
+                TestEntity::getKey,
+                emptyProperties
+        ));
+    }
+
+    @Test
+    void invalidJDBCDriver()
     {
         //1.Assert missing properties
         var emptyProperties = new Properties();
         assertThrows(IllegalArgumentException.class, () -> new JDBCKeyValueRepository<>(
-                JexxaEntity.class,
-                JexxaEntity::getKey,
+                TestEntity.class,
+                TestEntity::getKey,
                 emptyProperties
         ));
 
         //2.Arrange invalid properties: Invalid Driver
         Properties propertiesInvalidDriver = new Properties();
         propertiesInvalidDriver.put(JDBC_DRIVER, "org.unknown.Driver");
-        propertiesInvalidDriver.put(JDBC_URL, "jdbc:postgresql://localhost:5432/jexxa");
+        propertiesInvalidDriver.put(JDBC_URL, "jdbc:postgresql://localhost:5432/properties-test");
 
         //2.Assert invalid properties: Invalid Driver
         assertThrows(IllegalArgumentException.class, () -> new JDBCKeyValueRepository<>(
-                JexxaEntity.class,
-                JexxaEntity::getKey,
+                TestEntity.class,
+                TestEntity::getKey,
                 propertiesInvalidDriver
         ));
+    }
 
-        //3. Arrange invalid properties: Invalid URL
+    @Test
+    void invalidJDBCURL()
+    {
+        //Arrange Invalid JDBC URL
         Properties propertiesInvalidURL = new Properties();
         propertiesInvalidURL.put(JDBC_DRIVER, "org.postgresql.Driver");
-        propertiesInvalidURL.put(JDBC_URL, "jdbc:unknown://localhost:5432/jexxa");
+        propertiesInvalidURL.put(JDBC_URL, "jdbc:unknown://localhost:5432/properties-test");
 
-        //3.Assert invalid properties: Invalid URL
+        //Act / Assert
         assertThrows(IllegalArgumentException.class, () -> new JDBCKeyValueRepository<>(
-                JexxaEntity.class,
-                JexxaEntity::getKey,
+                TestEntity.class,
+                TestEntity::getKey,
                 propertiesInvalidURL
         ));
     }

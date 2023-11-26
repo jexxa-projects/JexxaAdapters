@@ -12,10 +12,10 @@ public class SimpleApplicationService
 {
     private int firstValue;
     private List<String> messages = new ArrayList<>();
-    private List<JexxaValueObject> valueObjects = new ArrayList<>();
-    private List<JexxaRecord> recordList = new ArrayList<>();
+    private List<TestValueObject> testValueObjects = new ArrayList<>();
+    private List<TestRecord> recordList = new ArrayList<>();
 
-    private JexxaEnum jexxaEnum = JexxaEnum.ENUM_VALUE1;
+    private TestEnum testEnum = TestEnum.ENUM_VALUE1;
 
     public static class SimpleApplicationException extends Exception
     {
@@ -54,21 +54,21 @@ public class SimpleApplicationService
         throw new SimpleApplicationException("TestException");
     }
 
-    public void setEnumValue(JexxaEnum jexxaEnum)
+    public void setEnumValue(TestEnum testEnum)
     {
-        this.jexxaEnum = jexxaEnum;
+        this.testEnum = testEnum;
     }
 
-    public JexxaEnum getEnumValue()
+    public TestEnum getEnumValue()
     {
-        return jexxaEnum;
+        return testEnum;
     }
 
     @SuppressWarnings("DataFlowIssue") // Because this method should caus a NullPointerException for testing purpose
     public int throwNullPointerException()   // Test runtime exception
     {
-        JexxaValueObject jexxaValueObject = null;
-        return jexxaValueObject.getValue();
+        TestValueObject testValueObject = null;
+        return testValueObject.getValue();
     }
 
 
@@ -77,12 +77,12 @@ public class SimpleApplicationService
         this.firstValue = simpleValue;
     }
 
-    public void setSimpleValueObject(JexxaValueObject simpleValueObject)
+    public void setSimpleValueObject(TestValueObject simpleTestValueObject)
     {
-        setSimpleValue(simpleValueObject.getValue());
+        setSimpleValue(simpleTestValueObject.getValue());
     }
 
-    public void setSimpleValueObjectTwice(JexxaValueObject first, JexxaValueObject second)
+    public void setSimpleValueObjectTwice(TestValueObject first, TestValueObject second)
     {
         setSimpleValue(first.getValue());
         setSimpleValue(second.getValue());
@@ -105,10 +105,10 @@ public class SimpleApplicationService
         this.messages = messages;
     }
 
-    public void setValueObjectsAndMessages(List<JexxaValueObject> valueObjects, List<String> messages)
+    public void setValueObjectsAndMessages(List<TestValueObject> testValueObjects, List<String> messages)
     {
         this.messages = messages;
-        this.valueObjects = valueObjects;
+        this.testValueObjects = testValueObjects;
     }
 
     public List<String> getMessages()
@@ -116,14 +116,14 @@ public class SimpleApplicationService
         return messages;
     }
 
-    public List<JexxaValueObject> getValueObjects()
+    public List<TestValueObject> getValueObjects()
     {
-        return valueObjects;
+        return testValueObjects;
     }
 
-    public JexxaValueObject getSimpleValueObject()
+    public TestValueObject getSimpleValueObject()
     {
-        return  new JexxaValueObject(firstValue);
+        return  new TestValueObject(firstValue);
     }
 
     public SpecialCasesValueObject getSpecialCasesValueObject()
@@ -131,19 +131,19 @@ public class SimpleApplicationService
         return  SpecialCasesValueObject.SPECIAL_CASES_VALUE_OBJECT;
     }
 
-    public JexxaRecord getJexxaRecord()
+    public TestRecord testRecord()
     {
-        return  new JexxaRecord("");
+        return  new TestRecord("");
     }
 
-    public List<JexxaRecord> getJexxaRecordList()
+    public List<TestRecord> testRecordList()
     {
         return  recordList;
     }
 
-    public void setJexxaRecordList(List<JexxaRecord> recordList)
+    public void recordList(List<TestRecord> recordList)
     {
-        recordList.forEach(element -> SLF4jLogger.getLogger(SimpleApplicationService.class).info(element.jexxaRecord()));
+        recordList.forEach(element -> SLF4jLogger.getLogger(SimpleApplicationService.class).info(element.testRecord()));
         this.recordList = recordList;
     }
 
@@ -153,7 +153,7 @@ public class SimpleApplicationService
         throw new IllegalArgumentException("Method testStaticGetMethod should not be available or called" );
     }
 
-    public static void testStaticSetMethod(JexxaValueObject jexxaValueObject)
+    public static void testStaticSetMethod(TestValueObject testValueObject)
     {
         throw new IllegalArgumentException("Method testStaticSetMethod should not be available or called" );
     }

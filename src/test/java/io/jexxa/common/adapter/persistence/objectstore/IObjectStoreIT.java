@@ -7,7 +7,7 @@ import io.jexxa.common.adapter.persistence.objectstore.metadata.MetaTags;
 import io.jexxa.common.adapter.persistence.objectstore.metadata.MetadataSchema;
 import io.jexxa.common.facade.TestConstants;
 import io.jexxa.common.facade.jdbc.JDBCConnection;
-import io.jexxa.common.facade.testapplication.JexxaValueObject;
+import io.jexxa.common.facade.testapplication.TestValueObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.parallel.Execution;
@@ -29,14 +29,14 @@ class IObjectStoreIT
 {
     private static final int TEST_DATA_SIZE = 100;
 
-    private List<JexxaObject> testData;
-    private IObjectStore<JexxaObject, JexxaValueObject, JexxaObjectSchema> objectUnderTest;
+    private List<TestObject> testData;
+    private IObjectStore<TestObject, TestValueObject, TestObjectSchema> objectUnderTest;
 
     @BeforeEach
     void initTest()
     {
         testData = IntStream.range(0, TEST_DATA_SIZE)
-                .mapToObj(element -> JexxaObject.create(new JexxaValueObject(element)))
+                .mapToObj(element -> TestObject.create(new TestValueObject(element)))
                 .toList();
 
         testData.forEach(element -> element.setInternalValue(element.getKey().getValue()));
@@ -48,25 +48,25 @@ class IObjectStoreIT
      * - Enum name is used for the name of the row so that there is a direct mapping between the strategy and the database
      * - Adding a new strategy in code after initial usage requires that the database is extended in some woy
      */
-    private enum JexxaObjectSchema implements MetadataSchema
+    private enum TestObjectSchema implements MetadataSchema
     {
-        INT_VALUE(MetaTags.numericTag(JexxaObject::getInternalValue)),
+        INT_VALUE(MetaTags.numericTag(TestObject::getInternalValue)),
 
-        VALUE_OBJECT(MetaTags.numericTag(JexxaObject::getKey, JexxaValueObject::getValue));
+        VALUE_OBJECT(MetaTags.numericTag(TestObject::getKey, TestValueObject::getValue));
 
         /**
          *  Defines the constructor of the enum. Following code is equal for all object stores.
          */
-        private final MetaTag<JexxaObject, ?, ? > metaTag;
+        private final MetaTag<TestObject, ?, ? > metaTag;
 
-        JexxaObjectSchema(MetaTag<JexxaObject,?, ?> metaTag)
+        TestObjectSchema(MetaTag<TestObject,?, ?> metaTag)
         {
             this.metaTag = metaTag;
         }
 
         @Override
         @SuppressWarnings("unchecked")
-        public MetaTag<JexxaObject, ?, ?> getTag()
+        public MetaTag<TestObject, ?, ?> getTag()
         {
             return metaTag;
         }
@@ -174,16 +174,16 @@ class IObjectStoreIT
         {
             try(JDBCConnection jdbcConnection = new JDBCConnection(properties))
             {
-                jdbcConnection.createTableCommand(JexxaObjectSchema.class)
-                        .dropTableIfExists(JexxaObject.class)
+                jdbcConnection.createTableCommand(TestObjectSchema.class)
+                        .dropTableIfExists(TestObject.class)
                         .asIgnore();
             }
         }
 
         objectUnderTest = ObjectStoreManager.getObjectStore(
-                JexxaObject.class,
-                JexxaObject::getKey,
-                JexxaObjectSchema.class,
+                TestObject.class,
+                TestObject::getKey,
+                TestObjectSchema.class,
                 properties);
 
         objectUnderTest.removeAll();

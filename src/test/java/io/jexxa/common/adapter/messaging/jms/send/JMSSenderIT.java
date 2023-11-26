@@ -9,7 +9,7 @@ import io.jexxa.common.adapter.messaging.send.MessageSenderManager;
 import io.jexxa.common.adapter.messaging.send.jms.JMSSender;
 import io.jexxa.common.facade.TestConstants;
 import io.jexxa.common.facade.jms.JMSProperties;
-import io.jexxa.common.facade.testapplication.JexxaValueObject;
+import io.jexxa.common.facade.testapplication.TestValueObject;
 import io.jexxa.common.facade.utils.properties.PropertiesUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,7 +42,7 @@ class JMSSenderIT
 {
     private static final String MESSAGE_SENDER_CONFIG = "getMessageSenderConfig";
     private static final String TYPE = "type";
-    private final JexxaValueObject message = new JexxaValueObject(42);
+    private final TestValueObject message = new TestValueObject(42);
 
     private TopicListener topicListener;
     private QueueListener queueListener;

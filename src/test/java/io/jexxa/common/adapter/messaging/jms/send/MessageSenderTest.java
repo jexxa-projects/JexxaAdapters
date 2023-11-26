@@ -2,7 +2,7 @@ package io.jexxa.common.adapter.messaging.jms.send;
 
 import io.jexxa.common.adapter.messaging.send.MessageBuilder;
 import io.jexxa.common.adapter.messaging.send.MessageSender;
-import io.jexxa.common.facade.testapplication.JexxaValueObject;
+import io.jexxa.common.facade.testapplication.TestValueObject;
 import org.junit.jupiter.api.Test;
 
 import java.util.Properties;
@@ -20,7 +20,7 @@ class MessageSenderTest
     {
         //Arrange
         var localMessageSender = new LocalMessageSender();
-        var testData = new JexxaValueObject(42);
+        var testData = new TestValueObject(42);
         var objectUnderTest = localMessageSender.send(testData);
 
         //Act
@@ -39,7 +39,7 @@ class MessageSenderTest
     {
         //Arrange
         var localMessageSender = new LocalMessageSender();
-        var testData = new JexxaValueObject(42);
+        var testData = new TestValueObject(42);
         var objectUnderTest = localMessageSender.send(testData);
 
         //Act

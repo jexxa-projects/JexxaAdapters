@@ -5,7 +5,7 @@ import io.jexxa.common.adapter.persistence.ObjectStoreManager;
 import io.jexxa.common.adapter.persistence.objectstore.metadata.MetaTag;
 import io.jexxa.common.adapter.persistence.objectstore.metadata.MetadataSchema;
 import io.jexxa.common.facade.jdbc.JDBCConnection;
-import io.jexxa.common.facade.testapplication.JexxaValueObject;
+import io.jexxa.common.facade.testapplication.TestValueObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -25,8 +25,8 @@ class INumericQueryIT
 {
     private static final int TEST_DATA_SIZE = 100;
 
-    private List<JexxaObject> testData;
-    private IObjectStore<JexxaObject, JexxaValueObject, JexxaObjectSchema> objectStore;
+    private List<TestObject> testData;
+    private IObjectStore<TestObject, TestValueObject, TestObjectSchema> objectStore;
 
     /**
      * Defines the metadata that we use:
@@ -34,27 +34,27 @@ class INumericQueryIT
      * - Enum name is used for the name of the row so that there is a direct mapping between the strategy and the database
      * - Adding a new strategy in code after initial usage requires that the database is extended in some woy
      */
-    private enum JexxaObjectSchema implements MetadataSchema
+    private enum TestObjectSchema implements MetadataSchema
     {
-        INT_VALUE(numericTag(JexxaObject::getInternalValue)),
+        INT_VALUE(numericTag(TestObject::getInternalValue)),
 
-        VALUE_OBJECT(numericTag(JexxaObject::getKey, JexxaValueObject::getValue)),
+        VALUE_OBJECT(numericTag(TestObject::getKey, TestValueObject::getValue)),
 
-        OPTIONAL_VALUE_OBJECT(numericTag(JexxaObject::getOptionalValue, JexxaValueObject::getValue));
+        OPTIONAL_VALUE_OBJECT(numericTag(TestObject::getOptionalValue, TestValueObject::getValue));
 
         /**
          *  Defines the constructor of the enum. Following code is equal for all object stores.
          */
-        private final MetaTag<JexxaObject, ?, ? > metaTag;
+        private final MetaTag<TestObject, ?, ? > metaTag;
 
-        JexxaObjectSchema(MetaTag<JexxaObject,?, ?> metaTag)
+        TestObjectSchema(MetaTag<TestObject,?, ?> metaTag)
         {
             this.metaTag = metaTag;
         }
 
         @Override
         @SuppressWarnings("unchecked")
-        public MetaTag<JexxaObject, ?, ?> getTag()
+        public MetaTag<TestObject, ?, ?> getTag()
         {
             return metaTag;
         }
@@ -64,7 +64,7 @@ class INumericQueryIT
     void initTestData()
     {
         testData = IntStream.range(0, TEST_DATA_SIZE)
-                .mapToObj(element -> JexxaObject.create(new JexxaValueObject(element)))
+                .mapToObj(element -> TestObject.create(new TestValueObject(element)))
                 .toList();
 
         testData.forEach(element -> element.setInternalValue(element.getKey().getValue())); // set internal int value to an ascending number
@@ -79,17 +79,17 @@ class INumericQueryIT
     {
         //Arrange
         initObjectStore(properties);
-        var objectUnderTest = objectStore. getNumericQuery( JexxaObjectSchema.INT_VALUE, Integer.class);
+        var objectUnderTest = objectStore. getNumericQuery( TestObjectSchema.INT_VALUE, Integer.class);
 
         var greaterOrEqualThanExpected = IntStream.range(50,100)
-                .mapToObj(element -> JexxaObject.create(new JexxaValueObject(element)))
+                .mapToObj(element -> TestObject.create(new TestValueObject(element)))
                 .toList();
         var lessOrEqualThanThanExpected = IntStream.rangeClosed(0,50)
-                .mapToObj(element -> JexxaObject.create(new JexxaValueObject(element))).toList();
+                .mapToObj(element -> TestObject.create(new TestValueObject(element))).toList();
         var greaterThanExpected = IntStream.range(51, 100)
-                .mapToObj(element -> JexxaObject.create(new JexxaValueObject(element))).toList();
+                .mapToObj(element -> TestObject.create(new TestValueObject(element))).toList();
         var lessThanExpected = IntStream.range(0,50).
-                mapToObj(element -> JexxaObject.create(new JexxaValueObject(element))).toList();
+                mapToObj(element -> TestObject.create(new TestValueObject(element))).toList();
 
         //Act
         var greaterOrEqualThan = objectUnderTest.isGreaterOrEqualThan(50);
@@ -111,12 +111,12 @@ class INumericQueryIT
     {
         //Arrange
         initObjectStore(properties);
-        var objectUnderTest = objectStore. getNumericQuery( JexxaObjectSchema.INT_VALUE, Integer.class);
+        var objectUnderTest = objectStore. getNumericQuery( TestObjectSchema.INT_VALUE, Integer.class);
 
         var equalToExpected = IntStream.rangeClosed(0,0).
-                mapToObj(element -> JexxaObject.create(new JexxaValueObject(element))).toList();
+                mapToObj(element -> TestObject.create(new TestValueObject(element))).toList();
         var notEqualToExpected = IntStream.range(1,100).
-                mapToObj(element -> JexxaObject.create(new JexxaValueObject(element))).toList();
+                mapToObj(element -> TestObject.create(new TestValueObject(element))).toList();
 
         //Act
         var equalTo = objectUnderTest.isEqualTo(0);
@@ -133,12 +133,12 @@ class INumericQueryIT
     {
         //Arrange
         initObjectStore(properties);
-        var objectUnderTest = objectStore. getNumericQuery( JexxaObjectSchema.INT_VALUE, Integer.class);
+        var objectUnderTest = objectStore. getNumericQuery( TestObjectSchema.INT_VALUE, Integer.class);
 
         var rangeClosedExpected = IntStream.rangeClosed(30,50).
-                mapToObj(element -> JexxaObject.create(new JexxaValueObject(element))).toList();
+                mapToObj(element -> TestObject.create(new TestValueObject(element))).toList();
         var rangeExpected = IntStream.range(30,50).
-                mapToObj(element -> JexxaObject.create(new JexxaValueObject(element))).toList();
+                mapToObj(element -> TestObject.create(new TestValueObject(element))).toList();
 
         //Act
         var rangeClosed = objectUnderTest.getRangeClosed(30,50);
@@ -156,23 +156,23 @@ class INumericQueryIT
         //Arrange
         initObjectStore(properties);
 
-        var objectUnderTest = objectStore.getNumericQuery( JexxaObjectSchema.VALUE_OBJECT, JexxaValueObject.class);
+        var objectUnderTest = objectStore.getNumericQuery( TestObjectSchema.VALUE_OBJECT, TestValueObject.class);
 
         var greaterOrEqualThanExpected = IntStream
                 .range(50,100)
-                .mapToObj(element -> JexxaObject.create(new JexxaValueObject(element))).toList();
+                .mapToObj(element -> TestObject.create(new TestValueObject(element))).toList();
         var lessOrEqualThanThanExpected = IntStream.rangeClosed(0,50)
-                .mapToObj(element -> JexxaObject.create(new JexxaValueObject(element))).toList();
+                .mapToObj(element -> TestObject.create(new TestValueObject(element))).toList();
         var greaterThanExpected = IntStream.range(51, 100)
-                .mapToObj(element -> JexxaObject.create(new JexxaValueObject(element))).toList();
+                .mapToObj(element -> TestObject.create(new TestValueObject(element))).toList();
         var lessThanExpected = IntStream.range(0,50)
-                .mapToObj(element -> JexxaObject.create(new JexxaValueObject(element))).toList();
+                .mapToObj(element -> TestObject.create(new TestValueObject(element))).toList();
 
         //Act
-        var greaterOrEqualThan = objectUnderTest.isGreaterOrEqualThan(new JexxaValueObject(50));
-        var lessOrEqualThan = objectUnderTest.isLessOrEqualThan(new JexxaValueObject(50));
-        var greaterThan = objectUnderTest.isGreaterThan(new JexxaValueObject(50));
-        var lessThan = objectUnderTest.isLessThan(new JexxaValueObject(50));
+        var greaterOrEqualThan = objectUnderTest.isGreaterOrEqualThan(new TestValueObject(50));
+        var lessOrEqualThan = objectUnderTest.isLessOrEqualThan(new TestValueObject(50));
+        var greaterThan = objectUnderTest.isGreaterThan(new TestValueObject(50));
+        var lessThan = objectUnderTest.isLessThan(new TestValueObject(50));
 
         //Assert
         assertEquals(greaterOrEqualThanExpected, greaterOrEqualThan);
@@ -189,16 +189,16 @@ class INumericQueryIT
         //Arrange
         initObjectStore(properties);
 
-        var objectUnderTest = objectStore.getNumericQuery( JexxaObjectSchema.VALUE_OBJECT, JexxaValueObject.class);
+        var objectUnderTest = objectStore.getNumericQuery( TestObjectSchema.VALUE_OBJECT, TestValueObject.class);
 
         var equalToExpected = IntStream.rangeClosed(0,0).
-                mapToObj(element -> JexxaObject.create(new JexxaValueObject(element))).toList();
+                mapToObj(element -> TestObject.create(new TestValueObject(element))).toList();
         var notEqualToExpected = IntStream.range(1,100).
-                mapToObj(element -> JexxaObject.create(new JexxaValueObject(element))).toList();
+                mapToObj(element -> TestObject.create(new TestValueObject(element))).toList();
 
         //Act
-        var equalTo = objectUnderTest.isEqualTo(new JexxaValueObject(0));
-        var notEqualTo = objectUnderTest.isNotEqualTo(new JexxaValueObject(0));
+        var equalTo = objectUnderTest.isEqualTo(new TestValueObject(0));
+        var notEqualTo = objectUnderTest.isNotEqualTo(new TestValueObject(0));
 
         //Assert
         assertEquals(notEqualToExpected, notEqualTo);
@@ -212,16 +212,16 @@ class INumericQueryIT
         //Arrange
         initObjectStore(properties);
 
-        var objectUnderTest = objectStore.getNumericQuery( JexxaObjectSchema.VALUE_OBJECT, JexxaValueObject.class);
+        var objectUnderTest = objectStore.getNumericQuery( TestObjectSchema.VALUE_OBJECT, TestValueObject.class);
 
         var rangeClosedExpected = IntStream.rangeClosed(30,50)
-                .mapToObj(element -> JexxaObject.create(new JexxaValueObject(element))).toList();
+                .mapToObj(element -> TestObject.create(new TestValueObject(element))).toList();
         var rangeExpected = IntStream.range(30,50)
-                .mapToObj(element -> JexxaObject.create(new JexxaValueObject(element))).toList();
+                .mapToObj(element -> TestObject.create(new TestValueObject(element))).toList();
 
         //Act
-        var rangeClosed = objectUnderTest.getRangeClosed(new JexxaValueObject(30),new JexxaValueObject(50));
-        var range = objectUnderTest.getRange(new JexxaValueObject(30),new JexxaValueObject(50));
+        var rangeClosed = objectUnderTest.getRangeClosed(new TestValueObject(30),new TestValueObject(50));
+        var range = objectUnderTest.getRange(new TestValueObject(30),new TestValueObject(50));
 
         //Assert
         assertEquals(rangeClosedExpected, rangeClosed);
@@ -235,18 +235,18 @@ class INumericQueryIT
         //Arrange
         initObjectStore(properties);
 
-        var objectUnderTest = objectStore.getNumericQuery( JexxaObjectSchema.OPTIONAL_VALUE_OBJECT, JexxaValueObject.class);
+        var objectUnderTest = objectStore.getNumericQuery( TestObjectSchema.OPTIONAL_VALUE_OBJECT, TestValueObject.class);
 
         var lessOrEqualThanThanExpected = IntStream.rangeClosed(0,49)
-                .mapToObj(element -> JexxaObject.create(new JexxaValueObject(element))).toList();
+                .mapToObj(element -> TestObject.create(new TestValueObject(element))).toList();
         var lessThanExpected = IntStream.rangeClosed(0,49)
-                .mapToObj(element -> JexxaObject.create(new JexxaValueObject(element))).toList();
+                .mapToObj(element -> TestObject.create(new TestValueObject(element))).toList();
 
         //Act
-        var greaterOrEqualThan = objectUnderTest.isGreaterOrEqualThan(new JexxaValueObject(50));
-        var lessOrEqualThan = objectUnderTest.isLessOrEqualThan(new JexxaValueObject(50));
-        var greaterThan = objectUnderTest.isGreaterThan(new JexxaValueObject(50));
-        var lessThan = objectUnderTest.isLessThan(new JexxaValueObject(50));
+        var greaterOrEqualThan = objectUnderTest.isGreaterOrEqualThan(new TestValueObject(50));
+        var lessOrEqualThan = objectUnderTest.isLessOrEqualThan(new TestValueObject(50));
+        var greaterThan = objectUnderTest.isGreaterThan(new TestValueObject(50));
+        var lessThan = objectUnderTest.isLessThan(new TestValueObject(50));
 
         //Assert
         assertEquals(Collections.emptyList(), greaterOrEqualThan);
@@ -263,12 +263,12 @@ class INumericQueryIT
         //Arrange
         initObjectStore(properties);
 
-        var objectUnderTest = objectStore.getNumericQuery( JexxaObjectSchema.OPTIONAL_VALUE_OBJECT, JexxaValueObject.class);
+        var objectUnderTest = objectStore.getNumericQuery( TestObjectSchema.OPTIONAL_VALUE_OBJECT, TestValueObject.class);
 
         var isNotNullExpected = IntStream.rangeClosed(0,49)
-                .mapToObj(element -> JexxaObject.create(new JexxaValueObject(element))).toList();
+                .mapToObj(element -> TestObject.create(new TestValueObject(element))).toList();
         var isNullExpected = IntStream.range(50,100)
-                .mapToObj(element -> JexxaObject.create(new JexxaValueObject(element))).toList();
+                .mapToObj(element -> TestObject.create(new TestValueObject(element))).toList();
 
         //Act
         var isNull = objectUnderTest.isNull();
@@ -286,16 +286,16 @@ class INumericQueryIT
         //Arrange
         initObjectStore(properties);
 
-        var objectUnderTest = objectStore.getNumericQuery( JexxaObjectSchema.OPTIONAL_VALUE_OBJECT, JexxaValueObject.class);
+        var objectUnderTest = objectStore.getNumericQuery( TestObjectSchema.OPTIONAL_VALUE_OBJECT, TestValueObject.class);
 
         var rangeClosedExpected = IntStream.rangeClosed(30,49)
-                .mapToObj(element -> JexxaObject.create(new JexxaValueObject(element))).toList();
+                .mapToObj(element -> TestObject.create(new TestValueObject(element))).toList();
         var rangeExpected = IntStream.rangeClosed(30,49)
-                .mapToObj(element -> JexxaObject.create(new JexxaValueObject(element))).toList();
+                .mapToObj(element -> TestObject.create(new TestValueObject(element))).toList();
 
         //Act
-        var rangeClosed = objectUnderTest.getRangeClosed(new JexxaValueObject(30),new JexxaValueObject(50));
-        var range = objectUnderTest.getRange(new JexxaValueObject(30),new JexxaValueObject(50));
+        var rangeClosed = objectUnderTest.getRangeClosed(new TestValueObject(30),new TestValueObject(50));
+        var range = objectUnderTest.getRange(new TestValueObject(30),new TestValueObject(50));
 
         //Assert
         assertEquals(rangeClosedExpected, rangeClosed);
@@ -309,9 +309,9 @@ class INumericQueryIT
         //Arrange
         initObjectStore(properties);
 
-        var objectUnderTest = objectStore.getNumericQuery( JexxaObjectSchema.INT_VALUE, Integer.class);
+        var objectUnderTest = objectStore.getNumericQuery( TestObjectSchema.INT_VALUE, Integer.class);
         var expectedResult = testData.stream()
-                .sorted(comparing( JexxaObject::getInternalValue))
+                .sorted(comparing( TestObject::getInternalValue))
                 .toList();
 
         //Act
@@ -328,10 +328,10 @@ class INumericQueryIT
         //Arrange
         initObjectStore(properties);
 
-        var objectUnderTest = objectStore.getNumericQuery( JexxaObjectSchema.OPTIONAL_VALUE_OBJECT, JexxaValueObject.class);
+        var objectUnderTest = objectStore.getNumericQuery( TestObjectSchema.OPTIONAL_VALUE_OBJECT, TestValueObject.class);
 
         var expectedResult = testData.stream()
-                .sorted(comparing( JexxaObject::getInternalValue))
+                .sorted(comparing( TestObject::getInternalValue))
                 .toList();
 
         //Act
@@ -349,10 +349,10 @@ class INumericQueryIT
         //Arrange
         initObjectStore(properties);
 
-        var objectUnderTest = objectStore.getNumericQuery( JexxaObjectSchema.OPTIONAL_VALUE_OBJECT, JexxaValueObject.class);
+        var objectUnderTest = objectStore.getNumericQuery( TestObjectSchema.OPTIONAL_VALUE_OBJECT, TestValueObject.class);
 
         var expectedResult = Stream.concat(
-                testData.stream().limit(50).sorted(comparing(JexxaObject::getInternalValue).reversed()),
+                testData.stream().limit(50).sorted(comparing(TestObject::getInternalValue).reversed()),
                 testData.stream().skip(50))
                 .toList();
 
@@ -371,10 +371,10 @@ class INumericQueryIT
         //Arrange
         initObjectStore(properties);
 
-        var objectUnderTest = objectStore.getNumericQuery( JexxaObjectSchema.INT_VALUE, Integer.class);
+        var objectUnderTest = objectStore.getNumericQuery( TestObjectSchema.INT_VALUE, Integer.class);
         var limitAmount = 10 ;
         var expectedResult = testData.stream()
-                .sorted(comparing( JexxaObject::getInternalValue))
+                .sorted(comparing( TestObject::getInternalValue))
                 .limit(limitAmount).toList();
 
         //Act
@@ -392,9 +392,9 @@ class INumericQueryIT
         //Arrange
         initObjectStore(properties);
 
-        var objectUnderTest = objectStore.getNumericQuery( JexxaObjectSchema.INT_VALUE, Integer.class);
+        var objectUnderTest = objectStore.getNumericQuery( TestObjectSchema.INT_VALUE, Integer.class);
         var expectedResult = testData.stream()
-                .sorted(comparing( JexxaObject::getInternalValue).reversed())
+                .sorted(comparing( TestObject::getInternalValue).reversed())
                 .toList();
 
         //Act
@@ -411,10 +411,10 @@ class INumericQueryIT
         //Arrange
         initObjectStore(properties);
 
-        var objectUnderTest = objectStore.getNumericQuery( JexxaObjectSchema.INT_VALUE, Integer.class);
+        var objectUnderTest = objectStore.getNumericQuery( TestObjectSchema.INT_VALUE, Integer.class);
         var limitAmount = 10 ;
         var expectedResult = testData.stream()
-                .sorted(comparing( JexxaObject::getInternalValue).reversed())
+                .sorted(comparing( TestObject::getInternalValue).reversed())
                 .limit(limitAmount).toList();
 
         //Act
@@ -433,7 +433,7 @@ class INumericQueryIT
         objectStore.removeAll();
 
         //Act
-        var objectUnderTest = objectStore.getNumericQuery(JexxaObjectSchema.INT_VALUE, Integer.class);
+        var objectUnderTest = objectStore.getNumericQuery(TestObjectSchema.INT_VALUE, Integer.class);
         testData.forEach(objectStore::add);
         var result = objectUnderTest.getAscending();
 
@@ -444,17 +444,17 @@ class INumericQueryIT
     {
         if (!properties.isEmpty()) {
             try (JDBCConnection jdbcConnection = new JDBCConnection(properties)) {
-                jdbcConnection.createTableCommand(JexxaObjectSchema.class)
-                        .dropTableIfExists(JexxaObject.class)
+                jdbcConnection.createTableCommand(TestObjectSchema.class)
+                        .dropTableIfExists(TestObject.class)
                         .asIgnore();
 
             }
         }
 
         objectStore = ObjectStoreManager.getObjectStore(
-                JexxaObject.class,
-                JexxaObject::getKey,
-                JexxaObjectSchema.class,
+                TestObject.class,
+                TestObject::getKey,
+                TestObjectSchema.class,
                 properties);
 
         objectStore.removeAll();

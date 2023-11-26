@@ -2,7 +2,7 @@ package io.jexxa.common.facade.jdbc;
 
 import io.jexxa.common.facade.TestConstants;
 import io.jexxa.common.adapter.persistence.repository.jdbc.JDBCKeyValueRepository;
-import io.jexxa.common.facade.testapplication.JexxaValueObject;
+import io.jexxa.common.facade.testapplication.TestValueObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -22,27 +22,27 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Tag(TestConstants.INTEGRATION_TEST)
 class JDBCKeyValueRepositoryIT
 {
-    private JexxaEntity aggregate;
-    private JDBCKeyValueRepository<JexxaEntity, JexxaValueObject> objectUnderTest;
+    private TestEntity aggregate;
+    private JDBCKeyValueRepository<TestEntity, TestValueObject> objectUnderTest;
 
     @BeforeEach
     void initTests() throws IOException
     {
         //Arrange
-        aggregate = JexxaEntity.create(new JexxaValueObject(42));
+        aggregate = TestEntity.create(new TestValueObject(42));
         var properties = new Properties();
         properties.load(getClass().getResourceAsStream("/application.properties"));
 
         try (JDBCConnection connection = new JDBCConnection(properties) )
         {
             connection.createTableCommand(JDBCKeyValueRepository.KeyValueSchema.class)
-                    .dropTableIfExists(JexxaEntity.class)
+                    .dropTableIfExists(TestEntity.class)
                     .asIgnore();
         }
 
         objectUnderTest = new JDBCKeyValueRepository<>(
-                JexxaEntity.class,
-                JexxaEntity::getKey,
+                TestEntity.class,
+                TestEntity::getKey,
                 properties
         );
     }
@@ -63,7 +63,7 @@ class JDBCKeyValueRepositoryIT
     void getUnavailableAggregate()
     {
         //arrange
-        var unknownAggregate = JexxaEntity.create(new JexxaValueObject(42));
+        var unknownAggregate = TestEntity.create(new TestValueObject(42));
 
 
         //act

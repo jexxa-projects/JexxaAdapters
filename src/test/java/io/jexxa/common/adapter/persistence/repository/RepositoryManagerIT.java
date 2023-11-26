@@ -5,7 +5,7 @@ import io.jexxa.common.adapter.persistence.RepositoryConfig;
 import io.jexxa.common.adapter.persistence.RepositoryManager;
 import io.jexxa.common.adapter.persistence.repository.imdb.IMDBRepository;
 import io.jexxa.common.adapter.persistence.repository.jdbc.JDBCKeyValueRepository;
-import io.jexxa.common.facade.jdbc.JexxaEntity;
+import io.jexxa.common.facade.jdbc.TestEntity;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -36,8 +36,8 @@ class RepositoryManagerIT
         RepositoryManager.setDefaultStrategy(null);
 
         // Act
-        var result =  RepositoryManager.getRepository(JexxaEntity.class,
-                JexxaEntity::getKey,
+        var result =  RepositoryManager.getRepository(TestEntity.class,
+                TestEntity::getKey,
                 new Properties());
 
         //Assert
@@ -54,8 +54,8 @@ class RepositoryManagerIT
         var postgresProperties = RepositoryConfig.postgresRepositoryConfig("jexxa");
 
         //Act
-        var result = RepositoryManager.getRepository(JexxaEntity.class,
-                JexxaEntity::getKey,
+        var result = RepositoryManager.getRepository(TestEntity.class,
+                TestEntity::getKey,
                 postgresProperties);
 
         //Assert
@@ -73,8 +73,8 @@ class RepositoryManagerIT
         //Act
         RepositoryManager.setDefaultStrategy(IMDBRepository.class);
 
-        var result =  RepositoryManager.getRepository(JexxaEntity.class,
-                JexxaEntity::getKey,
+        var result =  RepositoryManager.getRepository(TestEntity.class,
+                TestEntity::getKey,
                 postgresProperties);
 
         //Assert
@@ -91,10 +91,10 @@ class RepositoryManagerIT
         RepositoryManager.setDefaultStrategy(IMDBRepository.class);  // Set a default strategy which is used in case no specific strategy is defines
 
         //Act
-        RepositoryManager.setStrategy(JDBCKeyValueRepository.class, JexxaEntity.class );  // Set a specific strategy
+        RepositoryManager.setStrategy(JDBCKeyValueRepository.class, TestEntity.class );  // Set a specific strategy
 
-        var result =  RepositoryManager.getRepository(JexxaEntity.class,
-                JexxaEntity::getKey,
+        var result =  RepositoryManager.getRepository(TestEntity.class,
+                TestEntity::getKey,
                 postgresProperties);
 
         //Assert

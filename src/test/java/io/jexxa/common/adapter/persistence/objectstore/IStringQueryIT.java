@@ -5,7 +5,7 @@ import io.jexxa.common.adapter.persistence.ObjectStoreManager;
 import io.jexxa.common.adapter.persistence.objectstore.metadata.MetaTag;
 import io.jexxa.common.adapter.persistence.objectstore.metadata.MetadataSchema;
 import io.jexxa.common.facade.jdbc.JDBCConnection;
-import io.jexxa.common.facade.testapplication.JexxaValueObject;
+import io.jexxa.common.facade.testapplication.TestValueObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.IntStream;
 
-import static io.jexxa.common.adapter.persistence.objectstore.JexxaObject.createCharSequence;
+import static io.jexxa.common.adapter.persistence.objectstore.TestObject.createCharSequence;
 import static io.jexxa.common.adapter.persistence.objectstore.ObjectStoreTestDatabase.REPOSITORY_CONFIG;
 
 import static io.jexxa.common.adapter.persistence.objectstore.metadata.MetaTags.numericTag;
@@ -26,8 +26,8 @@ class IStringQueryIT
 {
     private static final int TEST_DATA_SIZE = 100;
 
-    private List<JexxaObject> testData;
-    private IObjectStore<JexxaObject, JexxaValueObject, JexxaObjectSchema> objectStore;
+    private List<TestObject> testData;
+    private IObjectStore<TestObject, TestValueObject, TestObjectSchema> objectStore;
 
     /**
      * Defines the metadata that we use:
@@ -35,31 +35,31 @@ class IStringQueryIT
      * - Enum name is used for the name of the row so that there is a direct mapping between the strategy and the database
      * - Adding a new strategy in code after initial usage requires that the database is extended in some woy
      */
-    private enum JexxaObjectSchema implements MetadataSchema
+    private enum TestObjectSchema implements MetadataSchema
     {
-        INT_VALUE(numericTag(JexxaObject::getInternalValue)),
+        INT_VALUE(numericTag(TestObject::getInternalValue)),
 
-        VALUE_OBJECT(numericTag(JexxaObject::getKey, JexxaValueObject::getValue)),
+        VALUE_OBJECT(numericTag(TestObject::getKey, TestValueObject::getValue)),
 
-        OPTIONAL_VALUE_OBJECT(numericTag(JexxaObject::getOptionalValue, JexxaValueObject::getValue)),
+        OPTIONAL_VALUE_OBJECT(numericTag(TestObject::getOptionalValue, TestValueObject::getValue)),
 
-        STRING_OBJECT(stringTag(JexxaObject::getString)),
+        STRING_OBJECT(stringTag(TestObject::getString)),
 
-        OPTIONAL_STRING_OBJECT(stringTag(JexxaObject::getOptionalString));
+        OPTIONAL_STRING_OBJECT(stringTag(TestObject::getOptionalString));
 
         /**
          *  Defines the constructor of the enum. Following code is equal for all object stores.
          */
-        private final MetaTag<JexxaObject, ?, ? > metaTag;
+        private final MetaTag<TestObject, ?, ? > metaTag;
 
-        JexxaObjectSchema(MetaTag<JexxaObject,?, ?> metaTag)
+        TestObjectSchema(MetaTag<TestObject,?, ?> metaTag)
         {
             this.metaTag = metaTag;
         }
 
         @Override
         @SuppressWarnings("unchecked")
-        public MetaTag<JexxaObject, ?, ?> getTag()
+        public MetaTag<TestObject, ?, ?> getTag()
         {
             return metaTag;
         }
@@ -69,7 +69,7 @@ class IStringQueryIT
     void initTestData()
     {
         testData = IntStream.range(0, TEST_DATA_SIZE)
-                .mapToObj(element -> JexxaObject.create(new JexxaValueObject(element)))
+                .mapToObj(element -> TestObject.create(new TestValueObject(element)))
                 .toList();
 
         // set internal int value to an ascending number
@@ -88,7 +88,7 @@ class IStringQueryIT
         //Arrange
         initObjectStore(properties);
 
-        var objectUnderTest = objectStore.getStringQuery( JexxaObjectSchema.STRING_OBJECT, String.class);
+        var objectUnderTest = objectStore.getStringQuery( TestObjectSchema.STRING_OBJECT, String.class);
 
         //Act
         var beginsWithA = objectUnderTest.beginsWith("A");
@@ -112,7 +112,7 @@ class IStringQueryIT
         //Arrange
         initObjectStore(properties);
 
-        var objectUnderTest = objectStore.getStringQuery( JexxaObjectSchema.OPTIONAL_STRING_OBJECT, String.class);
+        var objectUnderTest = objectStore.getStringQuery( TestObjectSchema.OPTIONAL_STRING_OBJECT, String.class);
 
         //Act
         var beginsWithA = objectUnderTest.beginsWith("A");
@@ -141,11 +141,11 @@ class IStringQueryIT
         initObjectStore(properties);
         var limit = 10;
 
-        var objectUnderTest = objectStore.getStringQuery( JexxaObjectSchema.STRING_OBJECT, String.class);
+        var objectUnderTest = objectStore.getStringQuery( TestObjectSchema.STRING_OBJECT, String.class);
 
         var expectedAscendingOrder = objectStore.get()
                 .stream()
-                .sorted(comparing(JexxaObject::getString))
+                .sorted(comparing(TestObject::getString))
                 .toList();
 
         var expectedAscendingOrderLimit = expectedAscendingOrder
@@ -170,11 +170,11 @@ class IStringQueryIT
         initObjectStore(properties);
         var limit = 10;
 
-        var objectUnderTest = objectStore.getStringQuery( JexxaObjectSchema.STRING_OBJECT, String.class);
+        var objectUnderTest = objectStore.getStringQuery( TestObjectSchema.STRING_OBJECT, String.class);
 
         var expectedDescendingOrder = objectStore.get()
                 .stream()
-                .sorted(comparing(JexxaObject::getString).reversed())
+                .sorted(comparing(TestObject::getString).reversed())
                 .toList();
 
         var expectedDescendingOrderLimit = expectedDescendingOrder
@@ -199,7 +199,7 @@ class IStringQueryIT
         objectStore.removeAll();
 
         //Act
-        var objectUnderTest = objectStore.getStringQuery(JexxaObjectSchema.STRING_OBJECT, String.class);
+        var objectUnderTest = objectStore.getStringQuery(TestObjectSchema.STRING_OBJECT, String.class);
         testData.forEach(objectStore::add);
         var result = objectUnderTest.getAscending();
 
@@ -213,16 +213,16 @@ class IStringQueryIT
         {
             try(JDBCConnection jdbcConnection = new JDBCConnection(properties))
             {
-                jdbcConnection.createTableCommand(JexxaObjectSchema.class)
-                        .dropTableIfExists(JexxaObject.class)
+                jdbcConnection.createTableCommand(TestObjectSchema.class)
+                        .dropTableIfExists(TestObject.class)
                         .asIgnore();
             }
         }
 
         objectStore = ObjectStoreManager.getObjectStore(
-                JexxaObject.class,
-                JexxaObject::getKey,
-                JexxaObjectSchema.class,
+                TestObject.class,
+                TestObject::getKey,
+                TestObjectSchema.class,
                 properties);
 
         objectStore.removeAll();
