@@ -1,4 +1,5 @@
- [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Maven Central](https://img.shields.io/maven-central/v/io.jexxa.common/common-adapters)](https://maven-badges.herokuapp.com/maven-central/io.jexxa.common/common-adapters)[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 
 [![Maven Build](https://github.com/jexxa-projects/CommonAdapters/actions/workflows/mavenBuild.yml/badge.svg)](https://github.com/jexxa-projects/CommonAdapters/actions/workflows/mavenBuild.yml)
 [![CodeQL](https://github.com/jexxa-projects/CommonAdapters/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/jexxa-projects/CommonAdapters/actions/workflows/codeql-analysis.yml)
