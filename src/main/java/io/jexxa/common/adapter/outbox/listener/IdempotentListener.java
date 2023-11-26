@@ -20,6 +20,7 @@ public abstract class IdempotentListener<T> extends JSONMessageListener
     private final IRepository<InboundMessage, ReceivingID> messageRepository;
     private final Class<T> clazz;
     private Instant oldestMessage;
+    private int duplicateMessageCounter;
 
     protected IdempotentListener(Class<T> clazz, Properties properties)
     {
@@ -42,12 +43,17 @@ public abstract class IdempotentListener<T> extends JSONMessageListener
         var receivingID = new ReceivingID(getMessageHeaderValue(uniqueID), this.getClass().getName());
         if (messageRepository.get(receivingID).isPresent()) {
             getLogger(getClass()).info("Message with key {} already processed by {} -> Ignore it", receivingID.uuid, receivingID.className);
+            ++duplicateMessageCounter;
             return;
         }
 
         onMessage( fromJson(message, clazz ));
         messageRepository.add(new InboundMessage(receivingID, Instant.now()));
         removeOldMessages();
+    }
+
+    public int duplicateMessageCounter() {
+        return duplicateMessageCounter;
     }
 
     public abstract void onMessage(T message);
