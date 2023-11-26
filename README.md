@@ -21,8 +21,8 @@ These adapters are based on typical microservices and messaging patterns to simp
 
 
 
-### Use the library 
-
+## Use the library 
+### Add dependencies
 Maven:
 ```xml
 <dependencies>
@@ -39,6 +39,10 @@ Gradle:
 ```groovy
 compile "io.jexxa.common:common-adapters:0.1.1"
 ``` 
+### Examples
+To see how to use this library, please refer to: 
+* Tests in [adapter](src/test/java/io/jexxa/common/adapter)
+* Filter plugins [JLegMed](https://github.com/jexxa-projects/JLegMed)
 
 ## Build the library
 This section describes how to build the library by yourself, if you want to contribute.
