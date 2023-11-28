@@ -10,7 +10,7 @@
 
   <!-- Project Information -->
   <name>Jexxa Adapters</name>
-  <url>https://github.com/jexxa-projects/CommonAdapters</url>
+  <url>https://github.com/jexxa-projects/JexxaAdapters</url>
 
   <description>jexxa-adapters</description>
   <licenses>
@@ -27,9 +27,9 @@
   </developers>
 
   <scm>
-    <connection>scm:git:https://github.com/jexxa-projects/CommonAdapters.git</connection>
-    <url>https://github.com/jexxa-projects/CommonAdapters</url>
-    <developerConnection>scm:git:https://github.com/jexxa-projects/CommonAdapters.git</developerConnection>
+    <connection>scm:git:https://github.com/jexxa-projects/JexxaAdapters.git</connection>
+    <url>https://github.com/jexxa-projects/JexxaAdapters</url>
+    <developerConnection>scm:git:https://github.com/jexxa-projects/JexxaAdapters.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
 
