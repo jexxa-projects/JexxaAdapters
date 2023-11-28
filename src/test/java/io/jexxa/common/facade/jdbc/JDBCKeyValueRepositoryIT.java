@@ -1,7 +1,7 @@
 package io.jexxa.common.facade.jdbc;
 
 import io.jexxa.common.facade.TestConstants;
-import io.jexxa.common.adapter.persistence.repository.jdbc.JDBCKeyValueRepository;
+import io.jexxa.common.drivenadapter.persistence.repository.jdbc.JDBCKeyValueRepository;
 import io.jexxa.common.facade.testapplication.TestValueObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
