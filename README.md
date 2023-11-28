@@ -41,7 +41,7 @@ compile "io.jexxa.common:common-adapters:0.1.1"
 ``` 
 ### Examples
 To see how to use this library, please refer to: 
-* Tests in [adapter](src/test/java/io/jexxa/common/drivingadapter)
+* Tests in [adapter](common-adapters/src/test/java/io/jexxa/common/drivingadapter)
 * Filter plugins [JLegMed](https://github.com/jexxa-projects/JLegMed)
 
 ## Build the library
