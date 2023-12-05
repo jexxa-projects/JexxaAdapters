@@ -28,7 +28,7 @@ public @interface Scheduled
      * {@link #timeUnit()}.
      * @return the fixed period
      */
-    int fixedRate() default -1;
+    long fixedRate() default -1;
 
     /**
      * Execute the annotated method with a fixed period between the end of the
@@ -37,7 +37,7 @@ public @interface Scheduled
      * {@link #timeUnit}.
      * @return the delay between invocations
      */
-    int fixedDelay() default -1;
+    long fixedDelay() default -1;
 
     /**
      * The {@link TimeUnit} used for {@link #fixedDelay}, {@link #fixedRate}, and {@link #initialDelay}
@@ -51,5 +51,5 @@ public @interface Scheduled
 	 * {@link #fixedRate} task.
      * <p>The time unit is milliseconds by default but can be overridden via {@link #timeUnit()}
      */
-    int initialDelay() default 0;
+    long initialDelay() default 0;
 }

@@ -20,7 +20,7 @@ public interface IScheduled
      * {@link #timeUnit()}.
      * @return the fixed period
      */
-    default int fixedRate() {return -1;}
+    default long fixedRate() {return -1;}
 
     /**
      * Execute the annotated method with a fixed period between the end of the
@@ -29,7 +29,7 @@ public interface IScheduled
      * {@link #timeUnit}.
      * @return the delay between invocations
      */
-    default int fixedDelay() {return -1;}
+    default long fixedDelay() {return -1;}
 
     /**
      * The {@link TimeUnit} used for {@link #fixedDelay}, {@link #fixedRate}, and {@link #initialDelay}
@@ -43,7 +43,7 @@ public interface IScheduled
 	 * {@link #fixedRate} task.
      * <p>The time unit is milliseconds by default but can be overridden via {@link #timeUnit()}
      */
-    default int initialDelay() {return 0;}
+    default long initialDelay() {return 0;}
 
     void execute();
 }
