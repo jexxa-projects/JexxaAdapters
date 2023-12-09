@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## \[0.4.0] - 2023-12-09 (RC for release 1.0.0)
+### Added
+- Added ApplicationBanner to show application-specific information at startup 
+
+### Changed
+- JDBC properties are now accessed via methods so that an application can add specific prefix 
+
 ## \[0.3.0] - 2023-12-05 (RC for release 1.0.0)
 ### Added
 - Scheduler now supports a fixed number of iterations. 
