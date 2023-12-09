@@ -8,6 +8,7 @@ import io.jexxa.common.drivenadapter.persistence.objectstore.imdb.IMDBObjectStor
 import io.jexxa.common.drivenadapter.persistence.objectstore.jdbc.JDBCObjectStore;
 import io.jexxa.common.drivenadapter.persistence.objectstore.metadata.MetadataSchema;
 import io.jexxa.common.facade.factory.ClassFactory;
+import io.jexxa.common.facade.logger.ApplicationBanner;
 import io.jexxa.common.facade.utils.annotation.CheckReturnValue;
 
 import java.util.HashMap;
@@ -15,8 +16,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.function.Function;
 
-import static io.jexxa.common.facade.jdbc.JDBCProperties.JDBC_DRIVER;
-import static io.jexxa.common.facade.jdbc.JDBCProperties.OBJECTSTORE_STRATEGY;
+import static io.jexxa.common.facade.jdbc.JDBCProperties.jdbcDriver;
+import static io.jexxa.common.facade.jdbc.JDBCProperties.objectstoreStrategy;
 import static io.jexxa.common.facade.logger.SLF4jLogger.getLogger;
 
 
@@ -90,7 +91,7 @@ public final class ObjectStoreManager
 
     private ObjectStoreManager()
     {
-
+        ApplicationBanner.addConfigBanner(this::bannerInformation);
     }
 
     private <T> Class<?> getStrategy(Class<T> aggregateClazz, Properties properties)
@@ -115,16 +116,16 @@ public final class ObjectStoreManager
         }
 
         // 3. Check explicit configuration
-        if (properties.containsKey(OBJECTSTORE_STRATEGY)) {
+        if (properties.containsKey(objectstoreStrategy())) {
             try {
-                return Class.forName(properties.getProperty(OBJECTSTORE_STRATEGY));
+                return Class.forName(properties.getProperty(objectstoreStrategy()));
             } catch (ClassNotFoundException e) {
-                getLogger(ObjectStoreManager.class).warn("Unknown or invalid object store {} -> Ignore setting", properties.getProperty(OBJECTSTORE_STRATEGY));
+                getLogger(ObjectStoreManager.class).warn("Unknown or invalid object store {} -> Ignore setting", properties.getProperty(objectstoreStrategy()));
             }
         }
 
         // 4. If a JDBC driver is stated in Properties => Use JDBCKeyValueRepository
-        if (properties.containsKey(JDBC_DRIVER))
+        if (properties.containsKey(jdbcDriver()))
         {
             return JDBCObjectStore.class;
         }
@@ -133,4 +134,8 @@ public final class ObjectStoreManager
         return IMDBObjectStore.class;
     }
 
+    public void bannerInformation(Properties properties)
+    {
+        getLogger(ApplicationBanner.class).info("Used ObjectStore Strategie     : [{}]",getDefaultObjectStore(properties).getSimpleName());
+    }
 }

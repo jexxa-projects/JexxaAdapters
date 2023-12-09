@@ -41,7 +41,7 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
 
         this.keyFunction = Objects.requireNonNull( keyFunction );
         this.aggregateClazz = Objects.requireNonNull(aggregateClazz);
-        this.database = DatabaseManager.getDatabase(properties.getProperty(JDBCProperties.JDBC_URL));
+        this.database = DatabaseManager.getDatabase(properties.getProperty(JDBCProperties.jdbcUrl()));
 
         manageDBTable(properties);
     }
@@ -52,7 +52,7 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
 
         this.keyFunction = Objects.requireNonNull( keyFunction );
         this.aggregateClazz = Objects.requireNonNull(aggregateClazz);
-        this.database = DatabaseManager.getDatabase(properties.getProperty(JDBCProperties.JDBC_URL));
+        this.database = DatabaseManager.getDatabase(properties.getProperty(JDBCProperties.jdbcUrl()));
 
         if ( manageTable )
         {
@@ -155,7 +155,7 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
 
     private void manageDBTable(Properties properties)
     {
-        if (properties.containsKey(JDBCProperties.JDBC_AUTOCREATE_TABLE))
+        if (properties.containsKey(JDBCProperties.jdbcAutocreateTable()))
         {
             autocreateTableKeyValue();
             renameKeyValueColumns();

@@ -19,11 +19,11 @@ public final class JDBCConnectionPool implements AutoCloseable {
 
     public static synchronized JDBCConnection getConnection(Properties properties, Object managingObject)
     {
-        var connectionName = properties.getProperty(JDBCProperties.JDBC_URL);
+        var connectionName = properties.getProperty(JDBCProperties.jdbcUrl());
 
         if ( connectionName == null )
         {
-            throw new IllegalArgumentException("Parameter " + JDBCProperties.JDBC_URL + " is missing");
+            throw new IllegalArgumentException("Parameter " + JDBCProperties.jdbcUrl() + " is missing");
         }
 
         if (JDBC_CONNECTION_POOL.requiresExclusiveConnection(managingObject))

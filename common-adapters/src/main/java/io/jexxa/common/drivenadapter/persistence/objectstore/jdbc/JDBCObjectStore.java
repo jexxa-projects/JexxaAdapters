@@ -54,7 +54,7 @@ public class JDBCObjectStore<T,K, M extends Enum<M> & MetadataSchema> extends JD
         this.aggregateClazz = aggregateClazz;
         this.metaData = metaData;
         this.jdbcSchema = EnumSet.allOf(metaData);
-        this.database = DatabaseManager.getDatabase(properties.getProperty(JDBCProperties.JDBC_URL));
+        this.database = DatabaseManager.getDatabase(properties.getProperty(JDBCProperties.jdbcUrl()));
 
         manageObjectStore(properties);
     }
@@ -153,7 +153,7 @@ public class JDBCObjectStore<T,K, M extends Enum<M> & MetadataSchema> extends JD
     private void manageObjectStore(Properties properties)
     {
         Objects.requireNonNull(properties);
-        if (properties.containsKey(JDBCProperties.JDBC_AUTOCREATE_TABLE))
+        if (properties.containsKey(JDBCProperties.jdbcAutocreateTable()))
         {
             autoCreateDatabase();
             renameKeyValueColumns();

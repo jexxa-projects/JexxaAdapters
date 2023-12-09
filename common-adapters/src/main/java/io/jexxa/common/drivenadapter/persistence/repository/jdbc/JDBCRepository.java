@@ -21,9 +21,9 @@ public abstract class JDBCRepository implements TransactionHandler {
     }
 
     /**
-     * Returns a JDBCConnection that is in a valid state. If the connection can not be changed into a valid state, an IllegalStateException is thrown.
+     * Returns a JDBCConnection that is in a valid state. If the connection cannot be changed into a valid state, an IllegalStateException is thrown.
      *
-     * @throws IllegalStateException if JDBCConnection can not be reset
+     * @throws IllegalStateException if JDBCConnection cannot be reset
      * @return JDBCConnection that is in a valid state.
      */
     public JDBCConnection getConnection()

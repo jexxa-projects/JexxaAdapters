@@ -3,6 +3,7 @@ package io.jexxa.common.drivenadapter.messaging;
 import io.jexxa.common.drivenadapter.messaging.jms.JMSSender;
 import io.jexxa.common.drivenadapter.messaging.logging.MessageLogger;
 import io.jexxa.common.facade.factory.ClassFactory;
+import io.jexxa.common.facade.logger.ApplicationBanner;
 import io.jexxa.common.facade.utils.annotation.CheckReturnValue;
 
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import java.util.Objects;
 import java.util.Properties;
 
 import static io.jexxa.common.facade.jms.JMSProperties.JNDI_FACTORY_KEY;
+import static io.jexxa.common.facade.logger.SLF4jLogger.getLogger;
 
 
 public final class MessageSenderManager
@@ -22,6 +24,7 @@ public final class MessageSenderManager
 
     private MessageSenderManager()
     {
+        ApplicationBanner.addConfigBanner(this::bannerInformation);
     }
 
     @CheckReturnValue
@@ -108,6 +111,11 @@ public final class MessageSenderManager
 
             throw new IllegalArgumentException("No suitable default MessageSender available", e);
         }
+    }
+
+    public void bannerInformation(Properties properties)
+    {
+        getLogger(ApplicationBanner.class).info("Used Message Sender Strategie  : [{}]", MESSAGE_SENDER_MANAGER.getStrategy(null, properties).getSimpleName());
     }
 
 }

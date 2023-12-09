@@ -10,8 +10,8 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 
 import java.util.Properties;
 
-import static io.jexxa.common.facade.jdbc.JDBCProperties.JDBC_DRIVER;
-import static io.jexxa.common.facade.jdbc.JDBCProperties.JDBC_URL;
+import static io.jexxa.common.facade.jdbc.JDBCProperties.jdbcDriver;
+import static io.jexxa.common.facade.jdbc.JDBCProperties.jdbcUrl;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Tag(TestConstants.UNIT_TEST)
@@ -45,8 +45,8 @@ class JDBCPropertiesTest
 
         //2.Arrange invalid properties: Invalid Driver
         Properties propertiesInvalidDriver = new Properties();
-        propertiesInvalidDriver.put(JDBC_DRIVER, "org.unknown.Driver");
-        propertiesInvalidDriver.put(JDBC_URL, "jdbc:postgresql://localhost:5432/properties-test");
+        propertiesInvalidDriver.put(jdbcDriver(), "org.unknown.Driver");
+        propertiesInvalidDriver.put(jdbcUrl(), "jdbc:postgresql://localhost:5432/properties-test");
 
         //2.Assert invalid properties: Invalid Driver
         assertThrows(IllegalArgumentException.class, () -> new JDBCKeyValueRepository<>(
@@ -61,8 +61,8 @@ class JDBCPropertiesTest
     {
         //Arrange Invalid JDBC URL
         Properties propertiesInvalidURL = new Properties();
-        propertiesInvalidURL.put(JDBC_DRIVER, "org.postgresql.Driver");
-        propertiesInvalidURL.put(JDBC_URL, "jdbc:unknown://localhost:5432/properties-test");
+        propertiesInvalidURL.put(jdbcDriver(), "org.postgresql.Driver");
+        propertiesInvalidURL.put(jdbcUrl(), "jdbc:unknown://localhost:5432/properties-test");
 
         //Act / Assert
         assertThrows(IllegalArgumentException.class, () -> new JDBCKeyValueRepository<>(

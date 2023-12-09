@@ -6,6 +6,7 @@ import io.jexxa.common.drivenadapter.persistence.repository.imdb.IMDBRepository;
 import io.jexxa.common.drivenadapter.persistence.repository.jdbc.JDBCKeyValueRepository;
 import io.jexxa.common.facade.factory.ClassFactory;
 import io.jexxa.common.facade.jdbc.JDBCProperties;
+import io.jexxa.common.facade.logger.ApplicationBanner;
 import io.jexxa.common.facade.utils.annotation.CheckReturnValue;
 
 import java.util.HashMap;
@@ -13,7 +14,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.function.Function;
 
-import static io.jexxa.common.facade.jdbc.JDBCProperties.REPOSITORY_STRATEGY;
+import static io.jexxa.common.facade.jdbc.JDBCProperties.repositoryStrategy;
 import static io.jexxa.common.facade.logger.SLF4jLogger.getLogger;
 
 
@@ -84,7 +85,7 @@ public final class RepositoryManager
 
     private RepositoryManager()
     {
-
+        ApplicationBanner.addConfigBanner(this::bannerInformation);
     }
 
     @SuppressWarnings("DuplicatedCode")
@@ -110,15 +111,15 @@ public final class RepositoryManager
         }
 
         // 3. Check explicit configuration
-        if (properties.containsKey(REPOSITORY_STRATEGY)) {
+        if (properties.containsKey(repositoryStrategy())) {
             try {
-                return Class.forName(properties.getProperty(REPOSITORY_STRATEGY));
+                return Class.forName(properties.getProperty(repositoryStrategy()));
             } catch (ClassNotFoundException e) {
-                getLogger(ObjectStoreManager.class).warn("Unknown or invalid repository {} -> Ignore setting", properties.getProperty(REPOSITORY_STRATEGY));
+                getLogger(ObjectStoreManager.class).warn("Unknown or invalid repository {} -> Ignore setting", properties.getProperty(repositoryStrategy()));
             }
         }
         // 4. If a JDBC driver is stated in Properties => Use JDBCKeyValueRepository
-        if (properties.containsKey(JDBCProperties.JDBC_DRIVER))
+        if (properties.containsKey(JDBCProperties.jdbcDriver()))
         {
             return JDBCKeyValueRepository.class;
         }
@@ -126,6 +127,8 @@ public final class RepositoryManager
         // 5. If everything fails, return a IMDBRepository
         return IMDBRepository.class;
     }
-
-
+    public void bannerInformation(Properties properties)
+    {
+        getLogger(ApplicationBanner.class).info("Used Repository Strategie      : [{}]",getDefaultRepository(properties).getSimpleName());
+    }
 }

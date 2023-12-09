@@ -4,6 +4,7 @@ package io.jexxa.common.drivingadapter.messaging.jms;
 import io.jexxa.adapterapi.drivingadapter.IDrivingAdapter;
 import io.jexxa.adapterapi.invocation.InvocationManager;
 import io.jexxa.common.facade.jms.JMSProperties;
+import io.jexxa.common.facade.logger.ApplicationBanner;
 import io.jexxa.common.facade.utils.function.ThrowingConsumer;
 
 import javax.jms.Connection;
@@ -48,6 +49,7 @@ public class JMSAdapter implements AutoCloseable, IDrivingAdapter
         this.properties = properties;
 
         initConnection();
+        ApplicationBanner.addAccessBanner(this::bannerInformation);
     }
 
 
@@ -327,5 +329,23 @@ public class JMSAdapter implements AutoCloseable, IDrivingAdapter
                 getLogger(JMSConnectionExceptionHandler.class).debug("Exception: ", e);
             }
         }
+    }
+
+    public void bannerInformation(Properties properties)
+    {
+        var topics = Arrays.toString(
+                jmsConfigurationList.stream()
+                        .filter( element -> element.messagingType().equals(JMSConfiguration.MessagingType.TOPIC))
+                        .map(JMSConfiguration::destination).toArray()
+        );
+
+        var queues = Arrays.toString( jmsConfigurationList.stream()
+                .filter( element -> element.messagingType().equals(JMSConfiguration.MessagingType.QUEUE))
+                .map(JMSConfiguration::destination).toArray()
+        );
+
+        getLogger(ApplicationBanner.class).info("JMS Listening on  : {}", properties.getProperty(JMSProperties.JNDI_PROVIDER_URL_KEY));
+        getLogger(ApplicationBanner.class).info("   * JMS-Topics   : {}", topics);
+        getLogger(ApplicationBanner.class).info("   * JMS-Queues   : {}", queues);
     }
 }

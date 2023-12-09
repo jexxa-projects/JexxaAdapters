@@ -82,10 +82,10 @@ public class JDBCConnection implements AutoCloseable
     protected void setIsolationLevel()
     {
         if (isolationLevel == null
-                && properties.containsKey(JDBCProperties.JDBC_TRANSACTION_ISOLATION_LEVEL))
+                && properties.containsKey(JDBCProperties.jdbcTransactionIsolationLevel()))
         {
             isolationLevel = IsolationLevel.valueOf(properties
-                    .getProperty(JDBCProperties.JDBC_TRANSACTION_ISOLATION_LEVEL)
+                    .getProperty(JDBCProperties.jdbcTransactionIsolationLevel())
                     .toUpperCase(Locale.ROOT).replace('-', '_')
             );
         }
@@ -99,20 +99,20 @@ public class JDBCConnection implements AutoCloseable
 
     public final void autocreateDatabase(final Properties properties)
     {
-        if (properties.containsKey(JDBCProperties.JDBC_AUTOCREATE_DATABASE))
+        if (properties.containsKey(JDBCProperties.jdbcAutocreateDatabase()))
         {
-            var splitURL = properties.getProperty(JDBCProperties.JDBC_URL).split("/");
+            var splitURL = properties.getProperty(JDBCProperties.jdbcUrl()).split("/");
             var dbName = splitURL[splitURL.length - 1].toLowerCase(Locale.ENGLISH); //last part of the URL is the name of the database (Note: Some DBs such as postgres require a name in lower case!)
 
             var creationProperties = new Properties();
             creationProperties.putAll(properties);
 
-            var username = new Secret(creationProperties, JDBCProperties.JDBC_USERNAME, JDBCProperties.JDBC_FILE_USERNAME);
-            var password = new Secret(creationProperties, JDBCProperties.JDBC_PASSWORD, JDBCProperties.JDBC_FILE_PASSWORD);
+            var username = new Secret(creationProperties, JDBCProperties.jdbcUsername(), JDBCProperties.jdbcFileUsername());
+            var password = new Secret(creationProperties, JDBCProperties.jdbcPassword(), JDBCProperties.jdbcFilePassword());
 
             try (var setupConnection = DriverManager.
                     getConnection(
-                            creationProperties.getProperty(JDBCProperties.JDBC_AUTOCREATE_DATABASE),
+                            creationProperties.getProperty(JDBCProperties.jdbcAutocreateDatabase()),
                             username.getSecret(),
                             password.getSecret());
                  var statement = setupConnection.createStatement())
@@ -135,7 +135,7 @@ public class JDBCConnection implements AutoCloseable
         {
             if (!isValid())
             {
-                var jdbcURL =  properties.getProperty(JDBCProperties.JDBC_URL);
+                var jdbcURL =  properties.getProperty(JDBCProperties.jdbcUrl());
                 LOGGER.warn("JDBC connection for connection {} is invalid. ", jdbcURL);
                 LOGGER.warn("Try to reset JDBC connection for connection {}", jdbcURL);
                 reset();
@@ -143,7 +143,7 @@ public class JDBCConnection implements AutoCloseable
             }
         } catch (RuntimeException e)
         {
-            LOGGER.error("Could not reset JDBC connection for connection {}. Reason: {}", properties.getProperty(JDBCProperties.JDBC_URL), e.getMessage());
+            LOGGER.error("Could not reset JDBC connection for connection {}. Reason: {}", properties.getProperty(JDBCProperties.jdbcUrl()), e.getMessage());
             throw e;
         }
 
@@ -238,7 +238,7 @@ public class JDBCConnection implements AutoCloseable
         {
             if (!getConnection().isValid(NO_TIMEOUT))
             {
-                throw new IllegalStateException("JDBC Connection is invalid for connection " + properties.getProperty(JDBCProperties.JDBC_URL));
+                throw new IllegalStateException("JDBC Connection is invalid for connection " + properties.getProperty(JDBCProperties.jdbcUrl()));
             }
         } catch (SQLException e)
         {
@@ -298,12 +298,12 @@ public class JDBCConnection implements AutoCloseable
 
     private static Connection initJDBCConnection(Properties properties, boolean autoCommit)
     {
-        var username = new Secret(properties, JDBCProperties.JDBC_USERNAME, JDBCProperties.JDBC_FILE_USERNAME);
-        var password = new Secret(properties, JDBCProperties.JDBC_PASSWORD, JDBCProperties.JDBC_FILE_PASSWORD);
+        var username = new Secret(properties, JDBCProperties.jdbcUsername(), JDBCProperties.jdbcFileUsername());
+        var password = new Secret(properties, JDBCProperties.jdbcPassword(), JDBCProperties.jdbcFilePassword());
 
         try {
             var connection = DriverManager.getConnection(
-                    properties.getProperty(JDBCProperties.JDBC_URL),
+                    properties.getProperty(JDBCProperties.jdbcUrl()),
                     username.getSecret(),
                     password.getSecret()
             );
@@ -322,24 +322,24 @@ public class JDBCConnection implements AutoCloseable
     {
         try
         {
-            Class.forName(properties.getProperty(JDBCProperties.JDBC_DRIVER));
+            Class.forName(properties.getProperty(JDBCProperties.jdbcDriver()));
         }
         catch (ClassNotFoundException e)
         {
-            throw new IllegalArgumentException("Specified JDBC driver is not available: " + properties.getProperty(JDBCProperties.JDBC_DRIVER), e);
+            throw new IllegalArgumentException("Specified JDBC driver is not available: " + properties.getProperty(JDBCProperties.jdbcDriver()), e);
         }
     }
 
     private static void validateProperties(Properties properties)
     {
-        if (!properties.containsKey(JDBCProperties.JDBC_URL))
+        if (!properties.containsKey(JDBCProperties.jdbcUrl()))
         {
-            throw new IllegalArgumentException("Parameter " + JDBCProperties.JDBC_URL + " is missing");
+            throw new IllegalArgumentException("Parameter " + JDBCProperties.jdbcUrl() + " is missing");
         }
 
-        if (!properties.containsKey(JDBCProperties.JDBC_DRIVER) )
+        if (!properties.containsKey(JDBCProperties.jdbcDriver()) )
         {
-            throw new IllegalArgumentException("Parameter " + JDBCProperties.JDBC_DRIVER + " is missing");
+            throw new IllegalArgumentException("Parameter " + JDBCProperties.jdbcDriver() + " is missing");
         }
     }
 }
