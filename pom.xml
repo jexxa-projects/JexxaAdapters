@@ -5,7 +5,7 @@
 
   <groupId>io.jexxa</groupId>
   <artifactId>jexxa-adapters</artifactId>
-  <version>0.4.1-SNAPSHOT</version>
+  <version>0.5.0</version>
   <packaging>pom</packaging>
 
   <!-- Project Information -->
@@ -30,7 +30,7 @@
     <connection>scm:git:https://github.com/jexxa-projects/JexxaAdapters.git</connection>
     <url>https://github.com/jexxa-projects/JexxaAdapters</url>
     <developerConnection>scm:git:https://github.com/jexxa-projects/JexxaAdapters.git</developerConnection>
-    <tag>jexxa-adapters-0.2.0</tag>
+    <tag>jexxa-adapters-0.5.0</tag>
   </scm>
 
   <properties>
