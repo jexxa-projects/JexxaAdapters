@@ -1,7 +1,7 @@
 package io.jexxa.common.drivenadapter.messaging;
 
-import io.jexxa.common.drivenadapter.messaging.jms.JMSSender;
 import io.jexxa.common.drivenadapter.messaging.logging.MessageLogger;
+import io.jexxa.common.drivenadapter.outbox.TransactionalOutboxSender;
 import io.jexxa.common.facade.factory.ClassFactory;
 import io.jexxa.common.facade.logger.ApplicationBanner;
 import io.jexxa.common.facade.utils.annotation.CheckReturnValue;
@@ -12,9 +12,12 @@ import java.util.Objects;
 import java.util.Properties;
 
 import static io.jexxa.common.facade.jms.JMSProperties.JNDI_FACTORY_KEY;
+import static io.jexxa.common.facade.jms.JMSProperties.jmsSimulate;
+import static io.jexxa.common.facade.jms.JMSProperties.jmsStrategy;
 import static io.jexxa.common.facade.logger.SLF4jLogger.getLogger;
 
 
+@SuppressWarnings("java:S6548")
 public final class MessageSenderManager
 {
     private static final MessageSenderManager MESSAGE_SENDER_MANAGER = new MessageSenderManager();
@@ -28,7 +31,6 @@ public final class MessageSenderManager
     }
 
     @CheckReturnValue
-    // When registering a MessageSender, we check its type so that we can perform an unchecked cast
     private <T> Class<? extends MessageSender> getStrategy(Class<T> aggregateClazz, Properties properties)
     {
         // 1. Check if a dedicated strategy is registered for aggregateClazz
@@ -50,15 +52,28 @@ public final class MessageSenderManager
             return defaultStrategy;
         }
 
-        // 3. If a JNDI Factory is defined and simulation mode is deactivated => Use JMSSender
-        if (properties.containsKey(JNDI_FACTORY_KEY))
+        // 3. Check explicit configuration
+        if (properties.containsKey(jmsStrategy()))
         {
-            return JMSSender.class;
+            try {
+                return (Class<? extends MessageSender>) Class.forName(properties.getProperty(jmsStrategy()));
+            } catch (ClassNotFoundException e)
+            {
+                getLogger(MessageSenderManager.class).warn("Unknown or invalid message sender {} -> Ignore setting", properties.getProperty(jmsStrategy()));
+                getLogger(MessageSenderManager.class).warn(String.valueOf(e));
+            }
+        }
+
+        // 4. If a JNDI Factory is defined and simulation mode is deactivated => Use JMSSender
+        if (properties.containsKey(JNDI_FACTORY_KEY) && !properties.containsKey(jmsSimulate()))
+        {
+            return TransactionalOutboxSender.class;
         }
 
         // 5. In all other cases (including simulation mode) return a MessageLogger
         return MessageLogger.class;
     }
+
 
     @SuppressWarnings("unused")
     public static Class<?> getDefaultMessageSender(Properties properties)

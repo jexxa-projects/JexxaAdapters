@@ -26,6 +26,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import static io.jexxa.common.facade.jms.JMSConnection.createConnection;
+import static io.jexxa.common.facade.jms.JMSProperties.jmsSimulate;
 import static io.jexxa.common.facade.logger.SLF4jLogger.getLogger;
 
 
@@ -37,11 +38,14 @@ public class JMSAdapter implements AutoCloseable, IDrivingAdapter
     private final List<Object> registeredListener = new ArrayList<>();
     private final List<JMSConfiguration> jmsConfigurationList = new ArrayList<>();
     private final JMSConnectionExceptionHandler jmsConnectionExceptionHandler;
+    private final boolean simulateJMS;
 
     private final Properties properties;
 
     public JMSAdapter(Properties properties)
     {
+        simulateJMS = properties.containsKey(jmsSimulate());
+
         Objects.requireNonNull(properties);
         validateProperties(properties);
 
@@ -56,6 +60,10 @@ public class JMSAdapter implements AutoCloseable, IDrivingAdapter
     @Override
     public void start()
     {
+        if (simulateJMS) {
+            return;
+        }
+
         try
         {
             jmsConnectionExceptionHandler.setListener(registeredListener);
@@ -81,6 +89,9 @@ public class JMSAdapter implements AutoCloseable, IDrivingAdapter
     @Override
     public void register(Object object)
     {
+        if (simulateJMS) {
+            return;
+        }
         try {
             var messageListener = (MessageListener) (object);
             var jmsConfiguration = getConfiguration(object);
@@ -176,11 +187,6 @@ public class JMSAdapter implements AutoCloseable, IDrivingAdapter
         return connection;
     }
 
-    public List<MessageConsumer> getConsumerList()
-    {
-        return consumerList;
-    }
-
     private JMSConfiguration getConfiguration(Object object)
     {
         //Find method annotated with JMSConfiguration
@@ -214,6 +220,11 @@ public class JMSAdapter implements AutoCloseable, IDrivingAdapter
 
     private void initConnection()
     {
+        if (simulateJMS)
+        {
+            getLogger(JMSAdapter.class).warn("JMSAdapter is running in simulation mode -> No messages will be received");
+            return;
+        }
         try
         {
             connection = createConnection(properties);
@@ -240,6 +251,10 @@ public class JMSAdapter implements AutoCloseable, IDrivingAdapter
 
     private void validateProperties(Properties properties)
     {
+        if (simulateJMS)
+        {
+            return;
+        }
         if (!properties.containsKey(JMSProperties.JNDI_PROVIDER_URL_KEY))
         {
             throw new IllegalArgumentException("Property + " + JMSProperties.JNDI_PROVIDER_URL_KEY + " is missing ");
@@ -274,7 +289,7 @@ public class JMSAdapter implements AutoCloseable, IDrivingAdapter
 
         public void stopFailover()
         {
-            //NOTE: following code is taken from JavaDoc of ExecutorService
+            //NOTE: The following code is taken from JavaDoc of ExecutorService
             executorService.shutdown();
             try
             {
@@ -282,7 +297,7 @@ public class JMSAdapter implements AutoCloseable, IDrivingAdapter
                 if ( !executorService.awaitTermination(500, TimeUnit.MILLISECONDS) )
                 {
                     executorService.shutdownNow();
-                    // Wait a while for tasks to respond to being cancelled
+                    // Wait a while for tasks to respond to being canceled
                     if ( !executorService.awaitTermination(500, TimeUnit.MILLISECONDS))
                     {
                         getLogger(JMSConnectionExceptionHandler.class).error("stopFailover ExecutorService did not terminate.");
@@ -344,7 +359,8 @@ public class JMSAdapter implements AutoCloseable, IDrivingAdapter
                 .map(JMSConfiguration::destination).toArray()
         );
 
-        getLogger(ApplicationBanner.class).info("JMS Listening on  : {}", properties.getProperty(JMSProperties.JNDI_PROVIDER_URL_KEY));
+        var listeningOn = properties.getProperty(JMSProperties.JNDI_PROVIDER_URL_KEY);
+        getLogger(ApplicationBanner.class).info("JMS Listening on  : {}", listeningOn);
         getLogger(ApplicationBanner.class).info("   * JMS-Topics   : {}", topics);
         getLogger(ApplicationBanner.class).info("   * JMS-Queues   : {}", queues);
     }
