@@ -4,7 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## \[0.4.0] - 2023-12-09 (RC for release 1.0.0)
+## \[0.5.0] - 2023-12-10 (RC-2 for release 1.0.0)
+### Added 
+### Changed
+- adapter-api:
+  - This release is now part of this multi-maven project JexxaAdapters. The reason for this is that the number of changes should be small because we belong to standard APIs   
+  - The current version is based on jexxa-adapter-api which becomes now obsolete
+  - The artifactID changed from jexxa-adapter-api to adapter-api 
+  - To indicate this change, adapter-api starts with the same version number as Jexxa Adapters 
+
+### Added
+- Health checks   
+
+## \[0.4.0] - 2023-12-09 (RC-1 for release 1.0.0)
 ### Added
 - Added ApplicationBanner to show application-specific information at startup 
 
