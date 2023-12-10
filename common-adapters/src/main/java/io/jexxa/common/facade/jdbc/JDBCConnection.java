@@ -102,7 +102,7 @@ public class JDBCConnection implements AutoCloseable
         if (properties.containsKey(JDBCProperties.jdbcAutocreateDatabase()))
         {
             var splitURL = properties.getProperty(JDBCProperties.jdbcUrl()).split("/");
-            var dbName = splitURL[splitURL.length - 1].toLowerCase(Locale.ENGLISH); //last part of the URL is the name of the database (Note: Some DBs such as postgres require a name in lower case!)
+            var dbName = splitURL[splitURL.length - 1].toLowerCase(Locale.ENGLISH); //the last part of the URL is the name of the database (Note: Some DBs such as postgres require a name in lower case!)
 
             var creationProperties = new Properties();
             creationProperties.putAll(properties);

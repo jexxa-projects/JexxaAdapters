@@ -3,7 +3,7 @@ package io.jexxa.common.drivenadapter.persistence.objectstore;
 import java.util.List;
 
 /**
- * Interface to search numeric based meta tags
+ * Interface to search numeric-based meta tags
  * <p>
  * A note on NULL values:
  * <ol>
@@ -35,7 +35,8 @@ public interface INumericQuery<T, S >
     List<T> isGreaterThan(S value);
 
     /**
-     * get all values that fulfill:  {@code value <= endValue}. The returned list is in ascending
+     * Get all values that fulfill:  {@code value <= endValue}.
+     * The returned list is in ascending
      * order by numeric representation of used value.
      *
      * @param endValue value to be compared to
@@ -44,7 +45,8 @@ public interface INumericQuery<T, S >
     List<T> isLessOrEqualThan(S endValue);
 
     /**
-     * get all values that fulfill:  {@code value < endValue}. The returned list is in ascending
+     * Get all values that fulfill:  {@code value < endValue}.
+     * The returned list is in ascending
      * order by numeric representation of used value.
      *
      * @param endValue value to be compared to
@@ -105,11 +107,11 @@ public interface INumericQuery<T, S >
     List<T> getRange(S startValue, S endValue);
 
     /**
-     * Sorts the entries by S in ascending order and returns the defined amount of elements
+     * Sorts the entries by S in ascending order and returns the defined number of elements
      * @param amount specifies the number of recent added aggregates that should be returned.
      * @return list of elements limited by the given amount.
      *         If less than requested aggregates are managed, all aggregates are returned.
-     *         If the amount is &lt; 0 then an empty list ist returned
+     *         If the amount is &lt; 0 then an empty list is returned
      */
     List<T> getAscending(int amount);
 
@@ -120,11 +122,11 @@ public interface INumericQuery<T, S >
     List<T> getAscending();
 
     /**
-     * Sorts the entries by S in descending order and returns the defined amount of elements
+     * Sorts the entries by S in descending order and returns the defined number of elements
      * @param amount specifies the number of recent added aggregates that should be returned.
      * @return list of elements limited by the given amount.
      *         If less than requested aggregates are managed, all aggregates are returned.
-     *         If amount is &lt; 0 then an empty list ist returned
+     *         If the amount is &lt; 0 then an empty list is returned
      */
     List<T> getDescending(int amount);
 

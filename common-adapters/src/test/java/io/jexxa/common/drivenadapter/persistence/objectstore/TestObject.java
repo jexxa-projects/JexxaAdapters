@@ -51,7 +51,7 @@ public final class TestObject
         this.optionalValueObject = null;
     }
 
-    // Create a sequence of chars of alphabet 'A' .. 'Z', 'AA', ...
+    // Create a sequence of alphabet 'A' .. 'Z', 'AA', ...
     public static String createCharSequence(int n) {
         var counter = n;
         char[] buf = new char[(int) floor(log(25 * (counter + 1)) / log(26))];

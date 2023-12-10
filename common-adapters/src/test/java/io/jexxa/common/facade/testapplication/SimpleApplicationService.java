@@ -64,7 +64,7 @@ public class SimpleApplicationService
         return testEnum;
     }
 
-    @SuppressWarnings("DataFlowIssue") // Because this method should caus a NullPointerException for testing purpose
+    @SuppressWarnings("DataFlowIssue") // Because this method should cause a NullPointerException for testing purpose
     public int throwNullPointerException()   // Test runtime exception
     {
         TestValueObject testValueObject = null;
@@ -147,7 +147,7 @@ public class SimpleApplicationService
         this.recordList = recordList;
     }
 
-    /** The following static methods should NOT be offered by any DrivingAdapter according to our conventions  */
+    /** Any DrivingAdapter should NOT offer the following static methods according to our conventions  */
     public static SpecialCasesValueObject testStaticGetMethod()
     {
         throw new IllegalArgumentException("Method testStaticGetMethod should not be available or called" );

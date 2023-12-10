@@ -3,8 +3,9 @@ package io.jexxa.adapterapi.drivingadapter;
 /**
  * Generic interface that must be implemented by a DrivingAdapter
  * <p>
- * A driving adapter has internally provide following states:
- * CREATED: In this state is a newly created driving adapter. Following methods are allowed:
+ * A driving adapter has internally provided the following states:
+ * CREATED: In this state is a newly created driving adapter.
+ * The following methods are allowed:
  * - {@link #register(Object)} which performs no state change
  * - {@link #start()} which performs a state change into state STARTED
  * <p>
@@ -30,7 +31,7 @@ public interface IDrivingAdapter
 
     /**
      * Perform all operations that are required to deallocate resources and no longer offer registered objects.
-     * As soon as an object is stopped it is not required that it can be started again. 
+     * As soon as an object is stopped, it is not required that it can be started again.
      */
     void stop();
 

@@ -121,7 +121,7 @@ class IMDBRepositoryTest
         //act
         IMDBRepository.clear();
 
-        //Assert that repository is empty
+        //Assert that the repository is empty
         assertTrue( objectUnderTest.get().isEmpty() );
     }
 

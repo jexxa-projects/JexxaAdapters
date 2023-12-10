@@ -40,7 +40,7 @@ public interface JexxaInvocationHandler
     <T> void invoke(Object targetObject,SerializableConsumer<T> consumer, T argument);
 
     /**
-     * This method performs a method invocation on given supplier.
+     * This method performs a method invocation on a given supplier.
      *
      * @param targetObject to invoke method on
      * @param supplier functional interface to be executed
@@ -50,7 +50,7 @@ public interface JexxaInvocationHandler
     <T> T invoke(Object targetObject,SerializableSupplier<T> supplier);
 
     /**
-     * This method performs a method invocation on given function.
+     * This method performs a method invocation on a given function.
      *
      * @param targetObject to invoke method on
      * @param function functional interface to be executed

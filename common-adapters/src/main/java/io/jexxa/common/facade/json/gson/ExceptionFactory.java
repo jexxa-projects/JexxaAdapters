@@ -26,7 +26,7 @@ final class ExceptionFactory implements TypeAdapterFactory
     @SuppressWarnings("unchecked")
     public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> typeToken)
     {
-        // If the class that type token represents is a subclass of Base
+        // If the class that type token represents is a subclass of Exception,
         // then return your special adapter
         if(Exception.class.isAssignableFrom(typeToken.getRawType()))
         {

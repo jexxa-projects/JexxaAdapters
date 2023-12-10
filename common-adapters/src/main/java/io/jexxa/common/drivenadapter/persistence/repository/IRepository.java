@@ -44,7 +44,7 @@ public interface IRepository<T, K>
     /**
      * Returns the aggregate identified by given key.
      * @param key that identifies the aggregate
-     * @return Optional of aggregate. Optional is empty if no aggregate is found by given key.
+     * @return Optional of aggregate. Optional is empty if given key finds no aggregate.
      */
     Optional<T> get(K key);
 

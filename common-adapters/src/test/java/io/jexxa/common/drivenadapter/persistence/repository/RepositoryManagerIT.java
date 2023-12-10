@@ -88,7 +88,7 @@ class RepositoryManagerIT
         //Arrange: Define a JDBC connection in properties but also set a default strategy
         var postgresProperties = RepositoryConfig.postgresRepositoryConfig("jexxa");
 
-        RepositoryManager.setDefaultStrategy(IMDBRepository.class);  // Set a default strategy which is used in case no specific strategy is defines
+        RepositoryManager.setDefaultStrategy(IMDBRepository.class);  // Set a default strategy which is used in case no specific strategy is defined
 
         //Act
         RepositoryManager.setStrategy(JDBCKeyValueRepository.class, TestEntity.class );  // Set a specific strategy

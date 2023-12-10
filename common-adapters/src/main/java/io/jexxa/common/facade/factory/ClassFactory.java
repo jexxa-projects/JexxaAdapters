@@ -59,10 +59,10 @@ public final class ClassFactory
      * This method tries to create an instance of  {@code Class<T>} using a static factory method of given factory class information.
      * This method expects that the factory method does not need any parameters to create the new instance.
      *
-     * @param interfaceType Class information of return type of the factory method
+     * @param interfaceType Type of interface that must be implemented by the requested instance
      * @param factory class information providing the static factory method
      * @param <T> Type of the object to be created
-     * @return Optional including the instance of T or null if no factory method is found.
+     * @return Optional, including the instance of T or null if no factory method is found.
      * @throws ReflectiveOperationException in case of an error when creating the object.
      */
     public static <T> Optional<T> newInstanceOf(Class<T> interfaceType, Class<?> factory) throws ReflectiveOperationException
@@ -83,11 +83,11 @@ public final class ClassFactory
      * This method tries to create an instance of {@code Class<T>}using a static factory method of given factory class information.
      * This method expects that the factory method does not need any parameters to create the new instance.
      *
-     * @param interfaceType Class information of return type of the factory method
+     * @param interfaceType Type of interface that must be implemented by the requested instance
      * @param factory factory class information providing the static factory method
      * @param parameters array with parameters required by the factory method
      * @param <T> Type of the object to be created
-     * @return Optional including the instance of T or null if no factory method is found.
+     * @return Optional, including the instance of T or null if no factory method is found.
      * @throws ReflectiveOperationException in case of an error when creating the object.
      */
     public static <T> Optional<T> newInstanceOf(Class<T> interfaceType, Class<?> factory, Object[] parameters) throws ReflectiveOperationException
@@ -124,10 +124,11 @@ public final class ClassFactory
      * This method returns a constructor that can be used to create clazz with given parameters, even if constructor offers only interfaces
      * of given parameter.
      **
-     * @param clazz Class of object whose constructor is requested
+     * @param clazz Class of an object whose constructor is requested
      * @param parameter Object array with parameters the constructor must provide
      * @param <T> Type of the class whose constructor is requested
-     * @return An optional including constructor or an empty optional if no constructor is available that provides given parameter
+     * @return An optional including constructor or an empty optional if no constructor is available
+     * that provides the given parameter-argument
      */
     private static <T> Optional<Constructor<?>> getConstructor(Class<T> clazz, Object[] parameter)
     {

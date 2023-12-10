@@ -5,7 +5,7 @@ import io.jexxa.common.facade.jdbc.JDBCConnection;
 import io.jexxa.common.facade.jdbc.builder.SQLDataType;
 
 /**
- * IDatabase provides a uniform interface to database operations that are vendor specific.
+ * IDatabase provides a uniform interface to database operations that are vendor-specific.
  */
 public interface IDatabase
 {

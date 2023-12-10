@@ -61,7 +61,7 @@ public class JDBCCommand extends JDBCPreparedStatement
     }
 
     /**
-     * Just execute command. Return value of command is not processed
+     * Execute command. Return value of command is not processed
      */
     public void asIgnore( )
     {

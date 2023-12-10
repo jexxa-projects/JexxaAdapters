@@ -94,12 +94,12 @@ class JDBCKeyValueRepositoryIT
         objectUnderTest.add(aggregate);
         assertThrows(IllegalArgumentException.class, () -> objectUnderTest.add(aggregate));
 
-        //Exception if unknown key is removed
+        //Exception, if unknown key is removed
         var key = aggregate.getKey();
         objectUnderTest.remove(key);
         assertThrows(IllegalArgumentException.class, () -> objectUnderTest.remove(key));
 
-        //Exception if unknown aggregate ist updated
+        //Exception, if unknown aggregate ist updated
         assertThrows(IllegalArgumentException.class, () ->objectUnderTest.update(aggregate));
     }
 

@@ -73,11 +73,13 @@ class IStringQueryIT
                 .toList();
 
         // set internal int value to an ascending number
-        // the internal string is set to  A, B, ..., AA, AB, ...
+        // the internal string is set to A, B, ..., AA, AB, ...
         testData.forEach(element -> element.setInternalValue(element.getKey().getValue()));
 
-        testData.stream().limit(50).forEach(element -> element.setOptionalString(createCharSequence( element.getKey().getValue()))); // Set optional string in first 50 elements to A, B, ..., AA, AB, ...
-        testData.stream().limit(50).forEach( element -> element.setOptionalValue( element.getKey() )); // Set optional values in first 50 elements to 0, .. , 49
+        // Set optional string in the first 50 elements to A, B, ..., AA, AB, ...
+        testData.stream().limit(50).forEach(element -> element.setOptionalString(createCharSequence( element.getKey().getValue())));
+        // Set optional values in the first 50 elements to 0, ..., 49
+        testData.stream().limit(50).forEach( element -> element.setOptionalValue( element.getKey() ));
     }
 
 

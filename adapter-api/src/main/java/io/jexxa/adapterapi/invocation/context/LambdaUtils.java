@@ -49,7 +49,7 @@ final class LambdaUtils {
     }
 
     /**
-     * This method extracts the SerializedLambda from a functional interface. To ensure that this is available
+     * This method extracts the SerializedLambda from a functional interface. To ensure that this is available,
      * the functional interface must implement Serializable which ensures that method `writeReplace` is automatically
      * generated
      *

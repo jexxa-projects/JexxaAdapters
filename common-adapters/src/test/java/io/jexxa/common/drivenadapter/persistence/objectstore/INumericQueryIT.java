@@ -339,7 +339,8 @@ class INumericQueryIT
 
         //Assert
         assertEquals(expectedResult.size(), result.size());
-        assertEquals(expectedResult.stream().limit(50).toList(), result.stream().limit(50).toList());//We can only compare the order of values without null because there is no additional rule how to order NULLs
+        //We can only compare the order of values without a null because there is no additional rule how to order NULLs
+        assertEquals(expectedResult.stream().limit(50).toList(), result.stream().limit(50).toList());
     }
 
     @ParameterizedTest
@@ -361,7 +362,8 @@ class INumericQueryIT
 
         //Assert
         assertEquals(expectedResult.size(), result.size());
-        assertEquals(expectedResult.stream().limit(50).toList(), result.stream().limit(50).toList()); //We can only compare the order of values without null because there is no additional rule how to order NULLs
+        //We can only compare the order of values without a null because there is no additional rule how to order NULLs
+        assertEquals(expectedResult.stream().limit(50).toList(), result.stream().limit(50).toList());
     }
 
     @ParameterizedTest
