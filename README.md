@@ -3,15 +3,18 @@
 
 [![Maven Build](https://github.com/jexxa-projects/JexxaAdapters/actions/workflows/mavenBuild.yml/badge.svg)](https://github.com/jexxa-projects/JexxaAdapters/actions/workflows/mavenBuild.yml)
 [![CodeQL](https://github.com/jexxa-projects/JexxaAdapters/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/jexxa-projects/JexxaAdapters/actions/workflows/codeql-analysis.yml)
-# Common Adapters
+# Jexxa Adapters
 
-This library contains common technology adapters 
+This project contains common technology adapters 
 used by the [Jexxa](https://www.jexxa.io) and [JLegMed](https://github.com/jexxa-projects/JLegMed) framework. 
-These adapters are based on typical microservices and messaging patterns to simplify implementing microservices. Implemented patterns are: 
-* [Repository](https://martinfowler.com/eaaCatalog/repository.html) that isolates the data layer from the rest of the app on object/entity level 
-* [Transactional Outbox Pattern](https://microservices.io/patterns/data/transactional-outbox.html) to atomically update the database and send messages to a message broker when 2FC is not an option
-* [Idempotent Consumer](https://microservices.io/patterns/communication-style/idempotent-consumer.html) to handle duplicate messages correctly
-* Facade to Java JDBC and JMS API to simplify the implementation of additional adapters   
+These adapters are based on typical microservices and messaging patterns to simplify implementing microservices. 
+
+* `adapter-api`: This library provides a unified API for using adapters and is used by all following libraries 
+* `common-adapters`: This library provides the following microservice and messaging patterns: 
+  * [Repository](https://martinfowler.com/eaaCatalog/repository.html) that isolates the data layer from the rest of the app on object/entity level 
+  * [Transactional Outbox Pattern](https://microservices.io/patterns/data/transactional-outbox.html) to atomically update the database and send messages to a message broker when 2FC is not an option
+  * [Idempotent Consumer](https://microservices.io/patterns/communication-style/idempotent-consumer.html) to handle duplicate messages correctly
+  * Facade to Java JDBC and JMS API to simplify the implementation of additional adapters   
 
 
 ## Requirements
