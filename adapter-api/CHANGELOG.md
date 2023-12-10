@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## \[2.1.5] - 2022-04-26
 ### Changed
-- Minor and patch numbers of jexxa-adapter-api are now kept in sync with other jexxa-core. This should avoid confusions about compatible version numbers
+- Minor and patch numbers of jexxa-adapter-api are now kept in sync with another jexxa-core. This should avoid confusion about compatible version numbers
 
 ## \[2.1.0] - 2022-02-02
 ### Added
@@ -26,7 +26,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## \[2.0.0] - 2022-01-28
 ### Changed
--   Replaced `SynchronizationFacade` by `InvocationManager` which enables method invocation by an `InvocationHandler` 
+-   Replaced `SynchronizationFacade` by `InvocationManager` which enables method invocation by any `InvocationHandler` 
 
 ### New
 -   Introduced `Interceptor` to improve support of cross-cutting concerns such as logging, or monitoring    
