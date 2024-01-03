@@ -17,7 +17,7 @@ import static io.jexxa.common.facade.logger.SLF4jLogger.getLogger;
  * This listener implements the idempotent receiver. So this listener can safely receive the same message multiple times.
  * <p>
  * More information about this pattern can be found <a href="https://www.enterpriseintegrationpatterns.com/patterns/messaging/IdempotentReceiver.html"> here </a>
- * @param <T>
+ * @param <T> Type of the received message
  */
 public abstract class IdempotentListener<T> extends JSONMessageListener
 {
