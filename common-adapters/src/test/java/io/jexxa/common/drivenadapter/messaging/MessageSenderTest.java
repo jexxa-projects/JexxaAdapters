@@ -1,7 +1,5 @@
-package io.jexxa.common.drivenadapter.messaging.jms;
+package io.jexxa.common.drivenadapter.messaging;
 
-import io.jexxa.common.drivenadapter.messaging.DestinationType;
-import io.jexxa.common.drivenadapter.messaging.MessageSender;
 import io.jexxa.common.facade.testapplication.TestValueObject;
 import org.junit.jupiter.api.Test;
 
