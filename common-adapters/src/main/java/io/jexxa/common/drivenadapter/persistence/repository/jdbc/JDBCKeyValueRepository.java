@@ -176,7 +176,7 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
 
             command.asIgnore();
         }
-        catch (RuntimeException e)
+        catch (IllegalArgumentException e)
         {
             LOGGER.debug("Could not create table {} => Assume that table already exists", aggregateClazz.getSimpleName());
         }
