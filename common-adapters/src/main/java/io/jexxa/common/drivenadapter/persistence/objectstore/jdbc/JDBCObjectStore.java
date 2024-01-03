@@ -183,7 +183,7 @@ public class JDBCObjectStore<T,K, M extends Enum<M> & MetadataSchema> extends JD
                     .create()
                     .asIgnore();
         }
-        catch (RuntimeException e)
+        catch (IllegalArgumentException e)
         {
             LOGGER.debug("Could not create table {} => Assume that table already exists", aggregateClazz.getSimpleName());
         }
