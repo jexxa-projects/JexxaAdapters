@@ -20,5 +20,8 @@ public class PropertiesUtils {
         return subset;
     }
 
-    private PropertiesUtils(){}
+    private PropertiesUtils()
+    {
+        //Private constructor because class provides only static methods
+    }
 }
