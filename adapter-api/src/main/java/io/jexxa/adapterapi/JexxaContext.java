@@ -9,9 +9,9 @@ public class JexxaContext {
     private final List<Runnable> cleanupHandler = new ArrayList<>();
     private final List<Runnable> initHandler = new ArrayList<>();
 
-    public static void registerInitHandler(Runnable cleanupHandler)
+    public static void registerInitHandler(Runnable initHandler)
     {
-        INSTANCE.initHandler.add(cleanupHandler);
+        INSTANCE.initHandler.add(initHandler);
     }
 
     public static void registerCleanupHandler(Runnable cleanupHandler)
