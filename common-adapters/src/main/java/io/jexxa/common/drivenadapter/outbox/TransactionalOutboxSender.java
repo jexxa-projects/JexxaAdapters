@@ -9,6 +9,8 @@ import io.jexxa.common.drivenadapter.messaging.MessageSenderManager;
 import io.jexxa.common.drivenadapter.messaging.jms.JMSSender;
 import io.jexxa.common.drivenadapter.persistence.RepositoryManager;
 import io.jexxa.common.drivenadapter.persistence.repository.IRepository;
+import io.jexxa.common.drivenadapter.persistence.repository.imdb.IMDBRepository;
+import io.jexxa.common.facade.logger.SLF4jLogger;
 
 
 import java.util.Properties;
@@ -27,7 +29,6 @@ import static io.jexxa.common.facade.logger.SLF4jLogger.getLogger;
  * <br>
  * In the current implementation, we check each 300 ms if a new message is available that is then forwarded.
  */
-@SuppressWarnings("unused")
 public class TransactionalOutboxSender extends MessageSender {
     private static TransactionalOutboxSender transactionalOutboxSender;
     private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
@@ -35,6 +36,7 @@ public class TransactionalOutboxSender extends MessageSender {
     private final MessageSender messageSender;
 
 
+    @SuppressWarnings("unused") // used by manager
     public static MessageSender createInstance(Properties properties)
     {
         if (transactionalOutboxSender == null)
@@ -50,6 +52,11 @@ public class TransactionalOutboxSender extends MessageSender {
                 .getRepository(JexxaOutboxMessage.class
                         , JexxaOutboxMessage::messageId
                         , properties );
+
+        if (this.outboxRepository instanceof IMDBRepository<JexxaOutboxMessage, UUID>) {
+            SLF4jLogger.getLogger(TransactionalOutboxSender.class).warn("Your TransactionalOutboxSender uses an IMDBRepository for persisting unsent messages. This might be fine for testing purposes. In production environment define a JDBC connection for proper message resend.");
+        }
+
 
         MessageSenderManager.setStrategy(JMSSender.class, TransactionalOutboxSender.class); // Ensure that we get a JMSSender for internal sending
         this.messageSender = MessageSenderManager.getMessageSender(TransactionalOutboxSender.class, properties);
