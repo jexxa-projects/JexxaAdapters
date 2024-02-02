@@ -3,60 +3,20 @@ package io.jexxa.common.drivingadapter.messaging.jms.listener;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-import javax.jms.BytesMessage;
-import javax.jms.JMSException;
 import javax.jms.Message;
-import javax.jms.MessageListener;
-import javax.jms.TextMessage;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 import static io.jexxa.common.facade.json.JSONManager.getJSONConverter;
-import static io.jexxa.common.facade.logger.SLF4jLogger.getLogger;
 
 
 @SuppressWarnings("unused")
-public abstract class JSONMessageListener implements MessageListener
+public abstract class JSONMessageListener extends StringMessageListener
 {
     private Message currentMessage;
     private String currentMessageText;
 
-    public abstract void onMessage(String message);
-
-    @Override
-    public final void onMessage(Message message)
-    {
-        try
-        {
-            this.currentMessage = message;
-            if (message instanceof TextMessage)
-            {
-                TextMessage textMessage = (TextMessage)currentMessage;
-                this.currentMessageText = textMessage.getText();
-            } else if ( message instanceof BytesMessage) {
-                BytesMessage byteMessage = (BytesMessage) currentMessage;
-                byte[] payload = new byte[(int) byteMessage.getBodyLength()];
-                byteMessage.readBytes(payload);
-                this.currentMessageText = Arrays.toString(payload);
-            }
-
-            onMessage( currentMessageText );
-        }
-        catch (JMSException exception)
-        {
-            //In case of a JMS exception, we assume that data cannot be read due to some internal JMS issues and discard the message
-            getLogger(getClass()).error("Could not process received message as text or byte message -> Discard it. Reason: {}", exception.getMessage());
-        }
-        currentMessage = null;
-        currentMessageText = null;
-    }
-
-    protected final Message getCurrentMessage()
-    {
-        return currentMessage;
-    }
 
     protected static <U> U fromJson( String message, Class<U> clazz)
     {
