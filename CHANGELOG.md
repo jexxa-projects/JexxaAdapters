@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## \[1.1.0] - 2024-02-dd
+### Added
+* `JDBCConnection`: added methods to create SQL builder without prefix `create`
+* `JDBCConnection`: declared methods with `create` prefix as deprecated
+
 ## \[1.0.1] - 2024-01-04
 ### Fixed
 -  Updated dependencies
