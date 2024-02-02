@@ -26,13 +26,13 @@ class JDBCCommandIT
         {
 
             //arrange
-            var deleteAllRowsQuery = jdbcConnection.createCommand(JDBCTestDatabase.JDBCTestSchema.class)
+            var deleteAllRowsQuery = jdbcConnection.command(JDBCTestDatabase.JDBCTestSchema.class)
                     .deleteFrom(JDBCTestDatabase.class)
                     .where(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY).isNotEqual(JDBCTestDatabase.PRIMARY_KEY_WITH_NONNULL_VALUES)
                     .or(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY).isEqual(JDBCTestDatabase.PRIMARY_KEY_WITH_NONNULL_VALUES)
                     .create();
 
-            var validateNoEntriesQuery = jdbcConnection.createQuery(JDBCTestDatabase.JDBCTestSchema.class)
+            var validateNoEntriesQuery = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
                     .selectAll()
                     .from(JDBCTestDatabase.class)
                     .create();
@@ -54,14 +54,14 @@ class JDBCCommandIT
             //arrange
             String updatedString = "UpdatesString";
 
-            var updateQuery = jdbcConnection.createCommand(JDBCTestDatabase.JDBCTestSchema.class) //Simulate an equal statement
+            var updateQuery = jdbcConnection.command(JDBCTestDatabase.JDBCTestSchema.class) //Simulate an equal statement
                     .update(JDBCTestDatabase.class)
                     .set(JDBCTestDatabase.JDBCTestSchema.STRING_TYPE, new JDBCObject( updatedString, SQLDataType.TEXT ))
                     .where(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY).isGreaterOrEqual(JDBCTestDatabase.PRIMARY_KEY_WITH_NONNULL_VALUES)
                     .and(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY).isLessOrEqual(JDBCTestDatabase.PRIMARY_KEY_WITH_NONNULL_VALUES)
                     .create();
 
-            var validateUpdate = jdbcConnection.createQuery(JDBCTestDatabase.JDBCTestSchema.class)
+            var validateUpdate = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
                     .selectAll()
                     .from(JDBCTestDatabase.class)
                     .where(JDBCTestDatabase.JDBCTestSchema.STRING_TYPE).isEqual(updatedString)

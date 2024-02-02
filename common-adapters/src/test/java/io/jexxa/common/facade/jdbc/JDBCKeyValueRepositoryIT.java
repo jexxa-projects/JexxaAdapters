@@ -35,7 +35,7 @@ class JDBCKeyValueRepositoryIT
 
         try (JDBCConnection connection = new JDBCConnection(properties) )
         {
-            connection.createTableCommand(JDBCKeyValueRepository.KeyValueSchema.class)
+            connection.tableCommand(JDBCKeyValueRepository.KeyValueSchema.class)
                     .dropTableIfExists(TestEntity.class)
                     .asIgnore();
         }

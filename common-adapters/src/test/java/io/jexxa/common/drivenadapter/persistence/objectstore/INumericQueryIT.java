@@ -446,7 +446,7 @@ class INumericQueryIT
     {
         if (!properties.isEmpty()) {
             try (JDBCConnection jdbcConnection = new JDBCConnection(properties)) {
-                jdbcConnection.createTableCommand(TestObjectSchema.class)
+                jdbcConnection.tableCommand(TestObjectSchema.class)
                         .dropTableIfExists(TestObject.class)
                         .asIgnore();
 

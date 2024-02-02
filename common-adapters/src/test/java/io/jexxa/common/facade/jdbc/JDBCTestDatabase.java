@@ -57,7 +57,7 @@ public final class JDBCTestDatabase
 
     static void autocreateTable(JDBCConnection jdbcConnection)
     {
-        var createTableCommand = jdbcConnection.createTableCommand(JDBCTestSchema.class)
+        jdbcConnection.tableCommand(JDBCTestSchema.class)
                 .createTableIfNotExists(JDBCTestDatabase.class)
                 .addColumn(JDBCTestSchema.REPOSITORY_KEY, SQLDataType.INTEGER)
                 .addConstraint(JDBCTableBuilder.SQLConstraint.PRIMARY_KEY)
@@ -67,31 +67,31 @@ public final class JDBCTestDatabase
                 .addColumn(JDBCTestSchema.DOUBLE_TYPE, SQLDataType.DOUBLE)
                 .addColumn(JDBCTestSchema.STRING_TYPE, SQLDataType.TEXT)
                 .addColumn(JDBCTestSchema.TIMESTAMP_TYPE, SQLDataType.TIMESTAMP)
-                .create();
+                .create()
 
-        createTableCommand.asIgnore();
+                .asIgnore();
     }
 
     static void dropTable(JDBCConnection jdbcConnection)
     {
-        var dropTableCommand = jdbcConnection.createTableCommand(JDBCTestSchema.class).dropTableIfExists(JDBCTestDatabase.class);
+        var dropTableCommand = jdbcConnection.tableCommand(JDBCTestSchema.class).dropTableIfExists(JDBCTestDatabase.class);
 
         dropTableCommand.asIgnore();
     }
 
     static void insertTestData(JDBCConnection jdbcConnection)
     {
-        var insertNullValues = jdbcConnection.createCommand(JDBCTestSchema.class)
+        var insertNullValues = jdbcConnection.command(JDBCTestSchema.class)
                 .insertInto(JDBCTestDatabase.class)
                 .values(new Object[]{PRIMARY_KEY_WITH_NULL_VALUES, null, null, null, null, null, null} )
                 .create();
 
-        var insertNonNullValues = jdbcConnection.createCommand(JDBCTestSchema.class)
+        var insertNonNullValues = jdbcConnection.command(JDBCTestSchema.class)
                 .insertInto(JDBCTestDatabase.class)
                 .values(new Object[]{PRIMARY_KEY_WITH_NONNULL_VALUES, TEST_INT_VALUE, TEST_NUMERIC_VALUE, TEST_FLOAT_VALUE, TEST_DOUBLE_VALUE, TEST_STRING, TEST_TIMESTAMP})
                 .create();
 
-        var insertNonNullValuesDuplicate = jdbcConnection.createCommand(JDBCTestSchema.class)
+        var insertNonNullValuesDuplicate = jdbcConnection.command(JDBCTestSchema.class)
                 .insertInto(JDBCTestDatabase.class)
                 .values(new Object[]{PRIMARY_KEY_WITH_NONNULL_VALUES_DUPLICATE, TEST_INT_VALUE, TEST_NUMERIC_VALUE, TEST_FLOAT_VALUE, TEST_DOUBLE_VALUE, TEST_STRING,
                         TEST_TIMESTAMP})

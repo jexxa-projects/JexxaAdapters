@@ -41,7 +41,7 @@ class JDBCNumericQuery<T,S, M extends Enum<M> & MetadataSchema> extends JDBCObje
         var sqlStartValue = numericTag.getFromValue(startValue);
 
         var jdbcQuery = getConnection()
-                .createQuery(metaDataSchema)
+                .query(metaDataSchema)
                 .select( JDBCKeyValueRepository.KeyValueSchema.class, JDBCKeyValueRepository.KeyValueSchema.REPOSITORY_VALUE)
                 .from(aggregateClazz)
                 .where(nameOfRow)
@@ -58,7 +58,7 @@ class JDBCNumericQuery<T,S, M extends Enum<M> & MetadataSchema> extends JDBCObje
         var sqlStartValue = numericTag.getFromValue(value);
 
         var jdbcQuery = getConnection()
-                .createQuery(metaDataSchema)
+                .query(metaDataSchema)
                 .select( JDBCKeyValueRepository.KeyValueSchema.class, JDBCKeyValueRepository.KeyValueSchema.REPOSITORY_VALUE)
                 .from(aggregateClazz)
                 .where(nameOfRow)
@@ -76,7 +76,7 @@ class JDBCNumericQuery<T,S, M extends Enum<M> & MetadataSchema> extends JDBCObje
         var sqlEndValue = numericTag.getFromValue(endValue);
 
         var jdbcQuery = getConnection()
-                .createQuery(metaDataSchema)
+                .query(metaDataSchema)
                 .select( JDBCKeyValueRepository.KeyValueSchema.class, JDBCKeyValueRepository.KeyValueSchema.REPOSITORY_VALUE)
                 .from(aggregateClazz)
                 .where(nameOfRow)
@@ -97,7 +97,7 @@ class JDBCNumericQuery<T,S, M extends Enum<M> & MetadataSchema> extends JDBCObje
         var sqlEndValue = numericTag.getFromValue(endValue);
 
         var jdbcQuery = getConnection()
-                .createQuery(metaDataSchema)
+                .query(metaDataSchema)
                 .select( JDBCKeyValueRepository.KeyValueSchema.class, JDBCKeyValueRepository.KeyValueSchema.REPOSITORY_VALUE)
                 .from(aggregateClazz)
                 .where(nameOfRow)
@@ -118,7 +118,7 @@ class JDBCNumericQuery<T,S, M extends Enum<M> & MetadataSchema> extends JDBCObje
 
         //"select value from %s where %s <= %s",
         var jdbcQuery = getConnection()
-                .createQuery(metaDataSchema)
+                .query(metaDataSchema)
                 .select( JDBCKeyValueRepository.KeyValueSchema.class, JDBCKeyValueRepository.KeyValueSchema.REPOSITORY_VALUE)
                 .from(aggregateClazz)
                 .where(nameOfRow)
@@ -136,7 +136,7 @@ class JDBCNumericQuery<T,S, M extends Enum<M> & MetadataSchema> extends JDBCObje
 
         //"select value from %s where %s <= %s",
         var jdbcQuery = getConnection()
-                .createQuery(metaDataSchema)
+                .query(metaDataSchema)
                 .select( JDBCKeyValueRepository.KeyValueSchema.class, JDBCKeyValueRepository.KeyValueSchema.REPOSITORY_VALUE)
                 .from(aggregateClazz)
                 .where(nameOfRow)
@@ -152,7 +152,7 @@ class JDBCNumericQuery<T,S, M extends Enum<M> & MetadataSchema> extends JDBCObje
     {
         var sqlValue = numericTag.getFromValue(value);
         var jdbcQuery = getConnection()
-                .createQuery(metaDataSchema)
+                .query(metaDataSchema)
                 .select( JDBCKeyValueRepository.KeyValueSchema.class, JDBCKeyValueRepository.KeyValueSchema.REPOSITORY_VALUE)
                 .from(aggregateClazz)
                 .where(nameOfRow)
@@ -167,7 +167,7 @@ class JDBCNumericQuery<T,S, M extends Enum<M> & MetadataSchema> extends JDBCObje
     {
         var sqlValue = numericTag.getFromValue(value);
         var jdbcQuery = getConnection()
-                .createQuery(metaDataSchema)
+                .query(metaDataSchema)
                 .select( JDBCKeyValueRepository.KeyValueSchema.class, JDBCKeyValueRepository.KeyValueSchema.REPOSITORY_VALUE)
                 .from(aggregateClazz)
                 .where(nameOfRow)

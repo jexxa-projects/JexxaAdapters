@@ -117,7 +117,7 @@ class TestAggregateRepositoryImplIT
     private void dropTable(Properties properties)
     {
         try (JDBCConnection connection = new JDBCConnection(properties) ) {
-            connection.createTableCommand(JDBCKeyValueRepository.KeyValueSchema.class)
+            connection.tableCommand(JDBCKeyValueRepository.KeyValueSchema.class)
                     .dropTableIfExists(TestAggregate.class)
                     .asIgnore();
         }

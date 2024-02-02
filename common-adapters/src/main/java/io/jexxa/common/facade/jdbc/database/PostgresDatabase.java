@@ -26,7 +26,7 @@ public class PostgresDatabase extends GenericSQLDatabase
     @Override
     public  void alterColumnType(JDBCConnection jdbcConnection, Class<?> tableName, String columnName, SQLDataType sqlDataType)
     {
-        var keyRow = jdbcConnection.createTableCommand()
+        var keyRow = jdbcConnection.tableCommand()
                 .alterTable(tableName)
                 .alterColumn(columnName, sqlDataType, " USING " + columnName + "::" + sqlDataType)
                 .create();

@@ -62,7 +62,7 @@ public class GenericSQLDatabase implements IDatabase
     @Override
     public void alterColumnType(JDBCConnection jdbcConnection, Class<?> tableName, String columnName, SQLDataType sqlDataType)
     {
-        jdbcConnection.createTableCommand()
+        jdbcConnection.tableCommand()
                 .alterTable(tableName)
                 .alterColumn(columnName, sqlDataType)
                 .create()

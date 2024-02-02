@@ -67,7 +67,7 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
         Objects.requireNonNull(key);
         var jdbcKey = new JDBCObject(getJSONConverter().toJson(key), database.matchingValue(JSONB));
 
-        var command = getConnection().createCommand(KeyValueSchema.class)
+        var command = getConnection().command(KeyValueSchema.class)
                 .deleteFrom(aggregateClazz)
                 .where(KeyValueSchema.REPOSITORY_KEY)
                 .isEqual(jdbcKey)
@@ -79,7 +79,7 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
     @Override
     public void removeAll()
     {
-        var command = getConnection().createCommand(KeyValueSchema.class)
+        var command = getConnection().command(KeyValueSchema.class)
                 .deleteFrom(aggregateClazz)
                 .create();
 
@@ -91,7 +91,7 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
     {
         Objects.requireNonNull(aggregate);
 
-        var command = getConnection().createCommand(KeyValueSchema.class)
+        var command = getConnection().command(KeyValueSchema.class)
                 .insertInto(aggregateClazz)
                 .values(new JDBCObject[]{
                         primaryKeyToJSONB(keyFunction.apply(aggregate)),
@@ -108,7 +108,7 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
     {
         Objects.requireNonNull(aggregate);
 
-        var command = getConnection().createCommand(KeyValueSchema.class)
+        var command = getConnection().command(KeyValueSchema.class)
                 .update(aggregateClazz)
                 .set(KeyValueSchema.REPOSITORY_VALUE, valueToJSONB(aggregate))
                 .where(KeyValueSchema.REPOSITORY_KEY)
@@ -123,7 +123,7 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
     {
         Objects.requireNonNull(primaryKey);
 
-        var query = getConnection().createQuery(KeyValueSchema.class)
+        var query = getConnection().query(KeyValueSchema.class)
                 .select(KeyValueSchema.REPOSITORY_VALUE)
                 .from(aggregateClazz)
                 .where(KeyValueSchema.REPOSITORY_KEY)
@@ -141,7 +141,7 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
     @Override
     public List<T> get()
     {
-        var query = getConnection().createQuery(KeyValueSchema.class)
+        var query = getConnection().query(KeyValueSchema.class)
                 .select(KeyValueSchema.REPOSITORY_VALUE)
                 .from(aggregateClazz)
                 .create();
@@ -167,7 +167,7 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
     {
         try{
 
-            var command = getConnection().createTableCommand(KeyValueSchema.class)
+            var command = getConnection().tableCommand(KeyValueSchema.class)
                     .createTableIfNotExists(aggregateClazz)
                     .addColumn(KeyValueSchema.REPOSITORY_KEY, database.matchingPrimaryKey(JSONB))
                     .addConstraint(PRIMARY_KEY)

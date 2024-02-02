@@ -34,7 +34,7 @@ class JDBCQueryIT
         //Arrange
         jdbcConnection = JDBCTestDatabase.setupDatabase(properties);
 
-        var querySelectOr = jdbcConnection.createQuery(JDBCTestDatabase.JDBCTestSchema.class)
+        var querySelectOr = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
                 .select(JDBCTestDatabase.JDBCTestSchema.STRING_TYPE)
                 .from(JDBCTestDatabase.class)
                 .where(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY).isEqual(JDBCTestDatabase.PRIMARY_KEY_WITH_NONNULL_VALUES)
@@ -53,7 +53,7 @@ class JDBCQueryIT
         //Arrange
         jdbcConnection = JDBCTestDatabase.setupDatabase(properties);
 
-        var querySelectAnd = jdbcConnection.createQuery(JDBCTestDatabase.JDBCTestSchema.class)
+        var querySelectAnd = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
                 .select(JDBCTestDatabase.JDBCTestSchema.STRING_TYPE)
                 .from(JDBCTestDatabase.class)
                 .where(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY).isEqual(JDBCTestDatabase.PRIMARY_KEY_WITH_NONNULL_VALUES)
@@ -72,7 +72,7 @@ class JDBCQueryIT
         //Arrange
         jdbcConnection = JDBCTestDatabase.setupDatabase(properties);
 
-        var queryMultiSelect = jdbcConnection.createQuery(JDBCTestDatabase.JDBCTestSchema.class)
+        var queryMultiSelect = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
                 .select(JDBCTestDatabase.JDBCTestSchema.STRING_TYPE, JDBCTestDatabase.JDBCTestSchema.INTEGER_TYPE)
                 .from(JDBCTestDatabase.class)
                 .where(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY)
@@ -91,7 +91,7 @@ class JDBCQueryIT
         //Arrange
         jdbcConnection = JDBCTestDatabase.setupDatabase(properties);
 
-        var querySelectAll = jdbcConnection.createQuery(JDBCTestDatabase.JDBCTestSchema.class)
+        var querySelectAll = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
                 .selectAll()
                 .from(JDBCTestDatabase.class)
                 .where(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY)
@@ -112,7 +112,7 @@ class JDBCQueryIT
         //Arrange
         jdbcConnection = JDBCTestDatabase.setupDatabase(properties);
 
-        var querySelectAll = jdbcConnection.createQuery(JDBCTestDatabase.JDBCTestSchema.class)
+        var querySelectAll = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
                 .selectCount()
                 .from(JDBCTestDatabase.class)
                 .create();
@@ -131,7 +131,7 @@ class JDBCQueryIT
         //Arrange
         jdbcConnection = JDBCTestDatabase.setupDatabase(properties);
 
-        var querySelectAll = jdbcConnection.createQuery(JDBCTestDatabase.JDBCTestSchema.class)
+        var querySelectAll = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
                 .selectCount(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY)
                 .from(JDBCTestDatabase.class)
                 .create();
@@ -149,13 +149,13 @@ class JDBCQueryIT
     {
         //Arrange
         jdbcConnection = JDBCTestDatabase.setupDatabase(properties);
-        var command = jdbcConnection.createCommand(JDBCTestDatabase.JDBCTestSchema.class)
+        var command = jdbcConnection.command(JDBCTestDatabase.JDBCTestSchema.class)
                 .deleteFrom(JDBCTestDatabase.class)
                 .create();
 
         command.asIgnore();
 
-        var querySelectAll = jdbcConnection.createQuery(JDBCTestDatabase.JDBCTestSchema.class)
+        var querySelectAll = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
                 .selectCount()
                 .from(JDBCTestDatabase.class)
                 .create();
@@ -174,7 +174,7 @@ class JDBCQueryIT
         //Arrange
         jdbcConnection = JDBCTestDatabase.setupDatabase(properties);
 
-        var querySelectAsc = jdbcConnection.createQuery(JDBCTestDatabase.JDBCTestSchema.class)
+        var querySelectAsc = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
                 .select(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY)
                 .from(JDBCTestDatabase.class)
                 .orderBy(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY, SQLOrder.ASC)
@@ -197,7 +197,7 @@ class JDBCQueryIT
         //Arrange
         jdbcConnection = JDBCTestDatabase.setupDatabase(properties);
 
-        var querySelectDesc = jdbcConnection.createQuery(JDBCTestDatabase.JDBCTestSchema.class)
+        var querySelectDesc = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
                 .select(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY)
                 .from(JDBCTestDatabase.class)
                 .orderBy(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY, SQLOrder.DESC)

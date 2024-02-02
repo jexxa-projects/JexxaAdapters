@@ -45,7 +45,7 @@ class JDBCObjectQuery <T, S, M extends Enum<M> & MetadataSchema>
     public List<T> getAscending(int amount)
     {
         var jdbcQuery = jdbcConnection.get()
-                .createQuery(metaData)
+                .query(metaData)
                 .select( JDBCKeyValueRepository.KeyValueSchema.class, JDBCKeyValueRepository.KeyValueSchema.REPOSITORY_VALUE)
                 .from(aggregateClazz)
                 .orderBy(nameOfRow, SQLOrder.ASC_NULLS_LAST)
@@ -58,7 +58,7 @@ class JDBCObjectQuery <T, S, M extends Enum<M> & MetadataSchema>
     public List<T> getAscending()
     {
         var jdbcQuery = jdbcConnection.get()
-                .createQuery(metaData)
+                .query(metaData)
                 .select( JDBCKeyValueRepository.KeyValueSchema.class, JDBCKeyValueRepository.KeyValueSchema.REPOSITORY_VALUE)
                 .from(aggregateClazz)
                 .orderBy(nameOfRow, SQLOrder.ASC_NULLS_LAST)
@@ -70,7 +70,7 @@ class JDBCObjectQuery <T, S, M extends Enum<M> & MetadataSchema>
     public List<T> getDescending(int amount)
     {
         var jdbcQuery = jdbcConnection.get()
-                .createQuery(metaData)
+                .query(metaData)
                 .select( JDBCKeyValueRepository.KeyValueSchema.class, JDBCKeyValueRepository.KeyValueSchema.REPOSITORY_VALUE)
                 .from(aggregateClazz)
                 .orderBy(nameOfRow, SQLOrder.DESC_NULLS_LAST)
@@ -83,7 +83,7 @@ class JDBCObjectQuery <T, S, M extends Enum<M> & MetadataSchema>
     public List<T> getDescending()
     {
         var jdbcQuery = jdbcConnection.get()
-                .createQuery(metaData)
+                .query(metaData)
                 .select( JDBCKeyValueRepository.KeyValueSchema.class, JDBCKeyValueRepository.KeyValueSchema.REPOSITORY_VALUE)
                 .from(aggregateClazz)
                 .orderBy(nameOfRow, SQLOrder.DESC_NULLS_LAST)
@@ -95,7 +95,7 @@ class JDBCObjectQuery <T, S, M extends Enum<M> & MetadataSchema>
     public List<T> isNull()
     {
         var jdbcQuery = jdbcConnection.get()
-                .createQuery(metaData)
+                .query(metaData)
                 .select( JDBCKeyValueRepository.KeyValueSchema.class, JDBCKeyValueRepository.KeyValueSchema.REPOSITORY_VALUE)
                 .from(aggregateClazz)
                 .where(nameOfRow)
@@ -108,7 +108,7 @@ class JDBCObjectQuery <T, S, M extends Enum<M> & MetadataSchema>
     public List<T> isNotNull()
     {
         var jdbcQuery = jdbcConnection.get()
-                .createQuery(metaData)
+                .query(metaData)
                 .select( JDBCKeyValueRepository.KeyValueSchema.class, JDBCKeyValueRepository.KeyValueSchema.REPOSITORY_VALUE)
                 .from(aggregateClazz)
                 .where(nameOfRow)

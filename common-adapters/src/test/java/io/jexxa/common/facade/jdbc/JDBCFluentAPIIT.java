@@ -159,42 +159,42 @@ class JDBCFluentAPIIT
 
     private void createQueriesForNullValues()
     {
-        queryNullInteger = jdbcConnection.createQuery(JDBCTestDatabase.JDBCTestSchema.class)
+        queryNullInteger = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
                 .select(JDBCTestDatabase.JDBCTestSchema.INTEGER_TYPE)
                 .from(JDBCTestDatabase.class)
                 .where(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY)
                 .isEqual(JDBCTestDatabase.PRIMARY_KEY_WITH_NULL_VALUES)
                 .create();
 
-        queryNullNumeric = jdbcConnection.createQuery(JDBCTestDatabase.JDBCTestSchema.class)
+        queryNullNumeric = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
                 .select(JDBCTestDatabase.JDBCTestSchema.NUMERIC_TYPE)
                 .from(JDBCTestDatabase.class)
                 .where(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY)
                 .isEqual(JDBCTestDatabase.PRIMARY_KEY_WITH_NULL_VALUES)
                 .create();
 
-        queryNullFloat = jdbcConnection.createQuery(JDBCTestDatabase.JDBCTestSchema.class)
+        queryNullFloat = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
                 .select(JDBCTestDatabase.JDBCTestSchema.FLOAT_TYPE)
                 .from(JDBCTestDatabase.class)
                 .where(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY)
                 .isEqual(JDBCTestDatabase.PRIMARY_KEY_WITH_NULL_VALUES)
                 .create();
 
-        queryNullDouble = jdbcConnection.createQuery(JDBCTestDatabase.JDBCTestSchema.class)
+        queryNullDouble = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
                 .select(JDBCTestDatabase.JDBCTestSchema.DOUBLE_TYPE)
                 .from(JDBCTestDatabase.class)
                 .where(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY)
                 .isEqual(JDBCTestDatabase.PRIMARY_KEY_WITH_NULL_VALUES)
                 .create();
 
-        queryNullString = jdbcConnection.createQuery(JDBCTestDatabase.JDBCTestSchema.class)
+        queryNullString = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
                 .select(JDBCTestDatabase.JDBCTestSchema.STRING_TYPE)
                 .from(JDBCTestDatabase.class)
                 .where(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY)
                 .isEqual(JDBCTestDatabase.PRIMARY_KEY_WITH_NULL_VALUES)
                 .create();
 
-        queryNullTimestamp = jdbcConnection.createQuery(JDBCTestDatabase.JDBCTestSchema.class)
+        queryNullTimestamp = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
                 .select(JDBCTestDatabase.JDBCTestSchema.TIMESTAMP_TYPE)
                 .from(JDBCTestDatabase.class)
                 .where(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY)
@@ -204,42 +204,42 @@ class JDBCFluentAPIIT
 
     private void createQueriesForNonNullValues()
     {
-        queryNonNullInteger = jdbcConnection.createQuery(JDBCTestDatabase.JDBCTestSchema.class)
+        queryNonNullInteger = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
                 .select(JDBCTestDatabase.JDBCTestSchema.INTEGER_TYPE)
                 .from(JDBCTestDatabase.class)
                 .where(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY)
                 .isEqual(JDBCTestDatabase.PRIMARY_KEY_WITH_NONNULL_VALUES)
                 .create();
 
-        queryNonNullNumeric = jdbcConnection.createQuery(JDBCTestDatabase.JDBCTestSchema.class)
+        queryNonNullNumeric = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
                 .select(JDBCTestDatabase.JDBCTestSchema.NUMERIC_TYPE)
                 .from(JDBCTestDatabase.class)
                 .where(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY)
                 .isEqual(JDBCTestDatabase.PRIMARY_KEY_WITH_NONNULL_VALUES)
                 .create();
 
-        queryNonNullFloat = jdbcConnection.createQuery(JDBCTestDatabase.JDBCTestSchema.class)
+        queryNonNullFloat = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
                 .select(JDBCTestDatabase.JDBCTestSchema.FLOAT_TYPE)
                 .from(JDBCTestDatabase.class)
                 .where(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY)
                 .isEqual(JDBCTestDatabase.PRIMARY_KEY_WITH_NONNULL_VALUES)
                 .create();
 
-        queryNonNullDouble = jdbcConnection.createQuery(JDBCTestDatabase.JDBCTestSchema.class)
+        queryNonNullDouble = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
                 .select(JDBCTestDatabase.JDBCTestSchema.DOUBLE_TYPE)
                 .from(JDBCTestDatabase.class)
                 .where(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY)
                 .isEqual(JDBCTestDatabase.PRIMARY_KEY_WITH_NONNULL_VALUES)
                 .create();
 
-        queryNonNullString = jdbcConnection.createQuery(JDBCTestDatabase.JDBCTestSchema.class)
+        queryNonNullString = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
                 .select(JDBCTestDatabase.JDBCTestSchema.STRING_TYPE)
                 .from(JDBCTestDatabase.class)
                 .where(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY)
                 .isEqual(JDBCTestDatabase.PRIMARY_KEY_WITH_NONNULL_VALUES)
                 .create();
 
-        queryNonNullTimestamp = jdbcConnection.createQuery(JDBCTestDatabase.JDBCTestSchema.class)
+        queryNonNullTimestamp = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
                 .select(JDBCTestDatabase.JDBCTestSchema.TIMESTAMP_TYPE)
                 .from(JDBCTestDatabase.class)
                 .where(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY)
@@ -248,14 +248,14 @@ class JDBCFluentAPIIT
     }
     private void createQueriesForEmptyValues()
     {
-        queryNotAvailableInteger = jdbcConnection.createQuery(JDBCTestDatabase.JDBCTestSchema.class)
+        queryNotAvailableInteger = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
                 .select(JDBCTestDatabase.JDBCTestSchema.INTEGER_TYPE)
                 .from(JDBCTestDatabase.class)
                 .where(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY)
                 .isEqual(JDBCTestDatabase.PRIMARY_KEY_VALUES_NOT_PRESENT)
                 .create();
 
-        queryNotAvailableString = jdbcConnection.createQuery(JDBCTestDatabase.JDBCTestSchema.class)
+        queryNotAvailableString = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
                 .select(JDBCTestDatabase.JDBCTestSchema.STRING_TYPE)
                 .from(JDBCTestDatabase.class)
                 .where(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY)

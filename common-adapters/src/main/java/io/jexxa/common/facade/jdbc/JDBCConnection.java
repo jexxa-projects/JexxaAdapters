@@ -128,7 +128,7 @@ public class JDBCConnection implements AutoCloseable
         }
     }
 
-    @SuppressWarnings("java:S2139") // Here we log and rethrow an exception in order to document that we tried to handle a connection failure without success and must give up
+    @SuppressWarnings("java:S2139") // Here we log and rethrow an exception to document that we tried to handle a connection failure without success and must give up
     public final JDBCConnection validateConnection()
     {
         try
@@ -192,6 +192,12 @@ public class JDBCConnection implements AutoCloseable
         }
     }
 
+    /**
+     * @deprecated use {@link #query}
+     * @since 1.1.0
+     */
+    @Deprecated(forRemoval = true)
+
     @SuppressWarnings("java:S1172")
     public <T extends Enum<T>> JDBCQueryBuilder<T> createQuery(Class<T> schema)
     {
@@ -199,24 +205,73 @@ public class JDBCConnection implements AutoCloseable
         return new JDBCQueryBuilder<>(this::validateConnection);
     }
 
+    @SuppressWarnings("java:S1172")
+    public <T extends Enum<T>> JDBCQueryBuilder<T> query(Class<T> schema)
+    {
+        Objects.requireNonNull(schema);
+        return new JDBCQueryBuilder<>(this::validateConnection);
+    }
+    /**
+     * @deprecated use {@link #command}
+     * @since 1.1.0
+     */
+    @Deprecated(forRemoval = true)
+
     public <T extends Enum<T>> JDBCCommandBuilder<T> createCommand(Class<T> schema)
     {
         Objects.requireNonNull(schema);
         return new JDBCCommandBuilder<>(this::validateConnection);
     }
 
+    public <T extends Enum<T>> JDBCCommandBuilder<T> command(Class<T> schema)
+    {
+        Objects.requireNonNull(schema);
+        return new JDBCCommandBuilder<>(this::validateConnection);
+    }
+    public <T extends Enum<T>> JDBCCommandBuilder<T> command()
+    {
+        return new JDBCCommandBuilder<>(this::validateConnection);
+    }
+
+    /**
+     * @deprecated use {@link #command}
+     * @since 1.1.0
+     */
+    @Deprecated(forRemoval = true)
     public <T extends Enum<T>> JDBCCommandBuilder<T> createCommand()
     {
         return new JDBCCommandBuilder<>(this::validateConnection);
     }
 
-    public <T extends Enum<T>> JDBCTableBuilder<T> createTableCommand(Class<T> schema)
+    public <T extends Enum<T>> JDBCTableBuilder<T> tableCommand(Class<T> schema)
     {
         Objects.requireNonNull(schema);
         return new JDBCTableBuilder<>(this::validateConnection);
     }
 
     @SuppressWarnings("java:S1452")
+    public JDBCTableBuilder<?> tableCommand()
+    {
+        return new JDBCTableBuilder<>(this::validateConnection);
+    }
+
+
+    /**
+     * @deprecated use {@link #tableCommand}
+     * @since 1.1.0
+     */
+    @Deprecated(forRemoval = true)
+    public <T extends Enum<T>> JDBCTableBuilder<T> createTableCommand(Class<T> schema)
+    {
+        return tableCommand(schema);
+    }
+
+    /**
+     * @deprecated use {@link #tableCommand}
+     * @since 1.1.0
+     */
+    @SuppressWarnings("java:S1452")
+    @Deprecated(forRemoval = true)
     public JDBCTableBuilder<?> createTableCommand()
     {
         return new JDBCTableBuilder<>(this::validateConnection);

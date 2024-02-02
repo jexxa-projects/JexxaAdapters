@@ -43,7 +43,7 @@ public class JDBCStringQuery <T, S, M extends Enum<M> & MetadataSchema> extends 
         var sqlStartValue = stringMetaTag.getFromValue(value) + "%";
 
         var jdbcQuery = getConnection()
-                .createQuery(metaData)
+                .query(metaData)
                 .select( JDBCKeyValueRepository.KeyValueSchema.class, JDBCKeyValueRepository.KeyValueSchema.REPOSITORY_VALUE)
                 .from(aggregateClazz)
                 .where(nameOfRow)
@@ -60,7 +60,7 @@ public class JDBCStringQuery <T, S, M extends Enum<M> & MetadataSchema> extends 
         var sqlEndValue = "%" + stringMetaTag.getFromValue(value);
 
         var jdbcQuery = getConnection()
-                .createQuery(metaData)
+                .query(metaData)
                 .select( JDBCKeyValueRepository.KeyValueSchema.class, JDBCKeyValueRepository.KeyValueSchema.REPOSITORY_VALUE)
                 .from(aggregateClazz)
                 .where(nameOfRow)
@@ -77,7 +77,7 @@ public class JDBCStringQuery <T, S, M extends Enum<M> & MetadataSchema> extends 
         var sqlIncludeValue = "%" + stringMetaTag.getFromValue(value) + "%";
 
         var jdbcQuery = getConnection()
-                .createQuery(metaData)
+                .query(metaData)
                 .select( JDBCKeyValueRepository.KeyValueSchema.class, JDBCKeyValueRepository.KeyValueSchema.REPOSITORY_VALUE)
                 .from(aggregateClazz)
                 .where(nameOfRow)
@@ -94,7 +94,7 @@ public class JDBCStringQuery <T, S, M extends Enum<M> & MetadataSchema> extends 
         var sqlEqualValue = stringMetaTag.getFromValue(value) ;
 
         var jdbcQuery = getConnection()
-                .createQuery(metaData)
+                .query(metaData)
                 .select( JDBCKeyValueRepository.KeyValueSchema.class, JDBCKeyValueRepository.KeyValueSchema.REPOSITORY_VALUE)
                 .from(aggregateClazz)
                 .where(nameOfRow)
@@ -111,7 +111,7 @@ public class JDBCStringQuery <T, S, M extends Enum<M> & MetadataSchema> extends 
         var sqlIncludeValue = "%" + stringMetaTag.getFromValue(value) + "%";
 
         var jdbcQuery = getConnection()
-                .createQuery(metaData)
+                .query(metaData)
                 .select( JDBCKeyValueRepository.KeyValueSchema.class, JDBCKeyValueRepository.KeyValueSchema.REPOSITORY_VALUE)
                 .from(aggregateClazz)
                 .where(nameOfRow)
