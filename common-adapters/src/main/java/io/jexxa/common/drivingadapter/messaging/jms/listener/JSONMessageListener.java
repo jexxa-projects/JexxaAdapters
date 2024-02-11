@@ -3,7 +3,6 @@ package io.jexxa.common.drivingadapter.messaging.jms.listener;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-import javax.jms.Message;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -14,10 +13,6 @@ import static io.jexxa.common.facade.json.JSONManager.getJSONConverter;
 @SuppressWarnings("unused")
 public abstract class JSONMessageListener extends StringMessageListener
 {
-    private Message currentMessage;
-    private String currentMessageText;
-
-
     protected static <U> U fromJson( String message, Class<U> clazz)
     {
         return getJSONConverter().fromJson( message, clazz);
@@ -25,7 +20,7 @@ public abstract class JSONMessageListener extends StringMessageListener
 
     protected boolean messageContains(String attribute)
     {
-        var jsonElement = JsonParser.parseString(currentMessageText);
+        var jsonElement = JsonParser.parseString(getCurrentTextMessage());
         return deepSearchKeys(jsonElement, attribute)
                 .stream()
                 .findFirst()
@@ -34,7 +29,7 @@ public abstract class JSONMessageListener extends StringMessageListener
 
     protected <U> U getFromMessage(String key, Class<U> clazz)
     {
-        var jsonElement = JsonParser.parseString(currentMessageText);
+        var jsonElement = JsonParser.parseString(getCurrentTextMessage());
 
         var result = deepSearchKeys( jsonElement, key )
                 .stream()

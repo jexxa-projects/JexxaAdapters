@@ -50,6 +50,10 @@ public abstract class StringMessageListener implements MessageListener
     {
         return currentMessage;
     }
+    protected final String getCurrentTextMessage()
+    {
+        return currentMessageText;
+    }
 
 }
 
