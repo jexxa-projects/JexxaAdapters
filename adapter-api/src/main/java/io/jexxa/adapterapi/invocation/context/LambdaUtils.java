@@ -26,6 +26,18 @@ final class LambdaUtils {
         WRAPPER_TYPE_MAP.put(Void.class, void.class);
     }
 
+    @SuppressWarnings("java:S3011") //required for setAccessible(true)
+    public static String methodNameFromLambda(Serializable lambda) {
+        try {
+            Method lambdaMethod = lambda.getClass().getDeclaredMethod("writeReplace");
+            lambdaMethod.setAccessible(true);
+            SerializedLambda serializedLambda = (SerializedLambda) lambdaMethod.invoke(lambda);
+            return serializedLambda.getImplMethodName();
+        } catch (ReflectiveOperationException ex) {
+            return "unknownMethodName";
+        }
+    }
+
     static  <T extends Serializable> Method getImplMethod(Object targetObject, T functionalInterface, Class<?>[] argTypes)
     {
         try {
