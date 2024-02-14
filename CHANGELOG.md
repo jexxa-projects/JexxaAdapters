@@ -5,10 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## \[1.1.0] - 2024-02-dd
+## \[1.1.0] - 2024-02-14
 ### Added
-* `JDBCConnection`: added methods to create SQL builder without prefix `create`
-* `JDBCConnection`: declared methods with `create` prefix as deprecated
+* JDBC-Adapters:
+  * `JDBCConnection`: added methods to create SQL builder without prefix `create`
+  * `JDBCConnection`: declared methods with `create` prefix as deprecated
+* JMS-Adapters:
+  * `TextMessageListener`: Added listener class that converts content of byte and text messages into a string  
 
 ## \[1.0.1] - 2024-01-04
 ### Fixed
