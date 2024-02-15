@@ -2,6 +2,7 @@ package io.jexxa.common.facade.utils.function;
 
 import org.slf4j.Logger;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.function.Consumer;
 
@@ -24,7 +25,7 @@ import java.util.function.Consumer;
  * @param <E> Type of the exception
  */
 @FunctionalInterface
-public interface ThrowingConsumer<T, E extends Exception> {
+public interface ThrowingConsumer<T, E extends Exception> extends Serializable {
     void accept(T t) throws E;
 
 

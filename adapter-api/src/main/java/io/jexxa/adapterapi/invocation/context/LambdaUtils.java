@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-final class LambdaUtils {
+public final class LambdaUtils {
 
 
     private static final Map<Class<?>, Class<?>> WRAPPER_TYPE_MAP;
