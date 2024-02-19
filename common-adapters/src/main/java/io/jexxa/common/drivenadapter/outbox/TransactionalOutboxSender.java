@@ -140,13 +140,17 @@ public class TransactionalOutboxSender extends MessageSender {
     {
         outboxRepository.get().stream()
             .filter(outboxMessage -> outboxMessage.destinationType.equals(DestinationType.QUEUE))
-            .forEach(this::sendToQueue);
+            .forEach(outboxMessage -> {
+                sendToQueue(outboxMessage);
+                outboxRepository.remove(outboxMessage.messageId());
+            });
 
         outboxRepository.get().stream()
             .filter(outboxMessage -> outboxMessage.destinationType.equals(DestinationType.TOPIC))
-            .forEach(this::sendToTopic);
-
-        outboxRepository.removeAll();
+            .forEach(outboxMessage -> {
+                sendToTopic(outboxMessage);
+                outboxRepository.remove(outboxMessage.messageId());
+            });
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
