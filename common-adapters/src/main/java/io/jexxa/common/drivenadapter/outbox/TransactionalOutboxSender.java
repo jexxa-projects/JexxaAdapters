@@ -119,7 +119,7 @@ public class TransactionalOutboxSender extends MessageSender {
     }
 
     @Override
-    protected void sendToQueue(String message, String destination, Properties messageProperties, MessageType messageType) {
+    protected synchronized void sendToQueue(String message, String destination, Properties messageProperties, MessageType messageType) {
         outboxRepository.add(new JexxaOutboxMessage(
                 UUID.randomUUID(), message,
                 destination, messageProperties,
@@ -128,7 +128,7 @@ public class TransactionalOutboxSender extends MessageSender {
     }
 
     @Override
-    protected void sendToTopic(String message, String destination, Properties messageProperties, MessageType messageType) {
+    protected synchronized void sendToTopic(String message, String destination, Properties messageProperties, MessageType messageType) {
         outboxRepository.add(new JexxaOutboxMessage(
                 UUID.randomUUID(), message,
                 destination, messageProperties,
@@ -136,7 +136,7 @@ public class TransactionalOutboxSender extends MessageSender {
         executor.schedule( this::transactionalSend,0, TimeUnit.MICROSECONDS);
     }
 
-    private void sendOutboxMessages()
+    private synchronized void sendOutboxMessages()
     {
         outboxRepository.get().stream()
             .filter(outboxMessage -> outboxMessage.destinationType.equals(DestinationType.QUEUE))
