@@ -1,10 +1,9 @@
 package io.jexxa.common.drivenadapter.outbox;
 
 import io.jexxa.adapterapi.invocation.transaction.TransactionManager;
+import io.jexxa.common.drivenadapter.messaging.jms.JMSSender;
 import io.jexxa.common.drivingadapter.messaging.jms.JMSAdapter;
 import io.jexxa.common.drivingadapter.messaging.jms.JMSConfiguration;
-import io.jexxa.common.drivenadapter.messaging.MessageSenderManager;
-import io.jexxa.common.drivenadapter.messaging.jms.JMSSender;
 import io.jexxa.common.drivingadapter.messaging.jms.idempotent.IdempotentListener;
 import io.jexxa.common.facade.testapplication.TestDomainEvent;
 import io.jexxa.common.facade.testapplication.TestValueObject;
@@ -21,6 +20,8 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import static io.jexxa.adapterapi.invocation.DefaultInvocationHandler.GLOBAL_SYNCHRONIZATION_OBJECT;
+import static io.jexxa.common.drivenadapter.messaging.MessageSenderFactory.createMessageSender;
+import static io.jexxa.common.drivenadapter.messaging.MessageSenderFactory.setDefaultMessageSender;
 import static io.jexxa.common.drivingadapter.messaging.jms.listener.TopicListener.TOPIC_DESTINATION;
 import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -55,8 +56,8 @@ class TransactionalOutboxSenderIT {
     void validateIdempotentMessaging()
     {
         //Arrange
-        MessageSenderManager.setDefaultStrategy(JMSSender.class);
-        var objectUnderTest = MessageSenderManager.getMessageSender(TransactionalOutboxSenderIT.class, jmsProperties);
+        setDefaultMessageSender(JMSSender.class);
+        var objectUnderTest = createMessageSender(TransactionalOutboxSenderIT.class, jmsProperties);
         UUID uuid = UUID.randomUUID();
         //Act
         objectUnderTest
@@ -81,7 +82,7 @@ class TransactionalOutboxSenderIT {
     {
         //Arrange
         int messageCount = 100;
-        var objectUnderTest = MessageSenderManager.getMessageSender(TransactionalOutboxSenderIT.class, jmsProperties);
+        var objectUnderTest = createMessageSender(TransactionalOutboxSenderIT.class, jmsProperties);
 
         //Act
         for (int i = 0; i< messageCount; ++i) {

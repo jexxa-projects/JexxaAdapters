@@ -5,13 +5,11 @@ import io.jexxa.adapterapi.invocation.InvocationManager;
 import io.jexxa.adapterapi.invocation.InvocationTargetRuntimeException;
 import io.jexxa.common.drivenadapter.messaging.MessageBuilder;
 import io.jexxa.common.drivenadapter.messaging.MessageSender;
-import io.jexxa.common.drivenadapter.messaging.MessageSenderManager;
 import io.jexxa.common.drivenadapter.messaging.jms.JMSSender;
 import io.jexxa.common.drivenadapter.persistence.RepositoryManager;
 import io.jexxa.common.drivenadapter.persistence.repository.IRepository;
 import io.jexxa.common.drivenadapter.persistence.repository.imdb.IMDBRepository;
 import io.jexxa.common.facade.logger.SLF4jLogger;
-
 
 import java.util.Properties;
 import java.util.UUID;
@@ -19,6 +17,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static io.jexxa.common.drivenadapter.messaging.MessageSenderFactory.createMessageSender;
+import static io.jexxa.common.drivenadapter.messaging.MessageSenderFactory.setMessageSender;
 import static io.jexxa.common.facade.logger.SLF4jLogger.getLogger;
 
 
@@ -58,8 +58,8 @@ public class TransactionalOutboxSender extends MessageSender {
         }
 
 
-        MessageSenderManager.setStrategy(JMSSender.class, TransactionalOutboxSender.class); // Ensure that we get a JMSSender for internal sending
-        this.messageSender = MessageSenderManager.getMessageSender(TransactionalOutboxSender.class, properties);
+        setMessageSender(JMSSender.class, TransactionalOutboxSender.class); // Ensure that we get a JMSSender for internal sending
+        this.messageSender = createMessageSender(TransactionalOutboxSender.class, properties);
 
         executor.schedule( this::transactionalSend, 300, TimeUnit.MILLISECONDS);
         JexxaContext.registerCleanupHandler(TransactionalOutboxSender::cleanup);

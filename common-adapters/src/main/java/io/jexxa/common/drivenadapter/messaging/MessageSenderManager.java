@@ -17,7 +17,11 @@ import static io.jexxa.common.facade.jms.JMSProperties.jmsStrategy;
 import static io.jexxa.common.facade.logger.SLF4jLogger.getLogger;
 
 
+/**
+ *  @deprecated This class suggests that we get a MessageSender but in fact, it is a factory. Use {@link MessageSenderFactory} instead.
+ */
 @SuppressWarnings("java:S6548")
+@Deprecated(since = "1.3.0", forRemoval = true)
 public final class MessageSenderManager
 {
     private static final MessageSenderManager MESSAGE_SENDER_MANAGER = new MessageSenderManager();

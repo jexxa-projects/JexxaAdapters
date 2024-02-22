@@ -1,11 +1,10 @@
 package io.jexxa.common.drivenadapter.messaging.jms;
 
 
+import io.jexxa.common.drivenadapter.messaging.MessageSender;
+import io.jexxa.common.drivingadapter.messaging.jms.JMSAdapter;
 import io.jexxa.common.drivingadapter.messaging.jms.listener.QueueListener;
 import io.jexxa.common.drivingadapter.messaging.jms.listener.TopicListener;
-import io.jexxa.common.drivingadapter.messaging.jms.JMSAdapter;
-import io.jexxa.common.drivenadapter.messaging.MessageSender;
-import io.jexxa.common.drivenadapter.messaging.MessageSenderManager;
 import io.jexxa.common.facade.TestConstants;
 import io.jexxa.common.facade.jms.JMSProperties;
 import io.jexxa.common.facade.testapplication.TestValueObject;
@@ -29,6 +28,8 @@ import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
+import static io.jexxa.common.drivenadapter.messaging.MessageSenderFactory.createMessageSender;
+import static io.jexxa.common.drivenadapter.messaging.MessageSenderFactory.setDefaultMessageSender;
 import static io.jexxa.common.drivingadapter.messaging.jms.listener.QueueListener.QUEUE_DESTINATION;
 import static io.jexxa.common.drivingadapter.messaging.jms.listener.TopicListener.TOPIC_DESTINATION;
 import static org.awaitility.Awaitility.await;
@@ -80,8 +81,8 @@ class JMSSenderIT
     void sendMessageToTopic(Class<? extends MessageSender> messageSender)
     {
         //Arrange
-        MessageSenderManager.setDefaultStrategy(messageSender);
-        var objectUnderTest = MessageSenderManager.getMessageSender(JMSSenderIT.class, jmsProperties);
+        setDefaultMessageSender(messageSender);
+        var objectUnderTest = createMessageSender(JMSSenderIT.class, jmsProperties);
 
         //Act
         objectUnderTest
@@ -104,8 +105,8 @@ class JMSSenderIT
     void sendMessageToQueue(Class<? extends MessageSender> messageSender)
     {
         //Arrange
-        MessageSenderManager.setDefaultStrategy(messageSender);
-        var objectUnderTest = MessageSenderManager.getMessageSender(JMSSenderIT.class, jmsProperties);
+        setDefaultMessageSender(messageSender);
+        var objectUnderTest = createMessageSender(JMSSenderIT.class, jmsProperties);
 
         //Act
         objectUnderTest
@@ -125,8 +126,9 @@ class JMSSenderIT
     void sendMessageToQueueAsString(Class<? extends MessageSender> messageSender)
     {
         //Arrange
-        MessageSenderManager.setDefaultStrategy(messageSender);
-        var objectUnderTest = MessageSenderManager.getMessageSender(JMSSenderIT.class, jmsProperties);
+        setDefaultMessageSender(messageSender);
+        var objectUnderTest = createMessageSender(JMSSenderIT.class, jmsProperties);
+
 
         //Act
         objectUnderTest
@@ -147,8 +149,9 @@ class JMSSenderIT
     void sendByteMessageToTopic(Class<? extends MessageSender> messageSender)
     {
         //Arrange
-        MessageSenderManager.setDefaultStrategy(messageSender);
-        var objectUnderTest = MessageSenderManager.getMessageSender(JMSSenderIT.class, jmsProperties);
+        setDefaultMessageSender(messageSender);
+        var objectUnderTest = createMessageSender(JMSSenderIT.class, jmsProperties);
+
 
         //Act
         objectUnderTest
@@ -168,8 +171,9 @@ class JMSSenderIT
     void sendByteMessageToQueue(Class<? extends MessageSender> messageSender)
     {
         //Arrange
-        MessageSenderManager.setDefaultStrategy(messageSender);
-        var objectUnderTest = MessageSenderManager.getMessageSender(JMSSenderIT.class, jmsProperties);
+        setDefaultMessageSender(messageSender);
+        var objectUnderTest = createMessageSender(JMSSenderIT.class, jmsProperties);
+
 
         //Act
         objectUnderTest
@@ -188,8 +192,8 @@ class JMSSenderIT
     void sendMessageReconnectQueue() throws JMSException
     {
         //Arrange
-        MessageSenderManager.setDefaultStrategy(JMSSender.class); // Reconnect is only meaningful for JMSSender
-        var objectUnderTest = MessageSenderManager.getMessageSender(JMSSenderIT.class, jmsProperties);
+        setDefaultMessageSender(JMSSender.class); // Reconnect is only meaningful for JMSSender
+        var objectUnderTest = createMessageSender(JMSSenderIT.class, jmsProperties);
 
         //Act (simulate an error in between sending two messages
         objectUnderTest
@@ -219,9 +223,9 @@ class JMSSenderIT
         properties.putAll(jmsProperties);
         properties.remove(JMSProperties.JNDI_PASSWORD_KEY);
         properties.put(JMSProperties.JNDI_PASSWORD_FILE, "src/test/resources/secrets/jndiPassword");
-        MessageSenderManager.setDefaultStrategy(JMSSender.class);
+        setDefaultMessageSender(JMSSender.class);
 
-        var objectUnderTest = MessageSenderManager.getMessageSender(JMSSenderIT.class, properties);
+        var objectUnderTest = createMessageSender(JMSSenderIT.class, properties);
 
         //Act
         objectUnderTest

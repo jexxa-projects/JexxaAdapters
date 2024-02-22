@@ -1,11 +1,10 @@
 package io.jexxa.common.drivingadapter.messaging.jms;
 
-import io.jexxa.common.drivingadapter.messaging.jms.listener.JSONMessageListener;
-import io.jexxa.common.drivingadapter.messaging.jms.listener.TypedMessageListener;
 import io.jexxa.common.drivenadapter.messaging.MessageSender;
-import io.jexxa.common.drivenadapter.messaging.MessageSenderManager;
 import io.jexxa.common.drivenadapter.messaging.jms.JMSSender;
 import io.jexxa.common.drivenadapter.outbox.TransactionalOutboxSender;
+import io.jexxa.common.drivingadapter.messaging.jms.listener.JSONMessageListener;
+import io.jexxa.common.drivingadapter.messaging.jms.listener.TypedMessageListener;
 import io.jexxa.common.facade.TestConstants;
 import io.jexxa.common.facade.testapplication.TestDomainEvent;
 import io.jexxa.common.facade.testapplication.TestValueObject;
@@ -23,6 +22,8 @@ import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
+import static io.jexxa.common.drivenadapter.messaging.MessageSenderFactory.createMessageSender;
+import static io.jexxa.common.drivenadapter.messaging.MessageSenderFactory.setDefaultMessageSender;
 import static io.jexxa.common.drivingadapter.messaging.jms.listener.QueueListener.QUEUE_DESTINATION;
 import static io.jexxa.common.drivingadapter.messaging.jms.listener.TopicListener.TOPIC_DESTINATION;
 import static org.awaitility.Awaitility.await;
@@ -75,8 +76,8 @@ class MessageReceiverIT
     void receiveDomainEvent(Class<? extends MessageSender> messageSender)
     {
         //Arrange
-        MessageSenderManager.setDefaultStrategy(messageSender);
-        var objectUnderTest = MessageSenderManager.getMessageSender(MessageReceiverIT.class, jmsProperties);
+        setDefaultMessageSender(messageSender);
+        var objectUnderTest = createMessageSender(MessageReceiverIT.class, jmsProperties);
 
         //Act
         objectUnderTest
@@ -94,8 +95,8 @@ class MessageReceiverIT
     void receiveTypedMessage(Class<? extends MessageSender> messageSender)
     {
         //Arrange
-        MessageSenderManager.setDefaultStrategy(messageSender);
-        var objectUnderTest = MessageSenderManager.getMessageSender(MessageReceiverIT.class, jmsProperties);
+        setDefaultMessageSender(messageSender);
+        var objectUnderTest = createMessageSender(MessageReceiverIT.class, jmsProperties);
 
         //Act
         objectUnderTest
