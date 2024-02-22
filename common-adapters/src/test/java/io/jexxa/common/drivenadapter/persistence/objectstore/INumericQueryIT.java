@@ -1,7 +1,6 @@
 package io.jexxa.common.drivenadapter.persistence.objectstore;
 
 
-import io.jexxa.common.drivenadapter.persistence.ObjectStoreManager;
 import io.jexxa.common.drivenadapter.persistence.objectstore.metadata.MetaTag;
 import io.jexxa.common.drivenadapter.persistence.objectstore.metadata.MetadataSchema;
 import io.jexxa.common.facade.jdbc.JDBCConnection;
@@ -16,6 +15,7 @@ import java.util.Properties;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import static io.jexxa.common.drivenadapter.persistence.ObjectStoreFactory.createObjectStore;
 import static io.jexxa.common.drivenadapter.persistence.objectstore.ObjectStoreTestDatabase.REPOSITORY_CONFIG;
 import static io.jexxa.common.drivenadapter.persistence.objectstore.metadata.MetaTags.numericTag;
 import static java.util.Comparator.comparing;
@@ -79,7 +79,7 @@ class INumericQueryIT
     {
         //Arrange
         initObjectStore(properties);
-        var objectUnderTest = objectStore. getNumericQuery( TestObjectSchema.INT_VALUE, Integer.class);
+        var objectUnderTest = objectStore.getNumericQuery( TestObjectSchema.INT_VALUE, Integer.class);
 
         var greaterOrEqualThanExpected = IntStream.range(50,100)
                 .mapToObj(element -> TestObject.create(new TestValueObject(element)))
@@ -453,7 +453,7 @@ class INumericQueryIT
             }
         }
 
-        objectStore = ObjectStoreManager.getObjectStore(
+        objectStore = createObjectStore(
                 TestObject.class,
                 TestObject::getKey,
                 TestObjectSchema.class,

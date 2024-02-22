@@ -50,13 +50,20 @@ public class JDBCObjectStore<T,K, M extends Enum<M> & MetadataSchema> extends JD
     )
     {
         super(aggregateClazz, keyFunction, properties, false);
+        Objects.requireNonNull(properties);
+
         this.keyFunction = keyFunction;
         this.aggregateClazz = aggregateClazz;
         this.metaData = metaData;
         this.jdbcSchema = EnumSet.allOf(metaData);
         this.database = DatabaseManager.getDatabase(properties.getProperty(JDBCProperties.jdbcUrl()));
 
-        manageObjectStore(properties);
+        if (properties.containsKey(JDBCProperties.jdbcAutocreateTable()))
+        {
+            autoCreateDatabase();
+            renameKeyValueColumns();
+            alterKeyValueRows();
+        }
     }
 
 

@@ -1,7 +1,6 @@
 package io.jexxa.common.drivenadapter.persistence.objectstore;
 
 
-import io.jexxa.common.drivenadapter.persistence.ObjectStoreManager;
 import io.jexxa.common.drivenadapter.persistence.objectstore.metadata.MetaTag;
 import io.jexxa.common.drivenadapter.persistence.objectstore.metadata.MetaTags;
 import io.jexxa.common.drivenadapter.persistence.objectstore.metadata.MetadataSchema;
@@ -19,6 +18,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.IntStream;
 
+import static io.jexxa.common.drivenadapter.persistence.ObjectStoreFactory.createObjectStore;
 import static java.util.Comparator.comparing;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -180,7 +180,7 @@ class IObjectStoreIT
             }
         }
 
-        objectUnderTest = ObjectStoreManager.getObjectStore(
+        objectUnderTest = createObjectStore(
                 TestObject.class,
                 TestObject::getKey,
                 TestObjectSchema.class,

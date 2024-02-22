@@ -1,15 +1,12 @@
 package io.jexxa.common.drivenadapter.persistence;
 
 
-
-
 import io.jexxa.common.drivenadapter.persistence.objectstore.IObjectStore;
 import io.jexxa.common.drivenadapter.persistence.objectstore.imdb.IMDBObjectStore;
 import io.jexxa.common.drivenadapter.persistence.objectstore.jdbc.JDBCObjectStore;
 import io.jexxa.common.drivenadapter.persistence.objectstore.metadata.MetadataSchema;
 import io.jexxa.common.facade.factory.ClassFactory;
 import io.jexxa.common.facade.logger.ApplicationBanner;
-import io.jexxa.common.facade.utils.annotation.CheckReturnValue;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,56 +17,32 @@ import static io.jexxa.common.facade.jdbc.JDBCProperties.jdbcDriver;
 import static io.jexxa.common.facade.jdbc.JDBCProperties.objectstoreStrategy;
 import static io.jexxa.common.facade.logger.SLF4jLogger.getLogger;
 
-/**
- * @deprecated Use {@link ObjectStoreFactory} instead.
- */
-@Deprecated(since = "1.2.0", forRemoval = true)
-public final class ObjectStoreManager
+
+@SuppressWarnings({"unused", "DuplicatedCode", "java:S6548"})
+public final class ObjectStoreFactory
 {
-    private static final ObjectStoreManager REPOSITORY_MANAGER = new ObjectStoreManager();
+    private static final ObjectStoreFactory OBJECT_STORE_FACTORY = new ObjectStoreFactory();
 
     private static final Map<Class<?> , Class<?>> STRATEGY_MAP = new HashMap<>();
-    private static Class<?> defaultStrategy = null;
+    private static Class<?> defaultObjectStore = null;
 
     public static Class<?> getDefaultObjectStore(Properties properties)
     {
-        return REPOSITORY_MANAGER.getStrategy(null, properties);
+        return getObjectStoreType(null, properties);
     }
 
-    public static  <T,K,M  extends Enum<?> & MetadataSchema> IObjectStore<T,K, M> getObjectStore(
+    @SuppressWarnings("unchecked")
+    public static  <T,K,M  extends Enum<?> & MetadataSchema> IObjectStore<T,K, M> createObjectStore(
             Class<T> aggregateClazz,
             Function<T,K> keyFunction,
             Class<M> metaData,
             Properties properties)
     {
-        return REPOSITORY_MANAGER.getStrategy(aggregateClazz, keyFunction, metaData, properties);
-    }
-
-    public static <U extends IObjectStore<?,?,?>, T > void setStrategy(Class<U> strategyType, Class<T> aggregateType)
-    {
-        STRATEGY_MAP.put(aggregateType, strategyType);
-    }
-
-    public static <U extends IObjectStore<?,?,?>> void setDefaultStrategy(Class<U> defaultStrategy)
-    {
-        ObjectStoreManager.defaultStrategy = defaultStrategy;
-    }
-
-    @SuppressWarnings("unchecked")
-    @CheckReturnValue
-    public <T,K,M  extends Enum<?> & MetadataSchema> IObjectStore<T,K,M> getStrategy(
-            Class<T> objectClazz,
-            Function<T,K> keyFunction,
-            Class<M> metaData,
-            Properties properties
-    )
-    {
-
         try
         {
-            var strategy = getStrategy(objectClazz, properties);
+            var strategy = getObjectStoreType(aggregateClazz, properties);
 
-            var result = ClassFactory.newInstanceOf(strategy, new Object[]{objectClazz, keyFunction, metaData, properties});
+            var result = ClassFactory.newInstanceOf(strategy, new Object[]{aggregateClazz, keyFunction, metaData, properties});
 
             return (IObjectStore<T, K,M>) result.orElseThrow();
         }
@@ -84,19 +57,30 @@ public final class ObjectStoreManager
         }
     }
 
+    public static <U extends IObjectStore<?,?,?>, T > void setObjectStore(Class<U> objectStore, Class<T> aggregateType)
+    {
+        STRATEGY_MAP.put(aggregateType, objectStore);
+    }
+
+    public static <U extends IObjectStore<?,?,?>> void setDefaultObjectStore(Class<U> defaultObjectStore)
+    {
+        ObjectStoreFactory.defaultObjectStore = defaultObjectStore;
+    }
+
+
     public static void defaultSettings( )
     {
-        defaultStrategy = null;
+        defaultObjectStore = null;
         STRATEGY_MAP.clear();
     }
 
 
-    private ObjectStoreManager()
+    private ObjectStoreFactory()
     {
         ApplicationBanner.addConfigBanner(this::bannerInformation);
     }
 
-    private <T> Class<?> getStrategy(Class<T> aggregateClazz, Properties properties)
+    private static <T> Class<?> getObjectStoreType(Class<T> aggregateClazz, Properties properties)
     {
         // 1. Check if a dedicated strategy is registered for aggregateClazz
         var result = STRATEGY_MAP
@@ -112,9 +96,9 @@ public final class ObjectStoreManager
         }
 
         // 2. If a default strategy is available, return this one
-        if (defaultStrategy != null)
+        if (defaultObjectStore != null)
         {
-            return defaultStrategy;
+            return defaultObjectStore;
         }
 
         // 3. Check explicit configuration
@@ -122,7 +106,7 @@ public final class ObjectStoreManager
             try {
                 return Class.forName(properties.getProperty(objectstoreStrategy()));
             } catch (ClassNotFoundException e) {
-                getLogger(ObjectStoreManager.class).warn("Unknown or invalid object store {} -> Ignore setting", properties.getProperty(objectstoreStrategy()));
+                getLogger(ObjectStoreFactory.class).warn("Unknown or invalid object store {} -> Ignore setting", properties.getProperty(objectstoreStrategy()));
             }
         }
 

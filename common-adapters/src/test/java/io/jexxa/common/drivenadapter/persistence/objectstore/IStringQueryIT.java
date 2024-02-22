@@ -1,7 +1,6 @@
 package io.jexxa.common.drivenadapter.persistence.objectstore;
 
 
-import io.jexxa.common.drivenadapter.persistence.ObjectStoreManager;
 import io.jexxa.common.drivenadapter.persistence.objectstore.metadata.MetaTag;
 import io.jexxa.common.drivenadapter.persistence.objectstore.metadata.MetadataSchema;
 import io.jexxa.common.facade.jdbc.JDBCConnection;
@@ -14,9 +13,9 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.IntStream;
 
-import static io.jexxa.common.drivenadapter.persistence.objectstore.TestObject.createCharSequence;
+import static io.jexxa.common.drivenadapter.persistence.ObjectStoreFactory.createObjectStore;
 import static io.jexxa.common.drivenadapter.persistence.objectstore.ObjectStoreTestDatabase.REPOSITORY_CONFIG;
-
+import static io.jexxa.common.drivenadapter.persistence.objectstore.TestObject.createCharSequence;
 import static io.jexxa.common.drivenadapter.persistence.objectstore.metadata.MetaTags.numericTag;
 import static io.jexxa.common.drivenadapter.persistence.objectstore.metadata.MetaTags.stringTag;
 import static java.util.Comparator.comparing;
@@ -221,7 +220,7 @@ class IStringQueryIT
             }
         }
 
-        objectStore = ObjectStoreManager.getObjectStore(
+        objectStore = createObjectStore(
                 TestObject.class,
                 TestObject::getKey,
                 TestObjectSchema.class,
