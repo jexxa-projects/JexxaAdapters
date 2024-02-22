@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.IntStream;
 
-import static io.jexxa.common.drivenadapter.persistence.RepositoryManager.getRepository;
+import static io.jexxa.common.drivenadapter.persistence.RepositoryFactory.createRepository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -43,7 +43,7 @@ class TestAggregateRepositoryImplIT
     {
         //Arrange
         dropTable(repositoryProperties);
-        var objectUnderTest = getRepository(TestAggregate.class, TestAggregate::getKey, repositoryProperties);
+        var objectUnderTest = createRepository(TestAggregate.class, TestAggregate::getKey, repositoryProperties);
         objectUnderTest.removeAll();
 
         //Act
@@ -60,7 +60,7 @@ class TestAggregateRepositoryImplIT
     {
         //Arrange
         dropTable(repositoryProperties);
-        var objectUnderTest = getRepository(TestAggregate.class, TestAggregate::getKey, repositoryProperties);
+        var objectUnderTest = createRepository(TestAggregate.class, TestAggregate::getKey, repositoryProperties);
         objectUnderTest.removeAll();
         aggregateList.forEach(objectUnderTest::add);
 
@@ -79,7 +79,7 @@ class TestAggregateRepositoryImplIT
     {
         //Arrange
         dropTable(repositoryProperties);
-        var objectUnderTest = getRepository(TestAggregate.class, TestAggregate::getKey, repositoryProperties);
+        var objectUnderTest = createRepository(TestAggregate.class, TestAggregate::getKey, repositoryProperties);
         objectUnderTest.removeAll();
         aggregateList.forEach(objectUnderTest::add);
 
@@ -100,7 +100,7 @@ class TestAggregateRepositoryImplIT
     {
         //Arrange
         dropTable(repositoryProperties);
-        var objectUnderTest = getRepository(TestAggregate.class, TestAggregate::getKey, repositoryProperties);
+        var objectUnderTest = createRepository(TestAggregate.class, TestAggregate::getKey, repositoryProperties);
         objectUnderTest.removeAll();
         aggregateList.forEach(objectUnderTest::add);
 

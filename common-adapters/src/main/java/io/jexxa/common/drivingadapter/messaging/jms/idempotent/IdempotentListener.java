@@ -1,8 +1,7 @@
 package io.jexxa.common.drivingadapter.messaging.jms.idempotent;
 
-import io.jexxa.common.drivingadapter.messaging.jms.listener.JSONMessageListener;
 import io.jexxa.common.drivenadapter.persistence.repository.IRepository;
-
+import io.jexxa.common.drivingadapter.messaging.jms.listener.JSONMessageListener;
 
 import javax.jms.JMSException;
 import java.time.Duration;
@@ -10,7 +9,7 @@ import java.time.Instant;
 import java.util.Objects;
 import java.util.Properties;
 
-import static io.jexxa.common.drivenadapter.persistence.RepositoryManager.getRepository;
+import static io.jexxa.common.drivenadapter.persistence.RepositoryFactory.createRepository;
 import static io.jexxa.common.facade.logger.SLF4jLogger.getLogger;
 
 /**
@@ -31,7 +30,7 @@ public abstract class IdempotentListener<T> extends JSONMessageListener
     protected IdempotentListener(Class<T> clazz, Properties properties)
     {
         this.clazz = Objects.requireNonNull( clazz );
-        messageRepository = getRepository(InboundMessage.class, InboundMessage::receivingID, properties);
+        messageRepository = createRepository(InboundMessage.class, InboundMessage::receivingID, properties);
     }
     @Override
     public final void onMessage(String message)

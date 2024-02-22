@@ -17,44 +17,64 @@ import java.util.function.Function;
 import static io.jexxa.common.facade.jdbc.JDBCProperties.repositoryStrategy;
 import static io.jexxa.common.facade.logger.SLF4jLogger.getLogger;
 
-/**
- * @deprecated Use {@link RepositoryFactory} instead.
- */
-@Deprecated(since = "1.2.0", forRemoval = true)
-@SuppressWarnings("java:S6548")
-public final class RepositoryManager
+
+@SuppressWarnings({"unused", "java:S6548"})
+public final class RepositoryFactory
 {
-    private static final RepositoryManager REPOSITORY_MANAGER = new RepositoryManager();
+    private static final RepositoryFactory REPOSITORY_FACTORY = new RepositoryFactory();
 
     private static final Map<Class<?> , Class<?>> STRATEGY_MAP = new HashMap<>();
     private static Class<?> defaultStrategy = null;
 
-    public static  <T,K> IRepository<T,K> getRepository(
+    private RepositoryFactory()
+    {
+        ApplicationBanner.addConfigBanner(this::bannerInformation);
+    }
+
+    @SuppressWarnings("unchecked")
+    @CheckReturnValue
+    public static  <T,K> IRepository<T,K> createRepository(
             Class<T> aggregateClazz,
             Function<T,K> keyFunction,
             Properties properties)
     {
-        return REPOSITORY_MANAGER.getStrategy(aggregateClazz, keyFunction, properties);
+        try
+        {
+            var strategy = getRepositoryType(aggregateClazz, properties);
+
+            var result = ClassFactory.newInstanceOf(strategy, new Object[]{aggregateClazz, keyFunction, properties});
+
+            return (IRepository<T, K>) result.orElseThrow();
+        }
+        catch (ReflectiveOperationException e)
+        {
+            if ( e.getCause() != null)
+            {
+                throw new IllegalArgumentException(e.getCause().getMessage(), e);
+            }
+
+            throw new IllegalArgumentException("No suitable default IRepository available", e);
+        }
     }
 
-    public static <U extends IRepository<?,?>, T > void setStrategy(Class<U> strategyType, Class<T> aggregateType)
+    public static <U extends IRepository<?,?>, T > void setRepository(Class<U> repositoryType, Class<T> aggregateType)
     {
-        STRATEGY_MAP.put(aggregateType, strategyType);
+        STRATEGY_MAP.put(aggregateType, repositoryType);
     }
 
-    public static <U extends IRepository<?,?> > void setDefaultStrategy(Class<U> defaultStrategy)
+    public static <U extends IRepository<?,?> > void setDefaultRepository(Class<U> defaultStrategy)
     {
-        RepositoryManager.defaultStrategy = defaultStrategy;
+        RepositoryFactory.defaultStrategy = defaultStrategy;
     }
     public static Class<?> getDefaultRepository(Properties properties)
     {
-        return REPOSITORY_MANAGER.getStrategy(null, properties);
+        return getRepositoryType(null, properties);
     }
 
 
     @SuppressWarnings("unchecked")
     @CheckReturnValue
-    <T,K> IRepository<T,K> getStrategy(
+    private <T,K> IRepository<T,K> getRepositoryType(
             Class<T> aggregateClazz,
             Function<T,K> keyFunction,
             Properties properties
@@ -62,7 +82,7 @@ public final class RepositoryManager
     {
         try
         {
-            var strategy = getStrategy(aggregateClazz, properties);
+            var strategy = getRepositoryType(aggregateClazz, properties);
 
             var result = ClassFactory.newInstanceOf(strategy, new Object[]{aggregateClazz, keyFunction, properties});
 
@@ -86,13 +106,8 @@ public final class RepositoryManager
     }
 
 
-    private RepositoryManager()
-    {
-        ApplicationBanner.addConfigBanner(this::bannerInformation);
-    }
-
     @SuppressWarnings("DuplicatedCode")
-    private <T> Class<?> getStrategy(Class<T> aggregateClazz, Properties properties)
+    private static <T> Class<?> getRepositoryType(Class<T> aggregateClazz, Properties properties)
     {
         // 1. Check if a dedicated strategy is registered for aggregateClazz
         var result = STRATEGY_MAP
@@ -118,7 +133,7 @@ public final class RepositoryManager
             try {
                 return Class.forName(properties.getProperty(repositoryStrategy()));
             } catch (ClassNotFoundException e) {
-                getLogger(RepositoryManager.class).warn("Unknown or invalid repository {} -> Ignore setting", properties.getProperty(repositoryStrategy()));
+                getLogger(RepositoryFactory.class).warn("Unknown or invalid repository {} -> Ignore setting", properties.getProperty(repositoryStrategy()));
             }
         }
         // 4. If a JDBC driver is stated in Properties => Use JDBCKeyValueRepository

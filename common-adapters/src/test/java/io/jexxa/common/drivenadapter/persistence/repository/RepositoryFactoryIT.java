@@ -2,7 +2,7 @@ package io.jexxa.common.drivenadapter.persistence.repository;
 
 
 import io.jexxa.common.drivenadapter.persistence.RepositoryConfig;
-import io.jexxa.common.drivenadapter.persistence.RepositoryManager;
+import io.jexxa.common.drivenadapter.persistence.RepositoryFactory;
 import io.jexxa.common.drivenadapter.persistence.repository.imdb.IMDBRepository;
 import io.jexxa.common.drivenadapter.persistence.repository.jdbc.JDBCKeyValueRepository;
 import io.jexxa.common.facade.jdbc.TestEntity;
@@ -14,29 +14,32 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 
 import java.util.Properties;
 
+import static io.jexxa.common.drivenadapter.persistence.RepositoryFactory.createRepository;
+import static io.jexxa.common.drivenadapter.persistence.RepositoryFactory.setDefaultRepository;
+import static io.jexxa.common.drivenadapter.persistence.RepositoryFactory.setRepository;
 import static io.jexxa.common.facade.TestConstants.INTEGRATION_TEST;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @Execution(ExecutionMode.SAME_THREAD)
 @Tag(INTEGRATION_TEST)
-class RepositoryManagerIT
+class RepositoryFactoryIT
 {
 
     @AfterEach
     void cleanup()
     {
-        RepositoryManager.defaultSettings();
+        RepositoryFactory.defaultSettings();
     }
 
     @Test
     void validateIMDBFallbackStrategy( )
     {
         //Arrange
-        RepositoryManager.setDefaultStrategy(null);
+        RepositoryFactory.setDefaultRepository(null);
 
         // Act
-        var result =  RepositoryManager.getRepository(TestEntity.class,
+        var result =  createRepository(TestEntity.class,
                 TestEntity::getKey,
                 new Properties());
 
@@ -49,12 +52,12 @@ class RepositoryManagerIT
     void validatePropertiesStrategy( )
     {
         //Arrange
-        RepositoryManager.setDefaultStrategy(null);
+        setDefaultRepository(null);
 
         var postgresProperties = RepositoryConfig.postgresRepositoryConfig("jexxa");
 
         //Act
-        var result = RepositoryManager.getRepository(TestEntity.class,
+        var result = createRepository(TestEntity.class,
                 TestEntity::getKey,
                 postgresProperties);
 
@@ -71,9 +74,9 @@ class RepositoryManagerIT
         var postgresProperties = RepositoryConfig.postgresRepositoryConfig("jexxa");
 
         //Act
-        RepositoryManager.setDefaultStrategy(IMDBRepository.class);
+        setDefaultRepository(IMDBRepository.class);
 
-        var result =  RepositoryManager.getRepository(TestEntity.class,
+        var result =  createRepository(TestEntity.class,
                 TestEntity::getKey,
                 postgresProperties);
 
@@ -88,12 +91,12 @@ class RepositoryManagerIT
         //Arrange: Define a JDBC connection in properties but also set a default strategy
         var postgresProperties = RepositoryConfig.postgresRepositoryConfig("jexxa");
 
-        RepositoryManager.setDefaultStrategy(IMDBRepository.class);  // Set a default strategy which is used in case no specific strategy is defined
+        setDefaultRepository(IMDBRepository.class);  // Set a default strategy which is used in case no specific strategy is defined
 
         //Act
-        RepositoryManager.setStrategy(JDBCKeyValueRepository.class, TestEntity.class );  // Set a specific strategy
+        setRepository(JDBCKeyValueRepository.class, TestEntity.class );  // Set a specific strategy
 
-        var result =  RepositoryManager.getRepository(TestEntity.class,
+        var result =  createRepository(TestEntity.class,
                 TestEntity::getKey,
                 postgresProperties);
 

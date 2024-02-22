@@ -6,7 +6,6 @@ import io.jexxa.adapterapi.invocation.InvocationTargetRuntimeException;
 import io.jexxa.common.drivenadapter.messaging.MessageBuilder;
 import io.jexxa.common.drivenadapter.messaging.MessageSender;
 import io.jexxa.common.drivenadapter.messaging.jms.JMSSender;
-import io.jexxa.common.drivenadapter.persistence.RepositoryManager;
 import io.jexxa.common.drivenadapter.persistence.repository.IRepository;
 import io.jexxa.common.drivenadapter.persistence.repository.imdb.IMDBRepository;
 import io.jexxa.common.facade.logger.SLF4jLogger;
@@ -19,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 import static io.jexxa.common.drivenadapter.messaging.MessageSenderFactory.createMessageSender;
 import static io.jexxa.common.drivenadapter.messaging.MessageSenderFactory.setMessageSender;
+import static io.jexxa.common.drivenadapter.persistence.RepositoryFactory.createRepository;
 import static io.jexxa.common.facade.logger.SLF4jLogger.getLogger;
 
 
@@ -48,8 +48,7 @@ public class TransactionalOutboxSender extends MessageSender {
 
     private TransactionalOutboxSender(Properties properties)
     {
-        this.outboxRepository = RepositoryManager
-                .getRepository(JexxaOutboxMessage.class
+        this.outboxRepository = createRepository(JexxaOutboxMessage.class
                         , JexxaOutboxMessage::messageId
                         , properties );
 

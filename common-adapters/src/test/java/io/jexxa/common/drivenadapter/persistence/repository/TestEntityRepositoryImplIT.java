@@ -18,7 +18,7 @@ import java.util.Properties;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static io.jexxa.common.drivenadapter.persistence.RepositoryManager.getRepository;
+import static io.jexxa.common.drivenadapter.persistence.RepositoryFactory.createRepository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -46,7 +46,7 @@ class TestEntityRepositoryImplIT
     {
         //Arrange
         dropTable(repositoryProperties);
-        var objectUnderTest = getRepository(TestEntity.class, TestEntity::getKey, repositoryProperties);
+        var objectUnderTest = createRepository(TestEntity.class, TestEntity::getKey, repositoryProperties);
         objectUnderTest.removeAll();
 
         //Act
@@ -62,7 +62,7 @@ class TestEntityRepositoryImplIT
     {
         //Arrange
         dropTable(repositoryProperties);
-        var objectUnderTest = getRepository(TestEntity.class, TestEntity::getKey, repositoryProperties);
+        var objectUnderTest = createRepository(TestEntity.class, TestEntity::getKey, repositoryProperties);
         objectUnderTest.removeAll();
         aggregateList.forEach(objectUnderTest::add);
         var firstElement = aggregateList.get(0);
@@ -78,7 +78,7 @@ class TestEntityRepositoryImplIT
     {
         //Arrange
         dropTable(repositoryProperties);
-        var objectUnderTest = getRepository(TestEntity.class, TestEntity::getKey, repositoryProperties);
+        var objectUnderTest = createRepository(TestEntity.class, TestEntity::getKey, repositoryProperties);
         objectUnderTest.removeAll();
         aggregateList.forEach(objectUnderTest::add);
 
@@ -97,7 +97,7 @@ class TestEntityRepositoryImplIT
     {
         //Arrange
         dropTable(repositoryProperties);
-        var objectUnderTest = getRepository(TestEntity.class, TestEntity::getKey, repositoryProperties);
+        var objectUnderTest = createRepository(TestEntity.class, TestEntity::getKey, repositoryProperties);
         objectUnderTest.removeAll();
         aggregateList.forEach(objectUnderTest::add);
 
@@ -117,7 +117,7 @@ class TestEntityRepositoryImplIT
     {
         //Arrange
         dropTable(repositoryProperties);
-        var objectUnderTest = getRepository(TestEntity.class, TestEntity::getKey, repositoryProperties);
+        var objectUnderTest = createRepository(TestEntity.class, TestEntity::getKey, repositoryProperties);
         objectUnderTest.removeAll();
 
         aggregateList.forEach(objectUnderTest::add);
@@ -135,7 +135,7 @@ class TestEntityRepositoryImplIT
     {
         //Arrange
         dropTable(repositoryProperties);
-        var objectUnderTest = getRepository(TestEntity.class, TestEntity::getKey, repositoryProperties);
+        var objectUnderTest = createRepository(TestEntity.class, TestEntity::getKey, repositoryProperties);
         objectUnderTest.removeAll();
         aggregateList.forEach(objectUnderTest::add);
 
@@ -155,7 +155,7 @@ class TestEntityRepositoryImplIT
     {
         //Arrange
         dropTable(repositoryProperties);
-        var objectUnderTest = getRepository(TestEntity.class, TestEntity::getKey, repositoryProperties);
+        var objectUnderTest = createRepository(TestEntity.class, TestEntity::getKey, repositoryProperties);
         objectUnderTest.removeAll();
         aggregateList.forEach(objectUnderTest::add);
 
