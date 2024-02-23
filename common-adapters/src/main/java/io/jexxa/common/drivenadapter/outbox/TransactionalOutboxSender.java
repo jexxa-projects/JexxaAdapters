@@ -33,6 +33,7 @@ import static io.jexxa.common.facade.logger.SLF4jLogger.getLogger;
  */
 public class TransactionalOutboxSender extends MessageSender {
     private static TransactionalOutboxSender transactionalOutboxSender;
+    private static boolean cleanupRegistered = false;
     private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
     private final IRepository<JexxaOutboxMessage, UUID> outboxRepository;
     private final MessageSender messageSender;
@@ -44,6 +45,12 @@ public class TransactionalOutboxSender extends MessageSender {
         if (transactionalOutboxSender == null)
         {
             transactionalOutboxSender = new TransactionalOutboxSender(properties);
+        }
+
+        if (!cleanupRegistered)
+        {
+            JexxaContext.registerCleanupHandler(TransactionalOutboxSender::cleanup);
+            cleanupRegistered = true;
         }
         return transactionalOutboxSender;
     }
@@ -72,7 +79,6 @@ public class TransactionalOutboxSender extends MessageSender {
         this.messageSender = createMessageSender(TransactionalOutboxSender.class, properties);
 
         executor.schedule( this::transactionalSend, 300, TimeUnit.MILLISECONDS);
-        JexxaContext.registerCleanupHandler(TransactionalOutboxSender::cleanup);
     }
 
     public static void cleanup()
