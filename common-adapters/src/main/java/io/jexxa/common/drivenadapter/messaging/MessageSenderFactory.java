@@ -123,7 +123,7 @@ public final class MessageSenderFactory
             }
         }
 
-        // 4. If a JNDI Factory is defined and simulation mode is deactivated => Use JMSSender
+        // 4. If a JNDI Factory is defined and simulation mode is deactivated => Use TransactionalOutboxSender
         if (properties.containsKey(JNDI_FACTORY_KEY) && !properties.containsKey(jmsSimulate()))
         {
             return TransactionalOutboxSender.class;
