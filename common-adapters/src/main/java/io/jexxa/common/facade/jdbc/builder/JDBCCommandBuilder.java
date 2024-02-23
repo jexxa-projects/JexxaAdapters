@@ -160,28 +160,25 @@ public class JDBCCommandBuilder<T extends Enum<T>> extends JDBCBuilder<T>
     }
 
 
-
-
-    public JDBCCommandBuilder<T> deleteFrom(T element)
+    public JDBCCommandBuilder<T> deleteFrom(String table)
     {
         getStatementBuilder()
                 .append(SQLSyntax.DELETE)
                 .append(SQLSyntax.FROM)
-                .append(element.name())
+                .append(table)
                 .append(SQLSyntax.BLANK);
 
         return this;
     }
 
+    public JDBCCommandBuilder<T> deleteFrom(T element)
+    {
+       return deleteFrom(element.name());
+    }
+
     public JDBCCommandBuilder<T> deleteFrom(Class<?> clazz)
     {
-        getStatementBuilder()
-                .append(SQLSyntax.DELETE)
-                .append(SQLSyntax.FROM)
-                .append(clazz.getSimpleName())
-                .append(SQLSyntax.BLANK);
-
-        return this;
+        return deleteFrom(clazz.getSimpleName());
     }
 
     public JDBCCondition<T, JDBCCommandBuilder<T>> where(T element)

@@ -8,6 +8,7 @@ import io.jexxa.common.drivenadapter.messaging.MessageSender;
 import io.jexxa.common.drivenadapter.messaging.jms.JMSSender;
 import io.jexxa.common.drivenadapter.persistence.repository.IRepository;
 import io.jexxa.common.drivenadapter.persistence.repository.imdb.IMDBRepository;
+import io.jexxa.common.drivenadapter.persistence.repository.jdbc.JDBCKeyValueRepository;
 import io.jexxa.common.facade.logger.SLF4jLogger;
 
 import java.util.Properties;
@@ -18,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 import static io.jexxa.common.drivenadapter.messaging.MessageSenderFactory.createMessageSender;
 import static io.jexxa.common.drivenadapter.messaging.MessageSenderFactory.setMessageSender;
+import static io.jexxa.common.drivenadapter.outbox.TransactionalOutboxProperties.outboxTable;
 import static io.jexxa.common.drivenadapter.persistence.RepositoryFactory.createRepository;
 import static io.jexxa.common.facade.logger.SLF4jLogger.getLogger;
 
@@ -56,6 +58,15 @@ public class TransactionalOutboxSender extends MessageSender {
             SLF4jLogger.getLogger(TransactionalOutboxSender.class).warn("Your TransactionalOutboxSender uses an IMDBRepository for persisting unsent messages. This might be fine for testing purposes. In production environment define a JDBC connection for proper message resend.");
         }
 
+        if (this.outboxRepository instanceof JDBCKeyValueRepository<JexxaOutboxMessage, UUID>) {
+            if (properties.containsKey(outboxTable()) && !properties.getProperty(outboxTable()).isEmpty())
+            {
+                ((JDBCKeyValueRepository<JexxaOutboxMessage, UUID >)(this.outboxRepository))
+                        .tableName(properties.getProperty(outboxTable()));
+            } else {
+                SLF4jLogger.getLogger(TransactionalOutboxSender.class).warn("Your TransactionalOutboxSender uses a JDBCRepository but does not define a jdbc table -> Define a dedicated table for each connection using `connection.prefix`.outbox.table .");
+            }
+        }
 
         setMessageSender(JMSSender.class, TransactionalOutboxSender.class); // Ensure that we get a JMSSender for internal sending
         this.messageSender = createMessageSender(TransactionalOutboxSender.class, properties);

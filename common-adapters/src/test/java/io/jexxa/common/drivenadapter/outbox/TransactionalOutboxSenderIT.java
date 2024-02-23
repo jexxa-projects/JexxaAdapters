@@ -1,6 +1,5 @@
 package io.jexxa.common.drivenadapter.outbox;
 
-import io.jexxa.adapterapi.invocation.transaction.TransactionManager;
 import io.jexxa.common.drivenadapter.messaging.jms.JMSSender;
 import io.jexxa.common.drivingadapter.messaging.jms.JMSAdapter;
 import io.jexxa.common.drivingadapter.messaging.jms.JMSConfiguration;
@@ -19,7 +18,6 @@ import java.util.Properties;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import static io.jexxa.adapterapi.invocation.DefaultInvocationHandler.GLOBAL_SYNCHRONIZATION_OBJECT;
 import static io.jexxa.common.drivenadapter.messaging.MessageSenderFactory.createMessageSender;
 import static io.jexxa.common.drivenadapter.messaging.MessageSenderFactory.setDefaultMessageSender;
 import static io.jexxa.common.drivingadapter.messaging.jms.listener.TopicListener.TOPIC_DESTINATION;
@@ -39,7 +37,7 @@ class TransactionalOutboxSenderIT {
     void initTests() throws IOException {
         Properties properties = new Properties();
         properties.load(getClass().getResourceAsStream("/application.properties"));
-        jmsProperties = PropertiesUtils.getSubset(properties,"test-jms-connection");
+        jmsProperties = PropertiesUtils.getSubset(properties,"test-outbox-connection");
 
         idempotentListener = new ValueObjectIdempotentListener(jmsProperties);
 
@@ -53,7 +51,7 @@ class TransactionalOutboxSenderIT {
         jmsAdapter.stop();
     }
     @Test
-    void validateIdempotentMessaging()
+    void validateIdempotentHandlingOfDuplicateMessages()
     {
         //Arrange
         setDefaultMessageSender(JMSSender.class);
@@ -86,16 +84,13 @@ class TransactionalOutboxSenderIT {
 
         //Act
         for (int i = 0; i< messageCount; ++i) {
-            synchronized (GLOBAL_SYNCHRONIZATION_OBJECT)
-            {
-                TransactionManager.initTransaction();
-                objectUnderTest
-                        .send(message)
-                        .toTopic(TOPIC_DESTINATION)
-                        .addHeader("domain_event_id", UUID.randomUUID().toString())
-                        .asJson();
-                TransactionManager.closeTransaction();
-            }
+            UUID uuid = UUID.randomUUID();
+
+            objectUnderTest
+                    .send(message)
+                    .toTopic(TOPIC_DESTINATION)
+                    .addHeader("domain_event_id", uuid.toString())
+                    .asJson();
         }
 
 

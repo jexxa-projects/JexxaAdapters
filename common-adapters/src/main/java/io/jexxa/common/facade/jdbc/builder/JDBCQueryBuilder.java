@@ -117,24 +117,24 @@ public final <S extends Enum<S>> JDBCQueryBuilder<T> select(Class<S> clazz, S el
         return this;
     }
 
-    public JDBCQueryBuilder<T> from(T element)
+    public JDBCQueryBuilder<T> from(String name)
     {
         getStatementBuilder()
                 .append(SQLSyntax.FROM)
-                .append(element.name())
+                .append(name)
                 .append(SQLSyntax.BLANK);
 
         return this;
     }
 
+    public JDBCQueryBuilder<T> from(T element)
+    {
+        return from(element.name());
+    }
+
     public JDBCQueryBuilder<T> from(Class<?> clazz)
     {
-        getStatementBuilder()
-                .append(SQLSyntax.FROM)
-                .append(clazz.getSimpleName())
-                .append(SQLSyntax.BLANK);
-
-        return this;
+        return from(clazz.getSimpleName());
     }
 
     public JDBCCondition<T, JDBCQueryBuilder<T>> where(T element)

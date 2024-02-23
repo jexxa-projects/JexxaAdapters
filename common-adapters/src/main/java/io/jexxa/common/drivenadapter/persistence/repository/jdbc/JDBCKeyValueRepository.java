@@ -2,11 +2,11 @@ package io.jexxa.common.drivenadapter.persistence.repository.jdbc;
 
 
 import io.jexxa.common.drivenadapter.persistence.repository.IRepository;
-import org.slf4j.Logger;
 import io.jexxa.common.facade.jdbc.JDBCProperties;
 import io.jexxa.common.facade.jdbc.builder.JDBCObject;
 import io.jexxa.common.facade.jdbc.database.DatabaseManager;
 import io.jexxa.common.facade.jdbc.database.IDatabase;
+import org.slf4j.Logger;
 
 import java.util.List;
 import java.util.Objects;
@@ -28,6 +28,8 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
     private final Class<T> aggregateClazz;
     private final IDatabase database;
 
+    private String tableName;
+
     public enum KeyValueSchema
     {
         REPOSITORY_KEY,
@@ -42,6 +44,7 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
         this.keyFunction = Objects.requireNonNull( keyFunction );
         this.aggregateClazz = Objects.requireNonNull(aggregateClazz);
         this.database = DatabaseManager.getDatabase(properties.getProperty(JDBCProperties.jdbcUrl()));
+        this.tableName = aggregateClazz.getSimpleName();
 
         manageDBTable(properties);
     }
@@ -53,6 +56,7 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
         this.keyFunction = Objects.requireNonNull( keyFunction );
         this.aggregateClazz = Objects.requireNonNull(aggregateClazz);
         this.database = DatabaseManager.getDatabase(properties.getProperty(JDBCProperties.jdbcUrl()));
+        this.tableName = aggregateClazz.getSimpleName();
 
         if ( manageTable )
         {
@@ -68,7 +72,7 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
         var jdbcKey = new JDBCObject(getJSONConverter().toJson(key), database.matchingValue(JSONB));
 
         var command = getConnection().command(KeyValueSchema.class)
-                .deleteFrom(aggregateClazz)
+                .deleteFrom(tableName())
                 .where(KeyValueSchema.REPOSITORY_KEY)
                 .isEqual(jdbcKey)
                 .create();
@@ -80,7 +84,7 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
     public void removeAll()
     {
         var command = getConnection().command(KeyValueSchema.class)
-                .deleteFrom(aggregateClazz)
+                .deleteFrom(tableName())
                 .create();
 
         command.asIgnore();
@@ -92,7 +96,7 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
         Objects.requireNonNull(aggregate);
 
         var command = getConnection().command(KeyValueSchema.class)
-                .insertInto(aggregateClazz)
+                .insertInto(tableName())
                 .values(new JDBCObject[]{
                         primaryKeyToJSONB(keyFunction.apply(aggregate)),
                         valueToJSONB(aggregate)}
@@ -109,7 +113,7 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
         Objects.requireNonNull(aggregate);
 
         var command = getConnection().command(KeyValueSchema.class)
-                .update(aggregateClazz)
+                .update(tableName())
                 .set(KeyValueSchema.REPOSITORY_VALUE, valueToJSONB(aggregate))
                 .where(KeyValueSchema.REPOSITORY_KEY)
                 .isEqual(primaryKeyToJSONB(keyFunction.apply(aggregate)))
@@ -125,7 +129,7 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
 
         var query = getConnection().query(KeyValueSchema.class)
                 .select(KeyValueSchema.REPOSITORY_VALUE)
-                .from(aggregateClazz)
+                .from(tableName())
                 .where(KeyValueSchema.REPOSITORY_KEY)
                 .isEqual(primaryKeyToJSONB(primaryKey))
                 .create();
@@ -143,7 +147,7 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
     {
         var query = getConnection().query(KeyValueSchema.class)
                 .select(KeyValueSchema.REPOSITORY_VALUE)
-                .from(aggregateClazz)
+                .from(tableName())
                 .create();
 
         return query
@@ -151,6 +155,18 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
                 .flatMap(Optional::stream)
                 .map( element -> getJSONConverter().fromJson(element, aggregateClazz))
                 .toList();
+    }
+
+    public void tableName(String tableName)
+    {
+        Objects.requireNonNull(tableName);
+        this.tableName = tableName;
+        autocreateTableKeyValue();
+    }
+
+    public String tableName()
+    {
+        return tableName;
     }
 
     private void manageDBTable(Properties properties)
@@ -168,7 +184,7 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
         try{
 
             var command = getConnection().tableCommand(KeyValueSchema.class)
-                    .createTableIfNotExists(aggregateClazz)
+                    .createTableIfNotExists(tableName())
                     .addColumn(KeyValueSchema.REPOSITORY_KEY, database.matchingPrimaryKey(JSONB))
                     .addConstraint(PRIMARY_KEY)
                     .addColumn(KeyValueSchema.REPOSITORY_VALUE, database.matchingValue(JSONB))
@@ -178,7 +194,7 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
         }
         catch (IllegalArgumentException e)
         {
-            LOGGER.debug("Could not create table {} => Assume that table already exists", aggregateClazz.getSimpleName());
+            LOGGER.debug("Could not create table {} => Assume that table already exists", tableName());
         }
     }
 
