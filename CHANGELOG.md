@@ -6,13 +6,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## \[1.2.0] - 2024-02-17
 ### Added
+* `TransactionalOutboxSender`: Properties `outbox.table` to define the used table name  
+
 * Deprecated: Declared `RepositoryManager`, `ObjectStoreManager`, and `MessageSenderManager` as deprecated because they are factories that is not obvious due to their names and APIs
 
 * Added: `RepositoryFactory`, `ObjectStoreFactory`, and `MessageSenderFactory` as replacement for `RepositoryManager`, `ObjectStoreManager`, and `MessageSenderManager`
 
+
 ### Fixed
-- `TransactionalOutputSender`: The transactional outbox sender can now be used without a running transaction.  
-- Updated dependencies
+* `TransactionalOutputSender`: The transactional outbox sender can now be used without a running transaction.  
+* Updated dependencies
 
 ## \[1.2.0] - 2024-02-17
 ### Added
