@@ -15,16 +15,6 @@ public class JDBCTableBuilder<T extends Enum<T>> extends JDBCBuilder<T>
         this.jdbcConnection = jdbcConnection;
     }
 
-    public JDBCCommand dropTableIfExists(T element)
-    {
-        getStatementBuilder()
-                .append(SQLSyntax.DROP_TABLE)
-                .append(SQLSyntax.IF_EXISTS)
-                .append(element.name());
-
-        return create();
-    }
-
     public JDBCCommand dropTableIfExists(String table)
     {
         getStatementBuilder()
@@ -35,14 +25,14 @@ public class JDBCTableBuilder<T extends Enum<T>> extends JDBCBuilder<T>
         return create();
     }
 
+    public JDBCCommand dropTableIfExists(T element)
+    {
+        return dropTableIfExists(element.name());
+    }
+
     public JDBCCommand dropTableIfExists(Class<?> clazz)
     {
-        getStatementBuilder()
-                .append(SQLSyntax.DROP_TABLE)
-                .append(SQLSyntax.IF_EXISTS)
-                .append(clazz.getSimpleName());
-
-        return create();
+        return dropTableIfExists(clazz.getSimpleName());
     }
 
     public JDBCColumnBuilder<T> alterTable(Class<?> clazz)
@@ -55,26 +45,6 @@ public class JDBCTableBuilder<T extends Enum<T>> extends JDBCBuilder<T>
     }
 
 
-    public JDBCColumnBuilder<T> createTableIfNotExists(T element)
-    {
-        getStatementBuilder()
-                .append(SQLSyntax.CREATE_TABLE)
-                .append(SQLSyntax.IF_NOT_EXISTS)
-                .append(element.name());
-
-        return new JDBCColumnBuilder<>(this);
-    }
-
-    public JDBCColumnBuilder<T> createTableIfNotExists(Class<?> clazz)
-    {
-        getStatementBuilder()
-                .append(SQLSyntax.CREATE_TABLE)
-                .append(SQLSyntax.IF_NOT_EXISTS)
-                .append(clazz.getSimpleName());
-
-        return new JDBCColumnBuilder<>(this);
-    }
-
     public JDBCColumnBuilder<T> createTableIfNotExists(String tableName)
     {
         getStatementBuilder()
@@ -85,40 +55,51 @@ public class JDBCTableBuilder<T extends Enum<T>> extends JDBCBuilder<T>
         return new JDBCColumnBuilder<>(this);
     }
 
-    public JDBCColumnBuilder<T> createTable(T element)
+    public JDBCColumnBuilder<T> createTableIfNotExists(T element)
+    {
+        return createTableIfNotExists(element.name());
+    }
+
+    public JDBCColumnBuilder<T> createTableIfNotExists(Class<?> clazz)
+    {
+        return createTableIfNotExists(clazz.getSimpleName());
+    }
+
+    public JDBCColumnBuilder<T> createTable(String tableName)
     {
         getStatementBuilder()
                 .append(SQLSyntax.CREATE_TABLE)
-                .append(element.name());
+                .append(tableName);
 
         return new JDBCColumnBuilder<>(this);
+    }
+    public JDBCColumnBuilder<T> createTable(T element)
+    {
+        return createTable(element.name());
     }
 
     public JDBCColumnBuilder<T> createTable(Class<?> clazz)
     {
-        getStatementBuilder()
-                .append(SQLSyntax.CREATE_TABLE)
-                .append(clazz.getSimpleName());
+        return createTable(clazz.getSimpleName());
+    }
 
-        return new JDBCColumnBuilder<>(this);
+    public JDBCCommand dropTable(String tableName)
+    {
+        getStatementBuilder()
+                .append(SQLSyntax.DROP_TABLE)
+                .append(tableName);
+
+        return create();
     }
 
     public JDBCCommand dropTable(T element)
     {
-        getStatementBuilder()
-                .append(SQLSyntax.DROP_TABLE)
-                .append(element.name());
-
-        return create();
+        return dropTable(element.name());
     }
 
     public JDBCCommand dropTable(Class<?> clazz)
     {
-        getStatementBuilder()
-                .append(SQLSyntax.DROP_TABLE)
-                .append(clazz.getSimpleName());
-
-        return create();
+        return dropTable(clazz.getSimpleName());
     }
 
     public JDBCCommand create()
@@ -168,7 +149,7 @@ public class JDBCTableBuilder<T extends Enum<T>> extends JDBCBuilder<T>
             return commandBuilder;
         }
 
-        public JDBCColumnBuilder<T> addColumn(T element, SQLDataType dataType)
+        public <S extends Enum<S>> JDBCColumnBuilder<T> addColumn(S element, SQLDataType dataType)
         {
             addCommaSeparatorIfRequired();
             openBracesIfRequired();
@@ -182,7 +163,11 @@ public class JDBCTableBuilder<T extends Enum<T>> extends JDBCBuilder<T>
             return this;
         }
 
-        public <S extends Enum<S>> JDBCColumnBuilder<T> addColumn(S element, SQLDataType dataType, Class<S> schemaClass)
+        /**
+         * @deprecated Use {@link #addColumn(S element, SQLDataType dataType)} instead
+         */
+        @Deprecated(since = "1.2.0",forRemoval = true)
+        public <S extends Enum<S>> JDBCColumnBuilder<T> addColumn(S element, SQLDataType dataType, Class<S> ignore)
         {
             addCommaSeparatorIfRequired();
             openBracesIfRequired();

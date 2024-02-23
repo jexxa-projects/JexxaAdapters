@@ -174,9 +174,9 @@ public class JDBCObjectStore<T,K, M extends Enum<M> & MetadataSchema> extends JD
 
             var command = getConnection().tableCommand(metaData)
                     .createTableIfNotExists(aggregateClazz)
-                    .addColumn(KeyValueSchema.REPOSITORY_KEY, database.matchingPrimaryKey(JSONB), KeyValueSchema.class)
+                    .addColumn(KeyValueSchema.REPOSITORY_KEY, database.matchingPrimaryKey(JSONB))
                     .addConstraint(PRIMARY_KEY)
-                    .addColumn(KeyValueSchema.REPOSITORY_VALUE, database.matchingValue(JSONB), KeyValueSchema.class);
+                    .addColumn(KeyValueSchema.REPOSITORY_VALUE, database.matchingValue(JSONB));
 
             jdbcSchema.forEach(element -> command.addColumn(element, typeToSQL(element.getTag().getTagType())) );
 
