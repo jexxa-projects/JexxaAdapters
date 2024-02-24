@@ -1,6 +1,7 @@
 package io.jexxa.common.drivenadapter.messaging.jms;
 
 
+import io.jexxa.adapterapi.JexxaContext;
 import io.jexxa.common.drivenadapter.messaging.MessageSender;
 import io.jexxa.common.drivingadapter.messaging.jms.JMSAdapter;
 import io.jexxa.common.drivingadapter.messaging.jms.listener.QueueListener;
@@ -62,11 +63,13 @@ class JMSSenderIT
         jmsAdapter.register(queueListener);
         jmsAdapter.register(topicListener);
         jmsAdapter.start();
+        JexxaContext.init();
     }
 
     @AfterEach
     void afterEach() {
         jmsAdapter.stop();
+        JexxaContext.cleanup();
     }
 
 

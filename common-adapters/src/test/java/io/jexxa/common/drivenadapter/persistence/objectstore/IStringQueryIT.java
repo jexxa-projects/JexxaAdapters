@@ -1,10 +1,12 @@
 package io.jexxa.common.drivenadapter.persistence.objectstore;
 
 
+import io.jexxa.adapterapi.JexxaContext;
 import io.jexxa.common.drivenadapter.persistence.objectstore.metadata.MetaTag;
 import io.jexxa.common.drivenadapter.persistence.objectstore.metadata.MetadataSchema;
 import io.jexxa.common.facade.jdbc.JDBCConnection;
 import io.jexxa.common.facade.testapplication.TestValueObject;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -79,9 +81,14 @@ class IStringQueryIT
         testData.stream().limit(50).forEach(element -> element.setOptionalString(createCharSequence( element.getKey().getValue())));
         // Set optional values in the first 50 elements to 0, ..., 49
         testData.stream().limit(50).forEach( element -> element.setOptionalValue( element.getKey() ));
+        JexxaContext.init();
     }
 
-
+    @AfterEach
+    void deInit()
+    {
+        JexxaContext.cleanup();
+    }
     @ParameterizedTest
     @MethodSource(REPOSITORY_CONFIG)
     void testStringComparisonOperator(Properties properties)

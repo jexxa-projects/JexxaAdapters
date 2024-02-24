@@ -1,6 +1,8 @@
 package io.jexxa.common.drivenadapter.outbox;
 
+import io.jexxa.adapterapi.JexxaContext;
 import io.jexxa.common.drivenadapter.messaging.jms.JMSSender;
+import io.jexxa.common.drivenadapter.persistence.RepositoryFactory;
 import io.jexxa.common.drivingadapter.messaging.jms.JMSAdapter;
 import io.jexxa.common.drivingadapter.messaging.jms.JMSConfiguration;
 import io.jexxa.common.drivingadapter.messaging.jms.idempotent.IdempotentListener;
@@ -44,11 +46,15 @@ class TransactionalOutboxSenderIT {
         jmsAdapter = new JMSAdapter(jmsProperties);
         jmsAdapter.register(idempotentListener);
         jmsAdapter.start();
+
+        JexxaContext.init();
+        RepositoryFactory.defaultSettings();
     }
 
     @AfterEach
     void afterEach() {
         jmsAdapter.stop();
+        JexxaContext.cleanup();
     }
     @Test
     void validateIdempotentHandlingOfDuplicateMessages()

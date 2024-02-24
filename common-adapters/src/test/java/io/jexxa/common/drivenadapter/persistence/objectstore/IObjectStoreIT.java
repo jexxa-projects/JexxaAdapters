@@ -1,12 +1,14 @@
 package io.jexxa.common.drivenadapter.persistence.objectstore;
 
 
+import io.jexxa.adapterapi.JexxaContext;
 import io.jexxa.common.drivenadapter.persistence.objectstore.metadata.MetaTag;
 import io.jexxa.common.drivenadapter.persistence.objectstore.metadata.MetaTags;
 import io.jexxa.common.drivenadapter.persistence.objectstore.metadata.MetadataSchema;
 import io.jexxa.common.facade.TestConstants;
 import io.jexxa.common.facade.jdbc.JDBCConnection;
 import io.jexxa.common.facade.testapplication.TestValueObject;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.parallel.Execution;
@@ -40,6 +42,13 @@ class IObjectStoreIT
                 .toList();
 
         testData.forEach(element -> element.setInternalValue(element.getKey().getValue()));
+        JexxaContext.init();
+    }
+
+    @AfterEach
+    void deInit()
+    {
+        JexxaContext.cleanup();
     }
 
     /**

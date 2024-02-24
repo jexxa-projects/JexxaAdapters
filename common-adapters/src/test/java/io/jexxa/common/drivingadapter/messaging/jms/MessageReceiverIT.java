@@ -1,5 +1,6 @@
 package io.jexxa.common.drivingadapter.messaging.jms;
 
+import io.jexxa.adapterapi.JexxaContext;
 import io.jexxa.common.drivenadapter.messaging.MessageSender;
 import io.jexxa.common.drivenadapter.messaging.jms.JMSSender;
 import io.jexxa.common.drivenadapter.outbox.TransactionalOutboxSender;
@@ -58,11 +59,13 @@ class MessageReceiverIT
         jmsAdapter.register(jsonMessageListener);
         jmsAdapter.register(typedListener);
         jmsAdapter.start();
+        JexxaContext.init();
     }
 
     @AfterEach
     void afterEach() {
         jmsAdapter.stop();
+        JexxaContext.cleanup();
     }
 
     @SuppressWarnings("unused")

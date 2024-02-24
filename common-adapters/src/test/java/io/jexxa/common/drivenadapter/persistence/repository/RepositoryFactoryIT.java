@@ -1,12 +1,14 @@
 package io.jexxa.common.drivenadapter.persistence.repository;
 
 
+import io.jexxa.adapterapi.JexxaContext;
 import io.jexxa.common.drivenadapter.persistence.RepositoryConfig;
 import io.jexxa.common.drivenadapter.persistence.RepositoryFactory;
 import io.jexxa.common.drivenadapter.persistence.repository.imdb.IMDBRepository;
 import io.jexxa.common.drivenadapter.persistence.repository.jdbc.JDBCKeyValueRepository;
 import io.jexxa.common.facade.jdbc.TestEntity;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
@@ -26,9 +28,16 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class RepositoryFactoryIT
 {
 
+
+    @BeforeEach
+    void init()
+    {
+        JexxaContext.init();
+    }
     @AfterEach
     void cleanup()
     {
+        JexxaContext.cleanup();
         RepositoryFactory.defaultSettings();
     }
 

@@ -1,10 +1,12 @@
 package io.jexxa.common.drivenadapter.persistence.objectstore;
 
 
+import io.jexxa.adapterapi.JexxaContext;
 import io.jexxa.common.drivenadapter.persistence.objectstore.metadata.MetaTag;
 import io.jexxa.common.drivenadapter.persistence.objectstore.metadata.MetadataSchema;
 import io.jexxa.common.facade.jdbc.JDBCConnection;
 import io.jexxa.common.facade.testapplication.TestValueObject;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -70,6 +72,12 @@ class INumericQueryIT
         testData.forEach(element -> element.setInternalValue(element.getKey().getValue())); // set internal int value to an ascending number
 
         testData.stream().limit(50).forEach( element -> element.setOptionalValue( element.getKey() )); // Set optional value to half ot the test data (0 to 49)
+        JexxaContext.init();
+    }
+    @AfterEach
+    void deInit()
+    {
+        JexxaContext.cleanup();
     }
 
 

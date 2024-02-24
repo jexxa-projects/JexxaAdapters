@@ -1,11 +1,13 @@
 package io.jexxa.common.drivenadapter.persistence.repository;
 
+import io.jexxa.adapterapi.JexxaContext;
 import io.jexxa.common.drivenadapter.persistence.repository.jdbc.JDBCKeyValueRepository;
 import io.jexxa.common.facade.TestConstants;
 import io.jexxa.common.facade.jdbc.JDBCConnection;
 import io.jexxa.common.facade.jdbc.JDBCTestDatabase;
 import io.jexxa.common.facade.jdbc.TestEntity;
 import io.jexxa.common.facade.testapplication.TestValueObject;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.parallel.Execution;
@@ -38,8 +40,13 @@ class TestEntityRepositoryImplIT
         aggregateList = IntStream.range(1, 100)
                 .mapToObj(element -> TestEntity.create(new TestValueObject(element)))
                 .toList();
+        JexxaContext.init();
     }
-
+    @AfterEach
+    void deInit()
+    {
+        JexxaContext.cleanup();
+    }
     @ParameterizedTest
     @MethodSource(ALL_REPOSITORY_CONFIGS)
     void addAggregate(Properties repositoryProperties)
