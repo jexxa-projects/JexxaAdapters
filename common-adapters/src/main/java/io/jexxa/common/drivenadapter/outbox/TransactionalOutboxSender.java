@@ -11,6 +11,8 @@ import io.jexxa.common.drivenadapter.persistence.repository.imdb.IMDBRepository;
 import io.jexxa.common.drivenadapter.persistence.repository.jdbc.JDBCKeyValueRepository;
 import io.jexxa.common.facade.logger.SLF4jLogger;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 import java.util.concurrent.Executors;
@@ -32,20 +34,18 @@ import static io.jexxa.common.facade.logger.SLF4jLogger.getLogger;
  * In the current implementation, we check each 300 ms if a new message is available that is then forwarded.
  */
 public class TransactionalOutboxSender extends MessageSender {
-    private static TransactionalOutboxSender transactionalOutboxSender;
+    private static final List<TransactionalOutboxSender> TRANSACTIONAL_OUTBOX_SENDERS = new ArrayList<>();
     private static boolean cleanupRegistered = false;
     private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
     private final IRepository<JexxaOutboxMessage, UUID> outboxRepository;
     private final MessageSender messageSender;
 
 
-    @SuppressWarnings("unused") // used by manager
+    @SuppressWarnings("unused") // used by MessageSenderFactory
     public static MessageSender createInstance(Properties properties)
     {
-        if (transactionalOutboxSender == null)
-        {
-            transactionalOutboxSender = new TransactionalOutboxSender(properties);
-        }
+        var transactionalOutboxSender = new TransactionalOutboxSender(properties);
+        TRANSACTIONAL_OUTBOX_SENDERS.add(transactionalOutboxSender);
 
         if (!cleanupRegistered)
         {
@@ -71,7 +71,9 @@ public class TransactionalOutboxSender extends MessageSender {
                 ((JDBCKeyValueRepository<JexxaOutboxMessage, UUID >)(this.outboxRepository))
                         .tableName(properties.getProperty(outboxTable()));
             } else {
-                SLF4jLogger.getLogger(TransactionalOutboxSender.class).warn("Your TransactionalOutboxSender uses a JDBCRepository but does not define a jdbc table -> Define a dedicated table for each connection using `connection.prefix`.outbox.table .");
+                if (!TRANSACTIONAL_OUTBOX_SENDERS.isEmpty()) {
+                    SLF4jLogger.getLogger(TransactionalOutboxSender.class).warn("You use multiple instances of TransactionalOutboxSender -> Define a dedicated table for each connection using `unique-prefix`.outbox.table .");
+                }
             }
         }
 
@@ -83,10 +85,8 @@ public class TransactionalOutboxSender extends MessageSender {
 
     public static void cleanup()
     {
-        if (transactionalOutboxSender != null){
-            transactionalOutboxSender.internalCleanup();
-            transactionalOutboxSender = null;
-        }
+        TRANSACTIONAL_OUTBOX_SENDERS.forEach(TransactionalOutboxSender::internalCleanup);
+        TRANSACTIONAL_OUTBOX_SENDERS.clear();
     }
 
     void internalCleanup() {
