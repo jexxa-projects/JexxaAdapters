@@ -32,7 +32,7 @@ public final class LambdaUtils {
             Method lambdaMethod = lambda.getClass().getDeclaredMethod("writeReplace");
             lambdaMethod.setAccessible(true);
             SerializedLambda serializedLambda = (SerializedLambda) lambdaMethod.invoke(lambda);
-            return serializedLambda.getImplMethodName();
+            return serializedLambda.getCapturingClass() + "/" + serializedLambda.getImplMethodName();
         } catch (ReflectiveOperationException ex) {
             return "unknownMethodName";
         }

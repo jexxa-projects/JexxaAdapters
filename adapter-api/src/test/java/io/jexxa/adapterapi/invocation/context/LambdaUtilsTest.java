@@ -17,11 +17,12 @@ class LambdaUtilsTest {
         SerializableFunction<String, String> function = LambdaUtilsTest::testFunction;
         SerializableBiFunction<String, String, String> biFunction = LambdaUtilsTest::testBiFunction;
         SerializableBiConsumer<String, String> biConsumer = LambdaUtilsTest::testBiConsumer;
+        String expectedPrefix = LambdaUtilsTest.class.getName().replace('.', '/') ;
 
         //Act / Assert
-        assertEquals("testFunction", methodNameFromLambda(function));
-        assertEquals("testBiFunction", methodNameFromLambda(biFunction));
-        assertEquals("testBiConsumer", methodNameFromLambda(biConsumer));
+        assertEquals(expectedPrefix + "/testFunction", methodNameFromLambda(function));
+        assertEquals(expectedPrefix + "/testBiFunction", methodNameFromLambda(biFunction));
+        assertEquals(expectedPrefix + "/testBiConsumer", methodNameFromLambda(biConsumer));
     }
 
     private static String testFunction(String string)
