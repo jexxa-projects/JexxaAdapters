@@ -17,6 +17,13 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Stream;
 
+import static io.jexxa.common.facade.jdbc.JDBCTestDatabase.PRIMARY_KEY_WITH_NONNULL_VALUES;
+import static io.jexxa.common.facade.jdbc.JDBCTestDatabase.TEST_DOUBLE_VALUE;
+import static io.jexxa.common.facade.jdbc.JDBCTestDatabase.TEST_FLOAT_VALUE;
+import static io.jexxa.common.facade.jdbc.JDBCTestDatabase.TEST_INT_VALUE;
+import static io.jexxa.common.facade.jdbc.JDBCTestDatabase.TEST_NUMERIC_VALUE;
+import static io.jexxa.common.facade.jdbc.JDBCTestDatabase.TEST_STRING;
+import static io.jexxa.common.facade.jdbc.JDBCTestDatabase.TEST_TIMESTAMP;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -37,7 +44,7 @@ class JDBCQueryIT
         var querySelectOr = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
                 .select(JDBCTestDatabase.JDBCTestSchema.STRING_TYPE)
                 .from(JDBCTestDatabase.class)
-                .where(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY).isEqual(JDBCTestDatabase.PRIMARY_KEY_WITH_NONNULL_VALUES)
+                .where(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY).isEqual(PRIMARY_KEY_WITH_NONNULL_VALUES)
                 .or(JDBCTestDatabase.JDBCTestSchema.STRING_TYPE).isNull()
                 .create();
 
@@ -56,7 +63,7 @@ class JDBCQueryIT
         var querySelectAnd = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
                 .select(JDBCTestDatabase.JDBCTestSchema.STRING_TYPE)
                 .from(JDBCTestDatabase.class)
-                .where(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY).isEqual(JDBCTestDatabase.PRIMARY_KEY_WITH_NONNULL_VALUES)
+                .where(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY).isEqual(PRIMARY_KEY_WITH_NONNULL_VALUES)
                 .and(JDBCTestDatabase.JDBCTestSchema.STRING_TYPE).isNull()
                 .create();
 
@@ -76,7 +83,7 @@ class JDBCQueryIT
                 .select(JDBCTestDatabase.JDBCTestSchema.STRING_TYPE, JDBCTestDatabase.JDBCTestSchema.INTEGER_TYPE)
                 .from(JDBCTestDatabase.class)
                 .where(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY)
-                .isEqual(JDBCTestDatabase.PRIMARY_KEY_WITH_NONNULL_VALUES)
+                .isEqual(PRIMARY_KEY_WITH_NONNULL_VALUES)
                 .create();
 
         var result = queryMultiSelect.as(this::readMultiSelect);
@@ -95,7 +102,7 @@ class JDBCQueryIT
                 .selectAll()
                 .from(JDBCTestDatabase.class)
                 .where(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY)
-                .isEqual(JDBCTestDatabase.PRIMARY_KEY_WITH_NONNULL_VALUES)
+                .isEqual(PRIMARY_KEY_WITH_NONNULL_VALUES)
                 .create();
 
         //Act
@@ -211,6 +218,67 @@ class JDBCQueryIT
 
         assertTrue(isReverseSorted(result));
         assertFalse(isSorted(result));
+    }
+
+    @ParameterizedTest
+    @MethodSource(JDBCTestDatabase.JDBC_REPOSITORY_CONFIG)
+    void testSelectMax(Properties properties)
+    {
+        //Arrange
+        jdbcConnection = JDBCTestDatabase.setupDatabase(properties);
+
+        int startCounter = 5;
+
+        for (int i = startCounter; i <= 100; ++i)
+        {
+            jdbcConnection.command(JDBCTestDatabase.JDBCTestSchema.class)
+                    .insertInto(JDBCTestDatabase.class)
+                    .values(new Object[]{i, i, TEST_NUMERIC_VALUE, TEST_FLOAT_VALUE, TEST_DOUBLE_VALUE, TEST_STRING, TEST_TIMESTAMP})
+                    .create()
+                    .asUpdate();
+        }
+
+        var querySelectMax = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
+                .selectMax(JDBCTestDatabase.JDBCTestSchema.INTEGER_TYPE)
+                .from(JDBCTestDatabase.class)
+                .create();
+
+        //Act
+        var result = querySelectMax.asInt().findFirst().orElseThrow();
+
+        //Assert
+        assertEquals(100, result);
+    }
+
+
+    @ParameterizedTest
+    @MethodSource(JDBCTestDatabase.JDBC_REPOSITORY_CONFIG)
+    void testSelectMin(Properties properties)
+    {
+        //Arrange
+        jdbcConnection = JDBCTestDatabase.setupDatabase(properties);
+
+        int startCounter = 5;
+
+        for (int i = startCounter; i <= 100; ++i)
+        {
+            jdbcConnection.command(JDBCTestDatabase.JDBCTestSchema.class)
+                    .insertInto(JDBCTestDatabase.class)
+                    .values(new Object[]{i, i, TEST_NUMERIC_VALUE, TEST_FLOAT_VALUE, TEST_DOUBLE_VALUE, TEST_STRING, TEST_TIMESTAMP})
+                    .create()
+                    .asUpdate();
+        }
+
+        var querySelectMin = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
+                .selectMin(JDBCTestDatabase.JDBCTestSchema.INTEGER_TYPE)
+                .from(JDBCTestDatabase.class)
+                .create();
+
+        //Act
+        var result = querySelectMin.asInt().findFirst().orElseThrow();
+
+        //Assert
+        assertEquals(TEST_INT_VALUE, result);
     }
 
     // Begin> Utility methods used in this test
