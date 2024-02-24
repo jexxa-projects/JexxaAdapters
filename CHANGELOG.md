@@ -4,15 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## \[1.2.0] - 2024-02-17
+## \[1.3.0] - 2024-02-dd
 ### Added
-* `TransactionalOutboxSender`: Properties `outbox.table` to define the used table name  
-
-* Deprecated: Declared `RepositoryManager`, `ObjectStoreManager`, and `MessageSenderManager` as deprecated because they are factories that is not obvious due to their names and APIs
+* `TransactionalOutboxSender`: Properties `outbox.table` to define the used table name. See [here](common-adapters/src/test/resources/application.properties) for an example.
 
 * Added: `RepositoryFactory`, `ObjectStoreFactory`, and `MessageSenderFactory` as replacement for `RepositoryManager`, `ObjectStoreManager`, and `MessageSenderManager`
 
-
+### Deprecated
+* Declared `RepositoryManager`, `ObjectStoreManager`, and `MessageSenderManager` as deprecated because they are factories that is not obvious due to their names and APIs
+s
 ### Fixed
 * `TransactionalOutputSender`: The transactional outbox sender can now be used without a running transaction.  
 * Updated dependencies
