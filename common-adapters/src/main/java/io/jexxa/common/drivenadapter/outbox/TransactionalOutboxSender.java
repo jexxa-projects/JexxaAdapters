@@ -37,11 +37,11 @@ public class TransactionalOutboxSender extends MessageSender {
     private static final List<TransactionalOutboxSender> TRANSACTIONAL_OUTBOX_SENDERS = new ArrayList<>();
     private static boolean cleanupRegistered = false;
     private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-    private final IRepository<JexxaOutboxMessage, UUID> outboxRepository;
-    private final MessageSender messageSender;
+    private IRepository<JexxaOutboxMessage, UUID> outboxRepository;
+    private MessageSender messageSender;
 
 
-    @SuppressWarnings("unused") // used by MessageSenderFactory
+    @SuppressWarnings("unused") // factory method used by MessageSenderFactory
     public static MessageSender createInstance(Properties properties)
     {
         var transactionalOutboxSender = new TransactionalOutboxSender(properties);
@@ -57,30 +57,9 @@ public class TransactionalOutboxSender extends MessageSender {
 
     private TransactionalOutboxSender(Properties properties)
     {
-        this.outboxRepository = createRepository(JexxaOutboxMessage.class
-                        , JexxaOutboxMessage::messageId
-                        , properties );
-
-        if (this.outboxRepository instanceof IMDBRepository<JexxaOutboxMessage, UUID>) {
-            SLF4jLogger.getLogger(TransactionalOutboxSender.class).warn("Your TransactionalOutboxSender uses an IMDBRepository for persisting unsent messages. This might be fine for testing purposes. In production environment define a JDBC connection for proper message resend.");
-        }
-
-        if (this.outboxRepository instanceof JDBCKeyValueRepository<JexxaOutboxMessage, UUID>) {
-            if (properties.containsKey(outboxTable()) && !properties.getProperty(outboxTable()).isEmpty())
-            {
-                ((JDBCKeyValueRepository<JexxaOutboxMessage, UUID >)(this.outboxRepository))
-                        .tableName(properties.getProperty(outboxTable()));
-            } else {
-                if (!TRANSACTIONAL_OUTBOX_SENDERS.isEmpty()) {
-                    SLF4jLogger.getLogger(TransactionalOutboxSender.class).warn("You use multiple instances of TransactionalOutboxSender -> Define a dedicated table for each connection using `unique-prefix`.outbox.table .");
-                }
-            }
-        }
-
-        setMessageSender(JMSSender.class, TransactionalOutboxSender.class); // Ensure that we get a JMSSender for internal sending
-        this.messageSender = createMessageSender(TransactionalOutboxSender.class, properties);
-
-        executor.schedule( this::transactionalSend, 300, TimeUnit.MILLISECONDS);
+        validateProperties(properties);
+        setupMessageStorage(properties);
+        setupMessageSender(properties);
     }
 
     public static void cleanup()
@@ -201,6 +180,45 @@ public class TransactionalOutboxSender extends MessageSender {
         producer.addHeader("domain_event_id", outboxMessage.messageId().toString()).asString();
     }
 
+    private void validateProperties(Properties properties) {
+        if (properties.containsKey(outboxTable()) && !properties.getProperty(outboxTable()).isEmpty())
+        {
+            return;
+        }
+
+        if (!TRANSACTIONAL_OUTBOX_SENDERS.isEmpty()) {
+            throw new IllegalArgumentException("You use multiple instances of TransactionalOutboxSender but `unique-prefix`.outbox.table is not defined-> Define a dedicated table for each connection using `unique-prefix`.outbox.table .");
+        } else {
+            SLF4jLogger.getLogger(TransactionalOutboxSender.class).warn("Your TransactionalOutboxSender does not define property `unique-prefix`.outbox.table -> Define a dedicated table for each connection using `unique-prefix`.outbox.table because future releases will enforce this property.");
+        }
+    }
+
+    private void setupMessageStorage(Properties properties) {
+        this.outboxRepository = createRepository(JexxaOutboxMessage.class
+                , JexxaOutboxMessage::messageId
+                , properties );
+
+        if (this.outboxRepository instanceof IMDBRepository<JexxaOutboxMessage, UUID>) {
+            SLF4jLogger.getLogger(TransactionalOutboxSender.class).warn("Your TransactionalOutboxSender uses an IMDBRepository for persisting unsent messages. This might be fine for testing purposes. In production environment define a JDBC connection for proper message resend.");
+        }
+
+        //Configure table name
+        if (this.outboxRepository instanceof JDBCKeyValueRepository<JexxaOutboxMessage, UUID>
+                && (properties.containsKey(outboxTable())
+                && !properties.getProperty(outboxTable()).isEmpty()))
+        {
+            ((JDBCKeyValueRepository<JexxaOutboxMessage, UUID >)(this.outboxRepository))
+                    .tableName(properties.getProperty(outboxTable()));
+        }
+    }
+
+    private void setupMessageSender(Properties properties) {
+        setMessageSender(JMSSender.class, TransactionalOutboxSender.class); // Ensure that we get a JMSSender for internal sending
+
+        this.messageSender = createMessageSender(TransactionalOutboxSender.class, properties);
+
+        executor.schedule( this::transactionalSend, 300, TimeUnit.MILLISECONDS);
+    }
 
     enum DestinationType{ TOPIC, QUEUE }
 

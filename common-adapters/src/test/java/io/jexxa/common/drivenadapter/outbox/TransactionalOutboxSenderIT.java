@@ -30,22 +30,25 @@ class TransactionalOutboxSenderIT {
 
     private final TestValueObject message = new TestValueObject(42);
 
-    private ValueObjectIdempotentListener idempotentListener;
-    private Properties jmsProperties;
-    private JMSAdapter jmsAdapter;
+    private ValueObjectIdempotentListener1 idempotentListener;
+    private Properties outboxProperties1;
+    private Properties outboxProperties2;
+
+    private JMSAdapter jmsAdapter1;
 
 
     @BeforeEach
     void initTests() throws IOException {
         Properties properties = new Properties();
         properties.load(getClass().getResourceAsStream("/application.properties"));
-        jmsProperties = PropertiesUtils.getSubset(properties,"test-outbox-connection");
+        outboxProperties1 = PropertiesUtils.getSubset(properties,"test-outbox-connection1");
+        outboxProperties2 = PropertiesUtils.getSubset(properties,"test-outbox-connection2");
 
-        idempotentListener = new ValueObjectIdempotentListener(jmsProperties);
+        idempotentListener = new ValueObjectIdempotentListener1(outboxProperties1);
 
-        jmsAdapter = new JMSAdapter(jmsProperties);
-        jmsAdapter.register(idempotentListener);
-        jmsAdapter.start();
+        jmsAdapter1 = new JMSAdapter(outboxProperties1);
+        jmsAdapter1.register(idempotentListener);
+        jmsAdapter1.start();
 
         JexxaContext.init();
         RepositoryFactory.defaultSettings();
@@ -53,15 +56,16 @@ class TransactionalOutboxSenderIT {
 
     @AfterEach
     void afterEach() {
-        jmsAdapter.stop();
+        jmsAdapter1.stop();
         JexxaContext.cleanup();
     }
     @Test
     void validateIdempotentHandlingOfDuplicateMessages()
     {
         //Arrange
-        setDefaultMessageSender(JMSSender.class);
-        var objectUnderTest = createMessageSender(TransactionalOutboxSenderIT.class, jmsProperties);
+        setDefaultMessageSender(JMSSender.class);// To enforce sending a message twice, we use JMSSender
+
+        var objectUnderTest = createMessageSender(TransactionalOutboxSenderIT.class, outboxProperties1);
         UUID uuid = UUID.randomUUID();
         //Act
         objectUnderTest
@@ -82,11 +86,45 @@ class TransactionalOutboxSenderIT {
     }
 
     @Test
+    void testTwoOutboxSender()
+    {
+        //Arrange
+        try (JMSAdapter jmsAdapter2 = new JMSAdapter(outboxProperties1)) {
+            var idempotentListener2 = new ValueObjectIdempotentListener2(outboxProperties2);
+
+            jmsAdapter2.register(idempotentListener2);
+            jmsAdapter2.start();
+
+
+            var objectUnderTest1 = createMessageSender(TransactionalOutboxSenderIT.class, outboxProperties1);
+            var objectUnderTest2 = createMessageSender(TransactionalOutboxSenderIT.class, outboxProperties1);
+
+            //Act
+            for (int i = 0; i < 100; ++i ) {
+                objectUnderTest1
+                        .send(message)
+                        .toTopic(TOPIC_DESTINATION)
+                        .asJson();
+
+                objectUnderTest2
+                        .send(message)
+                        .toTopic("JEXXA_TOPIC2")
+                        .asJson();
+            }
+            //Assert
+            await().atMost(15, TimeUnit.SECONDS).until(() -> idempotentListener.getReceivedMessages().size() == 100);
+            await().atMost(15, TimeUnit.SECONDS).until(() -> idempotentListener2.getReceivedMessages().size() == 100);
+            assertEquals(0, idempotentListener.duplicateMessageCounter());
+            assertEquals(0, idempotentListener2.duplicateMessageCounter());
+        }
+    }
+
+    @Test
     void stressTestIdempotentMessaging()
     {
         //Arrange
         int messageCount = 100;
-        var objectUnderTest = createMessageSender(TransactionalOutboxSenderIT.class, jmsProperties);
+        var objectUnderTest = createMessageSender(TransactionalOutboxSenderIT.class, outboxProperties1);
 
         //Act
         for (int i = 0; i< messageCount; ++i) {
@@ -104,16 +142,35 @@ class TransactionalOutboxSenderIT {
         await().atMost(15, TimeUnit.SECONDS).until(() -> idempotentListener.getReceivedMessages().size() == messageCount);
     }
 
-    private static class ValueObjectIdempotentListener extends IdempotentListener<TestDomainEvent>
+    private static class ValueObjectIdempotentListener1 extends IdempotentListener<TestDomainEvent>
     {
         private final List<TestDomainEvent> receivedMessages = new ArrayList<>();
 
-        protected ValueObjectIdempotentListener(Properties properties) {
+        protected ValueObjectIdempotentListener1(Properties properties) {
             super(TestDomainEvent.class, properties);
         }
 
         @Override
         @JMSConfiguration(destination = TOPIC_DESTINATION, messagingType = JMSConfiguration.MessagingType.TOPIC)
+        public void onMessage(TestDomainEvent message) {
+            receivedMessages.add(message);
+        }
+
+        public List<TestDomainEvent> getReceivedMessages() {
+            return receivedMessages;
+        }
+    }
+
+    private static class ValueObjectIdempotentListener2 extends IdempotentListener<TestDomainEvent>
+    {
+        private final List<TestDomainEvent> receivedMessages = new ArrayList<>();
+
+        protected ValueObjectIdempotentListener2(Properties properties) {
+            super(TestDomainEvent.class, properties);
+        }
+
+        @Override
+        @JMSConfiguration(destination = "JEXXA_TOPIC2", messagingType = JMSConfiguration.MessagingType.TOPIC)
         public void onMessage(TestDomainEvent message) {
             receivedMessages.add(message);
         }
