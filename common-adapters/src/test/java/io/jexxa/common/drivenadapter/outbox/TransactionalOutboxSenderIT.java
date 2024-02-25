@@ -50,6 +50,7 @@ class TransactionalOutboxSenderIT {
         jmsAdapter1.register(idempotentListener);
         jmsAdapter1.start();
 
+        setDefaultMessageSender(TransactionalOutboxSender.class);
         JexxaContext.init();
         RepositoryFactory.defaultSettings();
     }
