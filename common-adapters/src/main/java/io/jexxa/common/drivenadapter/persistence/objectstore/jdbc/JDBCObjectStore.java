@@ -58,12 +58,7 @@ public class JDBCObjectStore<T,K, M extends Enum<M> & MetadataSchema> extends JD
         this.jdbcSchema = EnumSet.allOf(metaData);
         this.database = DatabaseManager.getDatabase(properties.getProperty(JDBCProperties.jdbcUrl()));
 
-        if (properties.containsKey(JDBCProperties.jdbcAutocreateTable()))
-        {
-            autoCreateDatabase();
-            renameKeyValueColumns();
-            alterKeyValueRows();
-        }
+        initializeObjectStore(properties);
     }
 
 
@@ -157,9 +152,8 @@ public class JDBCObjectStore<T,K, M extends Enum<M> & MetadataSchema> extends JD
         return new JDBCStringQuery<>(this::getConnection, metaTag, aggregateClazz, metaData, queryType );
     }
 
-    private void manageObjectStore(Properties properties)
+    private void initializeObjectStore(Properties properties)
     {
-        Objects.requireNonNull(properties);
         if (properties.containsKey(JDBCProperties.jdbcAutocreateTable()))
         {
             autoCreateDatabase();
