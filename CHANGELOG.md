@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## \[1.3.0] - 2024-02-dd
+## \[1.3.0] - 2024-02-25
 ### Added
 * `TransactionalOutboxSender`: Properties `outbox.table` to define the used table name. See [here](common-adapters/src/test/resources/application.properties) for an example.
 
