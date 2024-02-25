@@ -17,7 +17,7 @@ public final class JDBCConnectionPool implements AutoCloseable {
     private final Map<Object, JDBCConnection> exclusiveConnectionMap = new ConcurrentHashMap<>();
     private final Map<Object, JDBCConnection.IsolationLevel> connectionConfiguration = new ConcurrentHashMap<>();
 
-    public static synchronized JDBCConnection getConnection(Properties properties, Object managingObject)
+    public static synchronized JDBCConnection getJDBCConnection(Properties properties, Object managingObject)
     {
         var connectionName = properties.getProperty(JDBCProperties.jdbcUrl());
 
@@ -31,6 +31,15 @@ public final class JDBCConnectionPool implements AutoCloseable {
             return JDBC_CONNECTION_POOL.getExclusiveConnection(properties, managingObject);
         }
         return JDBC_CONNECTION_POOL.getSharedConnection(properties, connectionName);
+    }
+
+    /**
+     * @deprecated Use {@link #getJDBCConnection} instead
+     */
+    @Deprecated(since = "1.3.0")
+    public static synchronized JDBCConnection getConnection(Properties properties, Object managingObject)
+    {
+        return getJDBCConnection(properties, managingObject);
     }
 
 

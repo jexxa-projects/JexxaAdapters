@@ -3,11 +3,11 @@ package io.jexxa.common.drivenadapter.persistence.repository.jdbc;
 import io.jexxa.adapterapi.invocation.transaction.TransactionHandler;
 import io.jexxa.adapterapi.invocation.transaction.TransactionManager;
 import io.jexxa.common.facade.jdbc.JDBCConnection;
-import io.jexxa.common.facade.jdbc.JDBCConnectionPool;
 
 import java.util.Objects;
 import java.util.Properties;
 
+import static io.jexxa.common.facade.jdbc.JDBCConnectionPool.getJDBCConnection;
 import static io.jexxa.common.facade.logger.SLF4jLogger.getLogger;
 
 public abstract class JDBCRepository implements TransactionHandler {
@@ -28,7 +28,7 @@ public abstract class JDBCRepository implements TransactionHandler {
      */
     public JDBCConnection getConnection()
     {
-        return JDBCConnectionPool.getConnection(properties, this);
+        return getJDBCConnection(properties, this);
     }
     @Override
     public void initTransaction()
