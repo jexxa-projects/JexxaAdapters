@@ -33,15 +33,6 @@ public final class JDBCConnectionPool implements AutoCloseable {
         return JDBC_CONNECTION_POOL.getSharedConnection(properties, connectionName);
     }
 
-    /**
-     * @deprecated Use {@link #getJDBCConnection} instead
-     */
-    @Deprecated(since = "1.3.0")
-    public static synchronized JDBCConnection getConnection(Properties properties, Object managingObject)
-    {
-        return getJDBCConnection(properties, managingObject);
-    }
-
 
     public static void configureExclusiveConnection(Object managingObject, JDBCConnection.IsolationLevel isolationLevel)
     {

@@ -163,24 +163,6 @@ public class JDBCTableBuilder<T extends Enum<T>> extends JDBCBuilder<T>
             return this;
         }
 
-        /**
-         * @deprecated Use {@link #addColumn(S element, SQLDataType dataType)} instead
-         */
-        @Deprecated(since = "1.2.0",forRemoval = true)
-        public <S extends Enum<S>> JDBCColumnBuilder<T> addColumn(S element, SQLDataType dataType, Class<S> ignore)
-        {
-            addCommaSeparatorIfRequired();
-            openBracesIfRequired();
-
-            commandBuilder
-                    .getStatementBuilder()
-                    .append(element.name())
-                    .append(SQLSyntax.BLANK)
-                    .append(dataType.toString());
-
-            return this;
-        }
-
 
         public JDBCColumnBuilder<T> addConstraint( SQLConstraint sqlConstraint)
         {
