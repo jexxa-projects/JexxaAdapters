@@ -157,8 +157,6 @@ public class JDBCObjectStore<T,K, M extends Enum<M> & MetadataSchema> extends JD
         if (properties.containsKey(JDBCProperties.jdbcAutocreateTable()))
         {
             autoCreateDatabase();
-            renameKeyValueColumns();
-            alterKeyValueRows();
         }
     }
 

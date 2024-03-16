@@ -174,8 +174,6 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
         if (properties.containsKey(JDBCProperties.jdbcAutocreateTable()))
         {
             autocreateTableKeyValue();
-            renameKeyValueColumns();
-            alterKeyValueRows();
         }
     }
 
@@ -195,26 +193,6 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
         catch (IllegalArgumentException e)
         {
             LOGGER.debug("Could not create table {} => Assume that table already exists", tableName());
-        }
-    }
-
-    protected final void alterKeyValueRows()
-    {
-        database.alterColumnType(getConnection(), aggregateClazz, KeyValueSchema.REPOSITORY_KEY.name(), database.matchingPrimaryKey(JSONB));
-
-        database.alterColumnType(getConnection(), aggregateClazz, KeyValueSchema.REPOSITORY_VALUE.name(), database.matchingValue(JSONB));
-    }
-
-    protected final void renameKeyValueColumns()
-    {
-        if (database.columnExist(getConnection(), aggregateClazz.getSimpleName(), "key"))
-        {
-            database.renameColumn(getConnection(), aggregateClazz.getSimpleName(), "key", KeyValueSchema.REPOSITORY_KEY.name());
-        }
-
-        if (database.columnExist(getConnection(), aggregateClazz.getSimpleName(), "value"))
-        {
-            database.renameColumn(getConnection(), aggregateClazz.getSimpleName(), "value", KeyValueSchema.REPOSITORY_VALUE.name());
         }
     }
 
