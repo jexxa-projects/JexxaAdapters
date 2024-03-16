@@ -72,7 +72,7 @@ public final class MetaTags
         return new StringTag<>(accessor, element -> element);
     }
 
-    private static class InstantTag<T> extends NumericTag<T, Instant>
+    public static class InstantTag<T> extends NumericTag<T, Instant>
     {
         public static final int NANO = 1000000000;
         public InstantTag(Function<T, Instant> accessor)
