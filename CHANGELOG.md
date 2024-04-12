@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## \[2.0.1] - 2024-04-12
+### Fixed
+* Updated dependencies
+
 ## \[2.0.0] - 2024-03-16
 ### Removed
 * Deprecated classes `RepositoryManager`, `ObjectStoreManager`, and `MessageSenderManager`. Instead, `RepositoryFactory`, `ObjectStoreFactory`, and `MessageSenderFactory` must be used.
