@@ -45,6 +45,7 @@ public class JDBCQueryBuilder<T extends Enum<T>> extends JDBCBuilder<T>
         return this;
     }
 
+    @SuppressWarnings("java:S1172") // clazz required to ensure type safety
     public <S extends Enum<S>> JDBCQueryBuilder<T> select(Class<S> clazz, S element)
     {
         getStatementBuilder()
