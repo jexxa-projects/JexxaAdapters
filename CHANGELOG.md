@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## \[2.0.4] - 2024-08-01
+### Fixed
+* Updated dependencies
+* Validate JMS properties before creating a JMSConnection. At least Driver and URL must be specified.
+
 ## \[2.0.3] - 2024-05-29
 ### Fixed
 * Updated dependencies
