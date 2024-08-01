@@ -13,8 +13,8 @@ import static io.jexxa.common.facade.jdbc.JDBCProperties.jdbcUrl;
 import static io.jexxa.common.facade.jdbc.JDBCProperties.jdbcUsername;
 
 public class RepositoryConfig {
-    static private final String USER_NAME = "postgres";
-    static private final String USER_PASSWORD = "admin";
+    private static final String USER_NAME = "postgres";
+    private static final String USER_PASSWORD = "admin";
     @SuppressWarnings("unused")
     public static Stream<Properties> repositoryConfig(String schemaName) {
         return Stream.of(

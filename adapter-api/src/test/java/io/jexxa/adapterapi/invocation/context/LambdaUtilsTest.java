@@ -37,6 +37,6 @@ class LambdaUtilsTest {
 
     private static void testBiConsumer(String string1, String string2)
     {
-
+        //Empty because we test only the signature. Since there is no logic this method is empty
     }
 }
