@@ -20,6 +20,10 @@ public class JDBCObject {
 
     public String getBindParameter()
     {
-        return "(?::" + getSqlDataType() + ")";
+        if (sqlDataType == SQLDataType.JSONB) {
+            return "(?::" + getSqlDataType() + ")";
+        }
+
+        return "( ? )";
     }
 }
