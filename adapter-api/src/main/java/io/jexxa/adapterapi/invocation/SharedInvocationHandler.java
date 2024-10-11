@@ -12,23 +12,16 @@ import io.jexxa.adapterapi.invocation.function.SerializableConsumer;
 import io.jexxa.adapterapi.invocation.function.SerializableFunction;
 import io.jexxa.adapterapi.invocation.function.SerializableRunnable;
 import io.jexxa.adapterapi.invocation.function.SerializableSupplier;
-import io.jexxa.adapterapi.invocation.transaction.TransactionManager;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *  @deprecated Use {@link TransactionalInvocationHandler} instead
- */
 @SuppressWarnings("UnusedReturnValue")
-@Deprecated(forRemoval = true)
-public class DefaultInvocationHandler implements AroundInterceptor, BeforeInterceptor, AfterInterceptor, JexxaInvocationHandler {
+public class SharedInvocationHandler implements AroundInterceptor, BeforeInterceptor, AfterInterceptor, JexxaInvocationHandler {
     private final List<BeforeInterceptor> beforeList = new ArrayList<>();
     private final List<AfterInterceptor> afterList = new ArrayList<>();
     private final List<AroundInterceptor> aroundList = new ArrayList<>();
-
-    public static final Object GLOBAL_SYNCHRONIZATION_OBJECT = new Object();
 
     @Override
     public void before(InvocationContext invocationContext)
@@ -48,27 +41,19 @@ public class DefaultInvocationHandler implements AroundInterceptor, BeforeInterc
         invocationContext.proceed();
     }
 
-    @Override
-    public DefaultInvocationHandler registerAround(AroundInterceptor interceptor) {
+    public SharedInvocationHandler registerAround(AroundInterceptor interceptor) {
         aroundList.add(interceptor);
         return this;
     }
 
-    @Override
-    public DefaultInvocationHandler registerBefore(BeforeInterceptor interceptor) {
+    public SharedInvocationHandler registerBefore(BeforeInterceptor interceptor) {
         beforeList.add(interceptor);
         return this;
     }
 
-    @Override
-    public DefaultInvocationHandler registerAfter(AfterInterceptor interceptor) {
+    public SharedInvocationHandler registerAfter(AfterInterceptor interceptor) {
         afterList.add(interceptor);
         return this;
-    }
-
-    @Override
-    public JexxaInvocationHandler newInstance() {
-        return new DefaultInvocationHandler();
     }
 
 
@@ -104,6 +89,11 @@ public class DefaultInvocationHandler implements AroundInterceptor, BeforeInterc
     }
 
     @Override
+    public JexxaInvocationHandler newInstance() {
+        return new SharedInvocationHandler();
+    }
+
+    @Override
     public <T, R> R invoke(Object targetObject,SerializableFunction<T, R> function, T argument) {
         var invocationContext = new FunctionInvocationContext<>(targetObject, function, argument, aroundList);
         invoke(invocationContext);
@@ -111,19 +101,9 @@ public class DefaultInvocationHandler implements AroundInterceptor, BeforeInterc
     }
 
     protected void invoke(InvocationContext invocationContext)  {
-        synchronized (GLOBAL_SYNCHRONIZATION_OBJECT)
-        {
-            try {
-                TransactionManager.initTransaction();
-                before(invocationContext);
-                around(invocationContext);
-                after(invocationContext);
-                TransactionManager.closeTransaction();
-            } catch (Exception e) {
-                TransactionManager.rollback();
-                TransactionManager.closeTransaction();
-                throw e;
-            }
-        }
+        before(invocationContext);
+        around(invocationContext);
+        after(invocationContext);
     }
+
 }

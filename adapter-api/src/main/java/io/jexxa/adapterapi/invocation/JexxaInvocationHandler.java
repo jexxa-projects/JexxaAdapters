@@ -1,5 +1,8 @@
 package io.jexxa.adapterapi.invocation;
 
+import io.jexxa.adapterapi.interceptor.AfterInterceptor;
+import io.jexxa.adapterapi.interceptor.AroundInterceptor;
+import io.jexxa.adapterapi.interceptor.BeforeInterceptor;
 import io.jexxa.adapterapi.invocation.function.SerializableConsumer;
 import io.jexxa.adapterapi.invocation.function.SerializableFunction;
 import io.jexxa.adapterapi.invocation.function.SerializableRunnable;
@@ -7,6 +10,9 @@ import io.jexxa.adapterapi.invocation.function.SerializableSupplier;
 
 import java.lang.reflect.Method;
 
+/** Note: We use the prefix Jexxa to avoid name clashing with Java's InvocationHandler
+ */
+@SuppressWarnings("UnusedReturnValue")
 public interface JexxaInvocationHandler
 {
     /**
@@ -59,4 +65,11 @@ public interface JexxaInvocationHandler
      * @throws InvocationTargetRuntimeException includes occurred exceptions.
      */
     <T, R> R invoke(Object targetObject,SerializableFunction<T, R> function, T argument);
+
+    JexxaInvocationHandler registerAround(AroundInterceptor interceptor);
+
+    JexxaInvocationHandler registerBefore(BeforeInterceptor interceptor);
+
+    JexxaInvocationHandler registerAfter(AfterInterceptor interceptor);
+    JexxaInvocationHandler newInstance();
 }

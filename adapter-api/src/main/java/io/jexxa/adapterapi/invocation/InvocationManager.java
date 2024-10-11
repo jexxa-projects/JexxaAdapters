@@ -4,22 +4,32 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public final class InvocationManager {
-    private static final Map<Object, DefaultInvocationHandler> INVOCATION_HANDLER_MAP = new ConcurrentHashMap<>();
+    private static final Map<Object, JexxaInvocationHandler> INVOCATION_HANDLER_MAP = new ConcurrentHashMap<>();
+    private static JexxaInvocationHandler defaultInvocationHandler = new TransactionalInvocationHandler();
 
+    public static void setInvocationHandler(JexxaInvocationHandler invocationHandler, Object object)
+    {
+        INVOCATION_HANDLER_MAP.put(object, invocationHandler);
+    }
+
+    public static void setDefaultInvocationHandler(JexxaInvocationHandler defaultInvocationHandler)
+    {
+        InvocationManager.defaultInvocationHandler = defaultInvocationHandler;
+    }
 
     public static synchronized JexxaInvocationHandler getInvocationHandler(Object object)
     {
         return INVOCATION_HANDLER_MAP.computeIfAbsent(object, key -> createDefaultInvocationHandler());
     }
 
-    public static DefaultInvocationHandler getRootInterceptor(Object object)
+    public static JexxaInvocationHandler getRootInterceptor(Object object)
     {
-        return (DefaultInvocationHandler) getInvocationHandler(object);
+        return getInvocationHandler(object);
     }
 
-    private static DefaultInvocationHandler createDefaultInvocationHandler()
+    private static JexxaInvocationHandler createDefaultInvocationHandler()
     {
-        return new DefaultInvocationHandler();
+        return defaultInvocationHandler.newInstance();
     }
 
     private InvocationManager()
