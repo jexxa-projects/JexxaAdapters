@@ -41,16 +41,19 @@ public class SharedInvocationHandler implements AroundInterceptor, BeforeInterce
         invocationContext.proceed();
     }
 
+    @Override
     public SharedInvocationHandler registerAround(AroundInterceptor interceptor) {
         aroundList.add(interceptor);
         return this;
     }
 
+    @Override
     public SharedInvocationHandler registerBefore(BeforeInterceptor interceptor) {
         beforeList.add(interceptor);
         return this;
     }
 
+    @Override
     public SharedInvocationHandler registerAfter(AfterInterceptor interceptor) {
         afterList.add(interceptor);
         return this;
