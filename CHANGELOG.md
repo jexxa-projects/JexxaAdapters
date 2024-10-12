@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## \[2.1.0] - 2024-10-12
+### Added
+Added:
+* SharedInvocationHandler that does not init a transaction
+* TransactionalInvocationHandler that replaces DefaultInvocationHandler
+* Possibility to define a new default InvocationHandler
+* Possibility to define a InvocationHandler for a specific object
+
+### Changed
+* DefaultInvocationHandler is declared deprecated and is replaced by TransactionalInvocationHandler
+
+### Fixed
+* PreparedStatement now uses '?' as placeholder instead of '?::<type> expect as for type JSON. This fixes a compatibility issue with databases such as oracle db that did not support type conversion as part of placeholder.
+
+* Updated dependencies
+
 ## \[2.0.6] - 2024-10-05
 ### Fixed
 * Updated dependencies
