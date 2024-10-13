@@ -33,6 +33,8 @@ public abstract class StringMessageListener implements MessageListener
                 byte[] payload = new byte[(int) byteMessage.getBodyLength()];
                 byteMessage.readBytes(payload);
                 this.currentMessageText = Arrays.toString(payload);
+            } else {
+                getLogger(getClass()).error("Received message is neither of type Text message nor Byte message -> Discard it. Reason: Invalid Message type");
             }
 
             onMessage( currentMessageText );
