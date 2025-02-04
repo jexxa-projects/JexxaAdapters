@@ -32,7 +32,7 @@ Maven:
     <dependency>
         <groupId>io.jexxa.common</groupId>
         <artifactId>common-adapters</artifactId>
-        <version>2.1.2</version>
+        <version>2.1.3</version>
     </dependency>
 </dependencies>
 ```
@@ -40,7 +40,7 @@ Maven:
 Gradle:
 
 ```groovy
-compile "io.jexxa.common:common-adapters:2.1.2"
+compile "io.jexxa.common:common-adapters:2.1.3"
 ``` 
 ### Examples
 To see how to use this library, please refer to: 
@@ -68,6 +68,6 @@ Please make sure to update tests as appropriate.
 
 ## Copyright and license
 
-Code and documentation copyright 2023–2024 Michael Repplinger.
+Code and documentation copyright 2023–2025 Michael Repplinger.
 Code released under the [Apache 2.0 License](LICENSE)(see [TLDR legal](https://tldrlegal.com/license/apache-license-2.0-(apache-2.0)) for details).
 Docs released under [Creative Commons](https://creativecommons.org/licenses/by/4.0/).
