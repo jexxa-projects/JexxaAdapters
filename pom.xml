@@ -81,6 +81,7 @@
     <maven.versions.plugin>2.18.0</maven.versions.plugin>
     <maven.build.helper.version>3.4.0</maven.build.helper.version>
     <maven.templating.plugin>3.0.0</maven.templating.plugin>
+    <maven.central.publishing.plugin>0.7.0</maven.central.publishing.plugin>
 
     <!-- sonar configuration  -->
     <sonar.organization>jexxa-projects</sonar.organization>
@@ -348,6 +349,16 @@
           </nonFilteredFileExtensions>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.sonatype.central</groupId>
+        <artifactId>central-publishing-maven-plugin</artifactId>
+        <version>${maven.central.publishing.plugin}</version>
+        <extensions>true</extensions>
+        <configuration>
+          <publishingServerId>central</publishingServerId>
+          <autoPublish>true</autoPublish>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
@@ -535,20 +546,7 @@
       </build>
     </profile>
   </profiles>
-  <distributionManagement>
-    <snapshotRepository>
-      <id>oss.sonatype.org</id>
-      <name>JLegMed snapshot</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-      <uniqueVersion>true</uniqueVersion>
-    </snapshotRepository>
-    <repository>
-      <id>oss.sonatype.org</id>
-      <name>Jexxa Maven Packages</name>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
-      <uniqueVersion>true</uniqueVersion>
-    </repository>
-  </distributionManagement>
+
   <modules>
     <module>common-adapters</module>
     <module>adapter-api</module>
