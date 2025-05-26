@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## \[2.1.6] - 2025-05-26
+### Fixed
+* Updated dependencies
+* Moved deploy process from legacy OSS deploy server to new central sonatype
+
 ## \[2.1.5] - 2025-04-15
 ### Fixed
 * Updated dependencies
