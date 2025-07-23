@@ -11,7 +11,7 @@ These adapters are based on typical microservices and messaging patterns to simp
 
 * `adapter-api`: This library provides a unified API for using adapters and is used by all following libraries 
 * `common-adapters`: This library provides the following microservice and messaging patterns: 
-  * [Repository](https://martinfowler.com/eaaCatalog/repository.html) that isolates the data layer from the rest of the app on object/entity level 
+  * [Repository](https://martinfowler.com/eaaCatalog/repository.html) that isolates the data layer from the rest of the app on the object / entity level 
   * [Transactional Outbox Pattern](https://microservices.io/patterns/data/transactional-outbox.html) to atomically update the database and send messages to a message broker when 2FC is not an option
   * [Idempotent Consumer](https://microservices.io/patterns/communication-style/idempotent-consumer.html) to handle duplicate messages correctly
   * Facade to Java JDBC and JMS API to simplify the implementation of additional adapters   
@@ -32,7 +32,7 @@ Maven:
     <dependency>
         <groupId>io.jexxa.common</groupId>
         <artifactId>common-adapters</artifactId>
-        <version>2.1.7</version>
+        <version>2.2.0</version>
     </dependency>
 </dependencies>
 ```
@@ -40,7 +40,7 @@ Maven:
 Gradle:
 
 ```groovy
-compile "io.jexxa.common:common-adapters:2.1.7"
+compile "io.jexxa.common:common-adapters:2.2.0"
 ``` 
 ### Examples
 To see how to use this library, please refer to: 
@@ -53,7 +53,7 @@ This section describes how to build the library by yourself, if you want to cont
 *   A locally running [developer stack](deploy/developerStack.yml) providing a Postgres database, and ActiveMQ broker
 
 ### Build 
-*   Checkout the new project in your favorite IDE
+*   Check out the new project in your favorite IDE
 
 *   Without running integration tests:
     ```shell

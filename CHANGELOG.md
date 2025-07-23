@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+## \[2.2.0] - 2025-07-23
+### Added
+* Methods to enable/disable JDBC connection sharing
+* Added utility method to validate a JDBC connection
+
+### Fixed
+* Updated dependencies
+* Disabled JDBC connection sharing by default -> This feature can only be used in single threaded applications
 
 ## \[2.1.7] - 2025-06-25
 ### Fixed
