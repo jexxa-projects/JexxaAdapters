@@ -5,6 +5,8 @@ import io.jexxa.adapterapi.invocation.function.SerializableBiFunction;
 import io.jexxa.adapterapi.invocation.function.SerializableFunction;
 import org.junit.jupiter.api.Test;
 
+import static io.jexxa.adapterapi.invocation.context.LambdaUtils.ANONYMOUS_METHOD_NAME;
+import static io.jexxa.adapterapi.invocation.context.LambdaUtils.classNameFromLambda;
 import static io.jexxa.adapterapi.invocation.context.LambdaUtils.methodNameFromLambda;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -17,12 +19,30 @@ class LambdaUtilsTest {
         SerializableFunction<String, String> function = LambdaUtilsTest::testFunction;
         SerializableBiFunction<String, String, String> biFunction = LambdaUtilsTest::testBiFunction;
         SerializableBiConsumer<String, String> biConsumer = LambdaUtilsTest::testBiConsumer;
-        String expectedPrefix = LambdaUtilsTest.class.getName().replace('.', '/') ;
+        SerializableFunction<String, String> anonymousConsumer = data -> data;
 
         //Act / Assert
-        assertEquals(expectedPrefix + "/testFunction", methodNameFromLambda(function));
-        assertEquals(expectedPrefix + "/testBiFunction", methodNameFromLambda(biFunction));
-        assertEquals(expectedPrefix + "/testBiConsumer", methodNameFromLambda(biConsumer));
+        assertEquals("testFunction", methodNameFromLambda(function));
+        assertEquals("testBiFunction", methodNameFromLambda(biFunction));
+        assertEquals("testBiConsumer", methodNameFromLambda(biConsumer));
+        assertEquals(ANONYMOUS_METHOD_NAME, methodNameFromLambda(anonymousConsumer));
+    }
+
+    @Test
+    void testClassNameFromLambda()
+    {
+        //Arrange
+        SerializableFunction<String, String> function = LambdaUtilsTest::testFunction;
+        SerializableBiFunction<String, String, String> biFunction = LambdaUtilsTest::testBiFunction;
+        SerializableBiConsumer<String, String> biConsumer = LambdaUtilsTest::testBiConsumer;
+        SerializableFunction<String, String> anonymousConsumer = data -> data;
+
+        //Act / Assert
+        assertEquals(LambdaUtilsTest.class.getName(), classNameFromLambda(function).getName());
+        assertEquals(LambdaUtilsTest.class.getName(), classNameFromLambda(biFunction).getName());
+        assertEquals(LambdaUtilsTest.class.getName(), classNameFromLambda(biConsumer).getName());
+        assertEquals(LambdaUtilsTest.class.getName(), classNameFromLambda( anonymousConsumer ).getName());
+
     }
 
     private static String testFunction(String string)

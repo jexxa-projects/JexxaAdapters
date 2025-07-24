@@ -11,6 +11,8 @@ import java.util.Objects;
 
 public final class LambdaUtils {
 
+    public static final String ANONYMOUS_METHOD_NAME = "anonymousMethod";
+    private static final String WRITE_REPLACE = "writeReplace";
 
     private static final Map<Class<?>, Class<?>> WRAPPER_TYPE_MAP;
     static {
@@ -29,12 +31,30 @@ public final class LambdaUtils {
     @SuppressWarnings("java:S3011") //required for setAccessible(true)
     public static String methodNameFromLambda(Serializable lambda) {
         try {
-            Method lambdaMethod = lambda.getClass().getDeclaredMethod("writeReplace");
+            Method lambdaMethod = lambda.getClass().getDeclaredMethod(WRITE_REPLACE);
             lambdaMethod.setAccessible(true);
             SerializedLambda serializedLambda = (SerializedLambda) lambdaMethod.invoke(lambda);
-            return serializedLambda.getCapturingClass() + "/" + serializedLambda.getImplMethodName();
+            if (serializedLambda.getImplMethodName().startsWith("lambda$"))
+            {
+                return ANONYMOUS_METHOD_NAME;
+            }
+            return serializedLambda.getImplMethodName();
         } catch (ReflectiveOperationException ex) {
             return "unknownMethodName";
+        }
+    }
+
+    @SuppressWarnings("java:S3011") //required for setAccessible(true)
+    public static  Class<?> classNameFromLambda(Serializable lambda) {
+        try {
+            Method writeReplace = lambda.getClass().getDeclaredMethod(WRITE_REPLACE);
+            writeReplace.setAccessible(true);
+            SerializedLambda serialized = (SerializedLambda) writeReplace.invoke(lambda);
+            String className = serialized.getImplClass().replace('/', '.');
+            return Class.forName(className);
+        } catch (ReflectiveOperationException e)
+        {
+            return Object.class;
         }
     }
 
@@ -75,7 +95,7 @@ public final class LambdaUtils {
         for (Class<?> clazz = functionalInterface.getClass(); clazz != null; clazz = clazz.getSuperclass())
         {
             try {
-                Method replaceMethod = clazz.getDeclaredMethod("writeReplace");
+                Method replaceMethod = clazz.getDeclaredMethod(WRITE_REPLACE);
                 replaceMethod.setAccessible(true);
                 Object serialVersion = replaceMethod.invoke(functionalInterface);
 
