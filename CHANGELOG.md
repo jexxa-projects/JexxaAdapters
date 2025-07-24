@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+## \[2.3.0] - 2025-07-24
+### Added
+* Method to get the class of a serializedLambda
+
+### Changed
+* Method `methodNameFromLambda` only returns the method name 
+
 ## \[2.2.0] - 2025-07-23
 ### Added
 * Methods to enable/disable JDBC connection sharing
