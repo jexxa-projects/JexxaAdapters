@@ -82,7 +82,7 @@ public final class LambdaUtils {
 
     /**
      * This method extracts the SerializedLambda from a functional interface. To ensure that this is available,
-     * the functional interface must implement Serializable which ensures that method `writeReplace` is automatically
+     * the functional interface must implement Serializable which ensures that the method `writeReplace` is automatically
      * generated
      *
      * @param functionalInterface from which SerializedLambda should be extracted
@@ -99,7 +99,7 @@ public final class LambdaUtils {
                 replaceMethod.setAccessible(true);
                 Object serialVersion = replaceMethod.invoke(functionalInterface);
 
-                // check if class is a lambda function
+                // check if the class is a lambda function
                 if (serialVersion != null && serialVersion.getClass() == SerializedLambda.class) {
                     serializedLambda = (SerializedLambda) serialVersion;
                     break;
