@@ -122,7 +122,15 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- dependencies for tests with ActiveMQ -->
+
+    <dependency>
+        <groupId>org.xerial</groupId>
+        <artifactId>sqlite-jdbc</artifactId>
+        <version>${sqlilte.version}</version>
+        <scope>test</scope>
+    </dependency>
+
+      <!-- dependencies for tests with ActiveMQ -->
     <dependency>
       <groupId>org.apache.activemq</groupId>
       <artifactId>artemis-jms-client</artifactId>

@@ -22,6 +22,7 @@ public class RepositoryConfig {
                 postgresRepositoryConfigRepeatableRead(schemaName),
                 postgresRepositoryConfig(schemaName),
                 h2RepositoryConfig(),
+                sqliteRepositoryConfig(),
                 imdbRepositoryConfig()
         );
     }
@@ -29,7 +30,8 @@ public class RepositoryConfig {
     public static Stream<Properties> jdbcRepositoryConfig(String schemaName) {
         return Stream.of(
                 postgresRepositoryConfig(schemaName),
-                h2RepositoryConfig()
+                h2RepositoryConfig(),
+                sqliteRepositoryConfig()
         );
     }
 
@@ -79,6 +81,18 @@ public class RepositoryConfig {
 
         return h2Properties;
     }
+
+    public static Properties sqliteRepositoryConfig() {
+        var sqliteProperties = new Properties();
+        sqliteProperties.put(jdbcDriver(), "org.sqlite.JDBC");
+        sqliteProperties.put(jdbcPassword(), USER_PASSWORD);
+        sqliteProperties.put(jdbcUsername(), USER_NAME);
+        sqliteProperties.put(jdbcUrl(), "jdbc:sqlite:./repositoryTestDB.sqlite");
+        sqliteProperties.put(jdbcAutocreateTable(), "true");
+
+        return sqliteProperties;
+    }
+
 
 
     public static Properties imdbRepositoryConfig()

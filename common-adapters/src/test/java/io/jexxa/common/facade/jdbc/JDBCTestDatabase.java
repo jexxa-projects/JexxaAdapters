@@ -18,7 +18,7 @@ public final class JDBCTestDatabase
     static final int PRIMARY_KEY_WITH_NONNULL_VALUES = 2;
     static final int PRIMARY_KEY_WITH_NONNULL_VALUES_DUPLICATE = 3;
     static final int PRIMARY_KEY_VALUES_NOT_PRESENT = 4;
-    static final Timestamp TEST_TIMESTAMP = Timestamp.from(Instant.now().truncatedTo(ChronoUnit.MICROS));
+    static final Timestamp TEST_TIMESTAMP = Timestamp.from(Instant.now().truncatedTo(ChronoUnit.MILLIS));
     static final String TEST_STRING = "Hello World";
     static final int TEST_INT_VALUE = 2;
     static final int TEST_FLOAT_VALUE = 3;
