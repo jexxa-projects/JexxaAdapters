@@ -16,6 +16,7 @@ public abstract class JDBCRepository implements TransactionHandler {
     protected JDBCRepository(Properties properties)
     {
         this.properties = Objects.requireNonNull(properties);
+        getConnection(); // To ensure that the connection is valid
         TransactionManager.registerTransactionHandler(this);
     }
 
