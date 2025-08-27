@@ -87,7 +87,7 @@ public class RepositoryConfig {
         sqliteProperties.put(jdbcDriver(), "org.sqlite.JDBC");
         sqliteProperties.put(jdbcPassword(), USER_PASSWORD);
         sqliteProperties.put(jdbcUsername(), USER_NAME);
-        sqliteProperties.put(jdbcUrl(), "jdbc:sqlite:./repositoryTestDB.sqlite");
+        sqliteProperties.put(jdbcUrl(), "jdbc:sqlite:./repositoryTestDB.sqlite?journal_mode=WAL&busy_timeout=5000");
         sqliteProperties.put(jdbcAutocreateTable(), "true");
 
         return sqliteProperties;
