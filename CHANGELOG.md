@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
-## \[2.4.0] - 2025-08-06
+## \[2.4.0] - 2025-09-06
 ### Added
 * JexxaContext: Method to validate used technology stacks
 
