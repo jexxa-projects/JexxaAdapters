@@ -42,14 +42,14 @@ jobs:
           POSTGRES_PASSWORD: admin
           POSTGRES_USER: postgres
       minio:
-        image: minio
+        image: minio/minio
         ports:
           - 8100:9000
           - 8101:9001
         env:
           MINIO_ROOT_USER: minioadmin      # Admin Access Key
           MINIO_ROOT_PASSWORD: minioadmin
-
+        command: server /data
     steps:
       - uses: actions/checkout@v5
       - name: Set up JDK ${{ matrix.java }}
