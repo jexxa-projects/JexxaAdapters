@@ -40,7 +40,7 @@ jobs:
           MINIO_ROOT_PASSWORD: minioadmin
         volumes:
           - ${{ github.workspace }}/data:/data
-        options: --name=minio --health-cmd "curl http://localhost:9000/minio/health/live"
+        options: --name=minio --health-cmd "curl http://localhost:8100/minio/health/live"
     steps:
       - uses: actions/checkout@v5
       - name: Set up JDK 17
