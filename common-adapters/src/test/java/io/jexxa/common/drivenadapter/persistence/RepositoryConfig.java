@@ -5,6 +5,10 @@ package io.jexxa.common.drivenadapter.persistence;
 import java.util.Properties;
 import java.util.stream.Stream;
 
+import static io.jexxa.common.drivenadapter.persistence.repository.s3.S3KeyValueRepository.S3_ACCESS_KEY;
+import static io.jexxa.common.drivenadapter.persistence.repository.s3.S3KeyValueRepository.S3_BUCKET;
+import static io.jexxa.common.drivenadapter.persistence.repository.s3.S3KeyValueRepository.S3_ENDPOINT;
+import static io.jexxa.common.drivenadapter.persistence.repository.s3.S3KeyValueRepository.S3_SECRET_KEY;
 import static io.jexxa.common.facade.jdbc.JDBCProperties.jdbcAutocreateDatabase;
 import static io.jexxa.common.facade.jdbc.JDBCProperties.jdbcAutocreateTable;
 import static io.jexxa.common.facade.jdbc.JDBCProperties.jdbcDriver;
@@ -81,6 +85,14 @@ public class RepositoryConfig {
         h2Properties.put(jdbcAutocreateTable(), "true");
 
         return h2Properties;
+    }
+    public static Properties s3RepositoryConfig() {
+        var s3Properties = new Properties();
+        s3Properties.put(S3_ENDPOINT, "http://localhost:8100");
+        s3Properties.put(S3_BUCKET, "jexxa-adapters-test");
+        s3Properties.put(S3_SECRET_KEY, "minioadmin");
+        s3Properties.put(S3_ACCESS_KEY, "minioadmin");
+        return s3Properties;
     }
 
 
