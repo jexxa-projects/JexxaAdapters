@@ -27,7 +27,7 @@ jobs:
           POSTGRES_PASSWORD: admin
           POSTGRES_USER: postgres
       minio:
-        image: minio
+        image: minio/minio
         ports:
           - 8100:9000
           - 8101:9001
