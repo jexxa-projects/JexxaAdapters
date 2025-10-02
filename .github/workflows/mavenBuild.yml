@@ -38,8 +38,7 @@ jobs:
         env:
           MINIO_ROOT_USER: minioadmin      # Admin Access Key
           MINIO_ROOT_PASSWORD: minioadmin
-        volumes:
-          - ${{ github.workspace }}/data:/data
+
     steps:
       - uses: actions/checkout@v5
       - name: Set up JDK 17
