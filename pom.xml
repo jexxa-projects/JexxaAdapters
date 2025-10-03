@@ -49,9 +49,11 @@
     <sqlilte.version>3.50.3.0</sqlilte.version>
     <slf4j.simple.version>2.0.17</slf4j.simple.version>
     <minio.version>8.6.0</minio.version>
+    <okhttp3.version>5.1.0</okhttp3.version>
 
 
-    <!-- version of test dependencies -->
+
+      <!-- version of test dependencies -->
     <junit.platform.launcher.version>6.0.0</junit.platform.launcher.version>
     <junit.jupiter.engine.version>6.0.0</junit.jupiter.engine.version>
     <junit.jupiter.params.version>6.0.0</junit.jupiter.params.version>
