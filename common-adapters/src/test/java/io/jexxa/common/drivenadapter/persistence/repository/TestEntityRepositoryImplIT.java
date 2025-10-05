@@ -20,7 +20,9 @@ import java.util.Properties;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import static io.jexxa.common.drivenadapter.persistence.RepositoryConfig.s3RepositoryConfig;
 import static io.jexxa.common.drivenadapter.persistence.RepositoryFactory.createRepository;
+import static io.jexxa.common.drivenadapter.persistence.repository.s3.S3KeyValueRepository.S3_BUCKET;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -179,12 +181,15 @@ class TestEntityRepositoryImplIT
     @SuppressWarnings("unused")
     static Stream<Properties> repositoryConfig()
     {
-        return Stream.concat(Stream.of(new Properties()), JDBCTestDatabase.repositoryConfigJDBC());
+        return Stream.concat(Stream.of(
+                new Properties(), s3RepositoryConfig()
+                ),
+                JDBCTestDatabase.repositoryConfigJDBC());
     }
 
     private void dropTable(Properties properties)
     {
-        if (!properties.isEmpty()) {
+        if (!properties.isEmpty() && !properties.containsKey(S3_BUCKET)) {
             try ( JDBCConnection connection = new JDBCConnection(properties) ) {
                 connection.tableCommand(JDBCKeyValueRepository.KeyValueSchema.class)
                         .dropTableIfExists(TestEntity.class)

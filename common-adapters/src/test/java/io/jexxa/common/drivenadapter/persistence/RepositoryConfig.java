@@ -22,7 +22,7 @@ public class RepositoryConfig {
     private static final String USER_NAME = "postgres";
     private static final String USER_PASSWORD = "admin";
     @SuppressWarnings("unused")
-    public static Stream<Properties> repositoryConfig(String schemaName) {
+    public static Stream<Properties> objectStoreConfig(String schemaName) {
         return Stream.of(
                 postgresRepositoryConfigSerializable(schemaName),
                 postgresRepositoryConfigRepeatableRead(schemaName),

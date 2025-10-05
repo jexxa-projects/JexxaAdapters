@@ -11,7 +11,7 @@ public final class ObjectStoreTestDatabase
 
     @SuppressWarnings("unused")
     public static Stream<Properties> repositoryConfig() {
-        return RepositoryConfig.repositoryConfig("objectstore");
+        return RepositoryConfig.objectStoreConfig("objectstore");
     }
 
     private ObjectStoreTestDatabase()

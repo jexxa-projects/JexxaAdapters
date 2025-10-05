@@ -4,6 +4,7 @@ package io.jexxa.common.drivenadapter.persistence;
 import io.jexxa.common.drivenadapter.persistence.repository.IRepository;
 import io.jexxa.common.drivenadapter.persistence.repository.imdb.IMDBRepository;
 import io.jexxa.common.drivenadapter.persistence.repository.jdbc.JDBCKeyValueRepository;
+import io.jexxa.common.drivenadapter.persistence.repository.s3.S3KeyValueRepository;
 import io.jexxa.common.facade.factory.ClassFactory;
 import io.jexxa.common.facade.jdbc.JDBCProperties;
 import io.jexxa.common.facade.logger.ApplicationBanner;
@@ -14,6 +15,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.function.Function;
 
+import static io.jexxa.common.drivenadapter.persistence.repository.s3.S3KeyValueRepository.S3_BUCKET;
 import static io.jexxa.common.facade.jdbc.JDBCProperties.repositoryStrategy;
 import static io.jexxa.common.facade.logger.SLF4jLogger.getLogger;
 
@@ -142,7 +144,13 @@ public final class RepositoryFactory
             return JDBCKeyValueRepository.class;
         }
 
-        // 5. If everything fails, return a IMDBRepository
+        // 5. If a S3 bucket is stated in Properties => Use S3KeyValueRepository
+        if (properties.containsKey(S3_BUCKET))
+        {
+            return S3KeyValueRepository.class;
+        }
+
+        // 5. If everything fails, return an IMDBRepository
         return IMDBRepository.class;
     }
     public void bannerInformation(Properties properties)
