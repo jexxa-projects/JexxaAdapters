@@ -5,6 +5,7 @@ import io.jexxa.adapterapi.JexxaContext;
 import io.jexxa.common.drivenadapter.persistence.objectstore.metadata.MetaTag;
 import io.jexxa.common.drivenadapter.persistence.objectstore.metadata.MetadataSchema;
 import io.jexxa.common.facade.jdbc.JDBCConnection;
+import io.jexxa.common.facade.s3.S3Client;
 import io.jexxa.common.facade.testapplication.TestValueObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +13,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.stream.IntStream;
@@ -20,6 +22,9 @@ import java.util.stream.Stream;
 import static io.jexxa.common.drivenadapter.persistence.ObjectStoreFactory.createObjectStore;
 import static io.jexxa.common.drivenadapter.persistence.objectstore.ObjectStoreTestDatabase.REPOSITORY_CONFIG;
 import static io.jexxa.common.drivenadapter.persistence.objectstore.metadata.MetaTags.numericTag;
+import static io.jexxa.common.facade.jdbc.JDBCProperties.jdbcUrl;
+import static io.jexxa.common.facade.s3.S3Properties.s3Bucket;
+import static io.jexxa.common.facade.s3.S3Properties.s3Endpoint;
 import static java.util.Comparator.comparing;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -45,7 +50,7 @@ class INumericQueryIT
         OPTIONAL_VALUE_OBJECT(numericTag(TestObject::getOptionalValue, TestValueObject::getValue));
 
         /**
-         *  Defines the constructor of the enum. Following code is equal for all object stores.
+         *  Defines the constructor of the enum. The following code is equal for all object stores.
          */
         private final MetaTag<TestObject, ?, ? > metaTag;
 
@@ -69,9 +74,9 @@ class INumericQueryIT
                 .mapToObj(element -> TestObject.create(new TestValueObject(element)))
                 .toList();
 
-        testData.forEach(element -> element.setInternalValue(element.getKey().getValue())); // set internal int value to an ascending number
+        testData.forEach(element -> element.setInternalValue(element.getKey().getValue())); // set an internal int value to an ascending number
 
-        testData.stream().limit(50).forEach( element -> element.setOptionalValue( element.getKey() )); // Set optional value to half ot the test data (0 to 49)
+        testData.stream().limit(50).forEach( element -> element.setOptionalValue( element.getKey() )); // Set the optional value to half of the test data (0 to 49)
         JexxaContext.init();
     }
     @AfterEach
@@ -105,6 +110,7 @@ class INumericQueryIT
         var greaterThan = objectUnderTest.isGreaterThan(50);
         var lessThan = objectUnderTest.isLessThan(50);
 
+
         //Assert
         assertEquals(greaterOrEqualThanExpected, greaterOrEqualThan);
         assertEquals(greaterThanExpected, greaterThan);
@@ -119,7 +125,7 @@ class INumericQueryIT
     {
         //Arrange
         initObjectStore(properties);
-        var objectUnderTest = objectStore. getNumericQuery( TestObjectSchema.INT_VALUE, Integer.class);
+        var objectUnderTest = objectStore.getNumericQuery( TestObjectSchema.INT_VALUE, Integer.class);
 
         var equalToExpected = IntStream.rangeClosed(0,0).
                 mapToObj(element -> TestObject.create(new TestValueObject(element))).toList();
@@ -131,7 +137,7 @@ class INumericQueryIT
         var notEqualTo = objectUnderTest.isNotEqualTo(0);
 
         //Assert
-        assertEquals(notEqualToExpected, notEqualTo);
+        assertEquals(new HashSet<>(notEqualToExpected), new HashSet<>(notEqualTo));
         assertEquals(equalToExpected, equalTo);
     }
 
@@ -347,7 +353,7 @@ class INumericQueryIT
 
         //Assert
         assertEquals(expectedResult.size(), result.size());
-        //We can only compare the order of values without a null because there is no additional rule how to order NULLs
+        //We can only compare the order of values without a null because there is no additional rule on how to order NULLs
         assertEquals(expectedResult.stream().limit(50).toList(), result.stream().limit(50).toList());
     }
 
@@ -370,7 +376,7 @@ class INumericQueryIT
 
         //Assert
         assertEquals(expectedResult.size(), result.size());
-        //We can only compare the order of values without a null because there is no additional rule how to order NULLs
+        //We can only compare the order of values without a null because there is no additional rule on how to order NULLs
         assertEquals(expectedResult.stream().limit(50).toList(), result.stream().limit(50).toList());
     }
 
@@ -452,13 +458,19 @@ class INumericQueryIT
     }
     void initObjectStore(Properties properties)
     {
-        if (!properties.isEmpty()) {
+        if (properties.containsKey(jdbcUrl())) {
             try (JDBCConnection jdbcConnection = new JDBCConnection(properties)) {
                 jdbcConnection.tableCommand(TestObjectSchema.class)
                         .dropTableIfExists(TestObject.class)
                         .asIgnore();
 
             }
+        }
+
+        if (properties.containsKey(s3Endpoint())) {
+            var s3Client = new S3Client(properties);
+            s3Client.removeObjects(s3Client.getAllS3Objects());
+            s3Client.removeBucket(properties.getProperty(s3Bucket()));
         }
 
         objectStore = createObjectStore(

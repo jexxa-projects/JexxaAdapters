@@ -150,7 +150,7 @@ public final class RepositoryFactory
             return S3KeyValueRepository.class;
         }
 
-        // 5. If everything fails, return an IMDBRepository
+        // 6. If everything fails, return an IMDBRepository
         return IMDBRepository.class;
     }
     public void bannerInformation(Properties properties)

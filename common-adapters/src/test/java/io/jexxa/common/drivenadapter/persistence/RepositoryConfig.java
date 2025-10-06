@@ -28,7 +28,8 @@ public class RepositoryConfig {
                 postgresRepositoryConfigRepeatableRead(schemaName),
                 postgresRepositoryConfig(schemaName),
                 h2RepositoryConfig(),
-                imdbRepositoryConfig()
+                imdbRepositoryConfig(),
+                s3RepositoryConfig()
         );
     }
 

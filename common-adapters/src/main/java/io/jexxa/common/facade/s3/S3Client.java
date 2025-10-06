@@ -7,6 +7,7 @@ import io.minio.ListObjectsArgs;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
+import io.minio.RemoveBucketArgs;
 import io.minio.RemoveObjectArgs;
 import io.minio.RemoveObjectsArgs;
 import io.minio.Result;
@@ -189,6 +190,20 @@ public class S3Client {
         return Collections.emptyList();
     }
 
+    public void removeBucket(String bucketName) {
+
+        try {
+            minioClient.removeBucket(
+                    RemoveBucketArgs.builder()
+                            .bucket(bucketName)
+                            .build()
+            );
+        } catch (MinioException | InvalidKeyException | IOException | NoSuchAlgorithmException e)
+        {
+            throw new IllegalArgumentException("Could not delete bucket " + bucketName, e);
+        }
+
+    }
     private void validateProperties(Properties properties)
     {
         requireNonNull(properties.getProperty(s3Endpoint()));

@@ -41,7 +41,7 @@ public class TestValueObject
 
 
         return (this.value == otherObject.getValue() &&
-                this.valueInPercent == getValueInPercent());
+                this.valueInPercent == otherObject.getValueInPercent());
     }
 
     @Override

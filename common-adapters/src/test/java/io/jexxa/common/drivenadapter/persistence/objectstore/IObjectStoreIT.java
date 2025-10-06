@@ -21,6 +21,7 @@ import java.util.Properties;
 import java.util.stream.IntStream;
 
 import static io.jexxa.common.drivenadapter.persistence.ObjectStoreFactory.createObjectStore;
+import static io.jexxa.common.facade.jdbc.JDBCProperties.jdbcUrl;
 import static java.util.Comparator.comparing;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -179,7 +180,7 @@ class IObjectStoreIT
 
     void initObjectStore(Properties properties)
     {
-        if (!properties.isEmpty())
+        if (properties.containsKey(jdbcUrl()))
         {
             try(JDBCConnection jdbcConnection = new JDBCConnection(properties))
             {

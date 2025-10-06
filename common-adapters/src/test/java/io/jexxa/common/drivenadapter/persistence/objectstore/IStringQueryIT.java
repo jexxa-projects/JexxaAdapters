@@ -20,6 +20,7 @@ import static io.jexxa.common.drivenadapter.persistence.objectstore.ObjectStoreT
 import static io.jexxa.common.drivenadapter.persistence.objectstore.TestObject.createCharSequence;
 import static io.jexxa.common.drivenadapter.persistence.objectstore.metadata.MetaTags.numericTag;
 import static io.jexxa.common.drivenadapter.persistence.objectstore.metadata.MetaTags.stringTag;
+import static io.jexxa.common.facade.jdbc.JDBCProperties.jdbcUrl;
 import static java.util.Comparator.comparing;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -49,7 +50,7 @@ class IStringQueryIT
         OPTIONAL_STRING_OBJECT(stringTag(TestObject::getOptionalString));
 
         /**
-         *  Defines the constructor of the enum. Following code is equal for all object stores.
+         *  Defines the constructor of the enum. The following code is equal for all object stores.
          */
         private final MetaTag<TestObject, ?, ? > metaTag;
 
@@ -77,7 +78,7 @@ class IStringQueryIT
         // the internal string is set to A, B, ..., AA, AB, ...
         testData.forEach(element -> element.setInternalValue(element.getKey().getValue()));
 
-        // Set optional string in the first 50 elements to A, B, ..., AA, AB, ...
+        // Set an optional string in the first 50 elements to A, B, ..., AA, AB, ...
         testData.stream().limit(50).forEach(element -> element.setOptionalString(createCharSequence( element.getKey().getValue())));
         // Set optional values in the first 50 elements to 0, ..., 49
         testData.stream().limit(50).forEach( element -> element.setOptionalValue( element.getKey() ));
@@ -217,7 +218,7 @@ class IStringQueryIT
 
     void initObjectStore(Properties properties)
     {
-        if (!properties.isEmpty())
+        if (properties.containsKey(jdbcUrl()))
         {
             try(JDBCConnection jdbcConnection = new JDBCConnection(properties))
             {
