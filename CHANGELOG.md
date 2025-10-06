@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+## \[2.5.0] - 2025-10-06
+### Added
+* S3 Facade and Implementation for `ObjectStore` and `Repository`
+
 ## \[2.4.0] - 2025-09-06
 ### Added
 * JexxaContext: Method to validate used technology stacks
@@ -21,7 +25,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 * Updated dependencies
-* Disabled JDBC connection sharing by default -> This feature can only be used in single threaded applications
+* Disabled JDBC connection sharing by default → This feature can only be used in single-threaded applications
 
 ## \[2.1.7] - 2025-06-25
 ### Fixed
@@ -30,7 +34,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## \[2.1.6] - 2025-05-26
 ### Fixed
 * Updated dependencies
-* Moved deploy process from legacy OSS deploy server to new central sonatype
+* Moved the deployment process from the legacy OSS deploy server to the new central sonatype
 
 ## \[2.1.5] - 2025-04-15
 ### Fixed
@@ -64,7 +68,7 @@ Added:
 * `DefaultInvocationHandler` is declared deprecated and is replaced by `TransactionalInvocationHandler`
 
 ### Fixed
-* `PreparedStatement` now uses '?' as placeholder instead of '?::<type> expect as for type JSON. This fixes a compatibility issue with databases such as oracle db that did not support type conversion as part of placeholder.
+* `PreparedStatement` now uses '?' as placeholder instead of '?::<type>' expect as for type JSON. This fixes a compatibility issue with databases such as oracle db that did not support type conversion as part of placeholder.
 
 * Updated dependencies
 
@@ -140,7 +144,7 @@ Added:
 ### Changed
 - adapter-api:
   - This release is now part of this multi-maven project JexxaAdapters. The reason for this is that the number of changes should be small because we belong to standard APIs   
-  - The current version is based on jexxa-adapter-api which becomes now obsolete
+  - The current version is based on jexxa-adapter-api, which becomes now obsolete
   - The artifactID changed from jexxa-adapter-api to adapter-api 
   - To indicate this change, adapter-api starts with the same version number as Jexxa Adapters 
 
@@ -152,7 +156,7 @@ Added:
 - Added ApplicationBanner to show application-specific information at startup 
 
 ### Changed
-- JDBC properties are now accessed via methods so that an application can add specific prefix 
+- JDBC properties are now accessed via methods so that an application can add a specific prefix 
 
 ## \[0.3.0] - 2023-12-05 (RC for release 1.0.0)
 ### Added
