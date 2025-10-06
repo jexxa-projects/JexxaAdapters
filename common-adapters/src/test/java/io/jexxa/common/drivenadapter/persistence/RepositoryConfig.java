@@ -5,10 +5,6 @@ package io.jexxa.common.drivenadapter.persistence;
 import java.util.Properties;
 import java.util.stream.Stream;
 
-import static io.jexxa.common.drivenadapter.persistence.repository.s3.S3KeyValueRepository.S3_ACCESS_KEY;
-import static io.jexxa.common.drivenadapter.persistence.repository.s3.S3KeyValueRepository.S3_BUCKET;
-import static io.jexxa.common.drivenadapter.persistence.repository.s3.S3KeyValueRepository.S3_ENDPOINT;
-import static io.jexxa.common.drivenadapter.persistence.repository.s3.S3KeyValueRepository.S3_SECRET_KEY;
 import static io.jexxa.common.facade.jdbc.JDBCProperties.jdbcAutocreateDatabase;
 import static io.jexxa.common.facade.jdbc.JDBCProperties.jdbcAutocreateTable;
 import static io.jexxa.common.facade.jdbc.JDBCProperties.jdbcDriver;
@@ -16,6 +12,10 @@ import static io.jexxa.common.facade.jdbc.JDBCProperties.jdbcPassword;
 import static io.jexxa.common.facade.jdbc.JDBCProperties.jdbcTransactionIsolationLevel;
 import static io.jexxa.common.facade.jdbc.JDBCProperties.jdbcUrl;
 import static io.jexxa.common.facade.jdbc.JDBCProperties.jdbcUsername;
+import static io.jexxa.common.facade.s3.S3Properties.s3AccessKey;
+import static io.jexxa.common.facade.s3.S3Properties.s3Bucket;
+import static io.jexxa.common.facade.s3.S3Properties.s3Endpoint;
+import static io.jexxa.common.facade.s3.S3Properties.s3SecretKey;
 
 
 public class RepositoryConfig {
@@ -88,10 +88,10 @@ public class RepositoryConfig {
     }
     public static Properties s3RepositoryConfig() {
         var s3Properties = new Properties();
-        s3Properties.put(S3_ENDPOINT, "http://localhost:8100");
-        s3Properties.put(S3_BUCKET, "jexxa-adapters-test");
-        s3Properties.put(S3_SECRET_KEY, "minioadmin");
-        s3Properties.put(S3_ACCESS_KEY, "minioadmin");
+        s3Properties.put(s3Endpoint(), "http://localhost:8100");
+        s3Properties.put(s3Bucket(), "jexxa-adapters-test");
+        s3Properties.put(s3SecretKey(), "minioadmin");
+        s3Properties.put(s3AccessKey(), "minioadmin");
         return s3Properties;
     }
 

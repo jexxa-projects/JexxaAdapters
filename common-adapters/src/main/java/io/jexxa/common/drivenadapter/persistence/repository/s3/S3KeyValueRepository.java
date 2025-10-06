@@ -32,18 +32,17 @@ import java.util.function.Function;
 
 import static io.jexxa.common.facade.json.JSONManager.getJSONConverter;
 import static io.jexxa.common.facade.logger.SLF4jLogger.getLogger;
+import static io.jexxa.common.facade.s3.S3Properties.s3AccessKey;
+import static io.jexxa.common.facade.s3.S3Properties.s3Bucket;
+import static io.jexxa.common.facade.s3.S3Properties.s3Endpoint;
+import static io.jexxa.common.facade.s3.S3Properties.s3FileAccessKey;
+import static io.jexxa.common.facade.s3.S3Properties.s3FileSecretKey;
+import static io.jexxa.common.facade.s3.S3Properties.s3Region;
+import static io.jexxa.common.facade.s3.S3Properties.s3SecretKey;
 import static java.util.Objects.requireNonNull;
 
 public class S3KeyValueRepository<T,K> implements IRepository<T, K>
 {
-    public static final String S3_ENDPOINT = "s3.endpoint";
-    public static final String S3_REGION = "s3.region";
-    public static final String S3_BUCKET = "s3.bucket";
-    public static final String S3_ACCESS_KEY = "s3.access-key";
-    public static final String S3_SECRET_KEY = "s3.secret-key";
-    public static final String S3_FILE_ACCESS_KEY = "s3.file.access-key-path";
-    public static final String S3_FILE_SECRET_KEY = "s3.file.secret-key-path";
-
     private final Function<T,K> keyFunction;
     private final Class<T> aggregateClazz;
     private final MinioClient minioClient;
@@ -60,11 +59,11 @@ public class S3KeyValueRepository<T,K> implements IRepository<T, K>
         validateProperties(properties);
 
         minioClient = MinioClient.builder()
-                .endpoint(properties.getProperty(S3_ENDPOINT))
+                .endpoint(properties.getProperty(s3Endpoint()))
                 .credentials(
-                        getFirstPropertyAvailable(properties, S3_ACCESS_KEY, S3_FILE_ACCESS_KEY),
-                        getFirstPropertyAvailable(properties, S3_SECRET_KEY, S3_FILE_SECRET_KEY))
-                .region(properties.getProperty(S3_REGION))
+                        getFirstPropertyAvailable(properties, s3AccessKey(), s3FileAccessKey()),
+                        getFirstPropertyAvailable(properties, s3SecretKey(), s3FileSecretKey()))
+                .region(properties.getProperty(s3Region()))
                 .build();
         initBucket();
     }
@@ -77,7 +76,7 @@ public class S3KeyValueRepository<T,K> implements IRepository<T, K>
         ) {
             minioClient.putObject(
                     PutObjectArgs.builder()
-                            .bucket(properties.getProperty(S3_BUCKET))
+                            .bucket(properties.getProperty(s3Bucket()))
                             .object(encodeFilename(keyFunction.apply(aggregate)))
                             .stream(inputStream, aggregateJSON.length, -1)
                             .contentType("application/json")
@@ -99,7 +98,7 @@ public class S3KeyValueRepository<T,K> implements IRepository<T, K>
         try {
             minioClient.removeObject(
                     RemoveObjectArgs.builder()
-                            .bucket(properties.getProperty(S3_BUCKET))
+                            .bucket(properties.getProperty(s3Bucket()))
                             .object(encodeFilename(key))
                             .build()
             );
@@ -118,7 +117,7 @@ public class S3KeyValueRepository<T,K> implements IRepository<T, K>
 
         var result = minioClient.removeObjects(
                 RemoveObjectsArgs.builder()
-                        .bucket(properties.getProperty(S3_BUCKET))
+                        .bucket(properties.getProperty(s3Bucket()))
                         .objects(objectsToDelete)
                         .build()
         );
@@ -159,7 +158,7 @@ public class S3KeyValueRepository<T,K> implements IRepository<T, K>
     private Optional<T> get(String objectName) {
         try (var stream = minioClient.getObject(
                 GetObjectArgs.builder()
-                        .bucket(properties.getProperty(S3_BUCKET))
+                        .bucket(properties.getProperty(s3Bucket()))
                         .object(objectName)
                         .build()))
         {
@@ -176,8 +175,8 @@ public class S3KeyValueRepository<T,K> implements IRepository<T, K>
 
     private void validateProperties(Properties properties)
     {
-        requireNonNull(properties.getProperty(S3_ENDPOINT));
-        requireNonNull(properties.getProperty(S3_BUCKET));
+        requireNonNull(properties.getProperty(s3Endpoint()));
+        requireNonNull(properties.getProperty(s3Bucket()));
     }
 
     private static String getFirstPropertyAvailable(Properties props, String... keys) {
@@ -191,12 +190,12 @@ public class S3KeyValueRepository<T,K> implements IRepository<T, K>
     {
         try {
             boolean exists = minioClient.bucketExists(
-                    BucketExistsArgs.builder().bucket(properties.getProperty(S3_BUCKET)).build()
+                    BucketExistsArgs.builder().bucket(properties.getProperty(s3Bucket())).build()
             );
 
             if (!exists) {
                 minioClient.makeBucket(
-                        MakeBucketArgs.builder().bucket(properties.getProperty(S3_BUCKET)).build()
+                        MakeBucketArgs.builder().bucket(properties.getProperty(s3Bucket())).build()
                 );
             }
         } catch (Exception e)
@@ -211,7 +210,7 @@ public class S3KeyValueRepository<T,K> implements IRepository<T, K>
         try {
             minioClient.statObject(
                     StatObjectArgs.builder()
-                            .bucket(properties.getProperty(S3_BUCKET))
+                            .bucket(properties.getProperty(s3Bucket()))
                             .object(encodeFilename(key))
                             .build()
             );
@@ -233,7 +232,7 @@ public class S3KeyValueRepository<T,K> implements IRepository<T, K>
         // Alle Objekte im Bucket auflisten
         var results = minioClient.listObjects(
                 ListObjectsArgs.builder()
-                        .bucket(properties.getProperty(S3_BUCKET))
+                        .bucket(properties.getProperty(s3Bucket()))
                         .recursive(true) // rekursiv über alle "Ordner" hinweg
                         .build()
         );

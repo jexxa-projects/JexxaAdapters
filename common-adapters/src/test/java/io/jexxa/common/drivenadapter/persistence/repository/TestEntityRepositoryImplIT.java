@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 
 import static io.jexxa.common.drivenadapter.persistence.RepositoryConfig.s3RepositoryConfig;
 import static io.jexxa.common.drivenadapter.persistence.RepositoryFactory.createRepository;
-import static io.jexxa.common.drivenadapter.persistence.repository.s3.S3KeyValueRepository.S3_BUCKET;
+import static io.jexxa.common.facade.s3.S3Properties.s3Bucket;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -189,7 +189,7 @@ class TestEntityRepositoryImplIT
 
     private void dropTable(Properties properties)
     {
-        if (!properties.isEmpty() && !properties.containsKey(S3_BUCKET)) {
+        if (!properties.isEmpty() && !properties.containsKey(s3Bucket())) {
             try ( JDBCConnection connection = new JDBCConnection(properties) ) {
                 connection.tableCommand(JDBCKeyValueRepository.KeyValueSchema.class)
                         .dropTableIfExists(TestEntity.class)

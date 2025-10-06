@@ -15,9 +15,9 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.function.Function;
 
-import static io.jexxa.common.drivenadapter.persistence.repository.s3.S3KeyValueRepository.S3_BUCKET;
 import static io.jexxa.common.facade.jdbc.JDBCProperties.repositoryStrategy;
 import static io.jexxa.common.facade.logger.SLF4jLogger.getLogger;
+import static io.jexxa.common.facade.s3.S3Properties.s3Bucket;
 
 
 @SuppressWarnings({"unused", "java:S6548"})
@@ -145,7 +145,7 @@ public final class RepositoryFactory
         }
 
         // 5. If a S3 bucket is stated in Properties => Use S3KeyValueRepository
-        if (properties.containsKey(S3_BUCKET))
+        if (properties.containsKey(s3Bucket()))
         {
             return S3KeyValueRepository.class;
         }
