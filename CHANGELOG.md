@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+## \[2.6.0] - 2025-10-07
+### Fix
+* S3 implementation for `ObjectStore` and `Repository` now uses a prefix of <aggregate-name> in lower cases to avoid conflicts with aggregates using the same key.
+
+### Added 
+* Property `S3_APPLICATION_PREFIX` to define an application-specific prefix to simplify reusing a bucket with multiple applications 
+
 ## \[2.5.0] - 2025-10-06
 ### Added
 * S3 Facade and Implementation for `ObjectStore` and `Repository`
