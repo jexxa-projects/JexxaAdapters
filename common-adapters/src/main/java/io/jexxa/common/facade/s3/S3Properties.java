@@ -10,6 +10,11 @@ public class S3Properties {
     public static final String S3_SECRET_KEY = "s3.secret-key";
     public static final String S3_FILE_ACCESS_KEY = "s3.file.access-key-path";
     public static final String S3_FILE_SECRET_KEY = "s3.file.secret-key-path";
+    public static final String S3_APPLICATION_PREFIX = "s3.application.prefix";
+
+    public static String s3ApplicationPrefix() {
+        return prefix() + S3_APPLICATION_PREFIX;
+    }
 
     public static String s3Endpoint() {
         return prefix() + S3_ENDPOINT;

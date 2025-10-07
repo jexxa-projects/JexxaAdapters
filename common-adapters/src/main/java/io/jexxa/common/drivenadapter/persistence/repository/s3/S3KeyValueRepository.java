@@ -13,26 +13,27 @@ import java.util.Properties;
 import java.util.function.Function;
 
 import static io.jexxa.common.facade.json.JSONManager.getJSONConverter;
+import static io.jexxa.common.facade.s3.S3Properties.s3ApplicationPrefix;
 import static java.util.Objects.requireNonNull;
 
-public class S3KeyValueRepository<T,K> implements IRepository<T, K>
-{
-    private final Function<T,K> keyFunction;
+public class S3KeyValueRepository<T,K> implements IRepository<T, K> {
+    private final Function<T, K> keyFunction;
     private final Class<T> aggregateClazz;
     private final S3Client s3Client;
+    private final String s3ApplicationPrefix;
 
-    public S3KeyValueRepository(Class<T> aggregateClazz, Function<T,K> keyFunction, Properties properties)
-    {
+    public S3KeyValueRepository(Class<T> aggregateClazz, Function<T, K> keyFunction, Properties properties) {
 
-        this.keyFunction = requireNonNull( keyFunction );
+        this.keyFunction = requireNonNull(keyFunction);
         this.aggregateClazz = requireNonNull(aggregateClazz);
-        s3Client = new S3Client(properties);
+        this.s3ApplicationPrefix = getS3ApplicationPrefix(properties);
+        this.s3Client = new S3Client(properties);
     }
 
     @Override
     public void update(T aggregate) {
         // Datei schreiben (add oder update)
-        var aggregateJSON =getJSONConverter().toJson(aggregate).getBytes(StandardCharsets.UTF_8);
+        var aggregateJSON = getJSONConverter().toJson(aggregate).getBytes(StandardCharsets.UTF_8);
         try (ByteArrayInputStream inputStream = new ByteArrayInputStream(aggregateJSON)
         ) {
             s3Client.putObject(
@@ -40,17 +41,15 @@ public class S3KeyValueRepository<T,K> implements IRepository<T, K>
                     inputStream,
                     aggregateJSON.length
             );
-        } catch (IOException e)
-        {
-            throw new IllegalArgumentException("Could not add aggregate with id " + encodeFilename(keyFunction.apply(aggregate)) );
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Could not add aggregate with id " + encodeFilename(keyFunction.apply(aggregate)));
         }
 
     }
 
     @Override
     public void remove(K key) {
-        if (!s3Client.objectExist(encodeFilename(key)))
-        {
+        if (!s3Client.objectExist(encodeFilename(key))) {
             throw new IllegalArgumentException("Aggregate does not exist " + key);
         }
         s3Client.removeObject(encodeFilename(key));
@@ -58,7 +57,7 @@ public class S3KeyValueRepository<T,K> implements IRepository<T, K>
 
     @Override
     public void removeAll() {
-        s3Client.removeObjects(s3Client.getAllS3Objects());
+        s3Client.removeObjects(s3Client.getAllS3Objects(s3Prefix()));
     }
 
     @Override
@@ -78,7 +77,7 @@ public class S3KeyValueRepository<T,K> implements IRepository<T, K>
 
     @Override
     public List<T> get() {
-        return s3Client.getAllS3Objects()
+        return s3Client.getAllS3Objects(s3Prefix())
                 .stream()
                 .map(s3Client::get)
                 .flatMap(Optional::stream)
@@ -87,15 +86,26 @@ public class S3KeyValueRepository<T,K> implements IRepository<T, K>
     }
 
 
-
-
-    private String encodeFilename(K key)
-    {
-        return Base64.getUrlEncoder()
+    private String encodeFilename(K key) {
+        return s3Prefix() + Base64.getUrlEncoder()
                 .encodeToString(
                         getJSONConverter()
                                 .toJson(key)
                                 .getBytes(StandardCharsets.UTF_8)
                 ) + ".json";
+    }
+
+    private String getS3ApplicationPrefix(Properties properties) {
+        String prefix = properties.getProperty(s3ApplicationPrefix(), "");
+        if (!prefix.isEmpty() && !prefix.endsWith("/")) {
+            prefix += "/";
+        }
+        return prefix;
+    }
+
+
+    private String s3Prefix()
+    {
+        return s3ApplicationPrefix + aggregateClazz.getSimpleName().toLowerCase()+ "/";
     }
 }

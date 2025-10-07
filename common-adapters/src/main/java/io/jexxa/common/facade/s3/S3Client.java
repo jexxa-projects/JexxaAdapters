@@ -165,10 +165,16 @@ public class S3Client {
 
     public List<String> getAllS3Objects()
     {
+       return getAllS3Objects("");
+    }
+
+    public List<String> getAllS3Objects(String prefix)
+    {
         // Alle Objekte im Bucket auflisten
         var results = minioClient.listObjects(
                 ListObjectsArgs.builder()
                         .bucket(properties.getProperty(s3Bucket()))
+                        .prefix(prefix)
                         .recursive(true) // rekursiv über alle "Ordner" hinweg
                         .build()
         );
