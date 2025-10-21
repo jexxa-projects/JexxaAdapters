@@ -1,8 +1,9 @@
 package io.jexxa.common.facade.jdbc;
 
+import static io.jexxa.adapterapi.PropertiesPrefix.prefix;
+
 public class JDBCProperties
 {
-    private static String prefix = "" ;
     public static String jdbcFileUsername()  { return prefix() + "jdbc.file.username" ;}
     public static String jdbcFilePassword() { return  prefix() + "jdbc.file.password" ;}
 
@@ -20,8 +21,6 @@ public class JDBCProperties
 
     public static String objectstoreStrategy() { return prefix() +  "objectstore.strategy";}
 
-    public static String prefix() {return prefix;}
-    public static void prefix(String prefix) { JDBCProperties.prefix = prefix;}
 
     private JDBCProperties()
     {

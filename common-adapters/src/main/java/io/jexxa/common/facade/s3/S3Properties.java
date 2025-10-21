@@ -1,8 +1,8 @@
 package io.jexxa.common.facade.s3;
 
-public class S3Properties {
-    private static String prefix = "";
+import static io.jexxa.adapterapi.PropertiesPrefix.prefix;
 
+public class S3Properties {
     public static final String S3_ENDPOINT = "s3.endpoint";
     public static final String S3_REGION = "s3.region";
     public static final String S3_BUCKET = "s3.bucket";
@@ -49,8 +49,7 @@ public class S3Properties {
         return prefix() + S3_FILE_SECRET_KEY;
     }
 
-    public static void prefix(String prefix) { S3Properties.prefix = prefix;}
-    public static String prefix() { return S3Properties.prefix; }
+
     private S3Properties()
     {
         //private constructor
