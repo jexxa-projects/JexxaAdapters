@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.util.Properties;
 
 import static io.jexxa.common.facade.jdbc.JDBCConnectionPool.getJDBCConnection;
+import static io.jexxa.common.facade.jdbc.JDBCConnectionPool.validateJDBCConnection;
 import static io.jexxa.common.facade.logger.SLF4jLogger.getLogger;
 
 public abstract class JDBCRepository implements TransactionHandler {
@@ -16,7 +17,7 @@ public abstract class JDBCRepository implements TransactionHandler {
     protected JDBCRepository(Properties properties)
     {
         this.properties = Objects.requireNonNull(properties);
-        getConnection(); // To ensure that the connection is valid
+        validateJDBCConnection(properties); // To ensure that the connection is valid
         TransactionManager.registerTransactionHandler(this);
     }
 
