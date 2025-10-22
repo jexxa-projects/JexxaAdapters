@@ -1,6 +1,7 @@
 package io.jexxa.common.facade.jms;
 
 
+import io.jexxa.common.facade.utils.properties.PropertiesPrefix;
 import io.jexxa.common.facade.utils.properties.Secret;
 
 import javax.jms.Connection;
@@ -16,7 +17,6 @@ import static io.jexxa.common.facade.jms.JMSProperties.jndiPasswordKey;
 import static io.jexxa.common.facade.jms.JMSProperties.jndiProviderUrlKey;
 import static io.jexxa.common.facade.jms.JMSProperties.jndiUserFile;
 import static io.jexxa.common.facade.jms.JMSProperties.jndiUserKey;
-import static io.jexxa.common.facade.utils.properties.PropertiesPrefix.prefix;
 import static io.jexxa.common.facade.utils.properties.PropertiesUtils.removePrefixFromKeys;
 
 public class JMSConnection {
@@ -26,7 +26,7 @@ public class JMSConnection {
         var username = new Secret(properties, jndiUserKey(), jndiUserFile());
         var password = new Secret(properties, jndiPasswordKey(), jndiPasswordFile());
 
-        var jmsProperties = removePrefixFromKeys(properties, prefix());
+        var jmsProperties = removePrefixFromKeys(properties, PropertiesPrefix.globalPrefix());
         try
         {
             var initialContext = new InitialContext(jmsProperties);
