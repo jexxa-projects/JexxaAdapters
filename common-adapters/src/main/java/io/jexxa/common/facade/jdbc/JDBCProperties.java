@@ -1,6 +1,6 @@
 package io.jexxa.common.facade.jdbc;
 
-import static io.jexxa.adapterapi.PropertiesPrefix.prefix;
+import static io.jexxa.common.facade.utils.properties.PropertiesPrefix.prefix;
 
 public class JDBCProperties
 {

@@ -1,6 +1,6 @@
 package io.jexxa.common.drivenadapter.outbox;
 
-import static io.jexxa.adapterapi.PropertiesPrefix.prefix;
+import static io.jexxa.common.facade.utils.properties.PropertiesPrefix.prefix;
 
 public final class TransactionalOutboxProperties {
     public static final String OUTBOX_TABLE = "outbox.table";

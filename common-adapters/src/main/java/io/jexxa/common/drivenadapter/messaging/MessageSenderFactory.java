@@ -11,9 +11,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
 
-import static io.jexxa.common.facade.jms.JMSProperties.JNDI_FACTORY_KEY;
 import static io.jexxa.common.facade.jms.JMSProperties.jmsSimulate;
 import static io.jexxa.common.facade.jms.JMSProperties.jmsStrategy;
+import static io.jexxa.common.facade.jms.JMSProperties.jndiFactoryKey;
 import static io.jexxa.common.facade.logger.SLF4jLogger.getLogger;
 
 
@@ -52,7 +52,7 @@ public final class MessageSenderFactory
             var strategy = MESSAGE_SENDER_FACTORY.messageSenderType(sendingClass, properties);
 
             var result = ClassFactory.newInstanceOf(strategy, new Object[]{properties});
-            if (result.isEmpty()) //Try factory method with properties
+            if (result.isEmpty()) //Try a factory method with properties
             {
                 result = ClassFactory.newInstanceOf(MessageSender.class, strategy,new Object[]{properties});
             }
@@ -60,7 +60,7 @@ public final class MessageSenderFactory
             {
                 result = ClassFactory.newInstanceOf(strategy);
             }
-            if (result.isEmpty()) //Try factory method without properties
+            if (result.isEmpty()) //Try a factory method without properties
             {
                 result = ClassFactory.newInstanceOf(MessageSender.class, strategy);
             }
@@ -124,7 +124,7 @@ public final class MessageSenderFactory
         }
 
         // 4. If a JNDI Factory is defined and simulation mode is deactivated => Use TransactionalOutboxSender
-        if (properties.containsKey(JNDI_FACTORY_KEY) && !properties.containsKey(jmsSimulate()))
+        if (properties.containsKey(jndiFactoryKey()) && !properties.containsKey(jmsSimulate()))
         {
             return TransactionalOutboxSender.class;
         }

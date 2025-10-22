@@ -1,4 +1,4 @@
-package io.jexxa.adapterapi;
+package io.jexxa.common.facade.utils.properties;
 
 public class PropertiesPrefix {
     private static String propertiesPrefix = "";
