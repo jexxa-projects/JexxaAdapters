@@ -2,7 +2,6 @@ package io.jexxa.common.facade.utils.properties;
 
 import java.util.List;
 import java.util.Properties;
-import java.util.stream.Collectors;
 
 public class PropertiesUtils {
 
@@ -31,12 +30,10 @@ public class PropertiesUtils {
     public static Properties removePrefixFromKeys(Properties properties, String prefix) {
         Properties result = new Properties();
 
-        properties.stringPropertyNames().stream()
-                .collect(Collectors.toMap(
-                        key -> key.startsWith(prefix) ? key.substring(prefix.length()) : key,
-                        properties::getProperty
-                ))
-                .forEach(result::setProperty);
+        properties.stringPropertyNames().forEach(key -> {
+            String newKey = key.startsWith(prefix) ? key.substring(prefix.length()) : key;
+            result.setProperty(newKey, properties.getProperty(key)); // überschreibt ggf.
+        });
 
         return result;
     }
