@@ -8,7 +8,7 @@ import java.util.List;
  * A note on NULL values:
  * <ol>
  * <li>Null values are supported </li>
- * <li>When comparing values with a null value then a null value is treated always greater then a non-null value </li>
+ * <li>When comparing values with a null value, then a null value is treated always greater than a non-null value </li>
  * <li>When getting objects in ascending or descending order, null values are always at the end of the list </li>
  * </ol>
  * @param <T> Type of the managed object
