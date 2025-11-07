@@ -3,7 +3,7 @@ package io.jexxa.common.drivenadapter.persistence.objectstore;
 import java.util.List;
 
 /**
- * Interface to search numeric-based meta tags
+ * Interface to search numeric-based meta-tags
  * <p>
  * A note on NULL values:
  * <ol>
@@ -73,14 +73,14 @@ public interface INumericQuery<T, S >
     List<T> isNotEqualTo(S value);
 
     /**
-     * Returns all elements in which is S is null. The returned list is not ordered in any way.
+     * Returns all elements in which S is null. The returned list is not ordered in any way.
      *
      * @return A list of elements that are equal to value
      */
     List<T> isNull();
 
     /**
-     * Returns all elements in which is S is not null. The returned list is not in ascending order
+     * Returns all elements in which S is not null. The returned list is not in ascending order
      *
      * @return A list of elements that are equal to value
      */
@@ -110,8 +110,8 @@ public interface INumericQuery<T, S >
      * Sorts the entries by S in ascending order and returns the defined number of elements
      * @param amount specifies the number of recent added aggregates that should be returned.
      * @return list of elements limited by the given amount.
-     *         If less than requested aggregates are managed, all aggregates are returned.
-     *         If the amount is &lt; 0 then an empty list is returned
+     *         If fewer than requested aggregates are managed, all aggregates are returned.
+     *         If the amount is &lt; 0, then an empty list is returned
      */
     List<T> getAscending(int amount);
 
@@ -125,8 +125,8 @@ public interface INumericQuery<T, S >
      * Sorts the entries by S in descending order and returns the defined number of elements
      * @param amount specifies the number of recent added aggregates that should be returned.
      * @return list of elements limited by the given amount.
-     *         If less than requested aggregates are managed, all aggregates are returned.
-     *         If the amount is &lt; 0 then an empty list is returned
+     *         If fewer than requested aggregates are managed, all aggregates are returned.
+     *         If the amount is &lt; 0, then an empty list is returned
      */
     List<T> getDescending(int amount);
 

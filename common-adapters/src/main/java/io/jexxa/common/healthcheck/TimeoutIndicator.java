@@ -7,12 +7,12 @@ import io.jexxa.adapterapi.invocation.monitor.BeforeMonitor;
 import java.time.Duration;
 import java.time.Instant;
 
-public class TimoutIndicator extends BeforeMonitor
+public class TimeoutIndicator extends BeforeMonitor
 {
     private Instant lastUpdate = Instant.now();
     private final Duration messageTimeout;
 
-    public TimoutIndicator(Duration messageTimeout)
+    public TimeoutIndicator(Duration messageTimeout)
     {
         this.messageTimeout = messageTimeout;
     }
