@@ -1,6 +1,7 @@
 package io.jexxa.common.facade.jms;
 
 
+import io.jexxa.common.facade.utils.properties.PropertiesPrefix;
 import io.jexxa.common.facade.utils.properties.Secret;
 
 import javax.jms.Connection;
@@ -10,42 +11,48 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import java.util.Properties;
 
-import static io.jexxa.common.facade.jms.JMSProperties.JNDI_FACTORY_KEY;
-import static io.jexxa.common.facade.jms.JMSProperties.JNDI_PROVIDER_URL_KEY;
+import static io.jexxa.common.facade.jms.JMSProperties.jndiFactoryKey;
+import static io.jexxa.common.facade.jms.JMSProperties.jndiPasswordFile;
+import static io.jexxa.common.facade.jms.JMSProperties.jndiPasswordKey;
+import static io.jexxa.common.facade.jms.JMSProperties.jndiProviderUrlKey;
+import static io.jexxa.common.facade.jms.JMSProperties.jndiUserFile;
+import static io.jexxa.common.facade.jms.JMSProperties.jndiUserKey;
+import static io.jexxa.common.facade.utils.properties.PropertiesUtils.removePrefixFromKeys;
 
 public class JMSConnection {
     public static Connection createConnection(Properties properties)
     {
         validateProperties(properties);
-        var username = new Secret(properties, JMSProperties.JNDI_USER_KEY, JMSProperties.JNDI_USER_FILE);
-        var password = new Secret(properties, JMSProperties.JNDI_PASSWORD_KEY, JMSProperties.JNDI_PASSWORD_FILE);
+        var username = new Secret(properties, jndiUserKey(), jndiUserFile());
+        var password = new Secret(properties, jndiPasswordKey(), jndiPasswordFile());
 
+        var jmsProperties = removePrefixFromKeys(properties, PropertiesPrefix.globalPrefix());
         try
         {
-            var initialContext = new InitialContext(properties);
+            var initialContext = new InitialContext(jmsProperties);
             var connectionFactory = (ConnectionFactory) initialContext.lookup("ConnectionFactory");
             return connectionFactory.createConnection(username.getSecret(), password.getSecret());
         }
         catch (NamingException e)
         {
-            throw new IllegalStateException("No ConnectionFactory available via : " + properties.get(JNDI_PROVIDER_URL_KEY), e);
+            throw new IllegalStateException("No ConnectionFactory available via : " + properties.get(jndiProviderUrlKey()), e);
         }
         catch (JMSException e)
         {
-            throw new IllegalStateException("Can not connect to " + properties.get(JNDI_PROVIDER_URL_KEY), e);
+            throw new IllegalStateException("Can not connect to " + properties.get(jndiProviderUrlKey()), e);
         }
     }
 
     private static void validateProperties(Properties properties)
     {
-        if (!properties.containsKey(JNDI_PROVIDER_URL_KEY))
+        if (!properties.containsKey(jndiProviderUrlKey()))
         {
-            throw new IllegalArgumentException("Missing JMS properties: " + JNDI_PROVIDER_URL_KEY);
+            throw new IllegalArgumentException("Missing JMS properties: " + jndiProviderUrlKey());
         }
 
-        if (!properties.containsKey(JNDI_FACTORY_KEY))
+        if (!properties.containsKey(jndiFactoryKey()))
         {
-            throw new IllegalArgumentException("Missing JMS properties: " + JNDI_FACTORY_KEY);
+            throw new IllegalArgumentException("Missing JMS properties: " + jndiFactoryKey());
         }
     }
     private JMSConnection()

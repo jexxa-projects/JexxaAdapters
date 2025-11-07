@@ -3,12 +3,12 @@ package io.jexxa.common.drivenadapter.persistence.objectstore;
 import java.util.List;
 
 /**
- * Interface to search-string-based meta tags
+ * Interface to search-string-based meta-tags
  * <p>
  *  A note on NULL values:
  *  <ol>
  *  <li>Null values are supported </li>
- *  <li>When comparing values with a null value then a null value is treated always greater then a non-null value </li>
+ *  <li>When comparing values with a null value, then a null value is treated always greater than a non-null value </li>
  *  <li>When getting objects in ascending or descending order, null values are always at the end of the list </li>
  *  </ol>
  *
@@ -18,21 +18,21 @@ import java.util.List;
 public interface IStringQuery<T, S>
 {
     /**
-     * Returns all managed object whose element begins with given value
+     * Returns all managed object whose element begins with the given value
      * @param value describing the start of the searched value
      * @return list of managed objects that fulfill the condition
      */
     List<T> beginsWith(S value);
 
     /**
-     * Returns all managed object whose element ends with given value
+     * Returns all managed object whose element ends with the given value
      * @param value describing the start of the searched value
      * @return list of managed objects that fulfill the condition
      */
     List<T> endsWith(S value);
 
     /**
-     * Returns all managed object whose element includes given value
+     * Returns all managed object whose element includes the given value
      *
      * @param value describing the searched included value
      * @return list of managed objects that fulfill the condition
@@ -40,7 +40,7 @@ public interface IStringQuery<T, S>
     List<T> includes(S value);
 
     /**
-     * Returns all managed object whose element is equal to given value
+     * Returns all managed object whose element is equal to the given value
      *
      * @param value describing the searched value
      * @return list of managed objects that fulfill the condition
@@ -48,7 +48,7 @@ public interface IStringQuery<T, S>
     List<T> isEqualTo(S value);
 
     /**
-     * Returns all managed object whose element does not include given value
+     * Returns all managed object whose element does not include the given value
      *
      * @param value that must not be included in searched value
      * @return list of managed objects that fulfill the condition
@@ -73,8 +73,8 @@ public interface IStringQuery<T, S>
      * Sorts the entries by S in ascending order and returns the defined number of elements
      * @param amount specifies the number of recent added aggregates that should be returned.
      * @return list of elements limited by the given amount.
-     *         If less than requested aggregates are managed, all aggregates are returned.
-     *         If the amount is &lt; 0 then an empty list is returned
+     *         If fewer than requested aggregates are managed, all aggregates are returned.
+     *         If the amount is &lt; 0, then an empty list is returned
      */
     List<T> getAscending(int amount);
 
@@ -88,8 +88,8 @@ public interface IStringQuery<T, S>
      * Sorts the entries by S in descending order and returns the defined number of elements
      * @param amount specifies the number of recent added aggregates that should be returned.
      * @return list of elements limited by the given amount.
-     *         If less than requested aggregates are managed, all aggregates are returned.
-     *         If the amount is &lt; 0 then an empty list is returned
+     *         If fewer than requested aggregates are managed, all aggregates are returned.
+     *         If the amount is &lt; 0, then an empty list is returned
      */
     List<T> getDescending(int amount);
 

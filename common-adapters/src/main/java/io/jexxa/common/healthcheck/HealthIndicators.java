@@ -4,9 +4,9 @@ import java.time.Duration;
 
 public final class HealthIndicators
 {
-    public static TimoutIndicator timeoutIndicator(Duration maxTimeout )
+    public static TimeoutIndicator timeoutIndicator(Duration maxTimeout )
     {
-        return new TimoutIndicator(maxTimeout);
+        return new TimeoutIndicator(maxTimeout);
     }
 
     private HealthIndicators()

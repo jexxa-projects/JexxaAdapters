@@ -50,7 +50,7 @@ class MessageReceiverIT
     void initTests() throws IOException {
         Properties properties = new Properties();
         properties.load(getClass().getResourceAsStream("/application.properties"));
-        jmsProperties = PropertiesUtils.getSubset(properties,"test-jms-connection");
+        jmsProperties = PropertiesUtils.filterByPrefix(properties,"test-jms-connection");
 
         jsonMessageListener = new TextMessageListener();
         typedListener = new ValueObjectListener();

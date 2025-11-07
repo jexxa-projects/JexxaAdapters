@@ -19,7 +19,7 @@ These adapters are based on typical microservices and messaging patterns to simp
 
 ## Requirements
 
-*   Java 17+ installed
+*   Java 25+ installed
 *   IDE with maven support
 
 
@@ -32,7 +32,7 @@ Maven:
     <dependency>
         <groupId>io.jexxa.common</groupId>
         <artifactId>common-adapters</artifactId>
-        <version>2.6.0</version>
+        <version>3.0.0</version>
     </dependency>
 </dependencies>
 ```
@@ -40,7 +40,7 @@ Maven:
 Gradle:
 
 ```groovy
-compile "io.jexxa.common:common-adapters:2.6.0"
+compile "io.jexxa.common:common-adapters:3.0.0"
 ``` 
 ### Examples
 To see how to use this library, please refer to: 

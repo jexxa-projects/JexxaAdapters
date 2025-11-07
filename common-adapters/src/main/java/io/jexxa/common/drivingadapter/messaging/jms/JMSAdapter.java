@@ -3,7 +3,6 @@ package io.jexxa.common.drivingadapter.messaging.jms;
 
 import io.jexxa.adapterapi.drivingadapter.IDrivingAdapter;
 import io.jexxa.adapterapi.invocation.InvocationManager;
-import io.jexxa.common.facade.jms.JMSProperties;
 import io.jexxa.common.facade.logger.ApplicationBanner;
 import io.jexxa.common.facade.utils.function.ThrowingConsumer;
 
@@ -27,6 +26,9 @@ import java.util.concurrent.TimeUnit;
 
 import static io.jexxa.common.facade.jms.JMSConnection.createConnection;
 import static io.jexxa.common.facade.jms.JMSProperties.jmsSimulate;
+import static io.jexxa.common.facade.jms.JMSProperties.jndiClientId;
+import static io.jexxa.common.facade.jms.JMSProperties.jndiFactoryKey;
+import static io.jexxa.common.facade.jms.JMSProperties.jndiProviderUrlKey;
 import static io.jexxa.common.facade.logger.SLF4jLogger.getLogger;
 
 
@@ -228,11 +230,11 @@ public class JMSAdapter implements AutoCloseable, IDrivingAdapter
         try
         {
             connection = createConnection(properties);
-            if (properties.containsKey(JMSProperties.JNDI_CLIENT_ID) &&
-                    properties.getProperty(JMSProperties.JNDI_CLIENT_ID) != null &&
-                    !properties.getProperty(JMSProperties.JNDI_CLIENT_ID).isEmpty() )
+            if (properties.containsKey(jndiClientId()) &&
+                    properties.getProperty(jndiClientId()) != null &&
+                    !properties.getProperty(jndiClientId()).isEmpty() )
             {
-                connection.setClientID(properties.getProperty(JMSProperties.JNDI_CLIENT_ID));
+                connection.setClientID(properties.getProperty(jndiClientId()));
             }
 
             // NOTE: The exception handler is created after the session is successfully created
@@ -255,14 +257,14 @@ public class JMSAdapter implements AutoCloseable, IDrivingAdapter
         {
             return;
         }
-        if (!properties.containsKey(JMSProperties.JNDI_PROVIDER_URL_KEY))
+        if (!properties.containsKey(jndiProviderUrlKey()))
         {
-            throw new IllegalArgumentException("Property + " + JMSProperties.JNDI_PROVIDER_URL_KEY + " is missing ");
+            throw new IllegalArgumentException("Property + " + jndiProviderUrlKey() + " is missing ");
         }
 
-        if (!properties.containsKey(JMSProperties.JNDI_FACTORY_KEY))
+        if (!properties.containsKey(jndiFactoryKey()))
         {
-            throw new IllegalArgumentException("Property + " + JMSProperties.JNDI_FACTORY_KEY + " is missing ");
+            throw new IllegalArgumentException("Property + " + jndiFactoryKey() + " is missing ");
         }
     }
 
@@ -289,7 +291,7 @@ public class JMSAdapter implements AutoCloseable, IDrivingAdapter
 
         public void stopFailover()
         {
-            //NOTE: The following code is taken from JavaDoc of ExecutorService
+            //NOTE: The following code is taken from Javadoc of ExecutorService
             executorService.shutdown();
             try
             {
@@ -359,7 +361,7 @@ public class JMSAdapter implements AutoCloseable, IDrivingAdapter
                 .map(JMSConfiguration::destination).toArray()
         );
 
-        var listeningOn = properties.getProperty(JMSProperties.JNDI_PROVIDER_URL_KEY);
+        var listeningOn = properties.getProperty(jndiProviderUrlKey());
         getLogger(ApplicationBanner.class).info("JMS Listening on  : {}", listeningOn);
         getLogger(ApplicationBanner.class).info("   * JMS-Topics   : {}", topics);
         getLogger(ApplicationBanner.class).info("   * JMS-Queues   : {}", queues);

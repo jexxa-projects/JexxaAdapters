@@ -41,8 +41,8 @@ class TransactionalOutboxSenderIT {
     void initTests() throws IOException {
         Properties properties = new Properties();
         properties.load(getClass().getResourceAsStream("/application.properties"));
-        outboxProperties1 = PropertiesUtils.getSubset(properties,"test-outbox-connection1");
-        outboxProperties2 = PropertiesUtils.getSubset(properties,"test-outbox-connection2");
+        outboxProperties1 = PropertiesUtils.filterByPrefix(properties,"test-outbox-connection1");
+        outboxProperties2 = PropertiesUtils.filterByPrefix(properties,"test-outbox-connection2");
 
         idempotentListener = new ValueObjectIdempotentListener1(outboxProperties1);
 

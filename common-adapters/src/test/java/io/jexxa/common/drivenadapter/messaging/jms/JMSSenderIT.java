@@ -7,7 +7,6 @@ import io.jexxa.common.drivingadapter.messaging.jms.JMSAdapter;
 import io.jexxa.common.drivingadapter.messaging.jms.listener.QueueListener;
 import io.jexxa.common.drivingadapter.messaging.jms.listener.TopicListener;
 import io.jexxa.common.facade.TestConstants;
-import io.jexxa.common.facade.jms.JMSProperties;
 import io.jexxa.common.facade.testapplication.TestValueObject;
 import io.jexxa.common.facade.utils.properties.PropertiesUtils;
 import org.junit.jupiter.api.AfterEach;
@@ -33,6 +32,7 @@ import static io.jexxa.common.drivenadapter.messaging.MessageSenderFactory.creat
 import static io.jexxa.common.drivenadapter.messaging.MessageSenderFactory.setDefaultMessageSender;
 import static io.jexxa.common.drivingadapter.messaging.jms.listener.QueueListener.QUEUE_DESTINATION;
 import static io.jexxa.common.drivingadapter.messaging.jms.listener.TopicListener.TOPIC_DESTINATION;
+import static io.jexxa.common.facade.jms.JMSProperties.jndiPasswordFile;
 import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertTimeout;
@@ -57,7 +57,7 @@ class JMSSenderIT
 
         Properties properties = new Properties();
         properties.load(getClass().getResourceAsStream("/application.properties"));
-        jmsProperties = PropertiesUtils.getSubset(properties,"test-jms-connection");
+        jmsProperties = PropertiesUtils.filterByPrefix(properties,"test-jms-connection");
 
         jmsAdapter = new JMSAdapter(jmsProperties);
         jmsAdapter.register(queueListener);
@@ -224,8 +224,8 @@ class JMSSenderIT
         //Arrange
         var properties = new Properties();
         properties.putAll(jmsProperties);
-        properties.remove(JMSProperties.JNDI_PASSWORD_KEY);
-        properties.put(JMSProperties.JNDI_PASSWORD_FILE, "src/test/resources/secrets/jndiPassword");
+        properties.remove(jndiPasswordFile());
+        properties.put(jndiPasswordFile(), "src/test/resources/secrets/jndiPassword");
         setDefaultMessageSender(JMSSender.class);
 
         var objectUnderTest = createMessageSender(JMSSenderIT.class, properties);
