@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## \[3.0.0] - 2025-11-07
+### Changed
+* Library will only be offered Java version >= 25 
+* Removed deprecated classes from 2.x 
+
+### Fixed
+* Updated dependencies 
+
 ## \[2.6.0] - 2025-10-07
 ### Fix
 * S3 implementation for `ObjectStore` and `Repository` now uses a prefix of <aggregate-name> in lower cases to avoid conflicts with aggregates using the same key.
