@@ -30,7 +30,7 @@ public class JDBCQuery extends JDBCPreparedStatement
      *
      * @param jdbcConnection used connection
      * @param sqlQuery must include the complete command with all attributes included. Note: The sqlQuery can include a
-     *                '?' as placeholder for arguments
+     *                '?' as a placeholder for arguments
      * @param arguments includes all arguments of the sqlQuery
      */
     public JDBCQuery(Supplier<JDBCConnection> jdbcConnection, String sqlQuery, List<Object> arguments)

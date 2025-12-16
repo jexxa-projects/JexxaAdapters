@@ -16,7 +16,7 @@ public final class LambdaUtils {
 
     private static final Map<Class<?>, Class<?>> WRAPPER_TYPE_MAP;
     static {
-        WRAPPER_TYPE_MAP = new HashMap<>(16);
+        WRAPPER_TYPE_MAP = HashMap.newHashMap(16);
         WRAPPER_TYPE_MAP.put(Integer.class, int.class);
         WRAPPER_TYPE_MAP.put(Byte.class, byte.class);
         WRAPPER_TYPE_MAP.put(Character.class, char.class);
@@ -39,7 +39,7 @@ public final class LambdaUtils {
                 return ANONYMOUS_METHOD_NAME;
             }
             return serializedLambda.getImplMethodName();
-        } catch (ReflectiveOperationException ex) {
+        } catch (ReflectiveOperationException _) {
             return "unknownMethodName";
         }
     }
@@ -52,7 +52,7 @@ public final class LambdaUtils {
             SerializedLambda serialized = (SerializedLambda) writeReplace.invoke(lambda);
             String className = serialized.getImplClass().replace('/', '.');
             return Class.forName(className);
-        } catch (ReflectiveOperationException e)
+        } catch (ReflectiveOperationException _)
         {
             return Object.class;
         }
@@ -82,7 +82,7 @@ public final class LambdaUtils {
 
     /**
      * This method extracts the SerializedLambda from a functional interface. To ensure that this is available,
-     * the functional interface must implement Serializable which ensures that the method `writeReplace` is automatically
+     * the functional interface must implement Serializable, which ensures that the method `writeReplace` is automatically
      * generated
      *
      * @param functionalInterface from which SerializedLambda should be extracted
@@ -104,7 +104,7 @@ public final class LambdaUtils {
                     serializedLambda = (SerializedLambda) serialVersion;
                     break;
                 }
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException _) {
                 // thrown if the method is not there. fall through the loop
             }
         }

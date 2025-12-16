@@ -131,8 +131,8 @@ class S3NumericQuery<T, K, S> implements INumericQuery<T, S>
                                     boolean v2Valid = isValidForComparison(v2);
 
                                     if (v1Valid && v2Valid) {
-                                        // beide gültig → normale Sortierung
-                                        return compareToAggregate(v2, v1); // absteigend
+                                        // both valid  → default sorting
+                                        return compareToAggregate(v2, v1); // descending
                                     } else if (v1Valid) {
                                         // nur v1 gültig → v1 kommt zuerst
                                         return -1;

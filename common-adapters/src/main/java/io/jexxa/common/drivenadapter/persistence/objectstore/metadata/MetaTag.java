@@ -4,7 +4,7 @@ import java.util.Objects;
 import java.util.function.Function;
 
 /**
- * This class provides all information to perform queries with concrete meta information.
+ * This class provides all information to perform queries with concrete meta-information.
  *
  * @param <T> Type of the managed aggregate/object
  * @param <S> Type of the metadata as it is used inside the aggregate/object

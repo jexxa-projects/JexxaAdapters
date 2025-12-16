@@ -115,14 +115,14 @@ public final class ClassFactory
     {
         try {
             return Optional.of(clazz.getConstructor());
-        }   catch (NoSuchMethodException | SecurityException e) {
+        }   catch (NoSuchMethodException | SecurityException _) {
             return Optional.empty();
         }
     }
 
     /**
-     * This method returns a constructor that can be used to create clazz with given parameters, even if constructor offers only interfaces
-     * of given parameter.
+     * This method returns a constructor that can be used to create clazz with given parameters, even if the constructor offers only interfaces
+     * of a given parameter.
      **
      * @param clazz Class of an object whose constructor is requested
      * @param parameter Object array with parameters the constructor must provide
@@ -156,7 +156,7 @@ public final class ClassFactory
 
     private static <T> Optional<Method> getFactoryMethod(Class<?> implementation, Class<T> interfaceType)
     {
-        //Lookup factory method with no attributes and return type clazz
+        //Look up a factory method with no attributes and return type clazz
         return Arrays.stream(implementation.getMethods())
                 .filter( element -> Modifier.isStatic(element.getModifiers()))
                 .filter( element -> element.getParameterTypes().length == 0)
@@ -167,7 +167,7 @@ public final class ClassFactory
 
     private static <T> Optional<Method> getFactoryMethod(Class<?> implementation, Class<T> interfaceType, Class<?>[] parameterTypes)
     {
-        //Lookup factory method with no attributes and return type clazz
+        //Look up a factory method with no attributes and return type clazz
         return Arrays.stream(implementation.getMethods())
                 .filter( element -> Modifier.isStatic(element.getModifiers()))
                 .filter( element -> element.getParameterTypes().length == 1)

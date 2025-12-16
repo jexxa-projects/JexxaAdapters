@@ -11,9 +11,9 @@ public class JDBCCommand extends JDBCPreparedStatement
     /**
      * Creates a JDBCCommand
      *
-     * @param jdbcConnection used connection to execute command
+     * @param jdbcConnection used connection to execute the command
      * @param sqlCommand must include the complete command with all attributes included. Note: The sqlCommand can include a
-     *                   '?' as placeholder for arguments
+     *                   '?' as a placeholder for arguments
      * @param arguments includes all arguments of the sqlCommand
      */
     public JDBCCommand(Supplier<JDBCConnection> jdbcConnection, String sqlCommand, List<Object> arguments)
@@ -23,7 +23,7 @@ public class JDBCCommand extends JDBCPreparedStatement
 
 
     /**
-     * Execute command as 'update' so that number of rows must not change
+     * Execute command as 'update' so that the number of rows must not change
      *
      */
     public void asUpdate()
@@ -42,7 +42,7 @@ public class JDBCCommand extends JDBCPreparedStatement
     }
 
     /**
-     * Execute command as 'empty' so that number of rows must change
+     * Execute command as 'empty' so that the number of rows must change
      */
     public void asEmpty( )
     {

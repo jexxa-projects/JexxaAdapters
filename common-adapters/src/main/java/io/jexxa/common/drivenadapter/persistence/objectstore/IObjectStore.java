@@ -29,7 +29,7 @@ public interface IObjectStore<V, K, R extends Enum<?> & MetadataSchema> extends 
 
 
     /**
-     * This method returns an IStringQuery hat can be used to search for elements of type S
+     * This method returns an IStringQuery that can be used to search for elements of type S
      * managed by the aggregate.
      *
      * @param metaTag defines the used tag of the metadata used for searching objects

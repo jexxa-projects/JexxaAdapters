@@ -121,7 +121,7 @@ public class JMSSender extends MessageSender implements AutoCloseable
                     getLogger(JMSSender.class).error(exception.getMessage());
                     this.close();
                 });
-            } catch (JMSException e) {
+            } catch (JMSException _) {
                 this.close();
             }
         }

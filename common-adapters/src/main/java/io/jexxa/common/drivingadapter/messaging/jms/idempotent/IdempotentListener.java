@@ -76,7 +76,7 @@ public abstract class IdempotentListener<T> extends JSONMessageListener
             } else {
                 return false;
             }
-        } catch (JMSException e)
+        } catch (JMSException _)
         {
             return false;
         }
@@ -93,7 +93,7 @@ public abstract class IdempotentListener<T> extends JSONMessageListener
             if (getCurrentMessage() != null) {
                 return getCurrentMessage().getStringProperty(key);
             }
-        } catch (JMSException e)
+        } catch (JMSException _)
         {
             return null;
         }
@@ -140,7 +140,7 @@ public abstract class IdempotentListener<T> extends JSONMessageListener
     {
         try {
             messageRepository.remove(inboundMessage.receivingID);
-        } catch (RuntimeException e)
+        } catch (RuntimeException _)
         {
             // If we use this listener in a sharedSubscription, it could happen that a remove fails.
             // Reason ist that we are potentially in a transaction. If we throw an exception, a successfully executed command will be rolled back.

@@ -9,6 +9,7 @@ import java.io.Serial;
  * from starting correctly. It is a runtime exception on purpose, as such errors
  * should terminate the application immediately rather than being recovered from.
  */
+@SuppressWarnings("unused")
 public class ConfigurationFailedException extends RuntimeException {
     @Serial
     private static final long serialVersionUID = 1L;

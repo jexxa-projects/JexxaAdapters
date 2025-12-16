@@ -20,6 +20,7 @@ import java.util.function.Consumer;
  * <p>
  * The class uses the Singleton pattern to maintain a single shared instance and cannot be instantiated externally.
  */
+@SuppressWarnings("unused")
 public class JexxaContext {
     private static final JexxaContext INSTANCE = new JexxaContext();
 
@@ -67,7 +68,7 @@ public class JexxaContext {
         //     The registration order is JDBCPool, RepositoryPool.
         //     Cleanup order must be RepositoryPool, JDBCPool.
         // To avoid reverting the cleanup handler, we add a new handler at the beginning of the list
-        INSTANCE.cleanupHandler.add(0, cleanupHandler);
+        INSTANCE.cleanupHandler.addFirst(cleanupHandler);
     }
 
     /**

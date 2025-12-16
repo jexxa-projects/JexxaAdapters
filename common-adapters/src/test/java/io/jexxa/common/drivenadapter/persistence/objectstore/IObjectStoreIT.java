@@ -65,7 +65,7 @@ class IObjectStoreIT
         VALUE_OBJECT(MetaTags.numericTag(TestObject::getKey, TestValueObject::getValue));
 
         /**
-         *  Defines the constructor of the enum. Following code is equal for all object stores.
+         *  Defines the constructor of the enum. The following code is equal for all object stores.
          */
         private final MetaTag<TestObject, ?, ? > metaTag;
 
@@ -156,7 +156,7 @@ class IObjectStoreIT
         initObjectStore(properties);
 
         //Act
-        var result = objectUnderTest.get(testData.get(0).getKey());
+        var result = objectUnderTest.get(testData.getFirst().getKey());
 
         //Assert
         assertTrue(result.isPresent());

@@ -78,7 +78,7 @@ public class JDBCCommandBuilder<T extends Enum<T>> extends JDBCBuilder<T>
     public JDBCCommandBuilder<T> values(Object[] args)
     {
         getStatementBuilder().append("values ( ");
-        getStatementBuilder().append( SQLSyntax.ARGUMENT_PLACEHOLDER ); // Handle first entry (without COMMA)
+        getStatementBuilder().append( SQLSyntax.ARGUMENT_PLACEHOLDER ); // Handle the first entry (without COMMA)
         addArgument(args[0]);
 
         for(var i = 1;  i < args.length; ++i ) // Handle remaining entries(with leading COMMA)
@@ -95,7 +95,7 @@ public class JDBCCommandBuilder<T extends Enum<T>> extends JDBCBuilder<T>
     public JDBCCommandBuilder<T> values(JDBCObject[] args)
     {
         getStatementBuilder().append("values ( ");
-        getStatementBuilder().append( args[0].getBindParameter()); // Handle first entry (without COMMA)
+        getStatementBuilder().append( args[0].getBindParameter()); // Handle the first entry (without COMMA)
         addArgument(args[0].getJdbcValue());
 
         for(var i = 1;  i < args.length; ++i ) // Handle remaining entries(with leading COMMA)

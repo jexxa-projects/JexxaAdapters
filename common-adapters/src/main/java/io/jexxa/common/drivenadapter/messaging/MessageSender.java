@@ -25,7 +25,7 @@ public abstract class MessageSender
     /**
      * Sends an asynchronous text message to a queue
      *
-     * @param message message as string. Must not be null
+     * @param message message as a string. Must not be null
      * @param destination name of the queue to send the message
      * @param messageProperties additional properties of the message. Can be null if no properties are required
      */
@@ -34,7 +34,7 @@ public abstract class MessageSender
     /**
      * Sends an asynchronous text message to a topic
      *
-     * @param message message as string. Must not be null
+     * @param message message as a string. Must not be null
      * @param destination name of the queue to send the message
      * @param messageProperties additional properties of the message. Can be null if no properties are required
      */

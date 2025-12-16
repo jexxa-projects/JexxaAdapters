@@ -7,10 +7,11 @@ import io.jexxa.common.facade.jdbc.builder.SQLDataType;
 /**
  * IDatabase provides a uniform interface to database operations that are vendor-specific.
  */
+@SuppressWarnings("unused")
 public interface IDatabase
 {
     /**
-     * Match the desired data type for primary keys to a data type suppoerted by the database.
+     * Match the desired data type for primary keys to a data type supported by the database.
      *
      * @param requestedDataType data type that is requested by the application
      * @return SQL data type that is supported by the database and most likely fits to the requested data type
@@ -18,7 +19,7 @@ public interface IDatabase
     SQLDataType matchingPrimaryKey(SQLDataType requestedDataType);
 
     /**
-     * Match the desired data type for values to a data type suppoerted by the database
+     * Match the desired data type for values to a data type supported by the database
      *
      * @param requestedDataType data type that is requested by the application
      * @return SQL data type that is supported by the database and most likely fits to the requested data type

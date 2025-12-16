@@ -306,7 +306,7 @@ public class JMSAdapter implements AutoCloseable, IDrivingAdapter
                     }
                 }
             }
-            catch (InterruptedException e)
+            catch (InterruptedException _)
             {
                  // (Re-)Cancel if current thread also interrupted
                 executorService.shutdownNow();

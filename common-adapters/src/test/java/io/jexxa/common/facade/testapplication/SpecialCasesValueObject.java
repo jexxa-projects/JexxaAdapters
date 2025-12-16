@@ -3,7 +3,7 @@ package io.jexxa.common.facade.testapplication;
 import java.util.Objects;
 
 /**
- * This ValueObject include the following special cases:
+ * This ValueObject includes the following special cases:
  * <ul>
  *     <li> private field without public getter</li>
  *     <li> private field with null</li>

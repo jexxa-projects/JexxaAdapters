@@ -20,9 +20,9 @@ public abstract class InvocationContext
     }
 
     /**
-     * This method performs a method invocation on given method.
+     * This method performs a method invocation on a given method.
      *
-     * @throws InvocationTargetRuntimeException forwards exception from Java's reflective API because it cannot be handled here in a meaningful way
+     * @throws InvocationTargetRuntimeException forwards exception from Java's reflective API because it cannot be handled here meaningfully
      */
     public abstract void invoke();
 

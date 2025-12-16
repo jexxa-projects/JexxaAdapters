@@ -9,7 +9,7 @@ import java.util.function.Function;
 public final class MetaTags
 {
     /**
-     * Factory method to create a MetaTag wich compares value of an aggregate using a defined converter function
+     * Factory method to create a MetaTag which compares the value of an aggregate using a defined converter function
      *
      * @param accessor defines the method to get the value to be compared
      * @param converter defines the converter function converting the value into a number

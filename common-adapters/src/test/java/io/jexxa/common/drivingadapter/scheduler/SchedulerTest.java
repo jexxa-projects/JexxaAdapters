@@ -44,7 +44,7 @@ class SchedulerTest {
         //Act
         objectUnderTest.start();
 
-        //Assert that simple value is incremented > 100 within 5 seconds
+        //Assert that a simple value is incremented > 100 within 5 seconds
         await()
                 .atMost(5, TimeUnit.SECONDS)
                 .pollDelay(50, MILLISECONDS)
@@ -177,7 +177,7 @@ class SchedulerTest {
         //Act
         objectUnderTest.start();
 
-        //Assert that simple value is incremented > 100 within 5 seconds
+        //Assert that the simple value is incremented > 100 within 5 seconds
         await()
                 .atMost(5, TimeUnit.SECONDS)
                 .pollDelay(50, MILLISECONDS)

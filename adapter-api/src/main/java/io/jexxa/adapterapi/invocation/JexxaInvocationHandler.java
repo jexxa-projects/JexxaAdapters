@@ -16,7 +16,7 @@ import java.lang.reflect.Method;
 public interface JexxaInvocationHandler
 {
     /**
-     * This method performs a method invocation on given method.
+     * This method performs a method invocation on a given method.
      *
      * @param method Method that should be called. Must not be null
      * @param object concrete instance of the object on which the method should be called
@@ -27,7 +27,7 @@ public interface JexxaInvocationHandler
     Object invoke(Method method, Object object, Object[] args );
 
     /**
-     * This method performs a method invocation on given runnable.
+     * This method performs a method invocation on a given runnable.
      *
      * @param targetObject to invoke method on
      * @param runnable functional interface to be executed
@@ -36,7 +36,7 @@ public interface JexxaInvocationHandler
     void invoke(Object targetObject, SerializableRunnable runnable) ;
 
     /**
-     * This method performs a method invocation on given consumer.
+     * This method performs a method invocation on a given consumer.
      *
      * @param targetObject to invoke method on
      * @param consumer functional interface to be executed

@@ -90,11 +90,11 @@ class JDBCKeyValueRepositoryIT
     @Test
     void testExceptionInvalidOperations()
     {
-        //Exception if key is used to add twice
+        //Exception if the key is used to add twice
         objectUnderTest.add(aggregate);
         assertThrows(IllegalArgumentException.class, () -> objectUnderTest.add(aggregate));
 
-        //Exception, if unknown key is removed
+        //Exception, if an unknown key is removed
         var key = aggregate.getKey();
         objectUnderTest.remove(key);
         assertThrows(IllegalArgumentException.class, () -> objectUnderTest.remove(key));
@@ -160,7 +160,7 @@ class JDBCKeyValueRepositoryIT
         //act
         try {
             objectUnderTest.add(aggregate);
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException _) {
             objectUnderTest.rollback();
         }
         objectUnderTest.closeTransaction();

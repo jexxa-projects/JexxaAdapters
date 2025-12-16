@@ -2,7 +2,7 @@ package io.jexxa.common.drivingadapter.messaging.jms;
 
 import java.lang.annotation.Annotation;
 
-@SuppressWarnings({"ClassCanBeRecord", "ClassExplicitlyAnnotation"})
+@SuppressWarnings({"ClassCanBeRecord", "ClassExplicitlyAnnotation", "unused"})
 public class DefaultJMSConfiguration implements JMSConfiguration {
 
     private final String destination;

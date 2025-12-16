@@ -3,6 +3,7 @@ package io.jexxa.adapterapi.invocation;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@SuppressWarnings("unused")
 public final class InvocationManager {
     private static final Map<Object, JexxaInvocationHandler> INVOCATION_HANDLER_MAP = new ConcurrentHashMap<>();
     private static JexxaInvocationHandler defaultInvocationHandler = new TransactionalInvocationHandler();
@@ -19,7 +20,7 @@ public final class InvocationManager {
 
     public static synchronized JexxaInvocationHandler getInvocationHandler(Object object)
     {
-        return INVOCATION_HANDLER_MAP.computeIfAbsent(object, key -> createDefaultInvocationHandler());
+        return INVOCATION_HANDLER_MAP.computeIfAbsent(object, _ -> createDefaultInvocationHandler());
     }
 
     public static JexxaInvocationHandler getRootInterceptor(Object object)

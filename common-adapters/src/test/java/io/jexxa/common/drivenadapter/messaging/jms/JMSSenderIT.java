@@ -97,7 +97,7 @@ class JMSSenderIT
         //Assert
         await().atMost(1, TimeUnit.SECONDS).until(() -> !topicListener.getMessages().isEmpty());
 
-        assertDoesNotThrow(() -> (TextMessage)topicListener.getMessages().get(0));
+        assertDoesNotThrow(() -> (TextMessage)topicListener.getMessages().getFirst());
 
         assertTimeout(Duration.ofSeconds(5), jmsAdapter::stop);
     }
@@ -120,7 +120,7 @@ class JMSSenderIT
 
         //Assert
         await().atMost(1, TimeUnit.SECONDS).until(() -> !queueListener.getMessages().isEmpty());
-        assertDoesNotThrow(() -> (TextMessage)queueListener.getMessages().get(0));
+        assertDoesNotThrow(() -> (TextMessage)queueListener.getMessages().getFirst());
 
     }
 
@@ -142,7 +142,7 @@ class JMSSenderIT
 
         //Assert
         await().atMost(1, TimeUnit.SECONDS).until(() -> !queueListener.getMessages().isEmpty());
-        assertDoesNotThrow(() -> (TextMessage)queueListener.getMessages().get(0));
+        assertDoesNotThrow(() -> (TextMessage)queueListener.getMessages().getFirst());
 
     }
 
@@ -166,7 +166,7 @@ class JMSSenderIT
         //Assert
         await().atMost(1, TimeUnit.SECONDS).until(() -> !topicListener.getMessages().isEmpty());
 
-        assertDoesNotThrow(() -> (BytesMessage)topicListener.getMessages().get(0));
+        assertDoesNotThrow(() -> (BytesMessage)topicListener.getMessages().getFirst());
     }
 
     @ParameterizedTest
@@ -188,7 +188,7 @@ class JMSSenderIT
         //Assert
         await().atMost(1, TimeUnit.SECONDS).until(() -> !queueListener.getMessages().isEmpty());
 
-        assertDoesNotThrow(() -> (BytesMessage)queueListener.getMessages().get(0));
+        assertDoesNotThrow(() -> (BytesMessage)queueListener.getMessages().getFirst());
     }
 
     @Test
@@ -214,7 +214,7 @@ class JMSSenderIT
 
         //Assert
         await().atMost(1, TimeUnit.SECONDS).until(() -> queueListener.getMessages().size() >= 2);
-        assertDoesNotThrow(() -> (TextMessage)queueListener.getMessages().get(0));
+        assertDoesNotThrow(() -> (TextMessage)queueListener.getMessages().getFirst());
 
     }
 
@@ -240,7 +240,7 @@ class JMSSenderIT
         //Assert
         await().atMost(1, TimeUnit.SECONDS).until(() -> !queueListener.getMessages().isEmpty());
 
-        assertDoesNotThrow(() -> (BytesMessage)queueListener.getMessages().get(0));
+        assertDoesNotThrow(() -> (BytesMessage)queueListener.getMessages().getFirst());
     }
 
     private void simulateConnectionException(Connection connection) throws JMSException

@@ -74,7 +74,7 @@ class TestEntityRepositoryImplIT
         var objectUnderTest = createRepository(TestEntity.class, TestEntity::getKey, repositoryProperties);
         objectUnderTest.removeAll();
         aggregateList.forEach(objectUnderTest::add);
-        var firstElement = aggregateList.get(0);
+        var firstElement = aggregateList.getFirst();
 
         //Act / Assert
         assertThrows(IllegalArgumentException.class, () -> objectUnderTest.add(firstElement));
@@ -130,7 +130,7 @@ class TestEntityRepositoryImplIT
         objectUnderTest.removeAll();
 
         aggregateList.forEach(objectUnderTest::add);
-        var firstElement = aggregateList.get(0).getKey();
+        var firstElement = aggregateList.getFirst().getKey();
 
         //Act / Assert
         objectUnderTest.removeAll();
