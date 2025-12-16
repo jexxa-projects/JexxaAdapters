@@ -115,13 +115,14 @@ public class JDBCConnection implements AutoCloseable
                             creationProperties.getProperty(JDBCProperties.jdbcAutocreateDatabase()),
                             username.getSecret(),
                             password.getSecret());
-                 var statement = setupConnection.createStatement())
+                var statement = setupConnection.prepareStatement("create DATABASE ?"))
             {
+                statement.setString(1, dbName);
                 setupConnection.setAutoCommit(true);
-                statement.execute(String.format("create DATABASE %s ", dbName));
+                statement.execute();
                 LOGGER.debug("Database {} successfully created ", dbName);
             }
-            catch (SQLException e)
+            catch (SQLException _)
             {
                 LOGGER.debug("Could not create database {} => Assume that database already exists", dbName);
             }
@@ -225,10 +226,10 @@ public class JDBCConnection implements AutoCloseable
      * This method resets the internal JDBC connection in the following way:
      * <ol>
      *  <li>The existing JDBC connection is closed.</li>
-     *  <li>A new JDBC connection is established based on the given properties in constructor.</li>
+     *  <li>A new JDBC connection is established based on the given properties in the constructor.</li>
      *  <li>The new JDBC connection is validated using {@link Connection#isValid(int) }.</li>
      * </ol>
-     * If any of these steps fails, an IllegalStateException is thrown including the error message from JDBC driver.
+     * If any of these steps fails, an IllegalStateException is thrown, including the error message from the JDBC driver.
      */
     public void reset()
     {
@@ -259,7 +260,7 @@ public class JDBCConnection implements AutoCloseable
         try
         {
             return connection.isValid(timeout);
-        } catch (SQLException e)
+        } catch (SQLException _)
         {
             return false;
         }
