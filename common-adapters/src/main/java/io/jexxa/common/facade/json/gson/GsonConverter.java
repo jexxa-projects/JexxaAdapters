@@ -47,13 +47,13 @@ public class GsonConverter implements JSONConverter
     public static void registerTypeAdapter(Type type, Object typeAdapter)
     {
         GSON_BUILDER.registerTypeAdapter(type, typeAdapter);
-        gson = null; // reset internal gsonConverter so that it is recreated with new registered typeAdapter
+        gson = null; // reset internal gsonConverter so that it is recreated with a new registered typeAdapter
     }
 
     public static void registerTypeAdapterFactory(TypeAdapterFactory typeAdapterFactory)
     {
         GSON_BUILDER.registerTypeAdapterFactory(typeAdapterFactory);
-        gson = null; // reset internal gsonConverter so that it is recreated with new registered typeAdapter
+        gson = null; // reset internal gsonConverter so that it is recreated with a new registered typeAdapter
     }
 
     public static synchronized Gson getGson()

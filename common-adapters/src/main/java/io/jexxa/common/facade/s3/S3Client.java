@@ -82,7 +82,7 @@ public class S3Client {
                             .object(objectName)
                             .build()
             );
-        } catch (MinioException | InvalidKeyException | IOException | NoSuchAlgorithmException e)
+        } catch (MinioException | InvalidKeyException | IOException | NoSuchAlgorithmException _)
         {
             getLogger(S3KeyValueRepository.class).warn("Could not delete object {}", objectName);
         }
@@ -135,7 +135,7 @@ public class S3Client {
                             .contentType("application/json")
                             .build()
             );
-        } catch (IOException | MinioException | InvalidKeyException | NoSuchAlgorithmException e)
+        } catch (IOException | MinioException | InvalidKeyException | NoSuchAlgorithmException _)
         {
             throw new IllegalArgumentException("Could not put object with id " + objectName );
         }

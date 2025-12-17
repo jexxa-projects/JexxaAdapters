@@ -96,7 +96,7 @@ final class ExceptionFactory implements TypeAdapterFactory
                                 .getConstructor(String.class, Throwable.class)
                                 .newInstance(message, new Throwable(cause))
                 );
-            } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException _) {
                 return Optional.empty();
             }
         }
@@ -109,7 +109,7 @@ final class ExceptionFactory implements TypeAdapterFactory
                                 .getConstructor(String.class)
                                 .newInstance(message)
                 );
-            } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException _) {
                 return Optional.empty();
             }
         }
@@ -122,7 +122,7 @@ final class ExceptionFactory implements TypeAdapterFactory
                                 .getConstructor()
                                 .newInstance()
                 );
-            } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException _) {
                 return Optional.empty();
             }
         }

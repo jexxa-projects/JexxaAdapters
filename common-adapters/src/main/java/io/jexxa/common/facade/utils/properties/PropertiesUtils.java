@@ -18,9 +18,9 @@ public class PropertiesUtils {
      *
      * Properties newProps = removePrefixFromKeys(props, "db.");
      * // newProps contains:
-     * //   url=localhost
-     * //   user=admin
-     * //   app.name=MyApp
+     * // url=localhost
+     * // user=admin
+     * // app.name=MyApp
      * </pre>
      *
      * @param properties the original Properties object
@@ -32,7 +32,7 @@ public class PropertiesUtils {
 
         properties.stringPropertyNames().forEach(key -> {
             String newKey = key.startsWith(prefix) ? key.substring(prefix.length()) : key;
-            result.setProperty(newKey, properties.getProperty(key)); // überschreibt ggf.
+            result.setProperty(newKey, properties.getProperty(key)); // overwrite if a prefix exists
         });
 
         return result;
@@ -42,8 +42,8 @@ public class PropertiesUtils {
      * Filters the properties and returns a subset containing only the entries
      * whose keys start with the specified prefix.
      * <p>
-     * In the returned {@link Properties} object, the prefix is removed from each
-     * key. Properties whose keys do not start with the prefix are excluded.
+     * In the returned {@link Properties} object, the prefix is removed from each key
+     * Properties whose keys do not start with the prefix are excluded.
      * </p>
      *
      * <p><strong>Example:</strong></p>
@@ -55,8 +55,8 @@ public class PropertiesUtils {
      *
      * Properties dbProps = getSubset(props, "db.");
      * // dbProps contains:
-     * //   url=localhost
-     * //   user=admin
+     * // url=localhost
+     * // user=admin
      * </pre>
      *
      * @param properties the original set of properties to filter
