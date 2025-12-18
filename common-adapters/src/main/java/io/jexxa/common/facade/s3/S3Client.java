@@ -1,6 +1,7 @@
 package io.jexxa.common.facade.s3;
 
 import io.jexxa.common.drivenadapter.persistence.repository.s3.S3KeyValueRepository;
+import io.jexxa.common.facade.utils.properties.Secret;
 import io.minio.BucketExistsArgs;
 import io.minio.GetObjectArgs;
 import io.minio.ListObjectsArgs;
@@ -46,11 +47,13 @@ public class S3Client {
     {
         validateProperties(properties);
         this.properties = properties;
+        var s3AccessKey = new Secret(properties,s3AccessKey(), s3FileAccessKey() );
+        var s3SecretKey = new Secret(properties, s3SecretKey(), s3FileSecretKey());
         minioClient = MinioClient.builder()
                 .endpoint(properties.getProperty(s3Endpoint()))
                 .credentials(
-                        getFirstPropertyAvailable(properties, s3AccessKey(), s3FileAccessKey()),
-                        getFirstPropertyAvailable(properties, s3SecretKey(), s3FileSecretKey()))
+                        s3AccessKey.getSecret(),
+                        s3SecretKey.getSecret())
                 .region(properties.getProperty(s3Region()))
                 .build();
         initBucket();
@@ -214,14 +217,6 @@ public class S3Client {
     {
         requireNonNull(properties.getProperty(s3Endpoint()));
         requireNonNull(properties.getProperty(s3Bucket()));
-    }
-
-    private String getFirstPropertyAvailable(Properties props, String... keys) {
-        for (String key : keys) {
-            String value = props.getProperty(key);
-            if (value != null && !value.isEmpty()) return value;
-        }
-        throw new IllegalArgumentException("No valid properties found");
     }
 
 }
