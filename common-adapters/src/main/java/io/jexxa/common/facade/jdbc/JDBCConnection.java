@@ -242,7 +242,7 @@ public class JDBCConnection implements AutoCloseable
             }
         } catch (SQLException e)
         {
-            throw new IllegalStateException("Could not reset JDCConnection. Reason: " + e.getMessage(), e);
+            throw new IllegalStateException("Could not reset JDBCConnection. Reason: " + e.getMessage(), e);
         }
     }
 

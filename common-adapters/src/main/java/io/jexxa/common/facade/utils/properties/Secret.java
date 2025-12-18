@@ -38,7 +38,7 @@ public record Secret(Properties properties, String key, String fileKey) {
                     && !properties.getProperty(fileKey).isEmpty()) {
                 return Files
                         .readAllLines(Path.of(properties.getProperty(fileKey)))
-                        .get(0);
+                        .getFirst();
             }
         } catch (IOException e) {
             throw new IllegalArgumentException(e);

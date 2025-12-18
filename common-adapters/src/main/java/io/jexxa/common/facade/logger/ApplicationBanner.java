@@ -9,6 +9,7 @@ import java.util.function.Consumer;
 
 import static io.jexxa.common.facade.logger.SLF4jLogger.getLogger;
 
+@SuppressWarnings("unused")
 public final class ApplicationBanner
 {
     private static final ApplicationBanner APPLICATION_BANNER = new ApplicationBanner();

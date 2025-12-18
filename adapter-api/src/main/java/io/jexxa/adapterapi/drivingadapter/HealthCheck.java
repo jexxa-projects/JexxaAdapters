@@ -2,6 +2,7 @@ package io.jexxa.adapterapi.drivingadapter;
 
 import java.time.Instant;
 
+@SuppressWarnings("unused")
 public abstract class HealthCheck
 {
     private Object observedObject;
