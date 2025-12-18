@@ -115,11 +115,10 @@ public class JDBCConnection implements AutoCloseable
                             creationProperties.getProperty(JDBCProperties.jdbcAutocreateDatabase()),
                             username.getSecret(),
                             password.getSecret());
-                var statement = setupConnection.prepareStatement("create DATABASE ?"))
+                var statement = setupConnection.createStatement())
             {
-                statement.setString(1, dbName);
                 setupConnection.setAutoCommit(true);
-                statement.execute();
+                statement.execute(String.format("create DATABASE %s ", dbName));
                 LOGGER.debug("Database {} successfully created ", dbName);
             }
             catch (SQLException _)
