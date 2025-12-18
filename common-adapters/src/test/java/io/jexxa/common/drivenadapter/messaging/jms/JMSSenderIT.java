@@ -33,6 +33,9 @@ import static io.jexxa.common.drivenadapter.messaging.MessageSenderFactory.setDe
 import static io.jexxa.common.drivingadapter.messaging.jms.listener.QueueListener.QUEUE_DESTINATION;
 import static io.jexxa.common.drivingadapter.messaging.jms.listener.TopicListener.TOPIC_DESTINATION;
 import static io.jexxa.common.facade.jms.JMSProperties.jndiPasswordFile;
+import static io.jexxa.common.facade.jms.JMSProperties.jndiPasswordKey;
+import static io.jexxa.common.facade.jms.JMSProperties.jndiUserFile;
+import static io.jexxa.common.facade.jms.JMSProperties.jndiUserKey;
 import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertTimeout;
@@ -219,12 +222,16 @@ class JMSSenderIT
     }
 
     @Test
-    void testPasswordFile()
+    void testSecretsFromFile()
     {
         //Arrange
         var properties = new Properties();
         properties.putAll(jmsProperties);
         properties.remove(jndiPasswordFile());
+        properties.remove(jndiPasswordKey());
+        properties.remove(jndiUserFile());
+        properties.remove(jndiUserKey());
+        properties.put(jndiUserFile(), "src/test/resources/secrets/jndiUser");
         properties.put(jndiPasswordFile(), "src/test/resources/secrets/jndiPassword");
         setDefaultMessageSender(JMSSender.class);
 
