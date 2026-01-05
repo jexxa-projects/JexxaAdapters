@@ -41,7 +41,7 @@ public class S3KeyValueRepository<T,K> implements IRepository<T, K> {
                     inputStream,
                     aggregateJSON.length
             );
-        } catch (IOException e) {
+        } catch (IOException _) {
             throw new IllegalArgumentException("Could not add aggregate with id " + encodeFilename(keyFunction.apply(aggregate)));
         }
 
