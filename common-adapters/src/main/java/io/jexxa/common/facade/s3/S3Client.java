@@ -120,6 +120,9 @@ public class S3Client {
                         .build()))
         {
             return Optional.of(new String(stream.readAllBytes(), StandardCharsets.UTF_8));
+        } catch (ErrorResponseException e)
+        {
+            getLogger(S3KeyValueRepository.class).debug(e.getMessage());
         } catch (MinioException | RuntimeException | IOException | InvalidKeyException | NoSuchAlgorithmException e) {
             getLogger(S3KeyValueRepository.class).warn(e.getMessage());
         }
