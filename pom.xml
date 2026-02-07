@@ -45,7 +45,7 @@
      <!-- version of dependencies -->
     <javax.jms.version>2.0.1</javax.jms.version>
     <activemq.artemis.client.version>2.44.0</activemq.artemis.client.version>
-    <postgres.version>42.7.8</postgres.version>
+    <postgres.version>42.7.9</postgres.version>
     <sqlilte.version>3.51.1.0</sqlilte.version>
     <slf4j.simple.version>2.0.17</slf4j.simple.version>
     <minio.version>8.6.0</minio.version>
@@ -54,9 +54,9 @@
 
 
       <!-- version of test dependencies -->
-    <junit.platform.launcher.version>6.0.1</junit.platform.launcher.version>
+    <junit.platform.launcher.version>6.0.2</junit.platform.launcher.version>
     <junit.jupiter.engine.version>6.0.2</junit.jupiter.engine.version>
-    <junit.jupiter.params.version>6.0.1</junit.jupiter.params.version>
+    <junit.jupiter.params.version>6.0.2</junit.jupiter.params.version>
     <awaitility.version>4.3.0</awaitility.version>
 
     <!-- server-name used in mavens settings.xml to find to your repository credentials -->
@@ -69,7 +69,7 @@
     <!--version of  maven plugins  -->
     <gpg.plugin.version>3.2.8</gpg.plugin.version>
     <maven.clean.plugin>3.5.0</maven.clean.plugin>
-    <maven.compiler.plugin>3.14.1</maven.compiler.plugin>
+    <maven.compiler.plugin>3.15.0</maven.compiler.plugin>
     <maven.deploy.plugin>3.1.1</maven.deploy.plugin>
     <maven.failsafe.plugin>3.5.4</maven.failsafe.plugin>
     <maven.install.plugin>3.1.4</maven.install.plugin>
@@ -82,10 +82,10 @@
     <maven.reports.plugin>3.9.0</maven.reports.plugin>
     <maven.enforcer.plugin>3.6.2</maven.enforcer.plugin>
     <maven.javadoc.plugin>3.12.0</maven.javadoc.plugin>
-    <maven.versions.plugin>2.20.1</maven.versions.plugin>
+    <maven.versions.plugin>2.21.0</maven.versions.plugin>
     <maven.build.helper.version>3.4.0</maven.build.helper.version>
     <maven.templating.plugin>3.0.0</maven.templating.plugin>
-    <maven.central.publishing.plugin>0.9.0</maven.central.publishing.plugin>
+    <maven.central.publishing.plugin>0.10.0</maven.central.publishing.plugin>
 
     <!-- sonar configuration  -->
     <sonar.organization>jexxa-projects</sonar.organization>
