@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## \[3.0.3] - 2026-03-07
+### Fixed
+* Updated dependencies
+
 ## \[3.0.2] - 2026-02-07
 ### Fixed
 * Fixed S3 warn message: If a file does not exist, we just show a debug message
