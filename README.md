@@ -48,7 +48,7 @@ To see how to use this library, please refer to:
 * Filter plugins [JLegMed](https://github.com/jexxa-projects/JLegMed)
 
 ## Build the library
-This section describes how to build the library by yourself, if you want to contribute.
+This section describes how to build the library by yourself if you want to contribute.
 ### Requirements 
 *   A locally running [developer stack](deploy/developerStack.yml) providing a Postgres database, and ActiveMQ broker
 
