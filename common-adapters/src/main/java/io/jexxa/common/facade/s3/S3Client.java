@@ -15,15 +15,13 @@ import io.minio.Result;
 import io.minio.StatObjectArgs;
 import io.minio.errors.ErrorResponseException;
 import io.minio.errors.MinioException;
-import io.minio.messages.DeleteError;
-import io.minio.messages.DeleteObject;
+import io.minio.messages.DeleteRequest;
+import io.minio.messages.DeleteResult;
 import io.minio.messages.Item;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -85,33 +83,38 @@ public class S3Client {
                             .object(objectName)
                             .build()
             );
-        } catch (MinioException | InvalidKeyException | IOException | NoSuchAlgorithmException _)
+        } catch (MinioException _)
         {
             getLogger(S3KeyValueRepository.class).warn("Could not delete object {}", objectName);
         }
     }
-
     public void removeObjects(List<String> objectList) {
-        Iterable<DeleteObject> objectsToDelete = objectList.stream()
-                .map(DeleteObject::new)
+        List<DeleteRequest.Object> objectsToDelete = objectList.stream()
+                .map(DeleteRequest.Object::new)
                 .toList();
 
-        var result = minioClient.removeObjects(
-                RemoveObjectsArgs.builder()
-                        .bucket(properties.getProperty(s3Bucket()))
-                        .objects(objectsToDelete)
-                        .build()
-        );
         try {
-            for (Result<DeleteError> r : result) {
-                DeleteError error = r.get();
-                getLogger(S3KeyValueRepository.class).error("Error during delete of file: {} ", error.objectName());
+            // 2. Das Resultat liefert nun Result<DeleteResult.Error>
+            Iterable<Result<DeleteResult.Error>> results = minioClient.removeObjects(
+                    RemoveObjectsArgs.builder()
+                            .bucket(properties.getProperty(s3Bucket()))
+                            .objects(objectsToDelete)
+                            .build()
+            );
+
+            // 3. Iteration (Zwingend für die Ausführung!)
+            for (Result<DeleteResult.Error> result : results) {
+                DeleteResult.Error error = result.get();
+                getLogger(S3KeyValueRepository.class).error(
+                        "Error during delete of file: {} - Error Code: {}",
+                        error.objectName(),
+                        error.code()
+                );
             }
-        } catch (MinioException | InvalidKeyException | IOException | NoSuchAlgorithmException e) {
-            throw new IllegalArgumentException("Could not execute removeAll", e);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Löschvorgang konnte nicht ausgeführt werden", e);
         }
     }
-
     public Optional<String> get(String objectName) {
         try (var stream = minioClient.getObject(
                 GetObjectArgs.builder()
@@ -123,7 +126,7 @@ public class S3Client {
         } catch (ErrorResponseException e)
         {
             getLogger(S3KeyValueRepository.class).debug(e.getMessage());
-        } catch (MinioException | RuntimeException | IOException | InvalidKeyException | NoSuchAlgorithmException e) {
+        } catch (MinioException | RuntimeException | IOException  e) {
             getLogger(S3KeyValueRepository.class).warn(e.getMessage());
         }
 
@@ -137,11 +140,11 @@ public class S3Client {
                     PutObjectArgs.builder()
                             .bucket(properties.getProperty(s3Bucket()))
                             .object(objectName)
-                            .stream(objectStream, objectSize, -1)
+                            .stream(objectStream, (long)objectSize, -1L)
                             .contentType("application/json")
                             .build()
             );
-        } catch (IOException | MinioException | InvalidKeyException | NoSuchAlgorithmException _)
+        } catch (MinioException _)
         {
             throw new IllegalArgumentException("Could not put object with id " + objectName );
         }
@@ -160,7 +163,7 @@ public class S3Client {
             if (e.errorResponse().code().equals("NoSuchKey")) {
                 return false;
             }
-        } catch (MinioException | InvalidKeyException | IOException | NoSuchAlgorithmException e)
+        } catch (MinioException e)
         {
             getLogger(S3KeyValueRepository.class).warn(e.getMessage());
             return false;
@@ -194,7 +197,7 @@ public class S3Client {
             }
 
             return objectNames;
-        } catch (MinioException | InvalidKeyException | IOException | NoSuchAlgorithmException e)
+        } catch (MinioException  e)
         {
             getLogger(S3KeyValueRepository.class).warn(e.getMessage());
         }
@@ -210,7 +213,7 @@ public class S3Client {
                             .bucket(bucketName)
                             .build()
             );
-        } catch (MinioException | InvalidKeyException | IOException | NoSuchAlgorithmException e)
+        } catch (MinioException e)
         {
             throw new IllegalArgumentException("Could not delete bucket " + bucketName, e);
         }
