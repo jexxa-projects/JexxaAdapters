@@ -7,6 +7,7 @@ import io.jexxa.common.drivenadapter.persistence.objectstore.metadata.MetaTags;
 import io.jexxa.common.drivenadapter.persistence.objectstore.metadata.MetadataSchema;
 import io.jexxa.common.facade.TestConstants;
 import io.jexxa.common.facade.jdbc.JDBCConnection;
+import io.jexxa.common.facade.s3.S3Client;
 import io.jexxa.common.facade.testapplication.TestValueObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,6 +23,8 @@ import java.util.stream.IntStream;
 
 import static io.jexxa.common.drivenadapter.persistence.ObjectStoreFactory.createObjectStore;
 import static io.jexxa.common.facade.jdbc.JDBCProperties.jdbcUrl;
+import static io.jexxa.common.facade.s3.S3Properties.s3Bucket;
+import static io.jexxa.common.facade.s3.S3Properties.s3Endpoint;
 import static java.util.Comparator.comparing;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -188,6 +191,13 @@ class IObjectStoreIT
                         .dropTableIfExists(TestObject.class)
                         .asIgnore();
             }
+        }
+
+
+        if (properties.containsKey(s3Endpoint())) {
+            var s3Client = new S3Client(properties);
+            s3Client.removeObjects(s3Client.getAllS3Objects());
+            s3Client.removeBucket(properties.getProperty(s3Bucket()));
         }
 
         objectUnderTest = createObjectStore(
