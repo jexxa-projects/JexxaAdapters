@@ -41,7 +41,6 @@ public class JDBCObjectStore<T,K, M extends Enum<M> & MetadataSchema> extends JD
 
     private final IDatabase database;
 
-
     public JDBCObjectStore(
             Class<T> aggregateClazz,
             Function<T, K> keyFunction,
@@ -49,9 +48,19 @@ public class JDBCObjectStore<T,K, M extends Enum<M> & MetadataSchema> extends JD
             Properties properties
     )
     {
-        super(aggregateClazz, keyFunction, properties, false);
-        Objects.requireNonNull(properties);
+        this(aggregateClazz, keyFunction, aggregateClazz.getSimpleName(), metaData, properties);
+    }
 
+    public JDBCObjectStore(
+            Class<T> aggregateClazz,
+            Function<T, K> keyFunction,
+            String tableName,
+            Class<M> metaData,
+            Properties properties
+    )
+    {
+        Objects.requireNonNull(properties);
+        super(aggregateClazz, keyFunction, tableName, properties, false);
         this.keyFunction = keyFunction;
         this.aggregateClazz = aggregateClazz;
         this.metaData = metaData;
@@ -83,7 +92,7 @@ public class JDBCObjectStore<T,K, M extends Enum<M> & MetadataSchema> extends JD
 
         var command = getConnection()
                 .command(KeyValueSchema.class)
-                .update(aggregateClazz)
+                .update(tableName())
                 .set(keySet.toArray(new String[0]), valueSet.toArray(new JDBCObject[0]))
                 .where(KeyValueSchema.REPOSITORY_KEY).isEqual(jdbcKey)
                 .create();
@@ -111,7 +120,7 @@ public class JDBCObjectStore<T,K, M extends Enum<M> & MetadataSchema> extends JD
 
         var command = getConnection()
                 .command(KeyValueSchema.class)
-                .insertInto(aggregateClazz)
+                .insertInto(tableName())
                 .columns(keySet.toArray(new String[0]))
                 .values(objectList.toArray(new JDBCObject[0]))
                 .create();
@@ -165,7 +174,7 @@ public class JDBCObjectStore<T,K, M extends Enum<M> & MetadataSchema> extends JD
         try{
 
             var command = getConnection().tableCommand(metaData)
-                    .createTableIfNotExists(aggregateClazz)
+                    .createTableIfNotExists(tableName())
                     .addColumn(KeyValueSchema.REPOSITORY_KEY, database.matchingPrimaryKey(JSONB))
                     .addConstraint(PRIMARY_KEY)
                     .addColumn(KeyValueSchema.REPOSITORY_VALUE, database.matchingValue(JSONB));
@@ -178,7 +187,7 @@ public class JDBCObjectStore<T,K, M extends Enum<M> & MetadataSchema> extends JD
 
             getConnection().command(metaData)
                     .createIndex(aggregateClazz.getSimpleName() + "_object_index" )
-                    .on(aggregateClazz.getSimpleName(), columnName )
+                    .on(tableName(), columnName )
                     .create()
                     .asIgnore();
         }

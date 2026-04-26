@@ -24,14 +24,25 @@ public class IMDBObjectStore<T, K, M extends Enum<M> & MetadataSchema>  extends 
 {
     private final Set<M> metaData;
 
+    @SuppressWarnings("unused")
     public IMDBObjectStore(
             Class<T> aggregateClazz,
             Function<T, K> keyFunction,
             Class<M> metaData,
             Properties properties
+    ) {
+        this(aggregateClazz, keyFunction, aggregateClazz.getSimpleName(), metaData, properties);
+    }
+
+    public IMDBObjectStore(
+            Class<T> aggregateClazz,
+            Function<T, K> keyFunction,
+            String tableName,
+            Class<M> metaData,
+            Properties properties
             )
     {
-        super(aggregateClazz, keyFunction, properties);
+        super(aggregateClazz, keyFunction, tableName, properties);
         this.metaData = EnumSet.allOf(metaData);
     }
 

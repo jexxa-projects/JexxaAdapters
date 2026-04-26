@@ -20,14 +20,25 @@ public class S3ObjectStore<T, K, M extends Enum<M> & MetadataSchema>  extends S3
 {
     private final Set<M> metaData;
 
+    @SuppressWarnings("unused")
     public S3ObjectStore(
             Class<T> aggregateClazz,
             Function<T, K> keyFunction,
             Class<M> metaData,
             Properties properties
+    ) {
+        this(aggregateClazz, keyFunction, aggregateClazz.getSimpleName(), metaData, properties);
+    }
+
+    public S3ObjectStore(
+            Class<T> aggregateClazz,
+            Function<T, K> keyFunction,
+            String s3ObjectPrefix,
+            Class<M> metaData,
+            Properties properties
             )
     {
-        super(aggregateClazz, keyFunction, properties);
+        super(aggregateClazz, keyFunction, s3ObjectPrefix, properties);
         this.metaData = EnumSet.allOf(metaData);
     }
 

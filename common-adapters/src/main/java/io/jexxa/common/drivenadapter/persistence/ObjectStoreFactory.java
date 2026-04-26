@@ -33,10 +33,20 @@ public final class ObjectStoreFactory
         return getObjectStoreType(null, properties);
     }
 
+    public static  <T,K,M  extends Enum<?> & MetadataSchema> IObjectStore<T,K, M> createObjectStore(
+            Class<T> aggregateClazz,
+            Function<T,K> keyFunction,
+            Class<M> metaData,
+            Properties properties)
+    {
+        return createObjectStore(aggregateClazz, keyFunction, aggregateClazz.getSimpleName(), metaData, properties);
+    }
+
     @SuppressWarnings("unchecked")
     public static  <T,K,M  extends Enum<?> & MetadataSchema> IObjectStore<T,K, M> createObjectStore(
             Class<T> aggregateClazz,
             Function<T,K> keyFunction,
+            String tableName,
             Class<M> metaData,
             Properties properties)
     {
@@ -44,7 +54,7 @@ public final class ObjectStoreFactory
         {
             var strategy = getObjectStoreType(aggregateClazz, properties);
 
-            var result = ClassFactory.newInstanceOf(strategy, new Object[]{aggregateClazz, keyFunction, metaData, properties});
+            var result = ClassFactory.newInstanceOf(strategy, new Object[]{aggregateClazz, keyFunction, tableName, metaData, properties});
 
             return (IObjectStore<T, K,M>) result.orElseThrow();
         }
@@ -107,7 +117,7 @@ public final class ObjectStoreFactory
         if (properties.containsKey(objectstoreStrategy())) {
             try {
                 return Class.forName(properties.getProperty(objectstoreStrategy()));
-            } catch (ClassNotFoundException e) {
+            } catch (ClassNotFoundException _) {
                 getLogger(ObjectStoreFactory.class).warn("Unknown or invalid object store {} -> Ignore setting", properties.getProperty(objectstoreStrategy()));
             }
         }
