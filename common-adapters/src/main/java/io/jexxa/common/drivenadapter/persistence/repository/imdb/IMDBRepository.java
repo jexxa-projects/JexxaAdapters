@@ -26,6 +26,12 @@ public class IMDBRepository<T, K>  implements IRepository<T, K>
     @SuppressWarnings("java:S1172")
     public IMDBRepository(Class<T> aggregateClazz, Function<T,K> keyFunction, Properties ignoredProperties)
     {
+        this(aggregateClazz, keyFunction, aggregateClazz.getSimpleName(),  ignoredProperties  );
+    }
+
+    @SuppressWarnings("java:S1172")
+    public IMDBRepository(Class<T> aggregateClazz, Function<T,K> keyFunction, String ignoredTableName, Properties ignoredProperties)
+    {
         this.aggregateClazz = Objects.requireNonNull(aggregateClazz);
         this.keyFunction = Objects.requireNonNull(keyFunction);
         IMDB_REPOSITORY_MAP.put(aggregateClazz, this);
@@ -109,15 +115,15 @@ public class IMDBRepository<T, K>  implements IRepository<T, K>
      */
     public static synchronized void clear()
     {
-        IMDB_REPOSITORY_MAP.forEach( (aggregateType, repository) -> repository.removeAll() );
-        REPOSITORY_MAP.forEach( (aggregateType, imdbMap) -> imdbMap.clear() );
+        IMDB_REPOSITORY_MAP.forEach( (_, repository) -> repository.removeAll() );
+        REPOSITORY_MAP.forEach( (_, imdbMap) -> imdbMap.clear() );
         REPOSITORY_MAP.clear();
     }
 
     @SuppressWarnings("unchecked")
     protected static synchronized <T> Map<T, String> getAggregateMap(Class<?> aggregateClazz)
     {
-        return (Map<T, String>)REPOSITORY_MAP.computeIfAbsent(aggregateClazz, element -> new ConcurrentHashMap<T,String>());
+        return (Map<T, String>)REPOSITORY_MAP.computeIfAbsent(aggregateClazz, _ -> new ConcurrentHashMap<T,String>());
     }
 
     protected Class<T> getAggregateClazz()

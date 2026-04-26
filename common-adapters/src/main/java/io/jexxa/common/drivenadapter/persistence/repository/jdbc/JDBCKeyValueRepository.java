@@ -39,12 +39,17 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
     @SuppressWarnings("unused")
     public JDBCKeyValueRepository(Class<T> aggregateClazz, Function<T,K> keyFunction, Properties properties)
     {
+        this(aggregateClazz, keyFunction, aggregateClazz.getSimpleName(), properties);
+    }
+
+    public JDBCKeyValueRepository(Class<T> aggregateClazz, Function<T,K> keyFunction, String tableName, Properties properties)
+    {
         super(properties);
 
         this.keyFunction = Objects.requireNonNull( keyFunction );
         this.aggregateClazz = Objects.requireNonNull(aggregateClazz);
         this.database = DatabaseManager.getDatabase(properties.getProperty(JDBCProperties.jdbcUrl()));
-        this.tableName = aggregateClazz.getSimpleName();
+        this.tableName = tableName;
 
         manageDBTable(properties);
     }
@@ -64,6 +69,20 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
         }
     }
 
+    protected JDBCKeyValueRepository(Class<T> aggregateClazz, Function<T,K> keyFunction, String tableName, Properties properties, boolean manageTable)
+    {
+        super(properties);
+
+        this.keyFunction = Objects.requireNonNull( keyFunction );
+        this.aggregateClazz = Objects.requireNonNull(aggregateClazz);
+        this.database = DatabaseManager.getDatabase(properties.getProperty(JDBCProperties.jdbcUrl()));
+        this.tableName = tableName;
+
+        if ( manageTable )
+        {
+            manageDBTable(properties);
+        }
+    }
 
     @Override
     public void remove(K key)
@@ -190,7 +209,7 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
 
             command.asIgnore();
         }
-        catch (IllegalArgumentException e)
+        catch (IllegalArgumentException _)
         {
             LOGGER.debug("Could not create table {} => Assume that table already exists", tableName());
         }

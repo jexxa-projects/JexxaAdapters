@@ -63,18 +63,28 @@ public final class RepositoryFactory
      *
      * @return the repository strategy class to be used
      */
-    @SuppressWarnings("unchecked")
     @CheckReturnValue
     public static  <T,K> IRepository<T,K> createRepository(
             Class<T> aggregateClazz,
             Function<T,K> keyFunction,
             Properties properties)
     {
+        return createRepository(aggregateClazz, keyFunction, aggregateClazz.getSimpleName(), properties);
+    }
+
+
+    @SuppressWarnings("unchecked")
+    public static  <T,K> IRepository<T,K> createRepository(
+            Class<T> aggregateClazz,
+            Function<T,K> keyFunction,
+            String storageLocation,
+            Properties properties)
+    {
         try
         {
             var strategy = getRepositoryType(aggregateClazz, properties);
 
-            var result = ClassFactory.newInstanceOf(strategy, new Object[]{aggregateClazz, keyFunction, properties});
+            var result = ClassFactory.newInstanceOf(strategy, new Object[]{aggregateClazz, keyFunction, storageLocation, properties});
 
             return (IRepository<T, K>) result.orElseThrow();
         }

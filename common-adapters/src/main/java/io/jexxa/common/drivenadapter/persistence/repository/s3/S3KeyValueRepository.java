@@ -21,13 +21,18 @@ public class S3KeyValueRepository<T,K> implements IRepository<T, K> {
     private final Class<T> aggregateClazz;
     private final S3Client s3Client;
     private final String s3ApplicationPrefix;
+    private final String s3Suffix;
 
     public S3KeyValueRepository(Class<T> aggregateClazz, Function<T, K> keyFunction, Properties properties) {
+        this(aggregateClazz, keyFunction, aggregateClazz.getSimpleName(), properties);
+    }
 
+    public S3KeyValueRepository(Class<T> aggregateClazz, Function<T, K> keyFunction, String s3Suffix, Properties properties) {
         this.keyFunction = requireNonNull(keyFunction);
         this.aggregateClazz = requireNonNull(aggregateClazz);
         this.s3ApplicationPrefix = getS3ApplicationPrefix(properties);
         this.s3Client = new S3Client(properties);
+        this.s3Suffix = s3Suffix;
     }
 
     @Override
@@ -57,7 +62,7 @@ public class S3KeyValueRepository<T,K> implements IRepository<T, K> {
 
     @Override
     public void removeAll() {
-        s3Client.removeObjects(s3Client.getAllS3Objects(s3Prefix()));
+        s3Client.removeObjects(s3Client.getAllS3Objects(s3Prefix(s3Suffix)));
     }
 
     @Override
@@ -77,7 +82,7 @@ public class S3KeyValueRepository<T,K> implements IRepository<T, K> {
 
     @Override
     public List<T> get() {
-        return s3Client.getAllS3Objects(s3Prefix())
+        return s3Client.getAllS3Objects(s3Prefix(s3Suffix))
                 .stream()
                 .map(s3Client::get)
                 .flatMap(Optional::stream)
@@ -87,7 +92,7 @@ public class S3KeyValueRepository<T,K> implements IRepository<T, K> {
 
 
     private String encodeFilename(K key) {
-        return s3Prefix() + Base64.getUrlEncoder()
+        return s3Prefix(s3Suffix) + Base64.getUrlEncoder()
                 .encodeToString(
                         getJSONConverter()
                                 .toJson(key)
@@ -104,8 +109,8 @@ public class S3KeyValueRepository<T,K> implements IRepository<T, K> {
     }
 
 
-    private String s3Prefix()
+    private String s3Prefix(String suffix)
     {
-        return s3ApplicationPrefix + aggregateClazz.getSimpleName().toLowerCase()+ "/";
+        return s3ApplicationPrefix + suffix + "/";
     }
 }

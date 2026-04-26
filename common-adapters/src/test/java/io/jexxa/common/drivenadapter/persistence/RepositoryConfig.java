@@ -41,6 +41,16 @@ public class RepositoryConfig {
         );
     }
 
+    @SuppressWarnings("unused") // Used in ParameterizedTest
+    public static Stream<Properties> repositoryConfig(String schemaName) {
+        return Stream.of(
+                postgresRepositoryConfig(schemaName),
+                h2RepositoryConfig(),
+                imdbRepositoryConfig(),
+                s3RepositoryConfig()
+        );
+    }
+
     public static Properties postgresRepositoryConfig(String schemaName) {
         var postgresProperties = new Properties();
         postgresProperties.put(jdbcDriver(), "org.postgresql.Driver");
