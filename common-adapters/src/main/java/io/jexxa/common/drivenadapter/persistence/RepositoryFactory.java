@@ -77,14 +77,14 @@ public final class RepositoryFactory
     public static  <T,K> IRepository<T,K> createRepository(
             Class<T> aggregateClazz,
             Function<T,K> keyFunction,
-            String storageLocation,
+            String storageName,
             Properties properties)
     {
         try
         {
             var strategy = getRepositoryType(aggregateClazz, properties);
 
-            var result = ClassFactory.newInstanceOf(strategy, new Object[]{aggregateClazz, keyFunction, storageLocation, properties});
+            var result = ClassFactory.newInstanceOf(strategy, new Object[]{aggregateClazz, keyFunction, storageName, properties});
 
             return (IRepository<T, K>) result.orElseThrow();
         }

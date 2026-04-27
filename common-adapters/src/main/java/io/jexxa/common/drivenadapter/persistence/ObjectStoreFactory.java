@@ -46,7 +46,7 @@ public final class ObjectStoreFactory
     public static  <T,K,M  extends Enum<?> & MetadataSchema> IObjectStore<T,K, M> createObjectStore(
             Class<T> aggregateClazz,
             Function<T,K> keyFunction,
-            String tableName,
+            String storageName,
             Class<M> metaData,
             Properties properties)
     {
@@ -54,7 +54,7 @@ public final class ObjectStoreFactory
         {
             var strategy = getObjectStoreType(aggregateClazz, properties);
 
-            var result = ClassFactory.newInstanceOf(strategy, new Object[]{aggregateClazz, keyFunction, tableName, metaData, properties});
+            var result = ClassFactory.newInstanceOf(strategy, new Object[]{aggregateClazz, keyFunction, storageName, metaData, properties});
 
             return (IObjectStore<T, K,M>) result.orElseThrow();
         }

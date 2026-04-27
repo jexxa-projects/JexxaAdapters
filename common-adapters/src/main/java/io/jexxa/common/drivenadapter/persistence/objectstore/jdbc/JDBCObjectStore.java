@@ -54,13 +54,13 @@ public class JDBCObjectStore<T,K, M extends Enum<M> & MetadataSchema> extends JD
     public JDBCObjectStore(
             Class<T> aggregateClazz,
             Function<T, K> keyFunction,
-            String tableName,
+            String storageName,
             Class<M> metaData,
             Properties properties
     )
     {
         Objects.requireNonNull(properties);
-        super(aggregateClazz, keyFunction, tableName, properties, false);
+        super(aggregateClazz, keyFunction, storageName, properties, false);
         this.keyFunction = keyFunction;
         this.aggregateClazz = aggregateClazz;
         this.metaData = metaData;

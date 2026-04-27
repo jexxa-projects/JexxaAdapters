@@ -28,7 +28,7 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
     private final Class<T> aggregateClazz;
     private final IDatabase database;
 
-    private String tableName;
+    private String storageName;
 
     public enum KeyValueSchema
     {
@@ -42,14 +42,14 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
         this(aggregateClazz, keyFunction, aggregateClazz.getSimpleName(), properties);
     }
 
-    public JDBCKeyValueRepository(Class<T> aggregateClazz, Function<T,K> keyFunction, String tableName, Properties properties)
+    public JDBCKeyValueRepository(Class<T> aggregateClazz, Function<T,K> keyFunction, String storageName, Properties properties)
     {
         super(properties);
 
         this.keyFunction = Objects.requireNonNull( keyFunction );
         this.aggregateClazz = Objects.requireNonNull(aggregateClazz);
         this.database = DatabaseManager.getDatabase(properties.getProperty(JDBCProperties.jdbcUrl()));
-        this.tableName = tableName;
+        this.storageName = storageName;
 
         manageDBTable(properties);
     }
@@ -61,7 +61,7 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
         this.keyFunction = Objects.requireNonNull( keyFunction );
         this.aggregateClazz = Objects.requireNonNull(aggregateClazz);
         this.database = DatabaseManager.getDatabase(properties.getProperty(JDBCProperties.jdbcUrl()));
-        this.tableName = aggregateClazz.getSimpleName();
+        this.storageName = aggregateClazz.getSimpleName();
 
         if ( manageTable )
         {
@@ -69,14 +69,14 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
         }
     }
 
-    protected JDBCKeyValueRepository(Class<T> aggregateClazz, Function<T,K> keyFunction, String tableName, Properties properties, boolean manageTable)
+    protected JDBCKeyValueRepository(Class<T> aggregateClazz, Function<T,K> keyFunction, String storageName, Properties properties, boolean manageTable)
     {
         super(properties);
 
         this.keyFunction = Objects.requireNonNull( keyFunction );
         this.aggregateClazz = Objects.requireNonNull(aggregateClazz);
         this.database = DatabaseManager.getDatabase(properties.getProperty(JDBCProperties.jdbcUrl()));
-        this.tableName = tableName;
+        this.storageName = storageName;
 
         if ( manageTable )
         {
@@ -85,7 +85,7 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
     }
 
     @Override
-    public void remove(K key)
+    public synchronized void remove(K key)
     {
         Objects.requireNonNull(key);
         var jdbcKey = new JDBCObject(getJSONConverter().toJson(key), database.matchingValue(JSONB));
@@ -100,7 +100,7 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
     }
 
     @Override
-    public void removeAll()
+    public synchronized void removeAll()
     {
         var command = getConnection().command(KeyValueSchema.class)
                 .deleteFrom(tableName())
@@ -110,7 +110,7 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
     }
 
     @Override
-    public void add(T aggregate)
+    public synchronized void add(T aggregate)
     {
         Objects.requireNonNull(aggregate);
 
@@ -127,7 +127,7 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
 
     @SuppressWarnings({"unused"})
     @Override
-    public void update(T aggregate)
+    public synchronized void update(T aggregate)
     {
         Objects.requireNonNull(aggregate);
 
@@ -142,7 +142,7 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
     }
 
     @Override
-    public Optional<T> get(K primaryKey)
+    public synchronized Optional<T> get(K primaryKey)
     {
         Objects.requireNonNull(primaryKey);
 
@@ -162,7 +162,7 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
     }
 
     @Override
-    public List<T> get()
+    public synchronized List<T> get()
     {
         var query = getConnection().query(KeyValueSchema.class)
                 .select(KeyValueSchema.REPOSITORY_VALUE)
@@ -176,16 +176,16 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
                 .toList();
     }
 
-    public void tableName(String tableName)
+    public void tableName(String storageName)
     {
-        Objects.requireNonNull(tableName);
-        this.tableName = tableName;
+        Objects.requireNonNull(storageName);
+        this.storageName = storageName;
         autocreateTableKeyValue();
     }
 
     public String tableName()
     {
-        return tableName;
+        return storageName;
     }
 
     private void manageDBTable(Properties properties)

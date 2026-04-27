@@ -33,12 +33,12 @@ public class S3ObjectStore<T, K, M extends Enum<M> & MetadataSchema>  extends S3
     public S3ObjectStore(
             Class<T> aggregateClazz,
             Function<T, K> keyFunction,
-            String s3ObjectPrefix,
+            String storageName,
             Class<M> metaData,
             Properties properties
             )
     {
-        super(aggregateClazz, keyFunction, s3ObjectPrefix, properties);
+        super(aggregateClazz, keyFunction, storageName, properties);
         this.metaData = EnumSet.allOf(metaData);
     }
 
