@@ -22,7 +22,7 @@ We take the security of Jexxa Adapters seriously. If you believe you have found 
 **Please do not report security vulnerabilities via public GitHub issues.**
 
 ### How to report
-1. Send an email to **[security@jexxa.io]**.
+1. Send an email to **[security@jexxa.io](mailto:security@jexxa.io)**.
 2. Include a detailed description of the vulnerability, steps to reproduce, and the potential impact.
 3. We will acknowledge receipt of your report within 48 hours and provide a timeline for the fix.
 
@@ -32,4 +32,4 @@ We take the security of Jexxa Adapters seriously. If you believe you have found 
 - We do not pursue legal action against researchers who act in good faith and follow this policy.
 
 ## Security Advisories
-Official security advisories will be published via [GitHub Security Advisories](https://github.com).
+Official security advisories will be published via [GitHub Security Advisories](https://github.com/jexxa-projects/JexxaAdapter/security/advisories).
