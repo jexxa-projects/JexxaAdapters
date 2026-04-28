@@ -120,6 +120,6 @@ public class S3KeyValueRepository<T,K> implements IRepository<T, K> {
 
     private String s3Prefix(String suffix)
     {
-        return s3ApplicationPrefix + suffix + "/";
+        return (s3ApplicationPrefix + suffix).toLowerCase() + "/";
     }
 }
