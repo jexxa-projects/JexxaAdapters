@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## \[4.0.0] - 2026-mm-dd
+### Changed
+- **Breaking Change (Coordinates)**: Unified Maven GroupIDs and ArtifactIDs to improve SBOM data quality and supply chain clarity.
+  - Parent: `io.jexxa:jexxa-adapters` -> `io.jexxa:adapters`
+  - Modules now inherit the base GroupID `io.jexxa`.
+- **Compliance**: Updated SBOM generation to **CycloneDX Schema 1.6** for BSI TR-03183-2 compliance.
+
+
 ## \[3.1.0] - 2026-04-28
 ### Added
 * When creating a repository, the desired table or directory name can now be specified.  

@@ -5,11 +5,10 @@
 
   <parent>
     <groupId>io.jexxa</groupId>
-    <artifactId>jexxa-adapters</artifactId>
-    <version>3.1.1-SNAPSHOT</version>
+    <artifactId>adapters</artifactId>
+    <version>4.0.0-SNAPSHOT</version>
   </parent>
 
-  <groupId>io.jexxa.common</groupId>
   <artifactId>common-adapters</artifactId>
 
   <!-- Project Information -->
