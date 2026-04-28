@@ -49,6 +49,7 @@
     <sqlilte.version>3.53.0.0</sqlilte.version>
     <slf4j.simple.version>2.0.17</slf4j.simple.version>
     <minio.version>9.0.0</minio.version>
+    <bcprov.jdk18on.version>1.84</bcprov.jdk18on.version>
     <okhttp3.version>5.3.2</okhttp3.version>
     <jackson.core.version>2.21.2</jackson.core.version>
 
