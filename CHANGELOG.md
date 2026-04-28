@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## \[3.1.0] - 2026-mm-dd
 ### Added
 * When creating a repository, the desired table or directory name can now be specified.  
+* Explicit SBOM creation
+* java-doc for the parent project
+
+### Fixed
+* Updated dependencies
 
 
 ## \[3.0.5] - 2026-04-23

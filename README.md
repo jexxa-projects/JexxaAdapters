@@ -66,6 +66,12 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 Please make sure to update tests as appropriate.
 
+### FLOSS Commitment
+This project is built and maintained using only **Free/Libre Open Source Software**.
+The build process (Maven), security analysis (CycloneDX), and signing (GPG)
+rely exclusively on open-source tools to ensure digital sovereignty.
+
+
 ## Copyright and license
 
 Code and documentation copyright 2023–2025 Michael Repplinger.
