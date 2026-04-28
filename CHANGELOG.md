@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## \[3.1.0] - 2026-mm-dd
+## \[3.1.0] - 2026-04-28
 ### Added
 * When creating a repository, the desired table or directory name can now be specified.  
 * Explicit SBOM creation
@@ -12,7 +12,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 * Updated dependencies
-
+- **Security**: Updated `org.bouncycastle:bcprov-jdk18on` from 1.82 to 1.84.
+  - Fixes [CVE-2026-0636](https://nist.gov) (CVSS 5.3 - Medium).
+  - Addresses an LDAP injection vulnerability in `LDAPStoreHelper`.
+  - *Impact*: Projects using LDAP-based certificate stores are no longer vulnerable to improper neutralization of special elements.
 
 ## \[3.0.5] - 2026-04-23
 ### Fixed
