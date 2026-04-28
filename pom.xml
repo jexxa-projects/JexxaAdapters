@@ -53,7 +53,7 @@
     <minio.version>9.0.0</minio.version>
     <bcprov.jdk18on.version>1.84</bcprov.jdk18on.version>
     <okhttp3.version>5.3.2</okhttp3.version>
-    <jackson.core.version>2.21.2</jackson.core.version>
+    <jackson.core.version>2.21.3</jackson.core.version>
 
 
 
