@@ -4,8 +4,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>io.jexxa</groupId>
-    <artifactId>adapters</artifactId>
+    <groupId>io.jexxa.adapters</groupId>
+    <artifactId>parent</artifactId>
     <version>4.0.0-SNAPSHOT</version>
   </parent>
 
@@ -14,33 +14,12 @@
   <!-- Project Information -->
   <name>Common Adapters</name>
   <url>https://github.com/jexxa-projects/JexxaAdapters</url>
-
-  <description>common-adapters</description>
-  <licenses>
-    <license>
-      <name>The Apache Software License, Version 2.0</name>
-      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
-  <developers>
-    <developer>
-      <name>Michael Repplinger</name>
-    </developer>
-  </developers>
-
-  <scm>
-    <connection>scm:git:https://github.com/jexxa-projects/JexxaAdapters.git</connection>
-    <url>https://github.com/jexxa-projects/JexxaAdapters</url>
-    <developerConnection>scm:git:https://github.com/jexxa-projects/JexxaAdapters.git</developerConnection>
-    <tag>jexxa-adapters-3.0.4</tag>
-  </scm>
-
+  <description>Implementation of various infrastructure adapters for jexxa-projects.</description> <!-- Einzigartig -->
 
   <dependencies>
     <!-- dependencies for library -->
     <dependency>
-      <groupId>io.jexxa</groupId>
+      <groupId>io.jexxa.adapters</groupId>
       <artifactId>adapter-api</artifactId>
       <version>${project.version}</version>
     </dependency>
