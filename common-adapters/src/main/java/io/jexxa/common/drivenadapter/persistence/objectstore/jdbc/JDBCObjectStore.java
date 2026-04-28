@@ -72,7 +72,7 @@ public class JDBCObjectStore<T,K, M extends Enum<M> & MetadataSchema> extends JD
 
 
     @Override
-    public void update(T aggregate)
+    public synchronized void update(T aggregate)
     {
         Objects.requireNonNull(aggregate);
 
@@ -102,7 +102,7 @@ public class JDBCObjectStore<T,K, M extends Enum<M> & MetadataSchema> extends JD
 
 
     @Override
-    public void add(T aggregate)
+    public synchronized void add(T aggregate)
     {
         Objects.requireNonNull(aggregate);
 
