@@ -11,7 +11,7 @@ import java.util.Optional;
  * @param <T> Type of the aggregate
  * @param <K> Type of the aggregate ID
  *
- * @pre A General precondition for all methods is that given attributes must not be <code>null</code>
+ * A General precondition for all methods is that given attributes must not be <code>null</code>
  */
 public interface IRepository<T, K>
 {
