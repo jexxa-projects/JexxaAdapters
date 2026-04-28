@@ -32,4 +32,4 @@ We take the security of Jexxa Adapters seriously. If you believe you have found 
 - We do not pursue legal action against researchers who act in good faith and follow this policy.
 
 ## Security Advisories
-Official security advisories will be published via [GitHub Security Advisories](https://github.com).
+Official security advisories will be published via [GitHub Security Advisories](https://github.com/jexxa-projects/JexxaAdapter/security/advisories).
