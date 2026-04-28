@@ -3,6 +3,7 @@
 
 [![Maven Build](https://github.com/jexxa-projects/JexxaAdapters/actions/workflows/mavenBuild.yml/badge.svg)](https://github.com/jexxa-projects/JexxaAdapters/actions/workflows/mavenBuild.yml)
 [![CodeQL](https://github.com/jexxa-projects/JexxaAdapters/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/jexxa-projects/JexxaAdapters/actions/workflows/codeql-analysis.yml)
+[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/12683/badge)](https://www.bestpractices.dev/projects/12683)
 # Jexxa Adapters
 
 This project contains common technology adapters 
