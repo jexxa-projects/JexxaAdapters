@@ -34,6 +34,10 @@ public class IMDBRepository<T, K>  implements IRepository<T, K>
     {
         this.aggregateClazz = Objects.requireNonNull(aggregateClazz);
         this.keyFunction = Objects.requireNonNull(keyFunction);
+    }
+
+    @Override
+    public void init() {
         IMDB_REPOSITORY_MAP.put(aggregateClazz, this);
     }
 

@@ -54,9 +54,14 @@ public final class ObjectStoreFactory
         {
             var strategy = getObjectStoreType(aggregateClazz, properties);
 
-            var result = ClassFactory.newInstanceOf(strategy, new Object[]{aggregateClazz, keyFunction, storageName, metaData, properties});
+            var objectStore = (IObjectStore<T, K,M>)(ClassFactory.newInstanceOf(
+                    strategy,
+                    new Object[]{aggregateClazz, keyFunction, storageName, metaData, properties}
+                )).orElseThrow();
 
-            return (IObjectStore<T, K,M>) result.orElseThrow();
+            objectStore.init();
+
+            return objectStore;
         }
         catch (ReflectiveOperationException e)
         {

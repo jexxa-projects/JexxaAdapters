@@ -205,7 +205,6 @@
           <version>${maven.javadoc.plugin.version}</version>
           <configuration>
             <!-- Erstellt die Doku über alle Module hinweg -->
-            <aggregate>true</aggregate>
             <show>public</show>
             <nohelp>true</nohelp>
           </configuration>

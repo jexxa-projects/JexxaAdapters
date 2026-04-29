@@ -40,6 +40,7 @@ public class JDBCObjectStore<T,K, M extends Enum<M> & MetadataSchema> extends JD
     private final Set<M> jdbcSchema;
 
     private final IDatabase database;
+    private final Properties properties;
 
     public JDBCObjectStore(
             Class<T> aggregateClazz,
@@ -59,14 +60,19 @@ public class JDBCObjectStore<T,K, M extends Enum<M> & MetadataSchema> extends JD
             Properties properties
     )
     {
-        Objects.requireNonNull(properties);
-        super(aggregateClazz, keyFunction, storageName, properties, false);
+        super(aggregateClazz, keyFunction, storageName, properties);
         this.keyFunction = keyFunction;
         this.aggregateClazz = aggregateClazz;
         this.metaData = metaData;
         this.jdbcSchema = EnumSet.allOf(metaData);
         this.database = DatabaseManager.getDatabase(properties.getProperty(JDBCProperties.jdbcUrl()));
+        this.properties = Objects.requireNonNull(properties);
+    }
 
+    @Override
+    public void init() {
+        //Do not call super.init() as this instance is not a KeyValueRepository and manage the table by itself
+        initJDBCRepository();
         initializeObjectStore(properties);
     }
 

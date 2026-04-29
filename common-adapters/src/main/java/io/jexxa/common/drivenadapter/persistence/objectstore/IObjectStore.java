@@ -17,6 +17,7 @@ import io.jexxa.common.drivenadapter.persistence.objectstore.metadata.MetadataSc
  */
 public interface IObjectStore<V, K, R extends Enum<?> & MetadataSchema> extends IRepository<V, K>
 {
+
     /**
      * This method returns an INumericQuery that can be used to search for elements of type S
      * managed by the aggregate.

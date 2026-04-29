@@ -45,6 +45,7 @@ class JDBCKeyValueRepositoryIT
                 TestEntity::getKey,
                 properties
         );
+        objectUnderTest.init();
     }
 
 

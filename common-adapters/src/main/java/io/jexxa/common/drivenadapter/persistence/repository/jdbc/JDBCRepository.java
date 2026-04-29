@@ -17,6 +17,9 @@ public abstract class JDBCRepository implements TransactionHandler {
     protected JDBCRepository(Properties properties)
     {
         this.properties = Objects.requireNonNull(properties);
+    }
+
+    protected void initJDBCRepository(){
         validateJDBCConnection(properties); // To ensure that the connection is valid
         TransactionManager.registerTransactionHandler(this);
     }
@@ -52,5 +55,9 @@ public abstract class JDBCRepository implements TransactionHandler {
         {
             getLogger(getClass()).error("An exception occurred during rollback. Reason: {}", e.getMessage());
         }
+    }
+
+    protected Properties properties() {
+        return properties;
     }
 }

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Interface for all strategies for the implementation of a repository in the terms of DDD
+ * Interface for all strategies for the implementation of a repository in terms of DDD
  * <p>
  * A violation of preconditions is handled by an IllegalArgumentException.
  *
@@ -16,6 +16,11 @@ import java.util.Optional;
 public interface IRepository<T, K>
 {
     /**
+     * Initializes the repository.
+     */
+    default void init() { }
+
+    /**
      * Updates the given aggregate inside the repository.
      * @param aggregate that should be updated
      * @pre Given aggregate must be added by using {@link #add(Object)}}
@@ -23,7 +28,7 @@ public interface IRepository<T, K>
     void update(T aggregate);
 
     /**
-     * Removed aggregate identified by given key.
+     * Removed aggregate identified by the given key.
      * @param key to the aggregate to be removed
      * @pre Aggregate must be added by using {@link #add(Object)}}
      */
@@ -42,9 +47,9 @@ public interface IRepository<T, K>
     void add(T aggregate);
 
     /**
-     * Returns the aggregate identified by given key.
+     * Returns the aggregate identified by the given key.
      * @param key that identifies the aggregate
-     * @return Optional of aggregate. Optional is empty if given key finds no aggregate.
+     * @return Optional of aggregate. Optional is empty if the given key finds no aggregate.
      */
     Optional<T> get(K key);
 

@@ -47,13 +47,14 @@ class JDBCPropertiesTest
         Properties propertiesInvalidDriver = new Properties();
         propertiesInvalidDriver.put(jdbcDriver(), "org.unknown.Driver");
         propertiesInvalidDriver.put(jdbcUrl(), "jdbc:postgresql://localhost:5432/properties-test");
-
-        //2.Assert invalid properties: Invalid Driver
-        assertThrows(IllegalArgumentException.class, () -> new JDBCKeyValueRepository<>(
+        var objectUnderTest = new JDBCKeyValueRepository<>(
                 TestEntity.class,
                 TestEntity::getKey,
                 propertiesInvalidDriver
-        ));
+        );
+
+        //3.Assert invalid properties: Invalid Driver
+        assertThrows(IllegalArgumentException.class, objectUnderTest::init);
     }
 
     @Test
@@ -64,11 +65,11 @@ class JDBCPropertiesTest
         propertiesInvalidURL.put(jdbcDriver(), "org.postgresql.Driver");
         propertiesInvalidURL.put(jdbcUrl(), "jdbc:unknown://localhost:5432/properties-test");
 
-        //Act / Assert
-        assertThrows(IllegalArgumentException.class, () -> new JDBCKeyValueRepository<>(
+        var objectUnderTest = new JDBCKeyValueRepository<>(
                 TestEntity.class,
                 TestEntity::getKey,
-                propertiesInvalidURL
-        ));
+                propertiesInvalidURL);
+        //Act / Assert
+        assertThrows(IllegalArgumentException.class, objectUnderTest::init);
     }
 }

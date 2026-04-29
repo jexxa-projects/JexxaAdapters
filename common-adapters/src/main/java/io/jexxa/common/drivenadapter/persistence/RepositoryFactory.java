@@ -84,9 +84,14 @@ public final class RepositoryFactory
         {
             var strategy = getRepositoryType(aggregateClazz, properties);
 
-            var result = ClassFactory.newInstanceOf(strategy, new Object[]{aggregateClazz, keyFunction, storageName, properties});
+            var repository = (IRepository<T, K>)(ClassFactory.newInstanceOf(
+                    strategy,
+                    new Object[]{aggregateClazz, keyFunction, storageName, properties}
+            )).orElseThrow();
 
-            return (IRepository<T, K>) result.orElseThrow();
+            repository.init();
+
+            return repository;
         }
         catch (ReflectiveOperationException e)
         {

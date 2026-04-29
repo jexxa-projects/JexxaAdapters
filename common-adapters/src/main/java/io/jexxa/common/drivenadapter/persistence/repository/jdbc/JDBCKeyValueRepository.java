@@ -50,38 +50,12 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
         this.aggregateClazz = Objects.requireNonNull(aggregateClazz);
         this.database = DatabaseManager.getDatabase(properties.getProperty(JDBCProperties.jdbcUrl()));
         this.storageName = storageName;
-
-        manageDBTable(properties);
     }
 
-    protected JDBCKeyValueRepository(Class<T> aggregateClazz, Function<T,K> keyFunction, Properties properties, boolean manageTable)
-    {
-        super(properties);
-
-        this.keyFunction = Objects.requireNonNull( keyFunction );
-        this.aggregateClazz = Objects.requireNonNull(aggregateClazz);
-        this.database = DatabaseManager.getDatabase(properties.getProperty(JDBCProperties.jdbcUrl()));
-        this.storageName = aggregateClazz.getSimpleName();
-
-        if ( manageTable )
-        {
-            manageDBTable(properties);
-        }
-    }
-
-    protected JDBCKeyValueRepository(Class<T> aggregateClazz, Function<T,K> keyFunction, String storageName, Properties properties, boolean manageTable)
-    {
-        super(properties);
-
-        this.keyFunction = Objects.requireNonNull( keyFunction );
-        this.aggregateClazz = Objects.requireNonNull(aggregateClazz);
-        this.database = DatabaseManager.getDatabase(properties.getProperty(JDBCProperties.jdbcUrl()));
-        this.storageName = storageName;
-
-        if ( manageTable )
-        {
-            manageDBTable(properties);
-        }
+    @Override
+    public void init(){
+        initJDBCRepository();
+        manageDBTable(properties());
     }
 
     @Override
