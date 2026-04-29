@@ -33,7 +33,7 @@ Maven:
     <dependency>
         <groupId>io.jexxa.common</groupId>
         <artifactId>common-adapters</artifactId>
-        <version>3.1.0</version>
+        <version>4.0.0</version>
     </dependency>
 </dependencies>
 ```
@@ -41,7 +41,7 @@ Maven:
 Gradle:
 
 ```groovy
-compile "io.jexxa.common:common-adapters:3.1.0"
+compile "io.jexxa.common:common-adapters:4.0.0"
 ``` 
 ### Examples
 To see how to use this library, please refer to: 
