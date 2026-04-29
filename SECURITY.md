@@ -5,9 +5,9 @@ We actively provide security updates for the following versions:
 
 
 | Version | Supported          |
-| ------- | ------------------ |
-| 3.0.x   | :white_check_mark: |
-| < 3.0   | :x:                |
+|---------| ------------------ |
+| 4.0.x   | :white_check_mark: |
+| < 4.0   | :x:                |
 
 ## KRITIS Compliance & SBOM (BSI TR-03183)
 This project aims for compliance with the German BSI Technical Guideline **TR-03183** for Cyber Resilience. 
@@ -32,4 +32,5 @@ We take the security of Jexxa Adapters seriously. If you believe you have found 
 - We do not pursue legal action against researchers who act in good faith and follow this policy.
 
 ## Security Advisories
-Official security advisories will be published via [GitHub Security Advisories](https://github.com/jexxa-projects/JexxaAdapter/security/advisories).
+- **To report a vulnerability:** Please go to the [Security tab](https://github.com/jexxa-projects/JexxaAdapters/security) of this repository and select "Report a vulnerability".
+- **Official Advisories:** Once published, security advisories will be listed [here](https://github.com/jexxa-projects/JexxaAdapters/security/advisories).
