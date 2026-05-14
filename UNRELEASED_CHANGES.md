@@ -1,5 +1,9 @@
 ## [unreleased]
 
+### Added
+
+- S3CachedKeyValueRepository to replace S3Repository in future versions - ([f22e46c](https://github.com/shs-it/PlanFlex/commit/f22e46c287834f0a0ece89ec9c373e418be2512f))
+
 ### Docu
 
 - Corrected link to version in README.md - ([45295c0](https://github.com/shs-it/PlanFlex/commit/45295c05bfa8378ae57673928ed660b1668c32c9))
