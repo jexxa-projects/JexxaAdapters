@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## \[4.1.0] - 2026-05-14
+
+### Added
+
+- S3CachedKeyValueRepository to replace S3Repository in future versions - ([f22e46c](https://github.com/shs-it/PlanFlex/commit/f22e46c287834f0a0ece89ec9c373e418be2512f))
+
+### Docu
+
+- Corrected link to version in README.md - ([45295c0](https://github.com/shs-it/PlanFlex/commit/45295c05bfa8378ae57673928ed660b1668c32c9))
+- Corrected dependency scope for common-adapters dependency - ([a4f25a9](https://github.com/shs-it/PlanFlex/commit/a4f25a962a9bc9d2f6f13d67c11bc45f3c600e96))
+
+
 ## \[4.0.0] - 2026-04-29
 ### Changed
 - **Breaking Change (Coordinates)**: Unified Maven GroupIDs and ArtifactIDs to improve SBOM data quality and supply chain clarity.
