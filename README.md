@@ -28,19 +28,18 @@ These adapters are based on typical microservices and messaging patterns to simp
 ### Add dependencies
 Maven:
 ```xml
-<dependencies>
-    <dependency>
-        <groupId>io.jexxa.common</groupId>
-        <artifactId>common-adapters</artifactId>
-        <version>4.0.0</version>
-    </dependency>
-</dependencies>
+<dependency>
+    <groupId>io.jexxa.adapters</groupId>
+    <artifactId>common-adapters</artifactId>
+    <version>4.0.0</version>
+    <scope>compile</scope>
+</dependency>
 ```
 
 Gradle:
 
 ```groovy
-compile "io.jexxa.common:common-adapters:4.0.0"
+compile "io.jexxa.adapters:common-adapters:4.0.0"
 ``` 
 ### Examples
 To see how to use this library, please refer to: 
