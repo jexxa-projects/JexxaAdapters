@@ -20,6 +20,7 @@ import java.util.Properties;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import static io.jexxa.common.drivenadapter.persistence.RepositoryConfig.s3CachedRepositoryConfig;
 import static io.jexxa.common.drivenadapter.persistence.RepositoryConfig.s3RepositoryConfig;
 import static io.jexxa.common.drivenadapter.persistence.RepositoryFactory.createRepository;
 import static io.jexxa.common.facade.s3.S3Properties.s3Bucket;
@@ -53,6 +54,8 @@ class TestEntityRepositoryImplIT
     @MethodSource(ALL_REPOSITORY_CONFIGS)
     void addAggregate(Properties repositoryProperties)
     {
+        System.out.println(repositoryProperties);
+
         //Arrange
         dropTable(repositoryProperties);
         var objectUnderTest = createRepository(TestEntity.class, TestEntity::getKey, repositoryProperties);
@@ -182,7 +185,7 @@ class TestEntityRepositoryImplIT
     static Stream<Properties> repositoryConfig()
     {
         return Stream.concat(Stream.of(
-                new Properties(), s3RepositoryConfig()
+                new Properties(), s3RepositoryConfig(), s3CachedRepositoryConfig()
                 ),
                 JDBCTestDatabase.repositoryConfigJDBC());
     }

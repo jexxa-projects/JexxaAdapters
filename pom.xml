@@ -54,6 +54,7 @@
     <bcprov.jdk18on.version>1.84</bcprov.jdk18on.version>
     <okhttp3.version>5.3.2</okhttp3.version>
     <jackson.core.version>2.21.3</jackson.core.version>
+    <caffeine.version>3.2.4</caffeine.version>
 
 
 
@@ -70,11 +71,11 @@
     <build.timestamp>${maven.build.timestamp}</build.timestamp>
     <maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ssZ</maven.build.timestamp.format>
 
-    <!--version of  maven plugins  -->
+    <!--version of maven plugins  -->
     <gpg.plugin.version>3.2.8</gpg.plugin.version>
     <maven.clean.plugin>3.5.0</maven.clean.plugin>
     <maven.compiler.plugin>3.15.0</maven.compiler.plugin>
-    <maven.deploy.plugin>3.1.1</maven.deploy.plugin>
+    <maven.deploy.plugin>3.1.4</maven.deploy.plugin>
     <maven.failsafe.plugin>3.5.5</maven.failsafe.plugin>
     <maven.install.plugin>3.1.4</maven.install.plugin>
     <maven.jar.plugin>3.5.0</maven.jar.plugin>
@@ -98,7 +99,7 @@
     <sonar.moduleKey>${project.artifactId}</sonar.moduleKey>
     <sonar.token>${sonar-login}</sonar.token>
     <sonar.projectKey>jexxa-projects_JexxaCommons</sonar.projectKey>
-    <sonar.java.source>1.17</sonar.java.source>
+    <sonar.java.source>1.25</sonar.java.source>
     <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco-ut/jacoco.xml,target/site/jacoco-it/jacoco.xml </sonar.coverage.jacoco.xmlReportPaths>
     <sonar.java.libraries>target</sonar.java.libraries>
     <argLine>-Xmx2048m -Xms1024m</argLine>
@@ -224,7 +225,6 @@
 
     <!-- Plugin specific configuration -->
     <plugins>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -251,7 +251,6 @@
           <release>${maven.compiler.release}</release>
         </configuration>
       </plugin>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
@@ -270,7 +269,6 @@
           </execution>
         </executions>
       </plugin>
-
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
@@ -279,7 +277,6 @@
           <argLine>${surefireArgLine}</argLine>
         </configuration>
       </plugin>
-
       <plugin>
         <artifactId>maven-release-plugin</artifactId>
         <configuration>
@@ -287,7 +284,6 @@
           <arguments>-Psign-artifacts</arguments>
         </configuration>
       </plugin>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
@@ -333,7 +329,6 @@
           </additionalJOptions>
         </configuration>
         <executions>
-          <!-- 1. Normales Javadoc pro Modul -->
           <execution>
             <id>attach-javadocs</id>
             <goals>
@@ -383,7 +378,6 @@
           </execution>
         </executions>
       </plugin>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-gpg-plugin</artifactId>
@@ -398,7 +392,6 @@
           </execution>
         </executions>
       </plugin>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
@@ -433,8 +426,6 @@
       </plugin>
     </plugins>
   </build>
-
-
   <profiles>
     <profile>
       <id>sign-artifacts</id>
@@ -479,7 +470,6 @@
               <!-- Property surefireArgLine wird vom maven-failsafe-plugin gesetzt-->
               <argLine>${failsafeArgLine}</argLine>
               <shutdown>kill</shutdown>
-
             </configuration>
             <executions>
               <execution>
@@ -491,8 +481,6 @@
               </execution>
             </executions>
           </plugin>
-
-
           <plugin>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
@@ -534,7 +522,6 @@
                   <outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
                 </configuration>
               </execution>
-
               <execution>
                 <id>pre-integration-test</id>
                 <phase>pre-integration-test</phase>
@@ -612,8 +599,6 @@
               </execution>
             </executions>
           </plugin>
-
-
         </plugins>
       </build>
     </profile>
