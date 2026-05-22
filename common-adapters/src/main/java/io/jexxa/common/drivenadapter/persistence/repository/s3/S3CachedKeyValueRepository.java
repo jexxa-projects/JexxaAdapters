@@ -19,6 +19,7 @@ import static io.jexxa.common.facade.json.JSONManager.getJSONConverter;
 import static io.jexxa.common.facade.s3.S3Properties.s3ApplicationPrefix;
 import static java.util.Objects.requireNonNull;
 
+@SuppressWarnings("unused")
 public class S3CachedKeyValueRepository<T, K> implements IRepository<T, K> {
     private final Function<T, K> keyFunction;
     private final Class<T> aggregateClazz;
