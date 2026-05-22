@@ -122,7 +122,6 @@ public class S3CachedKeyValueRepository<T, K> implements IRepository<T, K> {
 
     private String encodeFilename(K key) {
         return s3Prefix(storageName) + Base64.getUrlEncoder()
-                .withoutPadding() // Sauberere Dateinamen
                 .encodeToString(
                         getJSONConverter()
                                 .toJson(key)
