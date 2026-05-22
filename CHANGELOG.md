@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## \[4.1.1] - 2026-05-22
+### Fix
+
+- Removed withoutPadding in encodeFilename to be compatible with S3KeyValueRepository - ([81e75bf](https://github.com/jexxa-projects/JexxaAdapters/commit/81e75bf23447730418a807854fea3606d47f135b))
+- Added Suppression annotation to avoid unused warning - ([2670ee8](https://github.com/jexxa-projects/JexxaAdapters/commit/2670ee8d6ab53c39a0056125cd8066b79f73ff25))
+
 ## \[4.1.0] - 2026-05-14
 
 ### Added
