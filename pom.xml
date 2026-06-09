@@ -50,7 +50,7 @@
     <postgres.version>42.7.11</postgres.version>
     <sqlilte.version>3.53.2.0</sqlilte.version>
     <slf4j.simple.version>2.0.18</slf4j.simple.version>
-    <minio.version>9.0.1</minio.version>
+    <minio.version>9.0.2</minio.version>
     <bcprov.jdk18on.version>1.84</bcprov.jdk18on.version>
     <okhttp3.version>5.4.0</okhttp3.version>
     <jackson.core.version>2.22.0</jackson.core.version>
