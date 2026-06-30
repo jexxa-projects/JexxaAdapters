@@ -46,7 +46,7 @@
     <javax.jms.version>2.0.1</javax.jms.version>
 
      <!-- version of dependencies -->
-    <activemq.artemis.client.version>2.54.0</activemq.artemis.client.version>
+    <activemq.artemis.client.version>2.55.0</activemq.artemis.client.version>
     <postgres.version>42.7.12</postgres.version>
     <sqlilte.version>3.53.2.0</sqlilte.version>
     <slf4j.simple.version>2.0.18</slf4j.simple.version>
