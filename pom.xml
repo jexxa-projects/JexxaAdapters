@@ -54,6 +54,7 @@
     <bcprov.jdk18on.version>1.84</bcprov.jdk18on.version>
     <okhttp3.version>5.4.0</okhttp3.version>
     <jackson.core.version>2.22.0</jackson.core.version>
+    <jackson.databind.version>2.22.0</jackson.databind.version>
     <caffeine.version>3.2.4</caffeine.version>
 
 
