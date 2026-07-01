@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## \[4.1.3] - 2026-07-01
+### Fix
+- Updated dependencies
+
+### 🐛 Bug Fixes
+
+- *(jdbc)* Improved validation of db name by adding regex pattern and using enquoteIdentifier to use dbName as identifier - ([5849220](https://github.com/jexxa-projects/JexxaAdapters/commit/5849220299ccbf60b0c9b7f4d5b7bee4aa984665))
+- *(jdbc)* Suppress warning java:S2077 after improving validation of db name by adding regex pattern and using enquoteIdentifier to use dbName as identifier - ([e466b60](https://github.com/jexxa-projects/JexxaAdapters/commit/e466b600e5901b19bc0f734b271f2453a633124b))
+
 ## \[4.1.2] - 2026-06-11
 ### Fix
 - Updated dependencies
