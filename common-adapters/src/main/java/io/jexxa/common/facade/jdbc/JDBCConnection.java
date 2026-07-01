@@ -111,8 +111,8 @@ public class JDBCConnection implements AutoCloseable
             var password = new Secret(creationProperties, JDBCProperties.jdbcPassword(), JDBCProperties.jdbcFilePassword());
 
             // Creation of database can only be done with statement (not prepared statement)
-            if (!dbName.matches("^\\w{1,64}$")) {
-                throw new IllegalArgumentException("Invalid database name." + dbName);
+            if (!dbName.matches("^[a-z_][a-z0-9_]{0,62}$")) {
+                throw new IllegalArgumentException("Invalid database name: " + dbName);
             }
 
             try (var setupConnection = DriverManager.
@@ -123,8 +123,9 @@ public class JDBCConnection implements AutoCloseable
                 var statement = setupConnection.createStatement())
             {
                 setupConnection.setAutoCommit(true);
+                String safeDbName = statement.enquoteIdentifier(dbName, false);
 
-                statement.execute(String.format("create DATABASE %s ", dbName));
+                statement.execute(String.format("create DATABASE %s ", safeDbName));
                 LOGGER.debug("Database {} successfully created ", dbName);
             }
             catch (SQLException _)
