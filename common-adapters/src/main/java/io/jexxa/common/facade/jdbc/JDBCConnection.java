@@ -97,6 +97,7 @@ public class JDBCConnection implements AutoCloseable
     }
 
 
+    @SuppressWarnings("java:S2077") // statement.execute(String.format("create DATABASE %s ", safeDbName)); DB String is validated to be safe
     public final void autocreateDatabase(final Properties properties)
     {
         if (properties.containsKey(JDBCProperties.jdbcAutocreateDatabase()))
