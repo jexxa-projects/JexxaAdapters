@@ -47,7 +47,7 @@
 
      <!-- version of dependencies -->
     <activemq.artemis.client.version>2.55.0</activemq.artemis.client.version>
-    <postgres.version>42.7.12</postgres.version>
+    <postgres.version>42.7.13</postgres.version>
     <sqlilte.version>3.53.2.0</sqlilte.version>
     <slf4j.simple.version>2.0.18</slf4j.simple.version>
     <minio.version>9.0.3</minio.version>
