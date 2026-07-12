@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## \[4.1.4] - 2026-07-12
+### Fix
+- *(deps-dev)* Bump org.postgresql:postgresql from 42.7.12 to 42.7.13 - ([bad7a95](https://github.com/jexxa-projects/JexxaAdapters/commit/bad7a951c985c557dd8d9b308ed425dc2530e0a1))
+- *chore(deps):* bump com.fasterxml.jackson.core:jackson-databind
+- *chore(deps):* bump com.fasterxml.jackson.core:jackson-core
+
 ## \[4.1.3] - 2026-07-01
 ### Fix
 - Updated dependencies
