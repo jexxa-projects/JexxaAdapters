@@ -1,5 +1,9 @@
 ## [unreleased]
 
+### 🐛 Bug Fixes
+
+- *(build)* Updated command for sonar:sonar so that namespace is explicitly set - ([2d51d23](https://github.com/jexxa-projects/JexxaAdapters/commit/2d51d238a474e294f2dd1589a6b5a3b9764996f3))
+
 ### ⚙️ Miscellaneous Tasks
 
 - *(deps-dev)* Bump org.xerial:sqlite-jdbc from 3.53.2.0 to 3.53.2.1 - ([46902f6](https://github.com/jexxa-projects/JexxaAdapters/commit/46902f6beedfc7decac97dcaccd67d134ead29f3))
