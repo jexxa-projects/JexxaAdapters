@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   ActiveMQ:
-    image: quay.io/artemiscloud/activemq-artemis-broker:latest
+    image: apache/artemis:latest
     ports:
       - "61616:61616"
       - "8161:8161"
@@ -10,6 +10,8 @@ services:
       AMQ_USER: admin
       AMQ_PASSWORD: admin
       AMQ_EXTRA_ARGS: --relax-jolokia
+      ARTEMIS_USER: admin
+      ARTEMIS_PASSWORD: admin
 
   Postgres:
     image: postgres:latest
