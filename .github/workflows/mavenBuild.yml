@@ -52,6 +52,6 @@ jobs:
       - name: Build with Maven
         run: mvn -B install --file pom.xml
       - name: SonarQube Scan
-        run: mvn sonar:sonar
+        run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
