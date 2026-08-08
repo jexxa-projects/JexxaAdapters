@@ -158,11 +158,11 @@
 
       <!-- dependencies for tests with ActiveMQ -->
     <dependency>
-      <groupId>org.apache.activemq</groupId>
+      <groupId>org.apache.artemis</groupId>
       <artifactId>artemis-jms-client</artifactId>
       <version>${activemq.artemis.client.version}</version>
-      <scope>test</scope>
-   </dependency>
+      <scope>compile</scope>
+    </dependency>
 
   </dependencies>
 
