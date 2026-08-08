@@ -5,6 +5,7 @@
 - *(build)* Updated command for sonar:sonar so that namespace is explicitly set - ([2d51d23](https://github.com/jexxa-projects/JexxaAdapters/commit/2d51d238a474e294f2dd1589a6b5a3b9764996f3))
 - *(build)* Updated command for sonar:sonar so that namespace is explicitly set - ([08adb74](https://github.com/jexxa-projects/JexxaAdapters/commit/08adb7494119f254a361f6b909a20f03c20355bb))
 - *(build)* Updated command for sonar:sonar so that namespace is explicitly set - ([eca3927](https://github.com/jexxa-projects/JexxaAdapters/commit/eca3927f4fd9d8287a29b4003c5b8be8c2eadf7d))
+- *(build)* Added explizit commit hash for actions - ([5349809](https://github.com/jexxa-projects/JexxaAdapters/commit/5349809137dab80b52d4c43c3986b4d60ec3b226))
 
 ### ⚙️ Miscellaneous Tasks
 
