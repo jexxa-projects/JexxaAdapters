@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## \[4.1.5] - 2026-08-08
+### Fix
+
+- *(build)* Updated command for sonar:sonar so that namespace is explicitly set - ([2d51d23](https://github.com/jexxa-projects/JexxaAdapters/commit/2d51d238a474e294f2dd1589a6b5a3b9764996f3))
+- *(build)* Updated command for sonar:sonar so that namespace is explicitly set - ([08adb74](https://github.com/jexxa-projects/JexxaAdapters/commit/08adb7494119f254a361f6b909a20f03c20355bb))
+- *(build)* Updated command for sonar:sonar so that namespace is explicitly set - ([eca3927](https://github.com/jexxa-projects/JexxaAdapters/commit/eca3927f4fd9d8287a29b4003c5b8be8c2eadf7d))
+- *(build)* Added explizit commit hash for actions - ([5349809](https://github.com/jexxa-projects/JexxaAdapters/commit/5349809137dab80b52d4c43c3986b4d60ec3b226))
+
+- *(deps-dev)* Bump org.xerial:sqlite-jdbc from 3.53.2.0 to 3.53.2.1 - ([46902f6](https://github.com/jexxa-projects/JexxaAdapters/commit/46902f6beedfc7decac97dcaccd67d134ead29f3))
+- *(deps-dev)* Bump org.apache.maven.plugins:maven-jar-plugin - ([fde1d9b](https://github.com/jexxa-projects/JexxaAdapters/commit/fde1d9be3f65759e67e2ee5fefaf38e1ef09a304))
+
 ## \[4.1.4] - 2026-07-12
 ### Fix
 - *(deps-dev)* Bump org.postgresql:postgresql from 42.7.12 to 42.7.13 - ([bad7a95](https://github.com/jexxa-projects/JexxaAdapters/commit/bad7a951c985c557dd8d9b308ed425dc2530e0a1))
