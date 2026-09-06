@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## \[4.1.7] - 2026-09-06
+### Fix
+- Updated dependencies
+- *(deps-dev)* Bump org.xerial:sqlite-jdbc from 3.53.2.1 to 3.53.4.0 - ([bd644f0](https://github.com/jexxa-projects/JexxaAdapters/commit/bd644f07846777d288ba2bc98b3e6c48c30ae70e))
+
 ## \[4.1.6] - 2026-08-22
 ### Fix
 - Updated dependencies
