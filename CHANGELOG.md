@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## \[4.1.8] - 2026-09-08
+### Fix
+- Updated dependencies
+- *(deps-dev)* Bump com.h2database:h2 from 2.4.240 to 2.5.250 - ([8058bad](https://github.com/jexxa-projects/JexxaAdapters/commit/8058bad390829b42f73d62031a40c7d5cbbbed7a))
+
+
 ## \[4.1.7] - 2026-09-06
 ### Fix
 - Updated dependencies
