@@ -52,7 +52,7 @@
     <okhttp3.version>5.5.0</okhttp3.version>
     <jackson.core.version>2.22.3</jackson.core.version>
     <jackson.databind.version>2.22.3</jackson.databind.version>
-    <caffeine.version>3.2.4</caffeine.version>
+    <caffeine.version>3.3.0</caffeine.version>
 
 
 
