@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - *(deps-dev)* Bump com.h2database:h2 from 2.4.240 to 2.5.250 - ([8058bad](https://github.com/jexxa-projects/JexxaAdapters/commit/8058bad390829b42f73d62031a40c7d5cbbbed7a))
 
 
+## \[4.1.8] - 2026-09-26
+### Fix
+- Updated dependencies
+- *(deps-dev)* Bump org.codehaus.mojo:versions-maven-plugin - ([6ac22d2](https://github.com/jexxa-projects/JexxaAdapters/commit/6ac22d2fc3abb58b7429d80b6a5263a9913168c3))
+- *(deps-dev)* Bump org.apache.maven.plugins:maven-install-plugin - ([532fbf5](https://github.com/jexxa-projects/JexxaAdapters/commit/532fbf5e03111fc23d674cfd757c422ec6d0ede9))
+
 ## \[4.1.7] - 2026-09-06
 ### Fix
 - Updated dependencies
