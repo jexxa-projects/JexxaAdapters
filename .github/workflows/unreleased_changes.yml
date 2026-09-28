@@ -32,7 +32,7 @@ jobs:
         run: git pull origin main -r -X theirs
 
       - name: Create log file with unreleased changes
-        uses: orhun/git-cliff-action@3d96a18cc4ec17e9dc69ddcc424ccafaf1f78ce2
+        uses: orhun/git-cliff-action@a9a95522b26fe6403f7bb24031f21fb573d0f5ff
         id: git-cliff
         with:
           config: .github/workflows/config/cliff.toml
