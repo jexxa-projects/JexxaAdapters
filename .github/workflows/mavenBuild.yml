@@ -33,8 +33,8 @@ jobs:
           POSTGRES_PASSWORD: admin
           POSTGRES_USER: postgres
 
-      minio:
-        image: lazybit/minio
+      silo:
+        image: pgsty/silo
         ports:
           - 8100:9000
           - 8101:9001
