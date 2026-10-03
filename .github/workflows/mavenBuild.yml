@@ -32,10 +32,12 @@ jobs:
           POSTGRES_USER: postgres
 
       silo:
-        image: pgsty/silo
+        image: pgsty/silo:latest
         ports:
-          - 8100:9000
-          - 8101:9001
+          - 9000:9000
+          - 9001:9001
+        options: >-
+          server /data
         env:
           MINIO_ROOT_USER: minioadmin      # Admin Access Key
           MINIO_ROOT_PASSWORD: minioadmin
