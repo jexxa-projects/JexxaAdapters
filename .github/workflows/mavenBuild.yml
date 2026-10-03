@@ -19,8 +19,6 @@ jobs:
         ports:
           - 61616:61616
         env:
-          AMQ_USER: admin
-          AMQ_PASSWORD: admin
           AMQ_EXTRA_ARGS: --relax-jolokia
           ARTEMIS_USER: admin
           ARTEMIS_PASSWORD: admin
