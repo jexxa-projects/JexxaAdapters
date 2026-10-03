@@ -36,11 +36,11 @@ jobs:
         ports:
           - 9000:9000
           - 9001:9001
-        options: >-
-          server /data
+        options: --entrypoint silo pgsty/silo:latest server /data
         env:
-          MINIO_ROOT_USER: minioadmin      # Admin Access Key
+          MINIO_ROOT_USER: minioadmin
           MINIO_ROOT_PASSWORD: minioadmin
+
 
     steps:
       - uses: actions/checkout@v7
