@@ -34,8 +34,8 @@ jobs:
       silo:
         image: pgsty/silo:latest
         ports:
-          - 9000:9000
-          - 9001:9001
+          - 8100:9000
+          - 8102:9001
         options: --entrypoint silo pgsty/silo:latest server /data
         env:
           MINIO_ROOT_USER: minioadmin
