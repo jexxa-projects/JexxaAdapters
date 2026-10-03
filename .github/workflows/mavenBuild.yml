@@ -36,7 +36,7 @@ jobs:
         ports:
           - 8100:9000
           - 8102:9001
-        options: --entrypoint silo pgsty/silo:latest server /data
+        options: --entrypoint /bin/sh pgsty/silo:latest -c "silo server /data"
         env:
           MINIO_ROOT_USER: minioadmin
           MINIO_ROOT_PASSWORD: minioadmin
