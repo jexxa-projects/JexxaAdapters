@@ -4,13 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## \[4.1.8] - 2026-09-08
+
+
+## \[4.1.10] - 2026-10-14
 ### Fix
 - Updated dependencies
 - *(deps-dev)* Bump com.h2database:h2 from 2.4.240 to 2.5.250 - ([8058bad](https://github.com/jexxa-projects/JexxaAdapters/commit/8058bad390829b42f73d62031a40c7d5cbbbed7a))
 
 
-## \[4.1.8] - 2026-09-26
+## \[4.1.9] - 2026-09-26
 ### Fix
 - Updated dependencies
 - *(deps-dev)* Bump org.codehaus.mojo:versions-maven-plugin - ([6ac22d2](https://github.com/jexxa-projects/JexxaAdapters/commit/6ac22d2fc3abb58b7429d80b6a5263a9913168c3))
