@@ -4,7 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-
+## ## \[4.2.0] - 2026-MM-DD 
+### Added
+- **InProcessPubSub:** Added a lightweight, thread-safe, in-process publish/subscribe mechanism for loosely coupled communication within an application.
+  - Supports type-based subscriptions, including inheritance and interfaces.
+  - Supports multiple subscribers per message type and subscriptions to all messages.
+  - Delivers messages synchronously in the publisher's thread, without holding internal locks during subscriber execution.
+  - Can be reused across Jexxa and JLegMed without introducing framework-specific dependencies.
 
 ## \[4.1.10] - 2026-10-14
 ### Fix
