@@ -1,78 +1,162 @@
-[![Maven Central](https://img.shields.io/maven-central/v/io.jexxa.adapters/common-adapters)](https://maven-badges.herokuapp.com/maven-central/io.jexxa.adapters/common-adapters)[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-
+[![Maven Central](https://img.shields.io/maven-central/v/io.jexxa.adapters/common-adapters)](https://central.sonatype.com/artifact/io.jexxa.adapters/common-adapters)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Maven Build](https://github.com/jexxa-projects/JexxaAdapters/actions/workflows/mavenBuild.yml/badge.svg)](https://github.com/jexxa-projects/JexxaAdapters/actions/workflows/mavenBuild.yml)
 [![CodeQL](https://github.com/jexxa-projects/JexxaAdapters/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/jexxa-projects/JexxaAdapters/actions/workflows/codeql-analysis.yml)
 [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/12683/badge)](https://www.bestpractices.dev/projects/12683)
-# Jexxa Adapters
 
-This project contains common technology adapters 
-used by the [Jexxa](https://www.jexxa.io) and [JLegMed](https://github.com/jexxa-projects/JLegMed) framework. 
-These adapters are based on typical microservices and messaging patterns to simplify implementing microservices. 
+# JexxaAdapters — Reusable Infrastructure for Ports & Adapters Applications
 
-* `adapter-api`: This library provides a unified API for using adapters and is used by all following libraries 
-* `common-adapters`: This library provides the following microservice and messaging patterns: 
-  * [Repository](https://martinfowler.com/eaaCatalog/repository.html) that isolates the data layer from the rest of the app on the object / entity level for JDBC, IMDB, and S3
-  * [Transactional Outbox Pattern](https://microservices.io/patterns/data/transactional-outbox.html) to atomically update the database and send messages to a message broker when 2FC is not an option
-  * [Idempotent Consumer](https://microservices.io/patterns/communication-style/idempotent-consumer.html) to handle duplicate messages correctly
-  * Facade to Java JDBC, JMS-, and S3 API to simplify the implementation of additional adapters 
+**JexxaAdapters** provides reusable Java infrastructure components for [Jexxa](https://github.com/jexxa-projects/Jexxa), [JLegMed](https://github.com/jexxa-projects/JLegMed), and other applications: infrastructure adapters, established integration patterns, and common utilities.
+
+> Application-specific logic stays in your application. Technical details such as JDBC, JMS, or S3 stay in adapters that you do not have to write yourself.
+
+The components support different architectural styles, from modular monoliths to microservices.
+
+**Quick links:** [Quickstart](#quickstart) · [Capabilities](#capabilities) · [Ecosystem](#the-jexxa-projects-ecosystem)
+
+## When to Use JexxaAdapters
+
+Use JexxaAdapters if you
+
+- build applications with [Jexxa](https://github.com/jexxa-projects/Jexxa) or [JLegMed](https://github.com/jexxa-projects/JLegMed) and need production-ready infrastructure for them,
+- want to switch between JDBC, in-memory, and S3 persistence without changing application code, or
+- need proven messaging patterns such as the transactional outbox or an idempotent consumer.
 
 
-## Requirements
+## Quickstart
 
-*   Java 25+ installed
-*   IDE with maven support
+**Requirements:** Java 25 or higher, and Maven or Gradle.
 
+### Add the dependency
 
-
-## Use the library 
-### Add dependencies
 Maven:
+
 ```xml
 <dependency>
     <groupId>io.jexxa.adapters</groupId>
     <artifactId>common-adapters</artifactId>
-    <version>4.1.10</version>
-    <scope>compile</scope>
+    <version>4.1.10</version> <!-- latest version: see Maven Central badge above -->
 </dependency>
 ```
 
-Gradle:
+Gradle (Groovy DSL):
 
 ```groovy
-compile "io.jexxa.adapters:common-adapters:4.1.10"
-``` 
+dependencies {
+    implementation 'io.jexxa.adapters:common-adapters:4.1.10'
+}
+```
+
 ### Examples
-To see how to use this library, please refer to: 
-* Tests in [adapter](common-adapters/src/test/java/io/jexxa/common/drivingadapter)
-* Filter plugins [JLegMed](https://github.com/jexxa-projects/JLegMed)
 
-## Build the library
-This section describes how to build the library by yourself if you want to contribute.
-### Requirements 
-*   A locally running [developer stack](deploy/developerStack.yml) providing a Postgres database, and ActiveMQ broker
+- [Driving adapter tests](common-adapters/src/test/java/io/jexxa/common/drivingadapter)
+- [JexxaTutorials](https://github.com/jexxa-projects/JexxaTutorials): complete applications using these adapters
+- [JLegMed](https://github.com/jexxa-projects/JLegMed): reusable processing components and integrations
 
-### Build 
-*   Check out the new project in your favorite IDE
+## Modules
 
-*   Without running integration tests:
-    ```shell
-    mvn clean install 
-    ```
+| Module            | Purpose                                                                                             |
+|-------------------|-----------------------------------------------------------------------------------------------------|
+| `adapter-api`     | Shared API used by the adapter libraries                                                            |
+| `common-adapters` | Reusable adapters, integration patterns, facades, health checks, and in-process messaging utilities |
+
+
+### Where it fits
+
+```mermaid
+flowchart LR
+    subgraph App["Your application"]
+        CORE["Business core<br/>incl. driven ports (interfaces)"]
+    end
+    subgraph Adapters["JexxaAdapters"]
+        REPO["Repositories<br/>JDBC / IMDB / S3"]
+        PATTERNS["Integration patterns<br/>Transactional Outbox, Idempotent Consumer"]
+    end
+    subgraph Infra["Infrastructure"]
+        DB[("Database / object storage")]
+        MQ["Message broker"]
+    end
+    REPO -.->|implements| CORE
+    PATTERNS -.->|implements| CORE
+    REPO --> DB
+    PATTERNS --> MQ
+```
+
+All arrows show source-code dependencies: the adapters depend on the ports of your business core, never the other way round.
+
+## Capabilities
+
+### Infrastructure Adapters
+
+Reusable adapters connect applications to infrastructure technologies without coupling application logic to their technical details.
+
+- **Repositories:** implementations for JDBC, in-memory databases (IMDB), and S3, following the [Repository pattern](https://martinfowler.com/eaaCatalog/repository.html)
+
+
+
+### Integration Patterns
+
+- **Transactional Outbox:** coordinates database updates with eventual message publication without distributed transactions. See the [Transactional Outbox pattern](https://microservices.io/patterns/data/transactional-outbox.html).
+- **Idempotent Consumer:** helps applications handle duplicate message deliveries. See the [Idempotent Consumer pattern](https://microservices.io/patterns/communication-style/idempotent-consumer.html).
+
+
+### Common Utilities
+
+- **Technology facades:** wrappers around JDBC, JMS, S3, JSON, and logging APIs that simplify adapter implementations
+- **Health checks:** components for reporting application and infrastructure health
+- **In-process publish/subscribe (`InProcessPubSub`):** lightweight, synchronous, type-based messaging within a single JVM process. It provides no persistence, asynchronous delivery, or retries.
+
+## The Jexxa Projects Ecosystem
+
+JexxaAdapters is part of **Jexxa Projects**: building blocks for durable business systems, consisting of modern, domain-driven applications and the bridges that connect them to legacy systems. Legacy systems stay as they are; the components that integrate them are built on a modern language level.
+
+| Project                                                          | Role                                                           | Status                                   |
+|------------------------------------------------------------------|----------------------------------------------------------------|------------------------------------------|
+| [Jexxa](https://github.com/jexxa-projects/Jexxa)                 | Framework for DDD and Ports & Adapters applications (Java)     | In production for 6 years                |
+| [JLegMed](https://github.com/jexxa-projects/JLegMed)             | Semantic bridging of legacy and modern systems (Java)          | In production for 1 year                 |
+| [DigiSpine](https://github.com/jexxa-projects/DigiSpine)         | Digital backbone connecting business domains via domain events | In production for 1 year                 |
+| CLegMed                                                          | C++23 counterpart to JLegMed                                   | In development                           |
+| [JexxaAdapters](https://github.com/jexxa-projects/JexxaAdapters) | Reusable infrastructure adapters and integration patterns      | Supporting library for Jexxa and JLegMed |
+| [Addend](https://github.com/jexxa-projects/Addend)               | Domain annotations for DDD                                     | Supporting library                       |
+
+See the [Jexxa Projects overview](https://github.com/jexxa-projects) for all repositories.
+
+## Requirements and Compatibility
+
+- Java **25 or higher**
+- Maven or Gradle
+
+### Why Java 25?
+
+Java 25 is not technically essential for JexxaAdapters. Requiring a current LTS release is a deliberate decision: the Jexxa Projects ecosystem is designed to connect legacy and modern systems, and any component that integrates legacy systems should itself be built on a modern language level. This keeps integration code maintainable and encourages updating legacy landscapes instead of conserving them.
+ 
+
+## Build from Source
+
+Clone the repository and build it with Maven:
+
+```shell
+mvn clean install
+```
+
+Some integration tests require the services defined in the [developer stack](deploy/developerStack.yml), including PostgreSQL and an ActiveMQ broker. Start them before running those tests:
+
+```shell
+docker compose -f deploy/developerStack.yml up -d
+```
+
 
 ## Contributing
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
-
-### FLOSS Commitment
-This project is built and maintained using only **Free/Libre Open Source Software**.
-The build process (Maven), security analysis (CycloneDX), and signing (GPG)
-rely exclusively on open-source tools to ensure digital sovereignty.
+Contributions and pull requests are welcome. For substantial changes, please open an issue first to discuss the proposed approach. Include or update tests when changing behavior.
 
 
-## Copyright and license
+## FLOSS Commitment
 
-Code and documentation copyright 2023–2026 Michael Repplinger.
-Code released under the [Apache 2.0 License](LICENSE)(see [TLDR legal](https://tldrlegal.com/license/apache-license-2.0-(apache-2.0)) for details).
-Docs released under [Creative Commons](https://creativecommons.org/licenses/by/4.0/).
+This project is built and maintained using **Free/Libre Open Source Software (FLOSS)**. The build process (Maven), software bill of materials generation (CycloneDX), and signing (GPG) use open-source tooling.
+
+## Copyright and License
+
+- Code: [Apache License 2.0](LICENSE) ([plain-language overview](https://www.tldrlegal.com/license/apache-license-2-0-apache-2-0))
+- Documentation: [Creative Commons Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/)
+- © 2023–2026 Michael Repplinger
