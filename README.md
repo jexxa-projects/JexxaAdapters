@@ -35,7 +35,7 @@ Maven:
 <dependency>
     <groupId>io.jexxa.adapters</groupId>
     <artifactId>common-adapters</artifactId>
-    <version>4.1.10</version> <!-- latest version: see Maven Central badge above -->
+    <version>4.2.0</version> <!-- latest version: see Maven Central badge above -->
 </dependency>
 ```
 
@@ -43,7 +43,7 @@ Gradle (Groovy DSL):
 
 ```groovy
 dependencies {
-    implementation 'io.jexxa.adapters:common-adapters:4.1.10'
+    implementation 'io.jexxa.adapters:common-adapters:4.2.0'
 }
 ```
 

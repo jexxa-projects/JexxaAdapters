@@ -12,6 +12,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - Delivers messages synchronously in the publisher's thread, without holding internal locks during subscriber execution.
   - Can be reused across Jexxa and JLegMed without introducing framework-specific dependencies.
 
+### Fix
+- Updated dependencies
+- *(deps-dev)* Bump org.codehaus.mojo:versions-maven-plugin ([#293](https://github.com/jexxa-projects/JexxaAdapters/issues/293)) - ([2e8cb3b](https://github.com/jexxa-projects/JexxaAdapters/commit/2e8cb3b625c89897cd97b2422f05d83b6b6fec51))
+- *(deps-dev)* Bump org.sonatype.central:central-publishing-maven-plugin ([#294](https://github.com/jexxa-projects/JexxaAdapters/issues/294)) - ([f56eabd](https://github.com/jexxa-projects/JexxaAdapters/commit/f56eabd9408fbb2d96480d4137687d5fdc202208))
+
+
 ## \[4.1.10] - 2026-10-14
 ### Fix
 - Updated dependencies
