@@ -5,7 +5,7 @@ import io.jexxa.adapterapi.JexxaContext;
 import io.jexxa.common.drivenadapter.persistence.objectstore.metadata.MetaTag;
 import io.jexxa.common.drivenadapter.persistence.objectstore.metadata.MetadataSchema;
 import io.jexxa.common.facade.jdbc.JDBCConnection;
-import io.jexxa.common.facade.s3.S3Client;
+import io.jexxa.common.facade.s3.S3Facade;
 import io.jexxa.common.facade.testapplication.TestValueObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -468,7 +468,7 @@ class INumericQueryIT
         }
 
         if (properties.containsKey(s3Endpoint())) {
-            var s3Client = new S3Client(properties);
+            var s3Client = new S3Facade(properties);
             s3Client.removeObjects(s3Client.getAllS3Objects());
             s3Client.removeBucket(properties.getProperty(s3Bucket()));
         }

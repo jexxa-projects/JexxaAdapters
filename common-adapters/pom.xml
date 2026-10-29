@@ -16,6 +16,18 @@
   <url>https://github.com/jexxa-projects/JexxaAdapters</url>
   <description>Implementation of various infrastructure adapters for jexxa-projects.</description> <!-- Einzigartig -->
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>io.netty</groupId>
+        <artifactId>netty-bom</artifactId>
+        <version>${netty.bom.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <dependencies>
     <!-- dependencies for library -->
     <dependency>
@@ -49,50 +61,23 @@
       <version>${slf4j.simple.version}</version>
     </dependency>
 
+      <!-- AWS S3 Service Module without Netty -->
       <dependency>
-          <groupId>io.minio</groupId>
-          <artifactId>minio</artifactId>
-          <version>${minio.version}</version>
+        <groupId>software.amazon.awssdk</groupId>
+        <artifactId>s3</artifactId>
+        <version>${aws.client.version}</version>
         <exclusions>
           <exclusion>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-          </exclusion>
-
-          <exclusion>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-          </exclusion>
-
-          <exclusion>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk18on</artifactId>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>netty-nio-client</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
 
-    <dependency>
-      <groupId>org.bouncycastle</groupId>
-      <artifactId>bcprov-jdk18on</artifactId>
-      <version>${bcprov.jdk18on.version}</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-core</artifactId>
-      <version>${jackson.core.version}</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-      <version>${jackson.databind.version}</version>
-      <scope>compile</scope>
-    </dependency>
       <dependency>
-          <groupId>com.squareup.okhttp3</groupId>
-          <artifactId>okhttp-jvm</artifactId>
-          <version>${okhttp3.version}</version>
+        <groupId>software.amazon.awssdk</groupId>
+        <artifactId>url-connection-client</artifactId>
+        <version>${aws.client.version}</version>
       </dependency>
 
     <!-- dependencies for tests -->
@@ -156,7 +141,7 @@
         <scope>test</scope>
     </dependency>
 
-      <!-- dependencies for tests with ActiveMQ -->
+    <!-- dependencies for tests with ActiveMQ -->
     <dependency>
       <groupId>org.apache.artemis</groupId>
       <artifactId>artemis-jms-client</artifactId>

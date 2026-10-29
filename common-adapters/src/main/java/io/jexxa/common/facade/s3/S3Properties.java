@@ -11,6 +11,7 @@ public class S3Properties {
     private static final String S3_FILE_ACCESS_KEY = "s3.file.access-key-path";
     private static final String S3_FILE_SECRET_KEY = "s3.file.secret-key-path";
     private static final String S3_APPLICATION_PREFIX = "s3.application.prefix";
+    private static final String S3_FORCE_PATH_STYLE = "s3.force-path-style";
 
     public static String s3ApplicationPrefix() {
         return PropertiesPrefix.globalPrefix() + S3_APPLICATION_PREFIX;
@@ -47,6 +48,10 @@ public class S3Properties {
     public static String s3FileSecretKey()
     {
         return PropertiesPrefix.globalPrefix() + S3_FILE_SECRET_KEY;
+    }
+    public static String s3ForcePathStyle()
+    {
+        return PropertiesPrefix.globalPrefix() + S3_FORCE_PATH_STYLE;
     }
 
 

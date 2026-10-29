@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## \[5.0.0] - 2026-mm-dd
+### Changed
+refactor(s3): replace minio-client with lightweight AWS SDK v2
+- Switched dependency from `io.minio:minio` to `software.amazon.awssdk:s3` combined with `url-connection-client` to drastically reduce transitive dependencies (no Netty/Jackson) and eliminate AGPLv3-related licensing friction.
+- Renamed `S3Client` to `S3Facade` to resolve naming conflicts with the official AWS `S3Client` interface and clean up fully qualified class names.
+- Encapsulated configuration parsing into a typsafe internal `S3Config` record within `S3Facade` for fail-fast validation during construction.
+- Introduced `io.jexxa.s3.force-path-style` property in `S3Properties` to allow toggleable URL routing, defaulted to `true` to ensure full out-of-the-box compatibility with local MinIO instances and test containers.
+- Configured modern `S3Configuration` checksum calculations (`WHEN_REQUIRED`) to prevent MD5 verification errors when using the native Java URL connection client.
+
+
 ## \[4.2.0] - 2026-10-28 
 ### Added
 - **InProcessPubSub:** Added a lightweight, thread-safe, in-process publish/subscribe mechanism for loosely coupled communication within an application.

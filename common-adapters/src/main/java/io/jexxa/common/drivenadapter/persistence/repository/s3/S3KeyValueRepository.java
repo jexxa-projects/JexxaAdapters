@@ -1,7 +1,7 @@
 package io.jexxa.common.drivenadapter.persistence.repository.s3;
 
 import io.jexxa.common.drivenadapter.persistence.repository.IRepository;
-import io.jexxa.common.facade.s3.S3Client;
+import io.jexxa.common.facade.s3.S3Facade;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -19,7 +19,7 @@ import static java.util.Objects.requireNonNull;
 public class S3KeyValueRepository<T,K> implements IRepository<T, K> {
     private final Function<T, K> keyFunction;
     private final Class<T> aggregateClazz;
-    private final S3Client s3Client;
+    private final S3Facade s3Facade;
     private final String s3ApplicationPrefix;
     private final String storageName;
 
@@ -40,7 +40,7 @@ public class S3KeyValueRepository<T,K> implements IRepository<T, K> {
         this.keyFunction = requireNonNull(keyFunction);
         this.aggregateClazz = requireNonNull(aggregateClazz);
         this.s3ApplicationPrefix = getS3ApplicationPrefix(properties);
-        this.s3Client = new S3Client(properties);
+        this.s3Facade = new S3Facade(properties);
         this.storageName = storageName;
     }
 
@@ -50,7 +50,7 @@ public class S3KeyValueRepository<T,K> implements IRepository<T, K> {
         var aggregateJSON = getJSONConverter().toJson(aggregate).getBytes(StandardCharsets.UTF_8);
         try (ByteArrayInputStream inputStream = new ByteArrayInputStream(aggregateJSON)
         ) {
-            s3Client.putObject(
+            s3Facade.putObject(
                     encodeFilename(keyFunction.apply(aggregate)),
                     inputStream,
                     aggregateJSON.length
@@ -63,20 +63,20 @@ public class S3KeyValueRepository<T,K> implements IRepository<T, K> {
 
     @Override
     public synchronized void remove(K key) {
-        if (!s3Client.objectExist(encodeFilename(key))) {
+        if (!s3Facade.objectExist(encodeFilename(key))) {
             throw new IllegalArgumentException("Aggregate does not exist " + key);
         }
-        s3Client.removeObject(encodeFilename(key));
+        s3Facade.removeObject(encodeFilename(key));
     }
 
     @Override
     public synchronized void removeAll() {
-        s3Client.removeObjects(s3Client.getAllS3Objects(s3Prefix(storageName)));
+        s3Facade.removeObjects(s3Facade.getAllS3Objects(s3Prefix(storageName)));
     }
 
     @Override
     public synchronized void add(T aggregate) {
-        if (s3Client.objectExist(encodeFilename(keyFunction.apply(aggregate)))) {
+        if (s3Facade.objectExist(encodeFilename(keyFunction.apply(aggregate)))) {
             throw new IllegalArgumentException("Aggregate with key " + encodeFilename(keyFunction.apply(aggregate)) + "already exists");
         }
         update(aggregate);
@@ -84,16 +84,16 @@ public class S3KeyValueRepository<T,K> implements IRepository<T, K> {
 
     @Override
     public synchronized Optional<T> get(K key) {
-        return s3Client.
+        return s3Facade.
                 get(encodeFilename(key)).
                 map(data -> getJSONConverter().fromJson(data, aggregateClazz));
     }
 
     @Override
     public synchronized List<T> get() {
-        return s3Client.getAllS3Objects(s3Prefix(storageName))
+        return s3Facade.getAllS3Objects(s3Prefix(storageName))
                 .stream()
-                .map(s3Client::get)
+                .map(s3Facade::get)
                 .flatMap(Optional::stream)
                 .map(data -> getJSONConverter().fromJson(data, aggregateClazz))
                 .toList();

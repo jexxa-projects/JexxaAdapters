@@ -12,7 +12,7 @@ import static io.jexxa.common.facade.s3.S3Properties.s3SecretKey;
 import static io.jexxa.common.facade.utils.properties.PropertiesUtils.removePrefixFromKeys;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-class S3ClientIT {
+class S3FacadeIT {
 
     @Test
     void initS3Bucket() throws IOException {
@@ -28,6 +28,6 @@ class S3ClientIT {
         s3properties.put(s3FileSecretKey(), "src/test/resources/secrets/s3Password");
 
         //Act/Assert
-        assertDoesNotThrow(() -> new S3Client(s3properties));
+        assertDoesNotThrow(() -> new S3Facade(s3properties));
     }
 }
