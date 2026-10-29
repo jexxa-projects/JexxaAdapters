@@ -10,20 +10,41 @@ import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.http.urlconnection.UrlConnectionHttpClient;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.*;
+import software.amazon.awssdk.services.s3.model.CreateBucketRequest;
+import software.amazon.awssdk.services.s3.model.DeleteBucketRequest;
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
+import software.amazon.awssdk.services.s3.model.DeleteObjectsResponse;
+import software.amazon.awssdk.services.s3.model.GetObjectRequest;
+import software.amazon.awssdk.services.s3.model.HeadBucketRequest;
+import software.amazon.awssdk.services.s3.model.HeadObjectRequest;
+import software.amazon.awssdk.services.s3.model.ListObjectsV2Request;
+import software.amazon.awssdk.services.s3.model.ListObjectsV2Response;
+import software.amazon.awssdk.services.s3.model.NoSuchKeyException;
+import software.amazon.awssdk.services.s3.model.ObjectIdentifier;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.S3Error;
+import software.amazon.awssdk.services.s3.model.S3Exception;
+import software.amazon.awssdk.services.s3.model.S3Object;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
+import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
 import static io.jexxa.common.facade.logger.SLF4jLogger.getLogger;
-import static io.jexxa.common.facade.s3.S3Properties.*;
+import static io.jexxa.common.facade.s3.S3Properties.s3AccessKey;
+import static io.jexxa.common.facade.s3.S3Properties.s3Bucket;
+import static io.jexxa.common.facade.s3.S3Properties.s3Endpoint;
+import static io.jexxa.common.facade.s3.S3Properties.s3FileAccessKey;
+import static io.jexxa.common.facade.s3.S3Properties.s3FileSecretKey;
+import static io.jexxa.common.facade.s3.S3Properties.s3ForcePathStyle;
+import static io.jexxa.common.facade.s3.S3Properties.s3Region;
+import static io.jexxa.common.facade.s3.S3Properties.s3SecretKey;
 import static java.util.Objects.requireNonNull;
 
 public class S3Facade {
@@ -41,12 +62,15 @@ public class S3Facade {
 
         boolean forcePathStyle = Boolean.parseBoolean(properties.getProperty(s3ForcePathStyle(), "true"));
 
+
         this.s3Client = S3Client.builder()
                 .endpointOverride(URI.create(properties.getProperty(s3Endpoint())))
                 .credentialsProvider(StaticCredentialsProvider.create(
                         AwsBasicCredentials.create(s3AccessKey.getSecret(), s3SecretKey.getSecret())))
                 .region(region)
-                .httpClientBuilder(UrlConnectionHttpClient.builder())
+                .httpClientBuilder(UrlConnectionHttpClient.builder()
+                        .connectionTimeout(Duration.ofSeconds(2))
+                        .socketTimeout(Duration.ofSeconds(2))) // Kurzer Timeout, damit es sofort kracht statt zu hängen
                 .forcePathStyle(forcePathStyle)
                 .requestChecksumCalculation(RequestChecksumCalculation.WHEN_REQUIRED)
                 .responseChecksumValidation(ResponseChecksumValidation.WHEN_REQUIRED)
@@ -81,7 +105,7 @@ public class S3Facade {
                     .bucket(properties.getProperty(s3Bucket()))
                     .key(objectName)
                     .build());
-        } catch (S3Exception e) {
+        } catch (S3Exception _) {
             getLogger(S3KeyValueRepository.class).warn("Could not delete object {}", objectName);
         }
     }
@@ -97,10 +121,11 @@ public class S3Facade {
                 .toList();
 
         try {
-            DeleteObjectsResponse response = s3Client.deleteObjects(DeleteObjectsRequest.builder()
+            DeleteObjectsResponse response = s3Client
+                    .deleteObjects(req -> req
                     .bucket(properties.getProperty(s3Bucket()))
-                    .delete(Delete.builder().objects(objectsToDelete).build())
-                    .build());
+                    .delete(d -> d.objects(objectsToDelete))
+            );
 
             if (response.hasErrors()) {
                 for (S3Error error : response.errors()) {
@@ -152,7 +177,7 @@ public class S3Facade {
                     .key(objectName)
                     .build());
             return true;
-        } catch (NoSuchKeyException e) {
+        } catch (NoSuchKeyException _) {
             return false;
         } catch (S3Exception e) {
             getLogger(S3KeyValueRepository.class).warn(e.getMessage());
@@ -171,11 +196,11 @@ public class S3Facade {
                     .prefix(prefix)
                     .build());
 
-            List<String> objectNames = new ArrayList<>();
-            for (S3Object s3Object : response.contents()) {
-                objectNames.add(s3Object.key());
-            }
-            return objectNames;
+            return response
+                    .contents()
+                    .stream()
+                    .map(S3Object::key).toList();
+
         } catch (S3Exception e) {
             getLogger(S3KeyValueRepository.class).warn(e.getMessage());
         }

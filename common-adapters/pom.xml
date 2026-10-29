@@ -55,6 +55,7 @@
     <artifactId>caffeine</artifactId>
     <version>${caffeine.version}</version>
   </dependency>
+
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
@@ -79,7 +80,11 @@
         <artifactId>url-connection-client</artifactId>
         <version>${aws.client.version}</version>
       </dependency>
-
+    <dependency>
+      <groupId>software.amazon.awssdk</groupId>
+      <artifactId>apache5-client</artifactId>
+      <version>${aws.client.version}</version>
+    </dependency>
     <!-- dependencies for tests -->
     <dependency>
       <groupId>org.awaitility</groupId>
