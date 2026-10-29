@@ -72,8 +72,8 @@ public class S3Facade {
                         .connectionTimeout(Duration.ofSeconds(2))
                         .socketTimeout(Duration.ofSeconds(2))) // Kurzer Timeout, damit es sofort kracht statt zu hängen
                 .forcePathStyle(forcePathStyle)
-                .requestChecksumCalculation(RequestChecksumCalculation.WHEN_REQUIRED)
-                .responseChecksumValidation(ResponseChecksumValidation.WHEN_REQUIRED)
+                .requestChecksumCalculation(RequestChecksumCalculation.WHEN_SUPPORTED)
+                .responseChecksumValidation(ResponseChecksumValidation.WHEN_SUPPORTED)
                 .build();
 
         initBucket();
