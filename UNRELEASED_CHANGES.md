@@ -3,6 +3,7 @@
 ### 🐛 Bug Fixes
 
 - *(build)* Corrected ports for S3-Storage as used in tests - ([f0de5fd](https://github.com/jexxa-projects/JexxaAdapters/commit/f0de5fd7ce78852f6c1ce3aa1f26500f4db51428))
+- *(deps)* Artemis-client was accidentally set from test to compile which causes that artemis-client was added as dependency. This commit reverts this change - ([c1bd9b0](https://github.com/jexxa-projects/JexxaAdapters/commit/c1bd9b0dc7eac4c9a50c4671371108e215c6f7b3))
 - *(s3)* Updated tests for S3Facade - ([9543718](https://github.com/jexxa-projects/JexxaAdapters/commit/9543718ed38e565a65bcdb63b26069afcde16603))
 
 ### ⚙️ Miscellaneous Tasks
