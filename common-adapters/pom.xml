@@ -56,33 +56,28 @@
     <version>${caffeine.version}</version>
   </dependency>
 
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>${slf4j.simple.version}</version>
-    </dependency>
+  <dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-api</artifactId>
+    <version>${slf4j.simple.version}</version>
+  </dependency>
 
-      <!-- AWS S3 Service Module without Netty -->
-      <dependency>
-        <groupId>software.amazon.awssdk</groupId>
-        <artifactId>s3</artifactId>
-        <version>${aws.client.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>software.amazon.awssdk</groupId>
-            <artifactId>netty-nio-client</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-
-      <dependency>
-        <groupId>software.amazon.awssdk</groupId>
-        <artifactId>url-connection-client</artifactId>
-        <version>${aws.client.version}</version>
-      </dependency>
+    <!-- AWS S3 Service Module without Netty -->
     <dependency>
       <groupId>software.amazon.awssdk</groupId>
-      <artifactId>apache5-client</artifactId>
+      <artifactId>s3</artifactId>
+      <version>${aws.client.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>software.amazon.awssdk</groupId>
+          <artifactId>netty-nio-client</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>software.amazon.awssdk</groupId>
+      <artifactId>url-connection-client</artifactId>
       <version>${aws.client.version}</version>
     </dependency>
     <!-- dependencies for tests -->
