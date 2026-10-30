@@ -70,7 +70,7 @@ public class S3Facade {
                 .region(region)
                 .httpClientBuilder(UrlConnectionHttpClient.builder()
                         .connectionTimeout(Duration.ofSeconds(2))
-                        .socketTimeout(Duration.ofSeconds(2))) // Kurzer Timeout, damit es sofort kracht statt zu hängen
+                        .socketTimeout(Duration.ofSeconds(2)))
                 .forcePathStyle(forcePathStyle)
                 .requestChecksumCalculation(RequestChecksumCalculation.WHEN_SUPPORTED)
                 .responseChecksumValidation(ResponseChecksumValidation.WHEN_SUPPORTED)
