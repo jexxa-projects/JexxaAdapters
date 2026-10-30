@@ -3,6 +3,7 @@
 ### 🐛 Bug Fixes
 
 - *(build)* Corrected ports for S3-Storage as used in tests - ([f0de5fd](https://github.com/jexxa-projects/JexxaAdapters/commit/f0de5fd7ce78852f6c1ce3aa1f26500f4db51428))
+- *(s3)* Updated tests for S3Facade - ([9543718](https://github.com/jexxa-projects/JexxaAdapters/commit/9543718ed38e565a65bcdb63b26069afcde16603))
 
 ### ⚙️ Miscellaneous Tasks
 
