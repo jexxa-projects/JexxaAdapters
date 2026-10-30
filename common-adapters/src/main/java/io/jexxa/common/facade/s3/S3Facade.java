@@ -9,6 +9,7 @@ import software.amazon.awssdk.core.checksums.ResponseChecksumValidation;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.http.urlconnection.UrlConnectionHttpClient;
 import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.LegacyMd5Plugin;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.CreateBucketRequest;
 import software.amazon.awssdk.services.s3.model.DeleteBucketRequest;
@@ -72,8 +73,12 @@ public class S3Facade {
                         .connectionTimeout(Duration.ofSeconds(2))
                         .socketTimeout(Duration.ofSeconds(2)))
                 .forcePathStyle(forcePathStyle)
-                .requestChecksumCalculation(RequestChecksumCalculation.WHEN_SUPPORTED)
-                .responseChecksumValidation(ResponseChecksumValidation.WHEN_SUPPORTED)
+                // Preserve compatibility with S3-compatible storage providers
+                // that require Content-MD5 for operations such as DeleteObjects.
+                // AWS SDK >= 2.30.0 uses CRC32 by default.
+                .addPlugin(LegacyMd5Plugin.create())
+                .requestChecksumCalculation(RequestChecksumCalculation.WHEN_REQUIRED)
+                .responseChecksumValidation(ResponseChecksumValidation.WHEN_REQUIRED)
                 .build();
 
         initBucket();
