@@ -146,7 +146,7 @@
       <groupId>org.apache.artemis</groupId>
       <artifactId>artemis-jms-client</artifactId>
       <version>${activemq.artemis.client.version}</version>
-      <scope>compile</scope>
+      <scope>test</scope>
     </dependency>
 
   </dependencies>
