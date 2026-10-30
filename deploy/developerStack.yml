@@ -27,8 +27,8 @@ services:
     image: pgsty/silo:latest
     command: server /data --console-address ":9001"
     ports:
-      - "8100:9000"   # S3 API
-      - "8101:9001"   # Web UI
+      - "8110:9000"   # S3 API
+      - "8111:9001"   # Web UI
     environment:
       MINIO_ROOT_USER: minioadmin      # Admin Access Key
       MINIO_ROOT_PASSWORD: minioadmin  # Admin Secret Key
