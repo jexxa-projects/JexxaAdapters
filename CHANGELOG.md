@@ -11,7 +11,7 @@ refactor(s3): replace minio-client with lightweight AWS SDK v2
 - Renamed `S3Client` to `S3Facade` to resolve naming conflicts with the official AWS `S3Client` interface and clean up fully qualified class names.
 - Encapsulated configuration parsing into a typsafe internal `S3Config` record within `S3Facade` for fail-fast validation during construction.
 - Introduced `io.jexxa.s3.force-path-style` property in `S3Properties` to allow toggleable URL routing, defaulted to `true` to ensure full out-of-the-box compatibility with local MinIO instances and test containers.
-- Configured modern `S3Configuration` checksum calculations (`WHEN_REQUIRED`) to prevent MD5 verification errors when using the native Java URL connection client.
+- Configured modern `S3Configuration` checksum calculations (`WHEN_REQUIRED`) together with `LegacyMd5Plugin` to prevent MD5 verification errors when using the native Java URL connection client or older S3 storage systems.
 
 
 ## \[4.2.0] - 2026-10-28 
