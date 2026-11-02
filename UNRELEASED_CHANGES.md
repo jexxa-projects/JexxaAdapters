@@ -8,6 +8,7 @@
 
 ### ⚙️ Miscellaneous Tasks
 
+- *(build)* Updated Junit dependency to junit-bom - ([49a1ca7](https://github.com/jexxa-projects/JexxaAdapters/commit/49a1ca7c31fed3f74615c259f03064d7a46c0409))
 - *(core)* Set version to 5.0.0-SNAPSHOT - ([0f889d3](https://github.com/jexxa-projects/JexxaAdapters/commit/0f889d3162b6a211be74a0eae240381f13188767))
 - *(core)* Removed unrequired depnedencies - ([0bf6ea9](https://github.com/jexxa-projects/JexxaAdapters/commit/0bf6ea9809adbf69c61850f7b035ed44eeed3820))
 - *(deps-dev)* Bump maven.jacoco.plugin from 0.8.15 to 0.8.16 ([#306](https://github.com/jexxa-projects/JexxaAdapters/issues/306)) - ([661937d](https://github.com/jexxa-projects/JexxaAdapters/commit/661937d8c76e384164ca20a64a780e49065ba087))
