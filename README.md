@@ -49,7 +49,7 @@ dependencies {
 
 ### Examples
 
-- [Driving adapter tests](common-adapters/src/test/java/io/jexxa/common/drivingadapter)
+- [Driving adapter tests](adapter-core/src/test/java/io/jexxa/common/drivingadapter)
 - [JexxaTutorials](https://github.com/jexxa-projects/JexxaTutorials): complete applications using these adapters
 - [JLegMed](https://github.com/jexxa-projects/JLegMed): reusable processing components and integrations
 
@@ -58,7 +58,7 @@ dependencies {
 | Module            | Purpose                                                                                             |
 |-------------------|-----------------------------------------------------------------------------------------------------|
 | `adapter-api`     | Shared API used by the adapter libraries                                                            |
-| `common-adapters` | Reusable adapters, integration patterns, facades, health checks, and in-process messaging utilities |
+| `adapter-core` | Reusable adapters, integration patterns, facades, health checks, and in-process messaging utilities |
 
 
 ### Where it fits

@@ -110,6 +110,13 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+      <dependency>
+        <groupId>io.netty</groupId>
+        <artifactId>netty-bom</artifactId>
+        <version>${netty.bom.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -611,7 +618,8 @@
   </profiles>
 
   <modules>
-    <module>common-adapters</module>
-    <module>adapter-api</module>
+    <module>adapter-core</module>
+    <module>adapter-s3</module>
+    <module>adapter-jdbc</module>
   </modules>
 </project>

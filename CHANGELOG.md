@@ -268,7 +268,7 @@ Added:
 
 ## \[1.3.0] - 2024-02-25
 ### Added
-* `TransactionalOutboxSender`: Properties `outbox.table` to define the used table name. See [here](common-adapters/src/test/resources/application.properties) for an example.
+* `TransactionalOutboxSender`: Properties `outbox.table` to define the used table name. See [here](adapter-core/src/test/resources/application.properties) for an example.
 
 * Added: `RepositoryFactory`, `ObjectStoreFactory`, and `MessageSenderFactory` as replacement for `RepositoryManager`, `ObjectStoreManager`, and `MessageSenderManager`
 
