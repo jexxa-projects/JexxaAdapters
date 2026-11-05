@@ -3,6 +3,7 @@ package io.jexxa.common.drivenadapter.persistence.objectstore;
 
 import io.jexxa.adapterapi.JexxaContext;
 import io.jexxa.core.drivenadapter.persistence.objectstore.IObjectStore;
+import io.jexxa.core.drivenadapter.persistence.objectstore.imdb.IMDBObjectStore;
 import io.jexxa.core.drivenadapter.persistence.objectstore.metadata.MetaTag;
 import io.jexxa.core.drivenadapter.persistence.objectstore.metadata.MetaTags;
 import io.jexxa.core.drivenadapter.persistence.objectstore.metadata.MetadataSchema;
@@ -19,6 +20,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.List;
 import java.util.Properties;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static io.jexxa.core.drivenadapter.persistence.ObjectStoreFactory.createObjectStore;
 import static java.util.Comparator.comparing;
@@ -27,8 +29,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Execution(ExecutionMode.SAME_THREAD)
 @Tag(TestConstants.INTEGRATION_TEST)
-class IObjectStoreIT
+public abstract class IObjectStoreIT
 {
+    private static final String OBJECT_STORE_CONFIG = "objectStoreConfig";
+
     private static final int TEST_DATA_SIZE = 100;
 
     private List<TestObject> testData;
@@ -51,13 +55,18 @@ class IObjectStoreIT
         JexxaContext.cleanup();
     }
 
+    protected void reset(Properties properties)
+    {
+        IMDBObjectStore.clear();
+    }
+
     /**
      * Defines the metadata that we use:
      * Conventions for databases:
      * - Enum name is used for the name of the row so that there is a direct mapping between the strategy and the database
      * - Adding a new strategy in code after initial usage requires that the database is extended in some woy
      */
-    protected enum TestObjectSchema implements MetadataSchema
+    public enum TestObjectSchema implements MetadataSchema
     {
         INT_VALUE(MetaTags.numericTag(TestObject::getInternalValue)),
 
@@ -82,7 +91,7 @@ class IObjectStoreIT
     }
 
     @ParameterizedTest
-    @MethodSource(ObjectStoreTestDatabase.REPOSITORY_CONFIG)
+    @MethodSource(OBJECT_STORE_CONFIG)
     void testAdd(Properties properties)
     {
         //Arrange
@@ -97,7 +106,7 @@ class IObjectStoreIT
     }
 
     @ParameterizedTest
-    @MethodSource(ObjectStoreTestDatabase.REPOSITORY_CONFIG)
+    @MethodSource(OBJECT_STORE_CONFIG)
     void testRemoveAll(Properties properties)
     {
         //Arrange
@@ -111,7 +120,7 @@ class IObjectStoreIT
     }
 
     @ParameterizedTest
-    @MethodSource(ObjectStoreTestDatabase.REPOSITORY_CONFIG)
+    @MethodSource(OBJECT_STORE_CONFIG)
     void testRemove(Properties properties)
     {
         //Arrange
@@ -131,7 +140,7 @@ class IObjectStoreIT
     }
 
     @ParameterizedTest
-    @MethodSource(ObjectStoreTestDatabase.REPOSITORY_CONFIG)
+    @MethodSource(OBJECT_STORE_CONFIG)
     void testGetAll(Properties properties)
     {
         //Arrange
@@ -148,7 +157,7 @@ class IObjectStoreIT
     }
 
     @ParameterizedTest
-    @MethodSource(ObjectStoreTestDatabase.REPOSITORY_CONFIG)
+    @MethodSource(OBJECT_STORE_CONFIG)
     void testGet(Properties properties)
     {
         //Arrange
@@ -162,7 +171,7 @@ class IObjectStoreIT
     }
 
     @ParameterizedTest
-    @MethodSource(ObjectStoreTestDatabase.REPOSITORY_CONFIG)
+    @MethodSource(OBJECT_STORE_CONFIG)
     void testUpdate(Properties properties)
     {
         //Arrange
@@ -185,23 +194,8 @@ class IObjectStoreIT
 
     protected void initObjectStore(Properties properties)
     {
-      /*  if (properties.containsKey(jdbcUrl()))
-        {
-            try(JDBCConnection jdbcConnection = new JDBCConnection(properties))
-            {
-                jdbcConnection.tableCommand(TestObjectSchema.class)
-                        .dropTableIfExists(TestObject.class)
-                        .asIgnore();
-            }
-        }
-*/
+        reset(properties);
 
-    /*    if (properties.containsKey(s3Endpoint())) {
-            var s3Client = new S3Facade(properties);
-            s3Client.removeObjects(s3Client.getAllS3Objects());
-            s3Client.removeBucket(properties.getProperty(s3Bucket()));
-        }
-*/
         objectUnderTest = createObjectStore(
                 TestObject.class,
                 TestObject::getKey,
@@ -213,5 +207,10 @@ class IObjectStoreIT
         testData.forEach(element -> element.setInternalValue(element.getKey().getValue()));
 
         setObjectStore(objectUnderTest);
+    }
+
+    @SuppressWarnings("unused")
+    public static Stream<Properties> objectStoreConfig() {
+        return Stream.of( new Properties() );
     }
 }

@@ -19,6 +19,23 @@ class S3KeyValueRepositoryIT  {
 
     }
 
+          /*  if (properties.containsKey(jdbcUrl()))
+        {
+            try(JDBCConnection jdbcConnection = new JDBCConnection(properties))
+            {
+                jdbcConnection.tableCommand(TestObjectSchema.class)
+                        .dropTableIfExists(TestObject.class)
+                        .asIgnore();
+            }
+        }
+*/
+
+    /*    if (properties.containsKey(s3Endpoint())) {
+            var s3Client = new S3Facade(properties);
+            s3Client.removeObjects(s3Client.getAllS3Objects());
+            s3Client.removeBucket(properties.getProperty(s3Bucket()));
+        }
+*/
 
 
 }

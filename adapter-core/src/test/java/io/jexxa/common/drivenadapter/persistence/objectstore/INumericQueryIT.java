@@ -3,6 +3,7 @@ package io.jexxa.common.drivenadapter.persistence.objectstore;
 
 import io.jexxa.adapterapi.JexxaContext;
 import io.jexxa.core.drivenadapter.persistence.objectstore.IObjectStore;
+import io.jexxa.core.drivenadapter.persistence.objectstore.imdb.IMDBObjectStore;
 import io.jexxa.core.drivenadapter.persistence.objectstore.metadata.MetaTag;
 import io.jexxa.core.drivenadapter.persistence.objectstore.metadata.MetadataSchema;
 import io.jexxa.common.testapplication.TestValueObject;
@@ -19,7 +20,6 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static io.jexxa.core.drivenadapter.persistence.ObjectStoreFactory.createObjectStore;
-import static io.jexxa.common.drivenadapter.persistence.objectstore.ObjectStoreTestDatabase.REPOSITORY_CONFIG;
 import static io.jexxa.core.drivenadapter.persistence.objectstore.metadata.MetaTags.numericTag;
 import static java.util.Comparator.comparing;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class INumericQueryIT
 {
     private static final int TEST_DATA_SIZE = 100;
+    private static final String OBJECT_STORE_CONFIG = "objectStoreConfig";
 
     private List<TestObject> testData;
     private IObjectStore<TestObject, TestValueObject, TestObjectSchema> objectStore;
@@ -83,7 +84,7 @@ class INumericQueryIT
 
 
     @ParameterizedTest
-    @MethodSource(REPOSITORY_CONFIG)
+    @MethodSource(OBJECT_STORE_CONFIG)
     void testInequalityOperatorsIntValue(Properties properties)
     {
         //Arrange
@@ -116,7 +117,7 @@ class INumericQueryIT
     }
 
     @ParameterizedTest
-    @MethodSource(REPOSITORY_CONFIG)
+    @MethodSource(OBJECT_STORE_CONFIG)
     void testEqualityOperatorsIntValue(Properties properties)
     {
         //Arrange
@@ -138,7 +139,7 @@ class INumericQueryIT
     }
 
     @ParameterizedTest
-    @MethodSource(REPOSITORY_CONFIG)
+    @MethodSource(OBJECT_STORE_CONFIG)
     void testRangeOperatorsIntValue(Properties properties)
     {
         //Arrange
@@ -160,7 +161,7 @@ class INumericQueryIT
     }
 
     @ParameterizedTest
-    @MethodSource(REPOSITORY_CONFIG)
+    @MethodSource(OBJECT_STORE_CONFIG)
     void testInequalityOperatorValueObject(Properties properties)
     {
         //Arrange
@@ -193,7 +194,7 @@ class INumericQueryIT
     }
 
     @ParameterizedTest
-    @MethodSource(REPOSITORY_CONFIG)
+    @MethodSource(OBJECT_STORE_CONFIG)
     void testEqualityOperatorValueObject(Properties properties)
     {
         //Arrange
@@ -216,7 +217,7 @@ class INumericQueryIT
     }
 
     @ParameterizedTest
-    @MethodSource(REPOSITORY_CONFIG)
+    @MethodSource(OBJECT_STORE_CONFIG)
     void testRangeOperatorValueObject(Properties properties)
     {
         //Arrange
@@ -239,7 +240,7 @@ class INumericQueryIT
     }
 
     @ParameterizedTest
-    @MethodSource(REPOSITORY_CONFIG)
+    @MethodSource(OBJECT_STORE_CONFIG)
     void testInequalityOperatorOptionalValueObject(Properties properties)
     {
         //Arrange
@@ -267,7 +268,7 @@ class INumericQueryIT
     }
 
     @ParameterizedTest
-    @MethodSource(REPOSITORY_CONFIG)
+    @MethodSource(OBJECT_STORE_CONFIG)
     void testEqualityOperatorOptionalValueObject(Properties properties)
     {
         //Arrange
@@ -290,7 +291,7 @@ class INumericQueryIT
     }
 
     @ParameterizedTest
-    @MethodSource(REPOSITORY_CONFIG)
+    @MethodSource(OBJECT_STORE_CONFIG)
     void testRangeOperatorOptionalValueObject(Properties properties)
     {
         //Arrange
@@ -313,7 +314,7 @@ class INumericQueryIT
     }
 
     @ParameterizedTest
-    @MethodSource(REPOSITORY_CONFIG)
+    @MethodSource(OBJECT_STORE_CONFIG)
     void testGetAscending(Properties properties)
     {
         //Arrange
@@ -332,7 +333,7 @@ class INumericQueryIT
     }
 
     @ParameterizedTest
-    @MethodSource(REPOSITORY_CONFIG)
+    @MethodSource(OBJECT_STORE_CONFIG)
     void testGetAscendingWithOptionalValue(Properties properties)
     {
         //Arrange
@@ -354,7 +355,7 @@ class INumericQueryIT
     }
 
     @ParameterizedTest
-    @MethodSource(REPOSITORY_CONFIG)
+    @MethodSource(OBJECT_STORE_CONFIG)
     void testGetDescendingWithOptionalValue(Properties properties)
     {
         //Arrange
@@ -377,7 +378,7 @@ class INumericQueryIT
     }
 
     @ParameterizedTest
-    @MethodSource(REPOSITORY_CONFIG)
+    @MethodSource(OBJECT_STORE_CONFIG)
     void testGetAscendingWithLimit(Properties properties)
     {
         //Arrange
@@ -398,7 +399,7 @@ class INumericQueryIT
     }
 
     @ParameterizedTest
-    @MethodSource(REPOSITORY_CONFIG)
+    @MethodSource(OBJECT_STORE_CONFIG)
     void testGetDescending(Properties properties)
     {
         //Arrange
@@ -417,7 +418,7 @@ class INumericQueryIT
     }
 
     @ParameterizedTest
-    @MethodSource(REPOSITORY_CONFIG)
+    @MethodSource(OBJECT_STORE_CONFIG)
     void testGetDescendingWithLimit(Properties properties)
     {
         //Arrange
@@ -438,7 +439,7 @@ class INumericQueryIT
     }
 
     @ParameterizedTest
-    @MethodSource(REPOSITORY_CONFIG)
+    @MethodSource(OBJECT_STORE_CONFIG)
     void testQueryUsesLatestData(Properties properties) {
         //Arrange
         initObjectStore(properties);
@@ -459,21 +460,8 @@ class INumericQueryIT
     }
     protected void initObjectStore(Properties properties)
     {
-/*        if (properties.containsKey(jdbcUrl())) {
-            try (JDBCConnection jdbcConnection = new JDBCConnection(properties)) {
-                jdbcConnection.tableCommand(TestObjectSchema.class)
-                        .dropTableIfExists(TestObject.class)
-                        .asIgnore();
+        reset(properties);
 
-            }
-        }*/
-
-/*        if (properties.containsKey(s3Endpoint())) {
-            var s3Client = new S3Facade(properties);
-            s3Client.removeObjects(s3Client.getAllS3Objects());
-            s3Client.removeBucket(properties.getProperty(s3Bucket()));
-        }
-*/
         objectStore = createObjectStore(
                 TestObject.class,
                 TestObject::getKey,
@@ -483,5 +471,14 @@ class INumericQueryIT
         objectStore.removeAll();
 
         setObjectStore(objectStore);
+    }
+
+    void reset(Properties properties)
+    {
+        IMDBObjectStore.clear();
+    }
+    @SuppressWarnings("unused")
+    public static Stream<Properties> objectStoreConfig() {
+        return Stream.of( new Properties() );
     }
 }

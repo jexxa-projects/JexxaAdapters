@@ -3,6 +3,7 @@ package io.jexxa.common.drivenadapter.persistence.objectstore;
 
 import io.jexxa.adapterapi.JexxaContext;
 import io.jexxa.core.drivenadapter.persistence.objectstore.IObjectStore;
+import io.jexxa.core.drivenadapter.persistence.objectstore.imdb.IMDBObjectStore;
 import io.jexxa.core.drivenadapter.persistence.objectstore.metadata.MetaTag;
 import io.jexxa.core.drivenadapter.persistence.objectstore.metadata.MetadataSchema;
 import io.jexxa.common.testapplication.TestValueObject;
@@ -14,18 +15,19 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.List;
 import java.util.Properties;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static io.jexxa.core.drivenadapter.persistence.ObjectStoreFactory.createObjectStore;
-import static io.jexxa.common.drivenadapter.persistence.objectstore.ObjectStoreTestDatabase.REPOSITORY_CONFIG;
 import static io.jexxa.common.drivenadapter.persistence.objectstore.TestObject.createCharSequence;
 import static io.jexxa.core.drivenadapter.persistence.objectstore.metadata.MetaTags.numericTag;
 import static io.jexxa.core.drivenadapter.persistence.objectstore.metadata.MetaTags.stringTag;
 import static java.util.Comparator.comparing;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class IStringQueryIT
+public class IStringQueryIT
 {
     private static final int TEST_DATA_SIZE = 100;
+    private static final String OBJECT_STORE_CONFIG = "objectStoreConfig";
 
     private List<TestObject> testData;
     private IObjectStore<TestObject, TestValueObject, TestObjectSchema> objectStore;
@@ -90,7 +92,7 @@ class IStringQueryIT
         JexxaContext.cleanup();
     }
     @ParameterizedTest
-    @MethodSource(REPOSITORY_CONFIG)
+    @MethodSource(OBJECT_STORE_CONFIG)
     void testStringComparisonOperator(Properties properties)
     {
         //Arrange
@@ -114,7 +116,7 @@ class IStringQueryIT
     }
 
     @ParameterizedTest
-    @MethodSource(REPOSITORY_CONFIG)
+    @MethodSource(OBJECT_STORE_CONFIG)
     void testComparisonOperatorOptionalString(Properties properties)
     {
         //Arrange
@@ -142,7 +144,7 @@ class IStringQueryIT
     }
 
     @ParameterizedTest
-    @MethodSource(REPOSITORY_CONFIG)
+    @MethodSource(OBJECT_STORE_CONFIG)
     void testAscendingString(Properties properties)
     {
         //Arrange
@@ -171,7 +173,7 @@ class IStringQueryIT
     }
 
     @ParameterizedTest
-    @MethodSource(REPOSITORY_CONFIG)
+    @MethodSource(OBJECT_STORE_CONFIG)
     void testDescendingString(Properties properties)
     {
         //Arrange
@@ -200,7 +202,7 @@ class IStringQueryIT
     }
 
     @ParameterizedTest
-    @MethodSource(REPOSITORY_CONFIG)
+    @MethodSource(OBJECT_STORE_CONFIG)
     void testQueryUsesLatestData(Properties properties) {
         //Arrange
         initObjectStore(properties);
@@ -217,15 +219,7 @@ class IStringQueryIT
 
     void initObjectStore(Properties properties)
     {
-     /*   if (properties.containsKey(jdbcUrl()))
-        {
-            try(JDBCConnection jdbcConnection = new JDBCConnection(properties))
-            {
-                jdbcConnection.tableCommand(TestObjectSchema.class)
-                        .dropTableIfExists(TestObject.class)
-                        .asIgnore();
-            }
-        }*/
+        reset(properties);
 
         objectStore = createObjectStore(
                 TestObject.class,
@@ -236,5 +230,15 @@ class IStringQueryIT
         objectStore.removeAll();
 
         testData.forEach(objectStore::add);
+    }
+
+    protected void reset(Properties properties)
+    {
+        IMDBObjectStore.clear();
+    }
+
+    @SuppressWarnings("unused")
+    public static Stream<Properties> objectStoreConfig() {
+        return Stream.of( new Properties() );
     }
 }
