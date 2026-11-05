@@ -31,48 +31,24 @@
       <scope>compile</scope>
     </dependency>
 
-  <dependency>
-    <groupId>com.github.ben-manes.caffeine</groupId>
-    <artifactId>caffeine</artifactId>
-    <version>${caffeine.version}</version>
-  </dependency>
-
-  <dependency>
-    <groupId>org.slf4j</groupId>
-    <artifactId>slf4j-api</artifactId>
-    <version>${slf4j.simple.version}</version>
-  </dependency>
-
-    <!-- AWS S3 Service Module without Netty -->
     <dependency>
-      <groupId>software.amazon.awssdk</groupId>
-      <artifactId>s3</artifactId>
-      <version>${aws.client.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>software.amazon.awssdk</groupId>
-          <artifactId>netty-nio-client</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-
-    <dependency>
-      <groupId>software.amazon.awssdk</groupId>
-      <artifactId>url-connection-client</artifactId>
-      <version>${aws.client.version}</version>
-    </dependency>
-    <!-- dependencies for tests -->
-    <dependency>
-      <groupId>org.awaitility</groupId>
-      <artifactId>awaitility-groovy</artifactId>
-      <version>${awaitility.version}</version>
-      <scope>test</scope>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.simple.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
       <version>${slf4j.simple.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!--- Test dependencies -->
+    <dependency>
+      <groupId>org.awaitility</groupId>
+      <artifactId>awaitility-groovy</artifactId>
+      <version>${awaitility.version}</version>
       <scope>test</scope>
     </dependency>
 
@@ -93,43 +69,18 @@
     </dependency>
 
     <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <version>2.5.252</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
       <groupId>org.jacoco</groupId>
       <artifactId>org.jacoco.agent</artifactId>
       <version>${maven.jacoco.plugin}</version>
       <scope>test</scope>
     </dependency>
 
-    <!-- dependencies for tests with JDBCAdapter -->
-    <dependency>
-      <groupId>org.postgresql</groupId>
-      <artifactId>postgresql</artifactId>
-      <version>${postgres.version}</version>
-      <scope>test</scope>
-    </dependency>
-
-
-    <dependency>
-        <groupId>org.xerial</groupId>
-        <artifactId>sqlite-jdbc</artifactId>
-        <version>${sqlilte.version}</version>
-        <scope>test</scope>
-    </dependency>
-
-    <!-- dependencies for tests with ActiveMQ -->
     <dependency>
       <groupId>org.apache.artemis</groupId>
       <artifactId>artemis-jms-client</artifactId>
       <version>${activemq.artemis.client.version}</version>
       <scope>test</scope>
     </dependency>
-
   </dependencies>
   <build>
     <plugins>

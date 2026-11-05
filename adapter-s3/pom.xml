@@ -48,6 +48,7 @@
       <artifactId>url-connection-client</artifactId>
       <version>${aws.client.version}</version>
     </dependency>
+
     <!-- dependencies for tests -->
     <dependency>
       <groupId>org.awaitility</groupId>

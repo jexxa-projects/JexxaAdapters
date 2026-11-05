@@ -24,6 +24,7 @@
       <version>${project.version}</version>
     </dependency>
 
+
     <!-- dependencies for tests -->
     <dependency>
       <groupId>org.awaitility</groupId>
@@ -92,14 +93,6 @@
         <artifactId>sqlite-jdbc</artifactId>
         <version>${sqlilte.version}</version>
         <scope>test</scope>
-    </dependency>
-
-    <!-- dependencies for tests with ActiveMQ -->
-    <dependency>
-      <groupId>org.apache.artemis</groupId>
-      <artifactId>artemis-jms-client</artifactId>
-      <version>${activemq.artemis.client.version}</version>
-      <scope>test</scope>
     </dependency>
 
   </dependencies>
