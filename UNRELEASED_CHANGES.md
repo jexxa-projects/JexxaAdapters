@@ -12,6 +12,7 @@
 - *(core)* Set version to 5.0.0-SNAPSHOT - ([0f889d3](https://github.com/jexxa-projects/JexxaAdapters/commit/0f889d3162b6a211be74a0eae240381f13188767))
 - *(core)* Removed unrequired depnedencies - ([0bf6ea9](https://github.com/jexxa-projects/JexxaAdapters/commit/0bf6ea9809adbf69c61850f7b035ed44eeed3820))
 - *(deps-dev)* Bump maven.jacoco.plugin from 0.8.15 to 0.8.16 ([#306](https://github.com/jexxa-projects/JexxaAdapters/issues/306)) - ([661937d](https://github.com/jexxa-projects/JexxaAdapters/commit/661937d8c76e384164ca20a64a780e49065ba087))
+- *(deps-dev)* Bump org.xerial:sqlite-jdbc from 3.53.4.0 to 3.54.1.0 ([#308](https://github.com/jexxa-projects/JexxaAdapters/issues/308)) - ([4e2909a](https://github.com/jexxa-projects/JexxaAdapters/commit/4e2909ac47613fcc3938e731dfda1efb80171188))
 - *(docu)* Updated CHANGELOG - ([fecf98d](https://github.com/jexxa-projects/JexxaAdapters/commit/fecf98d26ab49371b5c946516bf7baad30162413))
 - *(s3)* Code cleanup - ([91d27d8](https://github.com/jexxa-projects/JexxaAdapters/commit/91d27d80d4b41024c22a2fc5e62466fe96583e6b))
 
