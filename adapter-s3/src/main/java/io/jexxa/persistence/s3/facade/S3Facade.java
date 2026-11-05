@@ -1,7 +1,7 @@
-package io.jexxa.core.facade.s3;
+package io.jexxa.persistence.s3.facade;
 
-import io.jexxa.core.drivenadapter.persistence.repository.s3.S3KeyValueRepository;
 import io.jexxa.core.facade.utils.properties.Secret;
+import io.jexxa.persistence.s3.repository.S3KeyValueRepository;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.core.checksums.RequestChecksumCalculation;
@@ -11,21 +11,7 @@ import software.amazon.awssdk.http.urlconnection.UrlConnectionHttpClient;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.LegacyMd5Plugin;
 import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.CreateBucketRequest;
-import software.amazon.awssdk.services.s3.model.DeleteBucketRequest;
-import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
-import software.amazon.awssdk.services.s3.model.DeleteObjectsResponse;
-import software.amazon.awssdk.services.s3.model.GetObjectRequest;
-import software.amazon.awssdk.services.s3.model.HeadBucketRequest;
-import software.amazon.awssdk.services.s3.model.HeadObjectRequest;
-import software.amazon.awssdk.services.s3.model.ListObjectsV2Request;
-import software.amazon.awssdk.services.s3.model.ListObjectsV2Response;
-import software.amazon.awssdk.services.s3.model.NoSuchKeyException;
-import software.amazon.awssdk.services.s3.model.ObjectIdentifier;
-import software.amazon.awssdk.services.s3.model.PutObjectRequest;
-import software.amazon.awssdk.services.s3.model.S3Error;
-import software.amazon.awssdk.services.s3.model.S3Exception;
-import software.amazon.awssdk.services.s3.model.S3Object;
+import software.amazon.awssdk.services.s3.model.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,14 +24,7 @@ import java.util.Optional;
 import java.util.Properties;
 
 import static io.jexxa.core.facade.logger.SLF4jLogger.getLogger;
-import static io.jexxa.core.facade.s3.S3Properties.s3AccessKey;
-import static io.jexxa.core.facade.s3.S3Properties.s3Bucket;
-import static io.jexxa.core.facade.s3.S3Properties.s3Endpoint;
-import static io.jexxa.core.facade.s3.S3Properties.s3FileAccessKey;
-import static io.jexxa.core.facade.s3.S3Properties.s3FileSecretKey;
-import static io.jexxa.core.facade.s3.S3Properties.s3ForcePathStyle;
-import static io.jexxa.core.facade.s3.S3Properties.s3Region;
-import static io.jexxa.core.facade.s3.S3Properties.s3SecretKey;
+import static io.jexxa.persistence.s3.facade.S3Properties.*;
 import static java.util.Objects.requireNonNull;
 
 public class S3Facade {
@@ -111,7 +90,7 @@ public class S3Facade {
                     .key(objectName)
                     .build());
         } catch (S3Exception _) {
-            getLogger(S3KeyValueRepository.class).warn("Could not delete object {}", objectName);
+            getLogger(S3Facade.class).warn("Could not delete object {}", objectName);
         }
     }
 

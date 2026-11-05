@@ -1,13 +1,12 @@
-package io.jexxa.common.drivenadapter.persistence.repository.s3;
+package io.jexxa.persistence.s3.repository;
 
 import io.jexxa.common.testapplication.TestAggregate;
-import io.jexxa.core.drivenadapter.persistence.repository.s3.S3KeyValueRepository;
 import org.junit.jupiter.api.Test;
 
-import static io.jexxa.common.drivenadapter.persistence.RepositoryConfig.s3RepositoryConfig;
-import static org.junit.jupiter.api.Assertions.*;
+import static io.jexxa.persistence.s3.RepositoryConfig.s3RepositoryConfig;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-class S3KeyValueRepositoryIT {
+class S3KeyValueRepositoryIT  {
 
     @Test
     void initS3Bucket()

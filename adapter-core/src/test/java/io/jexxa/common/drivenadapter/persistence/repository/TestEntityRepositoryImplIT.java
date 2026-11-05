@@ -1,12 +1,10 @@
-package io.jexxa.adapters.jdbc.repository;
+package io.jexxa.common.drivenadapter.persistence.repository;
 
 import io.jexxa.adapterapi.JexxaContext;
-
-import io.jexxa.adapters.jdbc.facade.JDBCConnection;
-import io.jexxa.adapters.jdbc.facade.JDBCTestDatabase;
 import io.jexxa.common.testapplication.TestConstants;
 import io.jexxa.common.testapplication.TestEntity;
 import io.jexxa.common.testapplication.TestValueObject;
+import io.jexxa.core.drivenadapter.persistence.repository.imdb.IMDBRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -20,18 +18,13 @@ import java.util.Properties;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static io.jexxa.common.drivenadapter.persistence.RepositoryConfig.s3CachedRepositoryConfig;
-import static io.jexxa.common.drivenadapter.persistence.RepositoryConfig.s3RepositoryConfig;
 import static io.jexxa.core.drivenadapter.persistence.RepositoryFactory.createRepository;
-import static io.jexxa.core.facade.s3.S3Properties.s3Bucket;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @Execution(ExecutionMode.SAME_THREAD)
 @Tag(TestConstants.INTEGRATION_TEST)
-class TestEntityRepositoryImplIT
+public class TestEntityRepositoryImplIT
 {
     private List<TestEntity> aggregateList;
     private static final String ALL_REPOSITORY_CONFIGS = "repositoryConfig";
@@ -55,7 +48,7 @@ class TestEntityRepositoryImplIT
     void addAggregate(Properties repositoryProperties)
     {
         //Arrange
-        dropTable(repositoryProperties);
+        reset(repositoryProperties);
         var objectUnderTest = createRepository(TestEntity.class, TestEntity::getKey, repositoryProperties);
         objectUnderTest.removeAll();
 
@@ -71,7 +64,7 @@ class TestEntityRepositoryImplIT
     void testPreconditionAddAggregate(Properties repositoryProperties)
     {
         //Arrange
-        dropTable(repositoryProperties);
+        reset(repositoryProperties);
         var objectUnderTest = createRepository(TestEntity.class, TestEntity::getKey, repositoryProperties);
         objectUnderTest.removeAll();
         aggregateList.forEach(objectUnderTest::add);
@@ -87,7 +80,7 @@ class TestEntityRepositoryImplIT
     void getAggregateByID(Properties repositoryProperties)
     {
         //Arrange
-        dropTable(repositoryProperties);
+        reset(repositoryProperties);
         var objectUnderTest = createRepository(TestEntity.class, TestEntity::getKey, repositoryProperties);
         objectUnderTest.removeAll();
         aggregateList.forEach(objectUnderTest::add);
@@ -106,7 +99,7 @@ class TestEntityRepositoryImplIT
     void removeAggregate(Properties repositoryProperties)
     {
         //Arrange
-        dropTable(repositoryProperties);
+        reset(repositoryProperties);
         var objectUnderTest = createRepository(TestEntity.class, TestEntity::getKey, repositoryProperties);
         objectUnderTest.removeAll();
         aggregateList.forEach(objectUnderTest::add);
@@ -126,7 +119,7 @@ class TestEntityRepositoryImplIT
     void testPreconditionRemoveAggregate(Properties repositoryProperties)
     {
         //Arrange
-        dropTable(repositoryProperties);
+        reset(repositoryProperties);
         var objectUnderTest = createRepository(TestEntity.class, TestEntity::getKey, repositoryProperties);
         objectUnderTest.removeAll();
 
@@ -144,7 +137,7 @@ class TestEntityRepositoryImplIT
     void updateAggregate(Properties repositoryProperties)
     {
         //Arrange
-        dropTable(repositoryProperties);
+        reset(repositoryProperties);
         var objectUnderTest = createRepository(TestEntity.class, TestEntity::getKey, repositoryProperties);
         objectUnderTest.removeAll();
         aggregateList.forEach(objectUnderTest::add);
@@ -164,7 +157,7 @@ class TestEntityRepositoryImplIT
     void changeAggregateOnlyAfterUpdate(Properties repositoryProperties)
     {
         //Arrange
-        dropTable(repositoryProperties);
+        reset(repositoryProperties);
         var objectUnderTest = createRepository(TestEntity.class, TestEntity::getKey, repositoryProperties);
         objectUnderTest.removeAll();
         aggregateList.forEach(objectUnderTest::add);
@@ -182,21 +175,12 @@ class TestEntityRepositoryImplIT
     @SuppressWarnings("unused")
     static Stream<Properties> repositoryConfig()
     {
-        return Stream.concat(Stream.of(
-                new Properties(), s3RepositoryConfig(), s3CachedRepositoryConfig()
-                ),
-                JDBCTestDatabase.repositoryConfigJDBC());
+        return Stream.of( new Properties() );
     }
 
-    private void dropTable(Properties properties)
+    protected void reset(Properties properties)
     {
-        if (!properties.isEmpty() && !properties.containsKey(s3Bucket())) {
-            try ( JDBCConnection connection = new JDBCConnection(properties) ) {
-                connection.tableCommand(JDBCKeyValueRepository.KeyValueSchema.class)
-                        .dropTableIfExists(TestEntity.class)
-                        .asIgnore();
-            }
-        }
+        IMDBRepository.clear();
     }
 
 }

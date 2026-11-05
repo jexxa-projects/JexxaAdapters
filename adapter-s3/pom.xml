@@ -25,30 +25,10 @@
     </dependency>
 
     <dependency>
-      <groupId>com.google.code.gson</groupId>
-      <artifactId>gson</artifactId>
-      <version>${gson.version}</version>
-      <scope>compile</scope>
+      <groupId>com.github.ben-manes.caffeine</groupId>
+      <artifactId>caffeine</artifactId>
+      <version>${caffeine.version}</version>
     </dependency>
-
-    <dependency>
-      <groupId>javax.jms</groupId>
-      <artifactId>javax.jms-api</artifactId>
-      <version>${javax.jms.version}</version>
-      <scope>compile</scope>
-    </dependency>
-
-  <dependency>
-    <groupId>com.github.ben-manes.caffeine</groupId>
-    <artifactId>caffeine</artifactId>
-    <version>${caffeine.version}</version>
-  </dependency>
-
-  <dependency>
-    <groupId>org.slf4j</groupId>
-    <artifactId>slf4j-api</artifactId>
-    <version>${slf4j.simple.version}</version>
-  </dependency>
 
     <!-- AWS S3 Service Module without Netty -->
     <dependency>
@@ -100,40 +80,17 @@
     </dependency>
 
     <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <version>2.5.252</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
       <groupId>org.jacoco</groupId>
       <artifactId>org.jacoco.agent</artifactId>
       <version>${maven.jacoco.plugin}</version>
       <scope>test</scope>
     </dependency>
 
-    <!-- dependencies for tests with JDBCAdapter -->
     <dependency>
-      <groupId>org.postgresql</groupId>
-      <artifactId>postgresql</artifactId>
-      <version>${postgres.version}</version>
-      <scope>test</scope>
-    </dependency>
-
-
-    <dependency>
-        <groupId>org.xerial</groupId>
-        <artifactId>sqlite-jdbc</artifactId>
-        <version>${sqlilte.version}</version>
-        <scope>test</scope>
-    </dependency>
-
-    <!-- dependencies for tests with ActiveMQ -->
-    <dependency>
-      <groupId>org.apache.artemis</groupId>
-      <artifactId>artemis-jms-client</artifactId>
-      <version>${activemq.artemis.client.version}</version>
+      <groupId>io.jexxa.adapters</groupId>
+      <artifactId>adapter-core</artifactId>
+      <version>${project.version}</version>
+      <type>test-jar</type>
       <scope>test</scope>
     </dependency>
 

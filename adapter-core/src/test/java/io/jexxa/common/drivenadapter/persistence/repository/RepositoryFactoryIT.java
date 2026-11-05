@@ -56,7 +56,7 @@ class RepositoryFactoryIT {
     @Test
     void validateDefaultStrategyOverProperties() {
         //Arrange: Define a JDBC connection in properties but also set a default strategy
-        var postgresProperties = RepositoryConfig.s3RepositoryConfig();
+        var postgresProperties = RepositoryConfig.imdbRepositoryConfig();
 
         //Act
         setDefaultRepository(IMDBRepository.class);

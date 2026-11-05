@@ -1,6 +1,5 @@
-package io.jexxa.common.facade.s3;
+package io.jexxa.persistence.s3.facade;
 
-import io.jexxa.core.facade.s3.S3Facade;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,11 +12,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 
-import static io.jexxa.core.facade.s3.S3Properties.s3AccessKey;
-import static io.jexxa.core.facade.s3.S3Properties.s3FileAccessKey;
-import static io.jexxa.core.facade.s3.S3Properties.s3FileSecretKey;
-import static io.jexxa.core.facade.s3.S3Properties.s3SecretKey;
 import static io.jexxa.core.facade.utils.properties.PropertiesUtils.removePrefixFromKeys;
+import static io.jexxa.persistence.s3.facade.S3Properties.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class S3FacadeIT {

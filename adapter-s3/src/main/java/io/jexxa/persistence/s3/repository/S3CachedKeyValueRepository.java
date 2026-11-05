@@ -1,9 +1,9 @@
-package io.jexxa.core.drivenadapter.persistence.repository.s3;
+package io.jexxa.persistence.s3.repository;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import io.jexxa.core.drivenadapter.persistence.repository.IRepository;
-import io.jexxa.core.facade.s3.S3Facade;
+import io.jexxa.persistence.s3.facade.S3Facade;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 import static io.jexxa.core.facade.json.JSONManager.getJSONConverter;
-import static io.jexxa.core.facade.s3.S3Properties.s3ApplicationPrefix;
+import static io.jexxa.persistence.s3.facade.S3Properties.s3ApplicationPrefix;
 import static java.util.Objects.requireNonNull;
 
 @SuppressWarnings("unused")
@@ -80,9 +80,6 @@ public class S3CachedKeyValueRepository<T, K> implements IRepository<T, K> {
     @Override
     public void add(T aggregate) {
         K key = keyFunction.apply(aggregate);
-        // Da S3 keine native "Error if exists"-Operation beim Put bietet,
-        // bleibt der Check hier oft nötig, erhöht aber die Last.
-        // Falls Konsistenz auf App-Ebene egal ist: Direkt update(aggregate) rufen.
         if (s3Facade.objectExist(encodeFilename(key))) {
             throw new IllegalArgumentException("Aggregate with key " + key + " already exists");
         }

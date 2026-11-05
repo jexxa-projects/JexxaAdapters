@@ -4,7 +4,6 @@ package io.jexxa.core.drivenadapter.persistence;
 import io.jexxa.core.drivenadapter.persistence.objectstore.IObjectStore;
 import io.jexxa.core.drivenadapter.persistence.objectstore.imdb.IMDBObjectStore;
 import io.jexxa.core.drivenadapter.persistence.objectstore.metadata.MetadataSchema;
-import io.jexxa.core.drivenadapter.persistence.objectstore.s3.S3ObjectStore;
 import io.jexxa.core.facade.factory.ClassFactory;
 import io.jexxa.core.facade.logger.ApplicationBanner;
 
@@ -14,7 +13,6 @@ import java.util.Properties;
 import java.util.function.Function;
 
 import static io.jexxa.core.facade.logger.SLF4jLogger.getLogger;
-import static io.jexxa.core.facade.s3.S3Properties.s3Bucket;
 
 
 @SuppressWarnings({"unused", "DuplicatedCode", "java:S6548"})
@@ -131,11 +129,11 @@ public final class ObjectStoreFactory
         }
 */
         // 5. If a S3 bucket is stated in Properties => Use S3ObjectStore
-        if (properties.containsKey(s3Bucket()))
+  /*      if (properties.containsKey(s3Bucket()))
         {
             return S3ObjectStore.class;
         }
-
+*/
         // 6. If everything fails, return an IMDBObjectStore
         return IMDBObjectStore.class;
     }

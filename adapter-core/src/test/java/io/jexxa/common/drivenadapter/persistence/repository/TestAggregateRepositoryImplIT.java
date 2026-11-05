@@ -1,13 +1,12 @@
-package io.jexxa.adapters.jdbc.repository;
+package io.jexxa.common.drivenadapter.persistence.repository;
 
 
 import io.jexxa.adapterapi.JexxaContext;
 
-import io.jexxa.adapters.jdbc.facade.JDBCConnection;
-import io.jexxa.adapters.jdbc.facade.JDBCTestDatabase;
 import io.jexxa.common.testapplication.TestAggregate;
 import io.jexxa.common.testapplication.TestConstants;
 import io.jexxa.common.testapplication.TestValueObject;
+import io.jexxa.core.drivenadapter.persistence.repository.imdb.IMDBRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -19,19 +18,20 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.List;
 import java.util.Properties;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static io.jexxa.core.drivenadapter.persistence.RepositoryFactory.createRepository;
-import static io.jexxa.common.drivenadapter.persistence.objectstore.ObjectStoreTestDatabase.REPOSITORY_CONFIG;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 @Execution(ExecutionMode.SAME_THREAD)
 @Tag(TestConstants.INTEGRATION_TEST)
-class TestNamedRepositoryIT
+public class TestAggregateRepositoryImplIT
 {
     private List<TestAggregate> aggregateList;
-    static final String TABLE_NAME = "MyNamedRepository";
+    private static final String REPOSITORY_CONFIG = "repositoryConfig";
+
     @BeforeEach
     void initTests()
     {
@@ -48,12 +48,12 @@ class TestNamedRepositoryIT
         JexxaContext.cleanup();
     }
     @ParameterizedTest
-    @MethodSource(JDBCTestDatabase.JDBC_REPOSITORY_CONFIG)
+    @MethodSource(REPOSITORY_CONFIG)
     void addAggregate(Properties repositoryProperties)
     {
         //Arrange
-        dropTable(repositoryProperties);
-        var objectUnderTest = createRepository(TestAggregate.class, TestAggregate::getKey, TABLE_NAME, repositoryProperties);
+        reset(repositoryProperties);
+        var objectUnderTest = createRepository(TestAggregate.class, TestAggregate::getKey, repositoryProperties);
         objectUnderTest.removeAll();
 
         //Act
@@ -65,12 +65,12 @@ class TestNamedRepositoryIT
 
 
     @ParameterizedTest
-    @MethodSource(JDBCTestDatabase.JDBC_REPOSITORY_CONFIG)
+    @MethodSource(REPOSITORY_CONFIG)
     void getAggregateByID(Properties repositoryProperties)
     {
         //Arrange
-        dropTable(repositoryProperties);
-        var objectUnderTest = createRepository(TestAggregate.class, TestAggregate::getKey, TABLE_NAME, repositoryProperties);
+        reset(repositoryProperties);
+        var objectUnderTest = createRepository(TestAggregate.class, TestAggregate::getKey, repositoryProperties);
         objectUnderTest.removeAll();
         aggregateList.forEach(objectUnderTest::add);
 
@@ -84,12 +84,12 @@ class TestNamedRepositoryIT
     }
 
     @ParameterizedTest
-    @MethodSource(JDBCTestDatabase.JDBC_REPOSITORY_CONFIG)
+    @MethodSource(REPOSITORY_CONFIG)
     void removeAggregate(Properties repositoryProperties)
     {
         //Arrange
-        dropTable(repositoryProperties);
-        var objectUnderTest = createRepository(TestAggregate.class, TestAggregate::getKey, TABLE_NAME, repositoryProperties);
+        reset(repositoryProperties);
+        var objectUnderTest = createRepository(TestAggregate.class, TestAggregate::getKey, repositoryProperties);
         objectUnderTest.removeAll();
         aggregateList.forEach(objectUnderTest::add);
 
@@ -109,8 +109,8 @@ class TestNamedRepositoryIT
     void updateAggregate(Properties repositoryProperties)
     {
         //Arrange
-        dropTable(repositoryProperties);
-        var objectUnderTest = createRepository(TestAggregate.class, TestAggregate::getKey, TABLE_NAME, repositoryProperties);
+        reset(repositoryProperties);
+        var objectUnderTest = createRepository(TestAggregate.class, TestAggregate::getKey, repositoryProperties);
         objectUnderTest.removeAll();
         aggregateList.forEach(objectUnderTest::add);
 
@@ -124,15 +124,16 @@ class TestNamedRepositoryIT
         objectUnderTest.get().forEach( element -> assertEquals(aggregateValue, element.getInternalValue()) );
     }
 
-    private void dropTable(Properties properties)
+    protected void reset(Properties properties)
     {
-        try (JDBCConnection connection = new JDBCConnection(properties) ) {
-            connection.tableCommand(JDBCKeyValueRepository.KeyValueSchema.class)
-                    .dropTableIfExists(TABLE_NAME)
-                    .asIgnore();
-        } catch (Exception _) {
-            // Ignore if we do not have a JDBC connection
-        }
+        IMDBRepository.clear();
     }
+
+    @SuppressWarnings("unused")
+    static Stream<Properties> repositoryConfig()
+    {
+        return Stream.of( new Properties() );
+    }
+
 }
 

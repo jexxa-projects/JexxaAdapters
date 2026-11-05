@@ -1,4 +1,4 @@
-package io.jexxa.core.drivenadapter.persistence.objectstore.s3;
+package io.jexxa.persistence.s3.objectstore;
 
 
 import io.jexxa.core.drivenadapter.persistence.objectstore.INumericQuery;

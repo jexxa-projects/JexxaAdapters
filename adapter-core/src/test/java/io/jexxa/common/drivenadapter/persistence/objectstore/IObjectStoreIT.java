@@ -7,7 +7,6 @@ import io.jexxa.core.drivenadapter.persistence.objectstore.metadata.MetaTag;
 import io.jexxa.core.drivenadapter.persistence.objectstore.metadata.MetaTags;
 import io.jexxa.core.drivenadapter.persistence.objectstore.metadata.MetadataSchema;
 import io.jexxa.common.testapplication.TestConstants;
-import io.jexxa.core.facade.s3.S3Facade;
 import io.jexxa.common.testapplication.TestValueObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,8 +21,6 @@ import java.util.Properties;
 import java.util.stream.IntStream;
 
 import static io.jexxa.core.drivenadapter.persistence.ObjectStoreFactory.createObjectStore;
-import static io.jexxa.core.facade.s3.S3Properties.s3Bucket;
-import static io.jexxa.core.facade.s3.S3Properties.s3Endpoint;
 import static java.util.Comparator.comparing;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -60,7 +57,7 @@ class IObjectStoreIT
      * - Enum name is used for the name of the row so that there is a direct mapping between the strategy and the database
      * - Adding a new strategy in code after initial usage requires that the database is extended in some woy
      */
-    private enum TestObjectSchema implements MetadataSchema
+    protected enum TestObjectSchema implements MetadataSchema
     {
         INT_VALUE(MetaTags.numericTag(TestObject::getInternalValue)),
 
@@ -180,7 +177,13 @@ class IObjectStoreIT
         assertTrue(result.stream().allMatch(element -> element.getInternalValue() == TEST_DATA_SIZE));
     }
 
-    void initObjectStore(Properties properties)
+    protected void setObjectStore(IObjectStore<TestObject, TestValueObject, TestObjectSchema> objectStore)
+    {
+        this.objectUnderTest = objectStore;
+        testData.forEach(objectUnderTest::add);
+    }
+
+    protected void initObjectStore(Properties properties)
     {
       /*  if (properties.containsKey(jdbcUrl()))
         {
@@ -193,12 +196,12 @@ class IObjectStoreIT
         }
 */
 
-        if (properties.containsKey(s3Endpoint())) {
+    /*    if (properties.containsKey(s3Endpoint())) {
             var s3Client = new S3Facade(properties);
             s3Client.removeObjects(s3Client.getAllS3Objects());
             s3Client.removeBucket(properties.getProperty(s3Bucket()));
         }
-
+*/
         objectUnderTest = createObjectStore(
                 TestObject.class,
                 TestObject::getKey,
@@ -208,6 +211,7 @@ class IObjectStoreIT
         objectUnderTest.removeAll();
 
         testData.forEach(element -> element.setInternalValue(element.getKey().getValue()));
-        testData.forEach(objectUnderTest::add);
+
+        setObjectStore(objectUnderTest);
     }
 }

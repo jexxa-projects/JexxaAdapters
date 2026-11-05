@@ -3,7 +3,6 @@ package io.jexxa.core.drivenadapter.persistence;
 
 import io.jexxa.core.drivenadapter.persistence.repository.IRepository;
 import io.jexxa.core.drivenadapter.persistence.repository.imdb.IMDBRepository;
-import io.jexxa.core.drivenadapter.persistence.repository.s3.S3KeyValueRepository;
 import io.jexxa.core.facade.factory.ClassFactory;
 import io.jexxa.core.facade.logger.ApplicationBanner;
 import io.jexxa.core.facade.utils.annotation.CheckReturnValue;
@@ -14,7 +13,6 @@ import java.util.Properties;
 import java.util.function.Function;
 
 import static io.jexxa.core.facade.logger.SLF4jLogger.getLogger;
-import static io.jexxa.core.facade.s3.S3Properties.s3Bucket;
 
 
 @SuppressWarnings({"unused", "java:S6548"})
@@ -186,11 +184,11 @@ public final class RepositoryFactory
         }
 */
         // 5. If a S3 bucket is stated in Properties => Use S3KeyValueRepository
-        if (properties.containsKey(s3Bucket()))
+  /*      if (properties.containsKey(s3Bucket()))
         {
             return S3KeyValueRepository.class;
         }
-
+*/
         // 6. If everything fails, return an IMDBRepository
         return IMDBRepository.class;
     }
