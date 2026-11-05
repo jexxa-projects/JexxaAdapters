@@ -17,13 +17,6 @@
   <description>Implementation of various infrastructure adapters for jexxa-projects.</description> <!-- Einzigartig -->
 
   <dependencies>
-    <!-- dependencies for library -->
-    <dependency>
-      <groupId>io.jexxa.adapters</groupId>
-      <artifactId>adapter-api</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
     <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
