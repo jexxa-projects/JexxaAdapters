@@ -201,15 +201,6 @@ public class TransactionalOutboxSender extends MessageSender {
         if (this.outboxRepository instanceof IMDBRepository<JexxaOutboxMessage, UUID>) {
             SLF4jLogger.getLogger(TransactionalOutboxSender.class).warn("Your TransactionalOutboxSender uses an IMDBRepository for persisting unsent messages. This might be fine for testing purposes. In production environment define a JDBC connection for proper message resend.");
         }
-
-        //Configure table name
-    /*    if (this.outboxRepository instanceof JDBCKeyValueRepository<JexxaOutboxMessage, UUID>
-                && (properties.containsKey(outboxTable())
-                && !properties.getProperty(outboxTable()).isEmpty()))
-        {
-            ((JDBCKeyValueRepository<JexxaOutboxMessage, UUID >)(this.outboxRepository))
-                    .tableName(properties.getProperty(outboxTable()));
-        }*/
     }
 
     private void setupMessageSender(Properties properties) {
