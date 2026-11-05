@@ -16,7 +16,6 @@ import java.util.function.Function;
 
 import static io.jexxa.adapters.jdbc.facade.JDBCTableBuilder.SQLConstraint.PRIMARY_KEY;
 import static io.jexxa.adapters.jdbc.facade.SQLDataType.JSONB;
-import static io.jexxa.core.drivenadapter.outbox.TransactionalOutboxProperties.outboxTable;
 import static io.jexxa.core.facade.json.JSONManager.getJSONConverter;
 import static io.jexxa.core.facade.logger.SLF4jLogger.getLogger;
 
@@ -50,7 +49,7 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
         this.keyFunction = Objects.requireNonNull( keyFunction );
         this.aggregateClazz = Objects.requireNonNull(aggregateClazz);
         this.database = DatabaseManager.getDatabase(properties.getProperty(JDBCProperties.jdbcUrl()));
-        this.storageName = properties.getProperty(outboxTable(), storageName);
+        this.storageName = storageName;
     }
 
     @Override
@@ -151,6 +150,7 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
                 .toList();
     }
 
+    @SuppressWarnings("unused")
     public void tableName(String storageName)
     {
         Objects.requireNonNull(storageName);

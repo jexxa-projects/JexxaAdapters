@@ -194,8 +194,12 @@ public class TransactionalOutboxSender extends MessageSender {
     }
 
     private void setupMessageStorage(Properties properties) {
+        var storageName = properties.getProperty(outboxTable(),TransactionalOutboxSender.class.getSimpleName());
+
+
         this.outboxRepository = createRepository(JexxaOutboxMessage.class
                 , JexxaOutboxMessage::messageId
+                , storageName
                 , properties );
 
         if (this.outboxRepository instanceof IMDBRepository<JexxaOutboxMessage, UUID>) {
