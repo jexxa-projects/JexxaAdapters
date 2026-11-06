@@ -27,7 +27,9 @@ class JDBCAggregateRepositoryImplIT extends TestAggregateRepositoryImplIT
                     .asIgnore();
         }
     }
-    static Stream<Properties> repositoryConfig()
+
+    @SuppressWarnings("unused")
+    private static Stream<Properties> repositoryConfig()
     {
         return JDBCTestDatabase.repositoryConfigJDBC();
     }

@@ -3,6 +3,7 @@ package io.jexxa.adapters.jdbc.objectstore;
 
 import io.jexxa.adapters.jdbc.facade.JDBCConnection;
 import io.jexxa.adapters.jdbc.facade.JDBCTestDatabase;
+import io.jexxa.common.drivenadapter.persistence.objectstore.INumericQueryIT;
 import io.jexxa.common.drivenadapter.persistence.objectstore.TestObject;
 
 import java.util.Properties;
@@ -10,7 +11,7 @@ import java.util.stream.Stream;
 
 import static io.jexxa.adapters.jdbc.facade.JDBCProperties.jdbcUrl;
 
-class JDBCNumericQueryIT extends JDBCNamedObjectStoreIT
+class JDBCNumericQueryIT extends INumericQueryIT
 {
     @Override
     protected void reset(Properties properties) {
@@ -25,7 +26,7 @@ class JDBCNumericQueryIT extends JDBCNamedObjectStoreIT
     }
 
     @SuppressWarnings("unused")
-    public static Stream<Properties> objectStoreConfig() {
+    private static Stream<Properties> objectStoreConfig() {
         return JDBCTestDatabase.repositoryConfigJDBC();
     }
 }

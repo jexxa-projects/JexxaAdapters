@@ -28,10 +28,4 @@ public class RepositoryConfig {
         return s3Properties;
     }
 
-
-    public static Properties imdbRepositoryConfig()
-    {
-        return new Properties();
-    }
-
 }

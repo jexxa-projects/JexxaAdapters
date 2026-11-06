@@ -29,7 +29,7 @@ class JDBCStringQueryIT extends IStringQueryIT
     }
 
     @SuppressWarnings("unused")
-    public static Stream<Properties> objectStoreConfig() {
+    private static Stream<Properties> objectStoreConfig() {
         return JDBCTestDatabase.repositoryConfigJDBC();
     }
 }

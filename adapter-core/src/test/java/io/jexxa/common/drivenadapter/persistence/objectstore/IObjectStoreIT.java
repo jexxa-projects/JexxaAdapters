@@ -210,7 +210,7 @@ public abstract class IObjectStoreIT
     }
 
     @SuppressWarnings("unused")
-    public static Stream<Properties> objectStoreConfig() {
+    static Stream<Properties> objectStoreConfig() {
         return Stream.of( new Properties() );
     }
 }

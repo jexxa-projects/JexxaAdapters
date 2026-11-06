@@ -28,7 +28,9 @@ class JDBCNamedRepositoryIT extends TestNamedRepositoryIT
             // Ignore if we do not have a JDBC connection
         }
     }
-    static Stream<Properties> repositoryConfig()
+
+    @SuppressWarnings("unused")
+    private static Stream<Properties> repositoryConfig()
     {
         return JDBCTestDatabase.repositoryConfigJDBC();
     }

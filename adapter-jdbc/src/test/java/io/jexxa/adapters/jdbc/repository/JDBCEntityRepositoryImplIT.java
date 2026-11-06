@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 class JDBCEntityRepositoryImplIT extends TestEntityRepositoryImplIT
 {
     @SuppressWarnings("unused")
-    static Stream<Properties> repositoryConfig()
+    private static Stream<Properties> repositoryConfig()
     {
         return JDBCTestDatabase.repositoryConfigJDBC();
     }

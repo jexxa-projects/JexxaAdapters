@@ -24,7 +24,7 @@ import static io.jexxa.core.drivenadapter.persistence.objectstore.metadata.MetaT
 import static java.util.Comparator.comparing;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class INumericQueryIT
+public class INumericQueryIT
 {
     private static final int TEST_DATA_SIZE = 100;
     private static final String OBJECT_STORE_CONFIG = "objectStoreConfig";
@@ -473,12 +473,12 @@ class INumericQueryIT
         setObjectStore(objectStore);
     }
 
-    void reset(Properties properties)
+    protected void reset(Properties properties)
     {
         IMDBObjectStore.clear();
     }
     @SuppressWarnings("unused")
-    public static Stream<Properties> objectStoreConfig() {
+    static Stream<Properties> objectStoreConfig() {
         return Stream.of( new Properties() );
     }
 }

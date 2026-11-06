@@ -26,7 +26,7 @@ class JDBCNamedObjectStoreIT extends INamedObjectStoreIT {
         }
     }
     @SuppressWarnings("unused")
-    public static Stream<Properties> objectStoreConfig() {
+    private static Stream<Properties> objectStoreConfig() {
         return JDBCTestDatabase.repositoryConfigJDBC();
     }
 }
