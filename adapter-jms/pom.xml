@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.jexxa.adapters</groupId>
+        <artifactId>parent</artifactId>
+        <version>5.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>adapter-jms</artifactId>
+
+    <!-- Project Information -->
+    <name>JMS Adapter</name>
+    <url>https://github.com/jexxa-projects/JexxaAdapters</url>
+    <description>Implementation of various infrastructure adapters for jexxa-projects.</description> <!-- Einzigartig -->
+
+    <dependencies>
+        <!-- dependencies for library -->
+        <dependency>
+            <groupId>io.jexxa.adapters</groupId>
+            <artifactId>adapter-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.jms</groupId>
+            <artifactId>javax.jms-api</artifactId>
+            <version>${javax.jms.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- dependencies for tests -->
+        <dependency>
+            <groupId>org.apache.artemis</groupId>
+            <artifactId>artemis-jms-client</artifactId>
+            <version>${activemq.artemis.client.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.awaitility</groupId>
+            <artifactId>awaitility-groovy</artifactId>
+            <version>${awaitility.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.simple.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jacoco</groupId>
+            <artifactId>org.jacoco.agent</artifactId>
+            <version>${maven.jacoco.plugin}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jexxa.adapters</groupId>
+            <artifactId>adapter-core</artifactId>
+            <version>${project.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+
+
+    </dependencies>
+
+</project>

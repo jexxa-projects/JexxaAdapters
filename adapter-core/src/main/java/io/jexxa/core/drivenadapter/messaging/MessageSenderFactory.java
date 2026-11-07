@@ -1,7 +1,5 @@
 package io.jexxa.core.drivenadapter.messaging;
 
-import io.jexxa.core.drivenadapter.messaging.logging.MessageLogger;
-import io.jexxa.core.drivenadapter.outbox.TransactionalOutboxSender;
 import io.jexxa.core.facade.factory.ClassFactory;
 import io.jexxa.core.facade.logger.ApplicationBanner;
 import io.jexxa.core.facade.utils.annotation.CheckReturnValue;
@@ -11,9 +9,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
 
-import static io.jexxa.core.facade.jms.JMSProperties.jmsSimulate;
-import static io.jexxa.core.facade.jms.JMSProperties.jmsStrategy;
-import static io.jexxa.core.facade.jms.JMSProperties.jndiFactoryKey;
 import static io.jexxa.core.facade.logger.SLF4jLogger.getLogger;
 
 
@@ -112,7 +107,7 @@ public final class MessageSenderFactory
         }
 
         // 3. Check explicit configuration
-        if (properties.containsKey(jmsStrategy()))
+   /*     if (properties.containsKey(jmsStrategy()))
         {
             try {
                 return (Class<? extends MessageSender>) Class.forName(properties.getProperty(jmsStrategy()));
@@ -127,7 +122,7 @@ public final class MessageSenderFactory
         if (properties.containsKey(jndiFactoryKey()) && !properties.containsKey(jmsSimulate()))
         {
             return TransactionalOutboxSender.class;
-        }
+        }*/
 
         // 5. In all other cases (including simulation mode) return a MessageLogger
         return MessageLogger.class;
