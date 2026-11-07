@@ -1,4 +1,4 @@
-package io.jexxa.persistence.s3.facade;
+package io.jexxa.adapters.s3.facade;
 
 import io.jexxa.core.facade.utils.properties.PropertiesPrefix;
 

@@ -1,7 +1,7 @@
-package io.jexxa.persistence.s3.repository;
+package io.jexxa.adapters.s3.repository;
 
 import io.jexxa.core.drivenadapter.persistence.repository.IRepository;
-import io.jexxa.persistence.s3.facade.S3Facade;
+import io.jexxa.adapters.s3.facade.S3Facade;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -13,7 +13,7 @@ import java.util.Properties;
 import java.util.function.Function;
 
 import static io.jexxa.core.facade.json.JSONManager.getJSONConverter;
-import static io.jexxa.persistence.s3.facade.S3Properties.s3ApplicationPrefix;
+import static io.jexxa.adapters.s3.facade.S3Properties.s3ApplicationPrefix;
 import static java.util.Objects.requireNonNull;
 
 public class S3KeyValueRepository<T,K> implements IRepository<T, K> {

@@ -1,4 +1,4 @@
-package io.jexxa.persistence.s3.objectstore;
+package io.jexxa.adapters.s3.objectstore;
 
 
 import io.jexxa.core.drivenadapter.persistence.objectstore.INumericQuery;
@@ -7,7 +7,7 @@ import io.jexxa.core.drivenadapter.persistence.objectstore.IStringQuery;
 import io.jexxa.core.drivenadapter.persistence.objectstore.metadata.MetadataSchema;
 import io.jexxa.core.drivenadapter.persistence.objectstore.metadata.NumericTag;
 import io.jexxa.core.drivenadapter.persistence.objectstore.metadata.StringTag;
-import io.jexxa.persistence.s3.repository.S3KeyValueRepository;
+import io.jexxa.adapters.s3.repository.S3KeyValueRepository;
 
 import java.util.EnumSet;
 import java.util.List;

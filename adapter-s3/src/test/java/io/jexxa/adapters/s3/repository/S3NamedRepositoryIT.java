@@ -1,9 +1,9 @@
-package io.jexxa.persistence.s3.objectstore;
+package io.jexxa.adapters.s3.repository;
 
 
-import io.jexxa.common.drivenadapter.persistence.objectstore.INamedObjectStoreIT;
+import io.jexxa.common.drivenadapter.persistence.repository.TestNamedRepositoryIT;
 import io.jexxa.common.testapplication.TestConstants;
-import io.jexxa.persistence.s3.facade.S3Facade;
+import io.jexxa.adapters.s3.facade.S3Facade;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
@@ -11,14 +11,16 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import java.util.Properties;
 import java.util.stream.Stream;
 
-import static io.jexxa.persistence.s3.RepositoryConfig.s3CachedRepositoryConfig;
-import static io.jexxa.persistence.s3.RepositoryConfig.s3RepositoryConfig;
-import static io.jexxa.persistence.s3.facade.S3Properties.s3Bucket;
-import static io.jexxa.persistence.s3.facade.S3Properties.s3Endpoint;
+import static io.jexxa.adapters.s3.RepositoryConfig.s3CachedRepositoryConfig;
+import static io.jexxa.adapters.s3.RepositoryConfig.s3RepositoryConfig;
+import static io.jexxa.adapters.s3.facade.S3Properties.s3Bucket;
+import static io.jexxa.adapters.s3.facade.S3Properties.s3Endpoint;
+
 
 @Execution(ExecutionMode.SAME_THREAD)
 @Tag(TestConstants.INTEGRATION_TEST)
-class S3NamedObjectStoreIT extends INamedObjectStoreIT {
+class S3NamedRepositoryIT extends TestNamedRepositoryIT
+{
     @Override
     protected void reset(Properties properties)
     {
@@ -29,9 +31,9 @@ class S3NamedObjectStoreIT extends INamedObjectStoreIT {
         }
     }
     @SuppressWarnings("unused")
-    static Stream<Properties> objectStoreConfig()
+    static Stream<Properties> repositoryConfig()
     {
         return Stream.of( s3RepositoryConfig(), s3CachedRepositoryConfig());
     }
-
 }
+

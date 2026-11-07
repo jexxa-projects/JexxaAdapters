@@ -1,9 +1,9 @@
-package io.jexxa.persistence.s3;
+package io.jexxa.adapters.s3;
 
 
 import java.util.Properties;
 
-import static io.jexxa.persistence.s3.facade.S3Properties.*;
+import static io.jexxa.adapters.s3.facade.S3Properties.*;
 
 
 public class RepositoryConfig {

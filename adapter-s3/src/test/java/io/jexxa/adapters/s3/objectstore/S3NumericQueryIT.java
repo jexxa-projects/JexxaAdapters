@@ -1,18 +1,18 @@
-package io.jexxa.persistence.s3.objectstore;
+package io.jexxa.adapters.s3.objectstore;
 
 
-import io.jexxa.common.drivenadapter.persistence.objectstore.IStringQueryIT;
-import io.jexxa.persistence.s3.facade.S3Facade;
+import io.jexxa.common.drivenadapter.persistence.objectstore.INumericQueryIT;
+import io.jexxa.adapters.s3.facade.S3Facade;
 
 import java.util.Properties;
 import java.util.stream.Stream;
 
-import static io.jexxa.persistence.s3.RepositoryConfig.s3CachedRepositoryConfig;
-import static io.jexxa.persistence.s3.RepositoryConfig.s3RepositoryConfig;
-import static io.jexxa.persistence.s3.facade.S3Properties.s3Bucket;
-import static io.jexxa.persistence.s3.facade.S3Properties.s3Endpoint;
+import static io.jexxa.adapters.s3.RepositoryConfig.s3CachedRepositoryConfig;
+import static io.jexxa.adapters.s3.RepositoryConfig.s3RepositoryConfig;
+import static io.jexxa.adapters.s3.facade.S3Properties.s3Bucket;
+import static io.jexxa.adapters.s3.facade.S3Properties.s3Endpoint;
 
-class S3StringQueryIT extends IStringQueryIT
+class S3NumericQueryIT extends INumericQueryIT
 {
     @Override
     protected void reset(Properties properties)

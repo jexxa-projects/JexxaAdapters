@@ -1,4 +1,4 @@
-package io.jexxa.persistence.s3.facade;
+package io.jexxa.adapters.s3.facade;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +13,7 @@ import java.util.Properties;
 import java.util.UUID;
 
 import static io.jexxa.core.facade.utils.properties.PropertiesUtils.removePrefixFromKeys;
-import static io.jexxa.persistence.s3.facade.S3Properties.*;
+import static io.jexxa.adapters.s3.facade.S3Properties.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class S3FacadeIT {

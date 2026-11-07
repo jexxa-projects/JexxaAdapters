@@ -621,5 +621,6 @@
     <module>adapter-core</module>
     <module>adapter-s3</module>
     <module>adapter-jdbc</module>
+    <module>adapter-jms</module>
   </modules>
 </project>
