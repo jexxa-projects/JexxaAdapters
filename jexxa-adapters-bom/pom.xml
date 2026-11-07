@@ -65,6 +65,12 @@
                 <version>${project.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>io.jexxa.adapters</groupId>
+                <artifactId>adapter-esp</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
