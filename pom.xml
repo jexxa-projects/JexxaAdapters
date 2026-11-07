@@ -629,5 +629,6 @@
     <module>adapter-jdbc</module>
     <module>adapter-jms</module>
     <module>adapter-rest</module>
+    <module>jexxa-adapters-bom</module>
   </modules>
 </project>
