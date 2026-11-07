@@ -48,14 +48,16 @@
     <aws.client.version>2.57.5</aws.client.version>
     <caffeine.version>3.3.1</caffeine.version>
 
+    <kafka.json.schema.serializer>8.4.0</kafka.json.schema.serializer>
+    <kafka.clients.version>8.4.0-ce</kafka.clients.version>
+    <apache.commons.lang3>3.21.0</apache.commons.lang3>
+    <lz4.java.version>1.13.0</lz4.java.version>
+
     <!-- version of test dependencies -->
     <netty.bom.version>4.2.19.Final</netty.bom.version>
     <activemq.artemis.client.version>2.57.0</activemq.artemis.client.version>
     <postgres.version>42.7.14</postgres.version>
     <sqlilte.version>3.54.1.0</sqlilte.version>
-    <junit.platform.launcher.version>6.1.3</junit.platform.launcher.version>
-    <junit.jupiter.engine.version>6.1.3</junit.jupiter.engine.version>
-    <junit.jupiter.params.version>6.1.3</junit.jupiter.params.version>
     <junit.bom.version>6.1.3</junit.bom.version>
     <awaitility.version>4.3.0</awaitility.version>
     <jackson.bom.version>3.2.4</jackson.bom.version>
@@ -107,6 +109,13 @@
 
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>tools.jackson</groupId>
+        <artifactId>jackson-bom</artifactId>
+        <version>${jackson.bom.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
       <dependency>
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
@@ -630,5 +639,6 @@
     <module>adapter-jms</module>
     <module>adapter-rest</module>
     <module>jexxa-adapters-bom</module>
+    <module>adapter-esp</module>
   </modules>
 </project>

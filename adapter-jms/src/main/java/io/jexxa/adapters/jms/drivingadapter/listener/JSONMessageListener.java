@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static io.jexxa.core.facade.json.JSONManager.getJSONConverter;
+import static io.jexxa.adapters.core.facade.json.JSONManager.getJSONConverter;
 
 
 @SuppressWarnings("unused")

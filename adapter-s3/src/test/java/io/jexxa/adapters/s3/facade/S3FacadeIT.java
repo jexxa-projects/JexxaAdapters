@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 
-import static io.jexxa.core.facade.utils.properties.PropertiesUtils.removePrefixFromKeys;
+import static io.jexxa.adapters.core.facade.utils.properties.PropertiesUtils.removePrefixFromKeys;
 import static io.jexxa.adapters.s3.facade.S3Properties.*;
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,8 +1,8 @@
 package io.jexxa.adapters.s3.objectstore;
 
 
-import io.jexxa.core.drivenadapter.persistence.objectstore.IStringQuery;
-import io.jexxa.core.drivenadapter.persistence.objectstore.metadata.StringTag;
+import io.jexxa.adapters.core.drivenadapter.persistence.objectstore.IStringQuery;
+import io.jexxa.adapters.core.drivenadapter.persistence.objectstore.metadata.StringTag;
 
 import java.util.Comparator;
 import java.util.List;

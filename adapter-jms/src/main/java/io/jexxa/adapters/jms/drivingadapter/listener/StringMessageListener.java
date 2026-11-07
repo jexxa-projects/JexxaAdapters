@@ -7,7 +7,7 @@ import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 import java.util.Arrays;
 
-import static io.jexxa.core.facade.logger.SLF4jLogger.getLogger;
+import static io.jexxa.adapters.core.facade.logger.SLF4jLogger.getLogger;
 
 
 @SuppressWarnings("unused")

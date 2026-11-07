@@ -1,7 +1,7 @@
 package io.jexxa.adapters.s3.repository;
 
-import io.jexxa.common.drivenadapter.persistence.repository.TestAggregateRepositoryImplIT;
-import io.jexxa.common.testapplication.TestConstants;
+import io.jexxa.adapters.core.drivenadapter.persistence.repository.TestAggregateRepositoryImplIT;
+import io.jexxa.adapters.testapplication.TestConstants;
 import io.jexxa.adapters.s3.facade.S3Facade;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.parallel.Execution;

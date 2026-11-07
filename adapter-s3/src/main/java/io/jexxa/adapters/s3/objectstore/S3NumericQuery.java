@@ -1,8 +1,8 @@
 package io.jexxa.adapters.s3.objectstore;
 
 
-import io.jexxa.core.drivenadapter.persistence.objectstore.INumericQuery;
-import io.jexxa.core.drivenadapter.persistence.objectstore.metadata.NumericTag;
+import io.jexxa.adapters.core.drivenadapter.persistence.objectstore.INumericQuery;
+import io.jexxa.adapters.core.drivenadapter.persistence.objectstore.metadata.NumericTag;
 
 import java.math.BigDecimal;
 import java.util.List;

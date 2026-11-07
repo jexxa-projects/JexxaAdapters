@@ -1,7 +1,7 @@
 package io.jexxa.adapters.s3.objectstore;
 
 
-import io.jexxa.common.drivenadapter.persistence.objectstore.IStringQueryIT;
+import io.jexxa.adapters.core.drivenadapter.persistence.objectstore.IStringQueryIT;
 import io.jexxa.adapters.s3.facade.S3Facade;
 
 import java.util.Properties;

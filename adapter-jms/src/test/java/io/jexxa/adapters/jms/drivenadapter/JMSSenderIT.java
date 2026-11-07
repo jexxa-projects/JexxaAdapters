@@ -1,14 +1,14 @@
 package io.jexxa.adapters.jms.drivenadapter;
 
 
-import io.jexxa.adapterapi.JexxaContext;
+import io.jexxa.adapters.api.JexxaContext;
 import io.jexxa.adapters.jms.drivingadapter.JMSAdapter;
 import io.jexxa.adapters.jms.drivngadapter.listener.QueueListener;
 import io.jexxa.adapters.jms.drivngadapter.listener.TopicListener;
-import io.jexxa.common.testapplication.TestConstants;
-import io.jexxa.common.testapplication.TestValueObject;
-import io.jexxa.core.drivenadapter.messaging.MessageSender;
-import io.jexxa.core.facade.utils.properties.PropertiesUtils;
+import io.jexxa.adapters.testapplication.TestConstants;
+import io.jexxa.adapters.testapplication.TestValueObject;
+import io.jexxa.adapters.core.drivenadapter.messaging.MessageSender;
+import io.jexxa.adapters.core.facade.utils.properties.PropertiesUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -34,8 +34,8 @@ import static io.jexxa.adapters.jms.facade.JMSProperties.jndiPasswordFile;
 import static io.jexxa.adapters.jms.facade.JMSProperties.jndiPasswordKey;
 import static io.jexxa.adapters.jms.facade.JMSProperties.jndiUserFile;
 import static io.jexxa.adapters.jms.facade.JMSProperties.jndiUserKey;
-import static io.jexxa.core.drivenadapter.messaging.MessageSenderFactory.createMessageSender;
-import static io.jexxa.core.drivenadapter.messaging.MessageSenderFactory.setDefaultMessageSender;
+import static io.jexxa.adapters.core.drivenadapter.messaging.MessageSenderFactory.createMessageSender;
+import static io.jexxa.adapters.core.drivenadapter.messaging.MessageSenderFactory.setDefaultMessageSender;
 import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertTimeout;

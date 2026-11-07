@@ -1,6 +1,6 @@
 package io.jexxa.adapters.s3.repository;
 
-import io.jexxa.core.drivenadapter.persistence.repository.IRepository;
+import io.jexxa.adapters.core.drivenadapter.persistence.repository.IRepository;
 import io.jexxa.adapters.s3.facade.S3Facade;
 
 import java.io.ByteArrayInputStream;
@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.function.Function;
 
-import static io.jexxa.core.facade.json.JSONManager.getJSONConverter;
+import static io.jexxa.adapters.core.facade.json.JSONManager.getJSONConverter;
 import static io.jexxa.adapters.s3.facade.S3Properties.s3ApplicationPrefix;
 import static java.util.Objects.requireNonNull;
 

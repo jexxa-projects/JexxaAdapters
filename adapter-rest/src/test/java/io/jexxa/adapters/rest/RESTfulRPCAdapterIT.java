@@ -4,11 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import io.jexxa.common.testapplication.SimpleApplicationService;
-import io.jexxa.common.testapplication.SpecialCasesValueObject;
-import io.jexxa.common.testapplication.TestConstants;
-import io.jexxa.common.testapplication.TestRecord;
-import io.jexxa.common.testapplication.TestValueObject;
+import io.jexxa.adapters.testapplication.SimpleApplicationService;
+import io.jexxa.adapters.testapplication.SpecialCasesValueObject;
+import io.jexxa.adapters.testapplication.TestConstants;
+import io.jexxa.adapters.testapplication.TestRecord;
+import io.jexxa.adapters.testapplication.TestValueObject;
 import kong.unirest.GenericType;
 import kong.unirest.Unirest;
 import kong.unirest.json.JSONObject;
@@ -22,7 +22,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import java.util.List;
 import java.util.Properties;
 
-import static io.jexxa.core.facade.json.JSONManager.getJSONConverter;
+import static io.jexxa.adapters.core.facade.json.JSONManager.getJSONConverter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;

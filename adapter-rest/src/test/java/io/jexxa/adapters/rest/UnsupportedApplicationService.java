@@ -1,7 +1,7 @@
 package io.jexxa.adapters.rest;
 
 
-import io.jexxa.common.testapplication.TestValueObject;
+import io.jexxa.adapters.testapplication.TestValueObject;
 
 /*
 * This service is not available via RESTfulRPC because method setSimpleValueObject is available twice 

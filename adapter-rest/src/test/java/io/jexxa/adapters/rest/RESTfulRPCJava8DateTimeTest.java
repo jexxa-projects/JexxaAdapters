@@ -1,7 +1,7 @@
 package io.jexxa.adapters.rest;
 
 
-import io.jexxa.core.facade.json.JSONManager;
+import io.jexxa.adapters.core.facade.json.JSONManager;
 import kong.unirest.ObjectMapper;
 import kong.unirest.Unirest;
 import org.junit.jupiter.api.AfterEach;

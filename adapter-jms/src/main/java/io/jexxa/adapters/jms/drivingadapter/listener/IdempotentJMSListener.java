@@ -1,6 +1,6 @@
 package io.jexxa.adapters.jms.drivingadapter.listener;
 
-import io.jexxa.core.drivenadapter.persistence.repository.IRepository;
+import io.jexxa.adapters.core.drivenadapter.persistence.repository.IRepository;
 
 import javax.jms.JMSException;
 import java.time.Duration;
@@ -8,8 +8,8 @@ import java.time.Instant;
 import java.util.Objects;
 import java.util.Properties;
 
-import static io.jexxa.core.drivenadapter.persistence.RepositoryFactory.createRepository;
-import static io.jexxa.core.facade.logger.SLF4jLogger.getLogger;
+import static io.jexxa.adapters.core.drivenadapter.persistence.RepositoryFactory.createRepository;
+import static io.jexxa.adapters.core.facade.logger.SLF4jLogger.getLogger;
 
 /**
  * This listener implements the idempotent receiver. So this listener can safely receive the same message multiple times.

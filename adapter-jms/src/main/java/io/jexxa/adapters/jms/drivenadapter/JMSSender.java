@@ -1,8 +1,8 @@
 package io.jexxa.adapters.jms.drivenadapter;
 
 
-import io.jexxa.core.drivenadapter.messaging.MessageSender;
-import io.jexxa.core.facade.utils.function.ThrowingConsumer;
+import io.jexxa.adapters.core.drivenadapter.messaging.MessageSender;
+import io.jexxa.adapters.core.facade.utils.function.ThrowingConsumer;
 
 import javax.jms.Connection;
 import javax.jms.DeliveryMode;
@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.Properties;
 
 import static io.jexxa.adapters.jms.facade.JMSConnection.createConnection;
-import static io.jexxa.core.facade.logger.SLF4jLogger.getLogger;
+import static io.jexxa.adapters.core.facade.logger.SLF4jLogger.getLogger;
 
 @SuppressWarnings({"unused", "java:S1133"})
 public class JMSSender extends MessageSender implements AutoCloseable

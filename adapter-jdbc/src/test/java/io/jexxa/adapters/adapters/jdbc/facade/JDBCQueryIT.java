@@ -1,0 +1,313 @@
+package io.jexxa.adapters.adapters.jdbc.facade;
+
+
+import io.jexxa.adapters.testapplication.TestConstants;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Properties;
+import java.util.stream.Stream;
+
+import static io.jexxa.adapters.adapters.jdbc.facade.JDBCTestDatabase.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+@Tag(TestConstants.INTEGRATION_TEST)
+@Execution(ExecutionMode.SAME_THREAD)
+class JDBCQueryIT
+{
+    private JDBCConnection jdbcConnection;
+
+    @ParameterizedTest
+    @MethodSource(JDBCTestDatabase.JDBC_REPOSITORY_CONFIG)
+    void testSelectOR(Properties properties)
+    {
+        //Arrange
+        jdbcConnection = JDBCTestDatabase.setupDatabase(properties);
+
+        var querySelectOr = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
+                .select(JDBCTestDatabase.JDBCTestSchema.STRING_TYPE)
+                .from(JDBCTestDatabase.class)
+                .where(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY).isEqual(PRIMARY_KEY_WITH_NONNULL_VALUES)
+                .or(JDBCTestDatabase.JDBCTestSchema.STRING_TYPE).isNull()
+                .create();
+
+        var result = querySelectOr.asString();
+
+        assertEquals(2, result.count());
+    }
+
+    @ParameterizedTest
+    @MethodSource(JDBCTestDatabase.JDBC_REPOSITORY_CONFIG)
+    void testSelectAND(Properties properties)
+    {
+        //Arrange
+        jdbcConnection = JDBCTestDatabase.setupDatabase(properties);
+
+        var querySelectAnd = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
+                .select(JDBCTestDatabase.JDBCTestSchema.STRING_TYPE)
+                .from(JDBCTestDatabase.class)
+                .where(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY).isEqual(PRIMARY_KEY_WITH_NONNULL_VALUES)
+                .and(JDBCTestDatabase.JDBCTestSchema.STRING_TYPE).isNull()
+                .create();
+
+        var result = querySelectAnd.asString();
+
+        assertEquals(0, result.count());
+    }
+
+    @ParameterizedTest
+    @MethodSource(JDBCTestDatabase.JDBC_REPOSITORY_CONFIG)
+    void testMultiSelect(Properties properties)
+    {
+        //Arrange
+        jdbcConnection = JDBCTestDatabase.setupDatabase(properties);
+
+        var queryMultiSelect = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
+                .select(JDBCTestDatabase.JDBCTestSchema.STRING_TYPE, JDBCTestDatabase.JDBCTestSchema.INTEGER_TYPE)
+                .from(JDBCTestDatabase.class)
+                .where(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY)
+                .isEqual(PRIMARY_KEY_WITH_NONNULL_VALUES)
+                .create();
+
+        var result = queryMultiSelect.as(this::readMultiSelect);
+
+        assertEquals(2, result.findFirst().orElseThrow().count());
+    }
+
+    @ParameterizedTest
+    @MethodSource(JDBCTestDatabase.JDBC_REPOSITORY_CONFIG)
+    void testSelectAll(Properties properties)
+    {
+        //Arrange
+        jdbcConnection = JDBCTestDatabase.setupDatabase(properties);
+
+        var querySelectAll = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
+                .selectAll()
+                .from(JDBCTestDatabase.class)
+                .where(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY)
+                .isEqual(PRIMARY_KEY_WITH_NONNULL_VALUES)
+                .create();
+
+        //Act
+        var result = querySelectAll.as(this::readSelectAll);
+
+        //Assert
+        assertEquals(7, result.findFirst().orElseThrow().count());
+    }
+
+    @ParameterizedTest
+    @MethodSource(JDBCTestDatabase.JDBC_REPOSITORY_CONFIG)
+    void testSelectCount(Properties properties)
+    {
+        //Arrange
+        jdbcConnection = JDBCTestDatabase.setupDatabase(properties);
+
+        var querySelectAll = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
+                .selectCount()
+                .from(JDBCTestDatabase.class)
+                .create();
+
+        //Act
+        var result = querySelectAll.asInt();
+
+        //Assert
+        assertEquals(3, result.findFirst().orElseThrow());
+    }
+
+    @ParameterizedTest
+    @MethodSource(JDBCTestDatabase.JDBC_REPOSITORY_CONFIG)
+    void testSelectCountParameter(Properties properties)
+    {
+        //Arrange
+        jdbcConnection = JDBCTestDatabase.setupDatabase(properties);
+
+        var querySelectAll = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
+                .selectCount(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY)
+                .from(JDBCTestDatabase.class)
+                .create();
+
+        //Act
+        var result = querySelectAll.asInt();
+
+        //Assert
+        assertEquals(3, result.findFirst().orElseThrow());
+    }
+
+    @ParameterizedTest
+    @MethodSource(JDBCTestDatabase.JDBC_REPOSITORY_CONFIG)
+    void testSelectCountEmptyTable(Properties properties)
+    {
+        //Arrange
+        jdbcConnection = JDBCTestDatabase.setupDatabase(properties);
+        var command = jdbcConnection.command(JDBCTestDatabase.JDBCTestSchema.class)
+                .deleteFrom(JDBCTestDatabase.class)
+                .create();
+
+        command.asIgnore();
+
+        var querySelectAll = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
+                .selectCount()
+                .from(JDBCTestDatabase.class)
+                .create();
+
+        //Act
+        var result = querySelectAll.asInt();
+
+        //Assert
+        assertEquals(0, result.findFirst().orElseThrow());
+    }
+
+    @ParameterizedTest
+    @MethodSource(JDBCTestDatabase.JDBC_REPOSITORY_CONFIG)
+    void testSelectAsc(Properties properties)
+    {
+        //Arrange
+        jdbcConnection = JDBCTestDatabase.setupDatabase(properties);
+
+        var querySelectAsc = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
+                .select(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY)
+                .from(JDBCTestDatabase.class)
+                .orderBy(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY, SQLOrder.ASC)
+                .create();
+
+        //Act
+        var result = querySelectAsc.asInt().toList();
+
+        //Assert
+        assertEquals(3, result.size());
+
+        assertTrue(isSorted(result));
+        assertFalse(isReverseSorted(result));
+    }
+
+    @ParameterizedTest
+    @MethodSource(JDBCTestDatabase.JDBC_REPOSITORY_CONFIG)
+    void testSelectDesc(Properties properties)
+    {
+        //Arrange
+        jdbcConnection = JDBCTestDatabase.setupDatabase(properties);
+
+        var querySelectDesc = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
+                .select(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY)
+                .from(JDBCTestDatabase.class)
+                .orderBy(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY, SQLOrder.DESC)
+                .create();
+
+        //Act
+        var result = querySelectDesc.asInt().toList();
+
+        //Assert
+        assertEquals(3, result.size());
+
+        assertTrue(isReverseSorted(result));
+        assertFalse(isSorted(result));
+    }
+
+    @ParameterizedTest
+    @MethodSource(JDBCTestDatabase.JDBC_REPOSITORY_CONFIG)
+    void testSelectMax(Properties properties)
+    {
+        //Arrange
+        jdbcConnection = JDBCTestDatabase.setupDatabase(properties);
+
+        int startCounter = 5;
+
+        for (int i = startCounter; i <= 100; ++i)
+        {
+            jdbcConnection.command(JDBCTestDatabase.JDBCTestSchema.class)
+                    .insertInto(JDBCTestDatabase.class)
+                    .values(new Object[]{i, i, TEST_NUMERIC_VALUE, TEST_FLOAT_VALUE, TEST_DOUBLE_VALUE, TEST_STRING, TEST_TIMESTAMP})
+                    .create()
+                    .asUpdate();
+        }
+
+        var querySelectMax = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
+                .selectMax(JDBCTestDatabase.JDBCTestSchema.INTEGER_TYPE)
+                .from(JDBCTestDatabase.class)
+                .create();
+
+        //Act
+        var result = querySelectMax.asInt().findFirst().orElseThrow();
+
+        //Assert
+        assertEquals(100, result);
+    }
+
+
+    @ParameterizedTest
+    @MethodSource(JDBCTestDatabase.JDBC_REPOSITORY_CONFIG)
+    void testSelectMin(Properties properties)
+    {
+        //Arrange
+        jdbcConnection = JDBCTestDatabase.setupDatabase(properties);
+
+        int startCounter = 5;
+
+        for (int i = startCounter; i <= 100; ++i)
+        {
+            jdbcConnection.command(JDBCTestDatabase.JDBCTestSchema.class)
+                    .insertInto(JDBCTestDatabase.class)
+                    .values(new Object[]{i, i, TEST_NUMERIC_VALUE, TEST_FLOAT_VALUE, TEST_DOUBLE_VALUE, TEST_STRING, TEST_TIMESTAMP})
+                    .create()
+                    .asUpdate();
+        }
+
+        var querySelectMin = jdbcConnection.query(JDBCTestDatabase.JDBCTestSchema.class)
+                .selectMin(JDBCTestDatabase.JDBCTestSchema.INTEGER_TYPE)
+                .from(JDBCTestDatabase.class)
+                .create();
+
+        //Act
+        var result = querySelectMin.asInt().findFirst().orElseThrow();
+
+        //Assert
+        assertEquals(TEST_INT_VALUE, result);
+    }
+
+    // Begin> Utility methods used in this test
+
+    private Stream<String> readMultiSelect(ResultSet resultSet ) throws SQLException
+    {
+        return Stream.of(
+                resultSet.getString(JDBCTestDatabase.JDBCTestSchema.STRING_TYPE.name()),
+                String.valueOf( resultSet.getInt(JDBCTestDatabase.JDBCTestSchema.INTEGER_TYPE.name()))
+        );
+    }
+
+    private Stream<String> readSelectAll(ResultSet resultSet ) throws SQLException
+    {
+        return Stream.of(
+                String.valueOf( resultSet.getInt(JDBCTestDatabase.JDBCTestSchema.REPOSITORY_KEY.name())),
+                resultSet.getString(JDBCTestDatabase.JDBCTestSchema.STRING_TYPE.name()),
+                String.valueOf( resultSet.getInt(JDBCTestDatabase.JDBCTestSchema.INTEGER_TYPE.name())),
+                String.valueOf( resultSet.getFloat(JDBCTestDatabase.JDBCTestSchema.FLOAT_TYPE.name())),
+                String.valueOf( resultSet.getDouble(JDBCTestDatabase.JDBCTestSchema.DOUBLE_TYPE.name())),
+                String.valueOf( resultSet.getBigDecimal(JDBCTestDatabase.JDBCTestSchema.NUMERIC_TYPE.name())),
+                String.valueOf( resultSet.getTimestamp(JDBCTestDatabase.JDBCTestSchema.TIMESTAMP_TYPE.name()))
+        );
+    }
+
+    boolean isSorted(List<Integer> intList)
+    {
+        var sortedList = new ArrayList<>(intList);
+        sortedList.sort(null);
+
+        return intList.equals(sortedList);
+    }
+
+    boolean isReverseSorted(List<Integer> intList)
+    {
+        var reverseSortedList = new ArrayList<>(intList);
+        reverseSortedList.sort(Collections.reverseOrder());
+
+        return intList.equals(reverseSortedList);
+    }
+}

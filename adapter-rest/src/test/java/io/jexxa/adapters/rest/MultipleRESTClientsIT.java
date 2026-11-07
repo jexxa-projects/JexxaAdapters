@@ -11,7 +11,7 @@ import java.util.Properties;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static io.jexxa.core.facade.utils.function.ThrowingConsumer.exceptionCollector;
+import static io.jexxa.adapters.core.facade.utils.function.ThrowingConsumer.exceptionCollector;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

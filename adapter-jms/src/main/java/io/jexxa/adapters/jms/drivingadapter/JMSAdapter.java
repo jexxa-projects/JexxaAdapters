@@ -1,10 +1,10 @@
 package io.jexxa.adapters.jms.drivingadapter;
 
 
-import io.jexxa.adapterapi.drivingadapter.IDrivingAdapter;
-import io.jexxa.adapterapi.invocation.InvocationManager;
-import io.jexxa.core.facade.logger.ApplicationBanner;
-import io.jexxa.core.facade.utils.function.ThrowingConsumer;
+import io.jexxa.adapters.api.drivingadapter.IDrivingAdapter;
+import io.jexxa.adapters.api.invocation.InvocationManager;
+import io.jexxa.adapters.core.facade.logger.ApplicationBanner;
+import io.jexxa.adapters.core.facade.utils.function.ThrowingConsumer;
 
 import javax.jms.Connection;
 import javax.jms.Destination;
@@ -30,7 +30,7 @@ import static io.jexxa.adapters.jms.facade.JMSProperties.jmsSimulate;
 import static io.jexxa.adapters.jms.facade.JMSProperties.jndiClientId;
 import static io.jexxa.adapters.jms.facade.JMSProperties.jndiFactoryKey;
 import static io.jexxa.adapters.jms.facade.JMSProperties.jndiProviderUrlKey;
-import static io.jexxa.core.facade.logger.SLF4jLogger.getLogger;
+import static io.jexxa.adapters.core.facade.logger.SLF4jLogger.getLogger;
 
 
 public class JMSAdapter implements AutoCloseable, IDrivingAdapter

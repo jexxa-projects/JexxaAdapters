@@ -1,6 +1,6 @@
 package io.jexxa.adapters.jms.facade;
 
-import io.jexxa.core.facade.utils.properties.PropertiesPrefix;
+import io.jexxa.adapters.core.facade.utils.properties.PropertiesPrefix;
 
 public final class JMSProperties {
     private static final String JNDI_PROVIDER_URL_KEY = "java.naming.provider.url";

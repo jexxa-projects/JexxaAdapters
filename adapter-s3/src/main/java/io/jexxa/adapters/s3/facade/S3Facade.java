@@ -1,6 +1,6 @@
 package io.jexxa.adapters.s3.facade;
 
-import io.jexxa.core.facade.utils.properties.Secret;
+import io.jexxa.adapters.core.facade.utils.properties.Secret;
 import io.jexxa.adapters.s3.repository.S3KeyValueRepository;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
-import static io.jexxa.core.facade.logger.SLF4jLogger.getLogger;
+import static io.jexxa.adapters.core.facade.logger.SLF4jLogger.getLogger;
 import static io.jexxa.adapters.s3.facade.S3Properties.*;
 import static java.util.Objects.requireNonNull;
 

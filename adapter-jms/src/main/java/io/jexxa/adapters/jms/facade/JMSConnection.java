@@ -1,8 +1,8 @@
 package io.jexxa.adapters.jms.facade;
 
 
-import io.jexxa.core.facade.utils.properties.PropertiesPrefix;
-import io.jexxa.core.facade.utils.properties.Secret;
+import io.jexxa.adapters.core.facade.utils.properties.PropertiesPrefix;
+import io.jexxa.adapters.core.facade.utils.properties.Secret;
 
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
@@ -17,7 +17,7 @@ import static io.jexxa.adapters.jms.facade.JMSProperties.jndiPasswordKey;
 import static io.jexxa.adapters.jms.facade.JMSProperties.jndiProviderUrlKey;
 import static io.jexxa.adapters.jms.facade.JMSProperties.jndiUserFile;
 import static io.jexxa.adapters.jms.facade.JMSProperties.jndiUserKey;
-import static io.jexxa.core.facade.utils.properties.PropertiesUtils.removePrefixFromKeys;
+import static io.jexxa.adapters.core.facade.utils.properties.PropertiesUtils.removePrefixFromKeys;
 
 public class JMSConnection {
     public static Connection createConnection(Properties properties)

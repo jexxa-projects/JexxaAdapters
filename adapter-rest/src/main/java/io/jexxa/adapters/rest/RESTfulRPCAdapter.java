@@ -11,13 +11,13 @@ import io.javalin.http.staticfiles.Location;
 import io.javalin.json.JsonMapper;
 import io.javalin.plugin.bundled.CorsPluginConfig;
 import io.javalin.util.JavalinLogger;
-import io.jexxa.adapterapi.drivingadapter.IDrivingAdapter;
-import io.jexxa.adapterapi.invocation.InvocationManager;
-import io.jexxa.adapterapi.invocation.InvocationTargetRuntimeException;
+import io.jexxa.adapters.api.drivingadapter.IDrivingAdapter;
+import io.jexxa.adapters.api.invocation.InvocationManager;
+import io.jexxa.adapters.api.invocation.InvocationTargetRuntimeException;
 import io.jexxa.adapters.rest.openapi.OpenAPIConvention;
-import io.jexxa.core.facade.json.JSONConverter;
-import io.jexxa.core.facade.logger.ApplicationBanner;
-import io.jexxa.core.facade.utils.properties.Secret;
+import io.jexxa.adapters.core.facade.json.JSONConverter;
+import io.jexxa.adapters.core.facade.logger.ApplicationBanner;
+import io.jexxa.adapters.core.facade.utils.properties.Secret;
 import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
 import org.eclipse.jetty.server.SecureRequestCustomizer;
@@ -41,8 +41,8 @@ import java.util.Optional;
 import java.util.Properties;
 
 import static io.jexxa.adapters.rest.RESTfulRPCConvention.createRPCConvention;
-import static io.jexxa.core.facade.json.JSONManager.getJSONConverter;
-import static io.jexxa.core.facade.logger.SLF4jLogger.getLogger;
+import static io.jexxa.adapters.core.facade.json.JSONManager.getJSONConverter;
+import static io.jexxa.adapters.core.facade.logger.SLF4jLogger.getLogger;
 
 
 public final class RESTfulRPCAdapter implements IDrivingAdapter

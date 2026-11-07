@@ -49,7 +49,7 @@ dependencies {
 
 ### Examples
 
-- [Driving adapter tests](adapter-core/src/test/java/io/jexxa/common/drivingadapter)
+- [Driving adapter tests](adapter-core/src/test/java/io/jexxa/adapters/core/drivingadapter)
 - [JexxaTutorials](https://github.com/jexxa-projects/JexxaTutorials): complete applications using these adapters
 - [JLegMed](https://github.com/jexxa-projects/JLegMed): reusable processing components and integrations
 

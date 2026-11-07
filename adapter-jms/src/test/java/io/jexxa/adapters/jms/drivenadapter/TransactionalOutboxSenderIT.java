@@ -1,14 +1,14 @@
 package io.jexxa.adapters.jms.drivenadapter;
 
-import io.jexxa.adapterapi.JexxaContext;
+import io.jexxa.adapters.api.JexxaContext;
 import io.jexxa.adapters.jms.drivingadapter.JMSAdapter;
 import io.jexxa.adapters.jms.drivingadapter.JMSConfiguration;
 import io.jexxa.adapters.jms.drivingadapter.listener.IdempotentJMSListener;
-import io.jexxa.common.testapplication.TestDomainEvent;
-import io.jexxa.common.testapplication.TestValueObject;
-import io.jexxa.core.drivenadapter.persistence.RepositoryFactory;
+import io.jexxa.adapters.testapplication.TestDomainEvent;
+import io.jexxa.adapters.testapplication.TestValueObject;
+import io.jexxa.adapters.core.drivenadapter.persistence.RepositoryFactory;
 
-import io.jexxa.core.facade.utils.properties.PropertiesUtils;
+import io.jexxa.adapters.core.facade.utils.properties.PropertiesUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,8 +21,8 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import static io.jexxa.adapters.jms.drivngadapter.listener.TopicListener.TOPIC_DESTINATION;
-import static io.jexxa.core.drivenadapter.messaging.MessageSenderFactory.createMessageSender;
-import static io.jexxa.core.drivenadapter.messaging.MessageSenderFactory.setDefaultMessageSender;
+import static io.jexxa.adapters.core.drivenadapter.messaging.MessageSenderFactory.createMessageSender;
+import static io.jexxa.adapters.core.drivenadapter.messaging.MessageSenderFactory.setDefaultMessageSender;
 import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

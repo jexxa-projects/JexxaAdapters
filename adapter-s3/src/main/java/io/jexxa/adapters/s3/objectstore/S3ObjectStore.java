@@ -1,12 +1,12 @@
 package io.jexxa.adapters.s3.objectstore;
 
 
-import io.jexxa.core.drivenadapter.persistence.objectstore.INumericQuery;
-import io.jexxa.core.drivenadapter.persistence.objectstore.IObjectStore;
-import io.jexxa.core.drivenadapter.persistence.objectstore.IStringQuery;
-import io.jexxa.core.drivenadapter.persistence.objectstore.metadata.MetadataSchema;
-import io.jexxa.core.drivenadapter.persistence.objectstore.metadata.NumericTag;
-import io.jexxa.core.drivenadapter.persistence.objectstore.metadata.StringTag;
+import io.jexxa.adapters.core.drivenadapter.persistence.objectstore.INumericQuery;
+import io.jexxa.adapters.core.drivenadapter.persistence.objectstore.IObjectStore;
+import io.jexxa.adapters.core.drivenadapter.persistence.objectstore.IStringQuery;
+import io.jexxa.adapters.core.drivenadapter.persistence.objectstore.metadata.MetadataSchema;
+import io.jexxa.adapters.core.drivenadapter.persistence.objectstore.metadata.NumericTag;
+import io.jexxa.adapters.core.drivenadapter.persistence.objectstore.metadata.StringTag;
 import io.jexxa.adapters.s3.repository.S3KeyValueRepository;
 
 import java.util.EnumSet;

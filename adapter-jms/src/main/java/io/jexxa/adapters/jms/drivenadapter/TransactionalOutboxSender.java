@@ -1,14 +1,14 @@
 package io.jexxa.adapters.jms.drivenadapter;
 
-import io.jexxa.adapterapi.JexxaContext;
-import io.jexxa.adapterapi.invocation.InvocationManager;
-import io.jexxa.adapterapi.invocation.InvocationTargetRuntimeException;
-import io.jexxa.core.drivenadapter.messaging.MessageBuilder;
-import io.jexxa.core.drivenadapter.messaging.MessageSender;
-import io.jexxa.core.drivenadapter.persistence.repository.IRepository;
-import io.jexxa.core.drivenadapter.persistence.repository.imdb.IMDBRepository;
+import io.jexxa.adapters.api.JexxaContext;
+import io.jexxa.adapters.api.invocation.InvocationManager;
+import io.jexxa.adapters.api.invocation.InvocationTargetRuntimeException;
+import io.jexxa.adapters.core.drivenadapter.messaging.MessageBuilder;
+import io.jexxa.adapters.core.drivenadapter.messaging.MessageSender;
+import io.jexxa.adapters.core.drivenadapter.persistence.repository.IRepository;
+import io.jexxa.adapters.core.drivenadapter.persistence.repository.imdb.IMDBRepository;
 //import io.jexxa.core.drivenadapter.persistence.repository.jdbc.JDBCKeyValueRepository;
-import io.jexxa.core.facade.logger.SLF4jLogger;
+import io.jexxa.adapters.core.facade.logger.SLF4jLogger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +19,10 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import static io.jexxa.adapters.jms.drivenadapter.TransactionalOutboxProperties.outboxTable;
-import static io.jexxa.core.drivenadapter.messaging.MessageSenderFactory.createMessageSender;
-import static io.jexxa.core.drivenadapter.messaging.MessageSenderFactory.setMessageSender;
-import static io.jexxa.core.drivenadapter.persistence.RepositoryFactory.createRepository;
-import static io.jexxa.core.facade.logger.SLF4jLogger.getLogger;
+import static io.jexxa.adapters.core.drivenadapter.messaging.MessageSenderFactory.createMessageSender;
+import static io.jexxa.adapters.core.drivenadapter.messaging.MessageSenderFactory.setMessageSender;
+import static io.jexxa.adapters.core.drivenadapter.persistence.RepositoryFactory.createRepository;
+import static io.jexxa.adapters.core.facade.logger.SLF4jLogger.getLogger;
 
 
 /**

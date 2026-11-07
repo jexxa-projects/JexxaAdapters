@@ -1,6 +1,6 @@
 package io.jexxa.adapters.s3.facade;
 
-import io.jexxa.core.facade.utils.properties.PropertiesPrefix;
+import io.jexxa.adapters.core.facade.utils.properties.PropertiesPrefix;
 
 public class S3Properties {
     private static final String S3_ENDPOINT = "s3.endpoint";

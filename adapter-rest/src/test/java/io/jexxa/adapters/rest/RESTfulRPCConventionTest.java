@@ -1,8 +1,8 @@
 package io.jexxa.adapters.rest;
 
 
-import io.jexxa.common.testapplication.SimpleApplicationService;
-import io.jexxa.common.testapplication.TestConstants;
+import io.jexxa.adapters.testapplication.SimpleApplicationService;
+import io.jexxa.adapters.testapplication.TestConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;

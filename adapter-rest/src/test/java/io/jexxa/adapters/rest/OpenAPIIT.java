@@ -3,11 +3,11 @@ package io.jexxa.adapters.rest;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import io.jexxa.common.testapplication.SimpleApplicationService;
-import io.jexxa.common.testapplication.SpecialCasesValueObject;
-import io.jexxa.common.testapplication.TestConstants;
-import io.jexxa.common.testapplication.TestEnum;
-import io.jexxa.common.testapplication.TestRecordComparable;
+import io.jexxa.adapters.testapplication.SimpleApplicationService;
+import io.jexxa.adapters.testapplication.SpecialCasesValueObject;
+import io.jexxa.adapters.testapplication.TestConstants;
+import io.jexxa.adapters.testapplication.TestEnum;
+import io.jexxa.adapters.testapplication.TestRecordComparable;
 import kong.unirest.Unirest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

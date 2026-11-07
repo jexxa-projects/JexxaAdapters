@@ -1,6 +1,6 @@
 package io.jexxa.adapters.s3.repository;
 
-import io.jexxa.common.testapplication.TestAggregate;
+import io.jexxa.adapters.testapplication.TestAggregate;
 import org.junit.jupiter.api.Test;
 
 import static io.jexxa.adapters.s3.RepositoryConfig.s3RepositoryConfig;
