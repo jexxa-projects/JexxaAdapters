@@ -10,8 +10,10 @@ import io.jexxa.adapters.core.facade.utils.annotation.CheckReturnValue;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.ServiceLoader;
 import java.util.function.Function;
 
+import static io.jexxa.adapters.core.drivenadapter.persistence.PersistenceProperties.repositoryStrategy;
 import static io.jexxa.adapters.core.facade.logger.SLF4jLogger.getLogger;
 
 
@@ -146,52 +148,49 @@ public final class RepositoryFactory
         STRATEGY_MAP.clear();
     }
 
-
-    @SuppressWarnings("DuplicatedCode")
-    private static <T> Class<?> getRepositoryType(Class<T> aggregateClazz, Properties properties)
+    private static <T> Class<?> getRepositoryType(
+            Class<T> aggregateClazz,
+            Properties properties)
     {
-        // 1. Check if a dedicated strategy is registered for aggregateClazz
-        var result = STRATEGY_MAP
-                .entrySet()
-                .stream()
-                .filter( element -> element.getKey().equals(aggregateClazz))
-                .filter( element -> element.getValue() != null )
-                .findFirst();
+        // 1. Dedicated strategy
+        var strategy = STRATEGY_MAP.get(aggregateClazz);
 
-        if (result.isPresent())
+        if (strategy != null)
         {
-            return result.get().getValue();
+            return strategy;
         }
 
-        // 2. If a default strategy is available, return this one
+        // 2. Default strategy
         if (defaultStrategy != null)
         {
             return defaultStrategy;
         }
 
         // 3. Check explicit configuration
-/*        if (properties.containsKey(repositoryStrategy())) {
+        if (properties.containsKey(repositoryStrategy())) {
             try {
                 return Class.forName(properties.getProperty(repositoryStrategy()));
             } catch (ClassNotFoundException _) {
                 getLogger(RepositoryFactory.class).warn("Unknown or invalid repository {} -> Ignore setting", properties.getProperty(repositoryStrategy()));
             }
-        }*/
-        // 4. If a JDBC driver is stated in Properties => Use JDBCKeyValueRepository
-     /*   if (properties.containsKey(JDBCProperties.jdbcDriver()))
-        {
-         //   return JDBCKeyValueRepository.class;
         }
-*/
-        // 5. If a S3 bucket is stated in Properties => Use S3KeyValueRepository
-  /*      if (properties.containsKey(s3Bucket()))
+
+        // 3. Discover matching repository providers
+        for (var provider : ServiceLoader.load(RepositoryProvider.class))
         {
-            return S3KeyValueRepository.class;
+            var repositoryType = provider.getRepositoryType(properties);
+
+            if (repositoryType.isPresent())
+            {
+                getLogger(RepositoryFactory.class).info("Using repository store type {}", repositoryType);
+                return repositoryType.get();
+            }
         }
-*/
-        // 6. If everything fails, return an IMDBRepository
+
+        // 4. Fallback
         return IMDBRepository.class;
     }
+
     public void bannerInformation(Properties properties)
     {
         getLogger(ApplicationBanner.class).info("Used Repository Strategie      : [{}]",getDefaultRepository(properties).getSimpleName());

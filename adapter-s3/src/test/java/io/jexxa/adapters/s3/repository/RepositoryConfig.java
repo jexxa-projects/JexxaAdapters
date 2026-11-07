@@ -1,8 +1,9 @@
-package io.jexxa.adapters.s3;
+package io.jexxa.adapters.s3.repository;
 
 
 import java.util.Properties;
 
+import static io.jexxa.adapters.core.drivenadapter.persistence.PersistenceProperties.repositoryStrategy;
 import static io.jexxa.adapters.s3.facade.S3Properties.*;
 
 
@@ -20,7 +21,7 @@ public class RepositoryConfig {
 
     public static Properties s3CachedRepositoryConfig() {
         var s3Properties = new Properties();
-        s3Properties.put("repository.strategy", "io.jexxa.common.drivenadapter.persistence.repository.s3.S3CachedKeyValueRepository");
+        s3Properties.put(repositoryStrategy(), S3CachedKeyValueRepository.class.getName());
         s3Properties.put(s3Endpoint(), "http://localhost:8110");
         s3Properties.put(s3Bucket(), "jexxa-adapters-test");
         s3Properties.put(s3SecretKey(), "minioadmin");

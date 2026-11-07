@@ -6,12 +6,15 @@ import io.jexxa.adapters.core.drivenadapter.persistence.objectstore.imdb.IMDBObj
 import io.jexxa.adapters.core.drivenadapter.persistence.objectstore.metadata.MetadataSchema;
 import io.jexxa.adapters.core.facade.factory.ClassFactory;
 import io.jexxa.adapters.core.facade.logger.ApplicationBanner;
+import io.jexxa.adapters.core.facade.logger.SLF4jLogger;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.ServiceLoader;
 import java.util.function.Function;
 
+import static io.jexxa.adapters.core.drivenadapter.persistence.PersistenceProperties.objectstoreStrategy;
 import static io.jexxa.adapters.core.facade.logger.SLF4jLogger.getLogger;
 
 
@@ -114,7 +117,7 @@ public final class ObjectStoreFactory
         }
 
         // 3. Check explicit configuration
-      /*  if (properties.containsKey(objectstoreStrategy())) {
+        if (properties.containsKey(objectstoreStrategy())) {
             try {
                 return Class.forName(properties.getProperty(objectstoreStrategy()));
             } catch (ClassNotFoundException _) {
@@ -122,18 +125,18 @@ public final class ObjectStoreFactory
             }
         }
 
-        // 4. If a JDBC driver is stated in Properties => Use JDBCKeyValueRepository
-        if (properties.containsKey(jdbcDriver()))
+        // 4. Discover matching repository providers
+        for (var provider : ServiceLoader.load(ObjectStoreProvider.class))
         {
-         //   return JDBCObjectStore.class;
+            var objectStoreType = provider.getObjectStoreType(properties);
+
+            if (objectStoreType.isPresent())
+            {
+                SLF4jLogger.getLogger(ObjectStoreFactory.class).info("Using object store type {}", objectStoreType);
+                return objectStoreType.get();
+            }
         }
-*/
-        // 5. If a S3 bucket is stated in Properties => Use S3ObjectStore
-  /*      if (properties.containsKey(s3Bucket()))
-        {
-            return S3ObjectStore.class;
-        }
-*/
+
         // 6. If everything fails, return an IMDBObjectStore
         return IMDBObjectStore.class;
     }

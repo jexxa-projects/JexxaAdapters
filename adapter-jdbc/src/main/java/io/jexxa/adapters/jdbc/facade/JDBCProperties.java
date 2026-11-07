@@ -17,10 +17,6 @@ public class JDBCProperties
     /** Defines the jdbc transaction level. This must be one of the following values "read-uncommitted", "read-committed", "repeatable-read", "serializable"*/
     public static String jdbcTransactionIsolationLevel() { return  PropertiesPrefix.globalPrefix() + "jdbc.transaction.isolation.level";}
 
-    public static String repositoryStrategy() { return  PropertiesPrefix.globalPrefix() + "repository.strategy";}
-
-    public static String objectstoreStrategy() { return PropertiesPrefix.globalPrefix() +  "objectstore.strategy";}
-
 
     private JDBCProperties()
     {

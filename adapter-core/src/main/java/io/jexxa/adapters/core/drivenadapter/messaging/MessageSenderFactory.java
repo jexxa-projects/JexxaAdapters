@@ -7,8 +7,11 @@ import io.jexxa.adapters.core.facade.utils.annotation.CheckReturnValue;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Properties;
+import java.util.ServiceLoader;
 
+import static io.jexxa.adapters.core.drivenadapter.messaging.MessageSenderProperties.messageSenderStrategy;
 import static io.jexxa.adapters.core.facade.logger.SLF4jLogger.getLogger;
 
 
@@ -107,24 +110,39 @@ public final class MessageSenderFactory
         }
 
         // 3. Check explicit configuration
-   /*     if (properties.containsKey(jmsStrategy()))
+        if (properties.containsKey(messageSenderStrategy()))
         {
             try {
-                return (Class<? extends MessageSender>) Class.forName(properties.getProperty(jmsStrategy()));
+                return (Class<? extends MessageSender>) Class.forName(properties.getProperty(messageSenderStrategy()));
             } catch (ClassNotFoundException e)
             {
-                getLogger(MessageSenderFactory.class).warn("Unknown or invalid message sender {} -> Ignore setting", properties.getProperty(jmsStrategy()));
+                getLogger(MessageSenderFactory.class).warn("Unknown or invalid message sender {} -> Ignore setting", properties.getProperty(messageSenderStrategy()));
                 getLogger(MessageSenderFactory.class).warn(String.valueOf(e));
             }
         }
 
-        // 4. If a JNDI Factory is defined and simulation mode is deactivated => Use TransactionalOutboxSender
-        if (properties.containsKey(jndiFactoryKey()) && !properties.containsKey(jmsSimulate()))
-        {
-            return TransactionalOutboxSender.class;
-        }*/
+        // 4. Discover matching MessageSender providers
+        var matches = ServiceLoader.load(MessageSenderProvider.class)
+                .stream()
+                .map(ServiceLoader.Provider::get)
+                .map(provider -> provider.getMessageSenderType(properties))
+                .flatMap(Optional::stream)
+                .distinct()
+                .toList();
 
-        // 5. In all other cases (including simulation mode) return a MessageLogger
+        if (matches.size() > 1)
+        {
+            throw new IllegalStateException(
+                    "Multiple message sender strategies match: " + matches
+            );
+        }
+
+        if (!matches.isEmpty())
+        {
+            return matches.getFirst();
+        }
+
+        // 4. Fallback
         return MessageLogger.class;
     }
 

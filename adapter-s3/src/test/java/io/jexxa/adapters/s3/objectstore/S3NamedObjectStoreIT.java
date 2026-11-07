@@ -11,8 +11,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import java.util.Properties;
 import java.util.stream.Stream;
 
-import static io.jexxa.adapters.s3.RepositoryConfig.s3CachedRepositoryConfig;
-import static io.jexxa.adapters.s3.RepositoryConfig.s3RepositoryConfig;
+import static io.jexxa.adapters.s3.objectstore.ObjectStoreConfig.s3ObjectStoreConfig;
 import static io.jexxa.adapters.s3.facade.S3Properties.s3Bucket;
 import static io.jexxa.adapters.s3.facade.S3Properties.s3Endpoint;
 
@@ -31,7 +30,7 @@ class S3NamedObjectStoreIT extends INamedObjectStoreIT {
     @SuppressWarnings("unused")
     static Stream<Properties> objectStoreConfig()
     {
-        return Stream.of( s3RepositoryConfig(), s3CachedRepositoryConfig());
+        return Stream.of( s3ObjectStoreConfig() );
     }
 
 }

@@ -34,7 +34,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - Encapsulated configuration parsing into a typsafe internal `S3Config` record within `S3Facade` for fail-fast validation during construction.
   - Introduced `io.jexxa.s3.force-path-style` property in `S3Properties` to allow toggleable URL routing, defaulted to `true` to ensure full out-of-the-box compatibility with local MinIO instances and test containers.
   - Configured modern `S3Configuration` checksum calculations (`WHEN_REQUIRED`) together with `LegacyMd5Plugin` to prevent MD5 verification errors when using the native Java URL connection client or older S3 storage systems.
-
+* Added – Service Provider Discovery
+  - Introduced Java `ServiceLoader` support for automatic discovery of Driven Adapter implementations.
+  - Added `RepositoryProvider` and `MessageSenderProvider` interfaces.
+  - Adapter modules register their implementations via `META-INF/services` and select suitable strategies based on application properties.
+  - Preserved explicit strategy registration and default strategies, with existing in-memory and logging fallbacks.
+  - Removed the need for Jexxa Core to reference concrete JDBC, JMS, or S3 implementations.
 ## \[4.2.0] - 2026-10-28 
 ### Added
 - **InProcessPubSub:** Added a lightweight, thread-safe, in-process publish/subscribe mechanism for loosely coupled communication within an application.
