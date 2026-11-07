@@ -93,7 +93,15 @@ public class SimpleApplicationService
         setSimpleValue(first);
         setSimpleValue(second);
     }
+    public List<TestRecordComparable> getJexxaRecordComparableList()
+    {
+        return List.of(new TestRecordComparable(42));
+    }
 
+    public TestRecordComparable getJexxaRecordComparable()
+    {
+        return  new TestRecordComparable(42);
+    }
 
     public void addMessage(String message)
     {
