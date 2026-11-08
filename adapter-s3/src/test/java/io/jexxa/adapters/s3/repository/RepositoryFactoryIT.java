@@ -109,7 +109,7 @@ class RepositoryFactoryIT
 
         //Assert
         assertNotNull(result);
-        assertEquals(S3RepositoryConfig.class.getName(), result.getClass().getName() );
+        assertEquals(S3KeyValueRepository.class.getName(), result.getClass().getName() );
     }
 
     @Test
