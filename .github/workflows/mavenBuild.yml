@@ -76,6 +76,10 @@ jobs:
           echo "❌ Timeout: Redpanda did not become healthy in time"
           exit 1
       - uses: actions/checkout@v7
+        with:
+          # Lädt die gesamte Historie für alle Branches und Tags,
+          # damit Blame-Informationen vollständig verfügbar sind.
+          fetch-depth: 0
       - name: Set up JDK 25
         uses: actions/setup-java@v6
         with:
