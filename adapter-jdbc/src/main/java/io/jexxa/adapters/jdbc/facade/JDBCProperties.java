@@ -13,6 +13,7 @@ public class JDBCProperties
     public static String jdbcDriver() { return PropertiesPrefix.globalPrefix() +  "jdbc.driver";}
     public static String jdbcAutocreateDatabase() { return  PropertiesPrefix.globalPrefix() + "jdbc.autocreate.database";}
     public static String jdbcAutocreateTable() { return PropertiesPrefix.globalPrefix() +  "jdbc.autocreate.table";}
+    public static String jdbcConnectionSharing() { return PropertiesPrefix.globalPrefix() +  "jdbc.connection.sharing";}
 
     /** Defines the jdbc transaction level. This must be one of the following values "read-uncommitted", "read-committed", "repeatable-read", "serializable"*/
     public static String jdbcTransactionIsolationLevel() { return  PropertiesPrefix.globalPrefix() + "jdbc.transaction.isolation.level";}

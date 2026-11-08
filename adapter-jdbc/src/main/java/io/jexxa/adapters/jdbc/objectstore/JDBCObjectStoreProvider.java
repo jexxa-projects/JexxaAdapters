@@ -1,6 +1,7 @@
 package io.jexxa.adapters.jdbc.objectstore;
 
 import io.jexxa.adapters.core.drivenadapter.persistence.ObjectStoreProvider;
+import io.jexxa.adapters.jdbc.facade.JDBCConnectionPool;
 import io.jexxa.adapters.jdbc.facade.JDBCProperties;
 
 import java.util.Optional;
@@ -12,8 +13,14 @@ public class JDBCObjectStoreProvider implements ObjectStoreProvider
     public Optional<Class<?>> getObjectStoreType(Properties properties) {
         if (properties.containsKey(JDBCProperties.jdbcDriver()))
         {
+            if ( properties.containsKey(JDBCProperties.jdbcConnectionSharing()) &&
+                 "true".equalsIgnoreCase(properties.getProperty(JDBCProperties.jdbcConnectionSharing())))
+            {
+                JDBCConnectionPool.enableConnectionSharing();
+            }
             return Optional.of(JDBCObjectStore.class);
         }
 
-        return Optional.empty();    }
+        return Optional.empty();
+    }
 }
