@@ -52,6 +52,38 @@ jobs:
 
 
     steps:
+      - name: Start Redpanda with Schema Registry
+        run: |
+          docker run -d --name redpanda \
+            -p 9092:9092 \
+            -p 8081:8081 \
+            --health-cmd="rpk cluster info" \
+            --health-interval=5s \
+            --health-retries=20 \
+            redpandadata/redpanda:latest \
+            redpanda start \
+              --overprovisioned \
+              --smp 1 \
+              --memory 1G \
+              --reserve-memory 0M \
+              --node-id 0 \
+              --kafka-addr PLAINTEXT://0.0.0.0:9092 \
+              --advertise-kafka-addr PLAINTEXT://localhost:9092 \
+              --schema-registry-addr 0.0.0.0:8081
+
+      - name: Wait for Redpanda to be healthy
+        run: |
+          echo "Waiting for Redpanda to be healthy..."
+          for i in {1..30}; do  # ~60s Timeout
+            if [ "$(docker inspect -f '{{.State.Health.Status}}' redpanda 2>/dev/null)" = "healthy" ]; then
+              echo "✅ Redpanda is healthy!"
+              exit 0
+            fi
+            echo "⏳ Still waiting..."
+            sleep 2
+          done
+          echo "❌ Timeout: Redpanda did not become healthy in time"
+          exit 1
       - uses: actions/checkout@v7
       - name: Set up JDK ${{ matrix.java }}
         uses: actions/setup-java@v6
