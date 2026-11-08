@@ -2,7 +2,7 @@ package io.jexxa.adapters.jdbc.repository;
 
 
 import io.jexxa.adapters.api.JexxaContext;
-import io.jexxa.adapters.jdbc.facade.RepositoryConfig;
+import io.jexxa.adapters.jdbc.facade.JDBCRepositoryConfig;
 import io.jexxa.adapters.testapplication.TestEntity;
 import io.jexxa.adapters.core.drivenadapter.persistence.RepositoryFactory;
 import io.jexxa.adapters.core.drivenadapter.persistence.repository.imdb.IMDBRepository;
@@ -60,7 +60,7 @@ class RepositoryFactoryIT
         //Arrange
         setDefaultRepository(JDBCKeyValueRepository.class);
 
-        var postgresProperties = RepositoryConfig.postgresRepositoryConfig("jexxa");
+        var postgresProperties = JDBCRepositoryConfig.postgresRepositoryConfig("jexxa");
 
         //Act
         var result = createRepository(TestEntity.class,
@@ -77,7 +77,7 @@ class RepositoryFactoryIT
     void validateDefaultStrategyOverProperties()
     {
         //Arrange: Define a JDBC connection in properties but also set a default strategy
-        var postgresProperties = RepositoryConfig.postgresRepositoryConfig("jexxa");
+        var postgresProperties = JDBCRepositoryConfig.postgresRepositoryConfig("jexxa");
 
         //Act
         setDefaultRepository(IMDBRepository.class);
@@ -95,7 +95,7 @@ class RepositoryFactoryIT
     void validateSpecificStrategyOverDefaultStrategy()
     {
         //Arrange: Define a JDBC connection in properties but also set a default strategy
-        var postgresProperties = RepositoryConfig.postgresRepositoryConfig("jexxa");
+        var postgresProperties = JDBCRepositoryConfig.postgresRepositoryConfig("jexxa");
 
         setDefaultRepository(IMDBRepository.class);  // Set a default strategy which is used in case no specific strategy is defined
 
@@ -110,4 +110,25 @@ class RepositoryFactoryIT
         assertNotNull(result);
         assertEquals(JDBCKeyValueRepository.class.getName(), result.getClass().getName() );
     }
+
+    @Test
+    void validateJDBCStrategy()
+    {
+        //Arrange: Define a JDBC connection in properties but also set a default strategy
+        var postgresProperties = JDBCRepositoryConfig.postgresRepositoryConfig("jexxa");
+
+        setDefaultRepository(null);  // Set no default strategy
+
+        //Act
+        setRepository(JDBCKeyValueRepository.class, TestEntity.class );  // Set a specific strategy
+
+        var result =  createRepository(TestEntity.class,
+                TestEntity::getKey,
+                postgresProperties);
+
+        //Assert
+        assertNotNull(result);
+        assertEquals(JDBCKeyValueRepository.class.getName(), result.getClass().getName() );
+    }
+
 }

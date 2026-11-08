@@ -7,7 +7,7 @@ import static io.jexxa.adapters.core.drivenadapter.persistence.PersistenceProper
 import static io.jexxa.adapters.s3.facade.S3Properties.*;
 
 
-public class RepositoryConfig {
+public class S3RepositoryConfig {
 
 
     public static Properties s3RepositoryConfig() {

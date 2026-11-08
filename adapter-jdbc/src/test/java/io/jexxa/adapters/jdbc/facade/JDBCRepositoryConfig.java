@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 
 import static io.jexxa.adapters.jdbc.facade.JDBCProperties.*;
 
-public class RepositoryConfig {
+public class JDBCRepositoryConfig {
     private static final String USER_NAME = "postgres";
     private static final String USER_PASSWORD = "admin";
     @SuppressWarnings("unused")

@@ -9,7 +9,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Properties;
 import java.util.stream.Stream;
 
-import static io.jexxa.adapters.jdbc.facade.RepositoryConfig.jdbcRepositoryConfig;
+import static io.jexxa.adapters.jdbc.facade.JDBCRepositoryConfig.jdbcRepositoryConfig;
 
 
 public final class JDBCTestDatabase

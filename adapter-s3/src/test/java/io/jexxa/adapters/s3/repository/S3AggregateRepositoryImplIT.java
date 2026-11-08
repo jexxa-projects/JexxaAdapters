@@ -10,8 +10,8 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import java.util.Properties;
 import java.util.stream.Stream;
 
-import static io.jexxa.adapters.s3.repository.RepositoryConfig.s3CachedRepositoryConfig;
-import static io.jexxa.adapters.s3.repository.RepositoryConfig.s3RepositoryConfig;
+import static io.jexxa.adapters.s3.repository.S3RepositoryConfig.s3CachedRepositoryConfig;
+import static io.jexxa.adapters.s3.repository.S3RepositoryConfig.s3RepositoryConfig;
 import static io.jexxa.adapters.s3.facade.S3Properties.s3Bucket;
 import static io.jexxa.adapters.s3.facade.S3Properties.s3Endpoint;
 
