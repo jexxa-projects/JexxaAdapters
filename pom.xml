@@ -10,7 +10,7 @@
 
   <groupId>io.jexxa.adapters</groupId>
   <artifactId>parent</artifactId>
-  <version>5.0.0-RC1</version>
+  <version>5.0.0-RC2-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Jexxa Adapters (Parent)</name>
   <url>https://github.com/jexxa-projects/JexxaAdapters</url>
@@ -33,7 +33,7 @@
     <connection>scm:git:https://github.com/jexxa-projects/JexxaAdapters.git</connection>
     <url>https://github.com/jexxa-projects/JexxaAdapters</url>
     <developerConnection>scm:git:https://github.com/jexxa-projects/JexxaAdapters.git</developerConnection>
-    <tag>parent-5.0.0-RC1</tag>
+    <tag>parent-4.1.10</tag>
   </scm>
 
   <properties>
