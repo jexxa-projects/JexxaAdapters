@@ -132,7 +132,6 @@ public final class ObjectStoreFactory
 
             if (objectStoreType.isPresent())
             {
-                SLF4jLogger.getLogger(ObjectStoreFactory.class).info("Using object store type {}", objectStoreType);
                 return objectStoreType.get();
             }
         }
