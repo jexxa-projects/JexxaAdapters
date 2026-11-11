@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+      <artifactId>parent</artifactId>
+      <groupId>io.jexxa.adapters</groupId>
+      <version>5.0.0-RC2-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>adapter-esp-test</artifactId>
+
+  <!-- Project Information -->
+  <name>ESP Adapters Test</name>
+  <url>https://github.com/jexxa-projects/ESPAdapters</url>
+  <description>Support for integration tests with esp-adapters.</description> <!-- Einzigartig -->
+
+    <dependencies>
+        <dependency>
+            <groupId>io.jexxa.adapters</groupId>
+            <artifactId>adapter-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jexxa.adapters</groupId>
+            <artifactId>adapter-esp</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>kafka</artifactId>
+            <version>1.21.4</version>
+        </dependency>
+    </dependencies>
+</project>

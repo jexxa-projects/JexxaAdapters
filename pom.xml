@@ -638,7 +638,8 @@
     <module>adapter-jdbc</module>
     <module>adapter-jms</module>
     <module>adapter-rest</module>
-    <module>jexxa-adapters-bom</module>
     <module>adapter-esp</module>
+    <module>adapter-esp-test</module>
+    <module>jexxa-adapters-bom</module>
   </modules>
 </project>

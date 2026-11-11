@@ -182,7 +182,6 @@ public final class RepositoryFactory
 
             if (repositoryType.isPresent())
             {
-                getLogger(RepositoryFactory.class).info("Using repository store type {}", repositoryType);
                 return repositoryType.get();
             }
         }
