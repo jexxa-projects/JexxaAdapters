@@ -24,7 +24,6 @@ import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -591,15 +590,13 @@ public final class RESTfulRPCAdapter implements IDrivingAdapter
 
     private static class JexxaJSONMapper implements JsonMapper
     {
-        @NotNull
         @Override
-        public String toJsonString(@NotNull Object obj, @NotNull Type targetClass) {
+        public String toJsonString(Object obj, Type targetClass) {
             return getJSONConverter().toJson(obj);
         }
 
-        @NotNull
         @Override
-        public  <T> T fromJsonString(@NotNull String json, @NotNull Type targetClass) {
+        public  <T> T fromJsonString( String json, Type targetClass) {
             return getJSONConverter().fromJson(json, targetClass);
         }
     }
