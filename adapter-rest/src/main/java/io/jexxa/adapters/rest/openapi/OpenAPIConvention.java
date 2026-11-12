@@ -157,6 +157,7 @@ public class OpenAPIConvention {
                 new MediaType().schema(schema));
     }
 
+    @SuppressWarnings("java:S3776")
     private Schema<?> createSchema(Type type) {
 
         if (type instanceof ParameterizedType parameterizedType) {

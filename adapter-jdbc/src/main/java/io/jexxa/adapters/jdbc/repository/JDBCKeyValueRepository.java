@@ -84,6 +84,7 @@ public class JDBCKeyValueRepository<T, K> extends JDBCRepository implements IRep
     }
 
     @Override
+    @SuppressWarnings("java:S4030")
     public synchronized void add(T aggregate)
     {
         Objects.requireNonNull(aggregate);

@@ -71,6 +71,7 @@ public class JDBCObjectStore<T,K, M extends Enum<M> & MetadataSchema> extends JD
 
 
     @Override
+    @SuppressWarnings("java:S4030")
     public synchronized void update(T aggregate)
     {
         Objects.requireNonNull(aggregate);
@@ -101,6 +102,7 @@ public class JDBCObjectStore<T,K, M extends Enum<M> & MetadataSchema> extends JD
 
 
     @Override
+    @SuppressWarnings("java:S4030")
     public synchronized void add(T aggregate)
     {
         Objects.requireNonNull(aggregate);
