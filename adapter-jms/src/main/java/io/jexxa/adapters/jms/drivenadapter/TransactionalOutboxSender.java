@@ -7,7 +7,6 @@ import io.jexxa.adapters.core.drivenadapter.messaging.MessageBuilder;
 import io.jexxa.adapters.core.drivenadapter.messaging.MessageSender;
 import io.jexxa.adapters.core.drivenadapter.persistence.repository.IRepository;
 import io.jexxa.adapters.core.drivenadapter.persistence.repository.imdb.IMDBRepository;
-//import io.jexxa.core.drivenadapter.persistence.repository.jdbc.JDBCKeyValueRepository;
 import io.jexxa.adapters.core.facade.logger.SLF4jLogger;
 
 import java.util.ArrayList;
