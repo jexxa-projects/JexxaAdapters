@@ -32,10 +32,16 @@ public class TimeoutIndicator extends BeforeMonitor
     @Override
     public String getStatusMessage()
     {
-        if (!healthy())
+        if (!healthy() && getObservedObject() != null)
         {
+            String objectName = "Unknown";
+            if (getObservedObject() != null )
+            {
+                objectName = getObservedObject().getClass().getSimpleName();
+            }
+
             return "Did not receive a message for object "
-                    + getObservedObject().getClass().getSimpleName()
+                    + objectName
                     + " within period of "
                     + Duration.between(lastUpdate, Instant.now()).toSeconds()
                     + " seconds.";
