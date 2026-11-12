@@ -5,9 +5,14 @@ import io.jexxa.adapters.api.JexxaContext;
 import io.jexxa.adapters.core.drivenadapter.persistence.objectstore.imdb.IMDBObjectStore;
 import io.jexxa.adapters.core.drivenadapter.persistence.objectstore.metadata.MetaTag;
 import io.jexxa.adapters.core.drivenadapter.persistence.objectstore.metadata.MetadataSchema;
+import io.jexxa.adapters.testapplication.TestConstants;
 import io.jexxa.adapters.testapplication.TestValueObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -23,6 +28,9 @@ import static io.jexxa.adapters.core.drivenadapter.persistence.objectstore.metad
 import static java.util.Comparator.comparing;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@Execution(ExecutionMode.SAME_THREAD)
+@Tag(TestConstants.INTEGRATION_TEST)
 public class INumericQueryIT
 {
     private static final int TEST_DATA_SIZE = 100;
@@ -478,7 +486,7 @@ public class INumericQueryIT
         IMDBObjectStore.clear();
     }
     @SuppressWarnings("unused")
-    static Stream<Properties> objectStoreConfig() {
+    Stream<Properties> objectStoreConfig() {
         return Stream.of( new Properties() );
     }
 }

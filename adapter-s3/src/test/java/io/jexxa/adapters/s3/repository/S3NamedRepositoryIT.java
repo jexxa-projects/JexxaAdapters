@@ -31,7 +31,7 @@ class S3NamedRepositoryIT extends TestNamedRepositoryIT
         }
     }
     @SuppressWarnings("unused")
-    static Stream<Properties> repositoryConfig()
+    Stream<Properties> repositoryConfig()
     {
         return Stream.of( s3RepositoryConfig(), s3CachedRepositoryConfig());
     }

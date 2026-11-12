@@ -31,7 +31,7 @@ class S3ObjectStoreIT extends IObjectStoreIT
     }
 
     @SuppressWarnings("unused")
-    static Stream<Properties> objectStoreConfig()
+    Stream<Properties> objectStoreConfig()
     {
         return Stream.of( s3RepositoryConfig(), s3CachedRepositoryConfig());
     }

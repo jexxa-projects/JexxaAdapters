@@ -30,7 +30,7 @@ class S3AggregateRepositoryImplIT extends TestAggregateRepositoryImplIT
         }
     }
     @SuppressWarnings("unused")
-    static Stream<Properties> repositoryConfig()
+    Stream<Properties> repositoryConfig()
     {
         return Stream.of( s3RepositoryConfig(), s3CachedRepositoryConfig());
     }

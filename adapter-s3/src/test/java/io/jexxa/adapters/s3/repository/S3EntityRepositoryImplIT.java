@@ -30,7 +30,7 @@ class S3EntityRepositoryImplIT extends TestEntityRepositoryImplIT
     }
 
     @SuppressWarnings("unused")
-    static Stream<Properties> repositoryConfig()
+    Stream<Properties> repositoryConfig()
     {
         return Stream.of( s3RepositoryConfig(), s3CachedRepositoryConfig());
     }

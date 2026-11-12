@@ -11,6 +11,7 @@ import io.jexxa.adapters.testapplication.TestValueObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -26,6 +27,7 @@ import static java.util.Comparator.comparing;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
 @Tag(TestConstants.INTEGRATION_TEST)
 public abstract class IObjectStoreIT
@@ -209,7 +211,7 @@ public abstract class IObjectStoreIT
     }
 
     @SuppressWarnings("unused")
-    static Stream<Properties> objectStoreConfig() {
+    Stream<Properties> objectStoreConfig() {
         return Stream.of( new Properties() );
     }
 }

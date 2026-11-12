@@ -26,7 +26,7 @@ class JDBCNumericQueryIT extends INumericQueryIT
     }
 
     @SuppressWarnings("unused")
-    private static Stream<Properties> objectStoreConfig() {
+    Stream<Properties> objectStoreConfig() {
         return JDBCTestDatabase.repositoryConfigJDBC();
     }
 }

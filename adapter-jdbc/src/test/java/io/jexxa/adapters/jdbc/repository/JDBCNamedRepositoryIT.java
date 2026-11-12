@@ -30,7 +30,7 @@ class JDBCNamedRepositoryIT extends TestNamedRepositoryIT
     }
 
     @SuppressWarnings("unused")
-    private static Stream<Properties> repositoryConfig()
+    Stream<Properties> repositoryConfig()
     {
         return JDBCTestDatabase.repositoryConfigJDBC();
     }

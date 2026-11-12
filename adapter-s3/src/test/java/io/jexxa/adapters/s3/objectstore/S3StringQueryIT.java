@@ -24,7 +24,7 @@ class S3StringQueryIT extends IStringQueryIT
         }
     }
     @SuppressWarnings("unused")
-    static Stream<Properties> objectStoreConfig()
+    Stream<Properties> objectStoreConfig()
     {
         return Stream.of( s3RepositoryConfig(), s3CachedRepositoryConfig());
     }

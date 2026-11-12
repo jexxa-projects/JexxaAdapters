@@ -28,7 +28,7 @@ class S3NamedObjectStoreIT extends INamedObjectStoreIT {
         }
     }
     @SuppressWarnings("unused")
-    static Stream<Properties> objectStoreConfig()
+    Stream<Properties> objectStoreConfig()
     {
         return Stream.of( s3ObjectStoreConfig() );
     }

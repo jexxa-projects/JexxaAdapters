@@ -10,6 +10,7 @@ import io.jexxa.adapters.core.drivenadapter.persistence.repository.imdb.IMDBRepo
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -24,7 +25,7 @@ import static io.jexxa.adapters.core.drivenadapter.persistence.RepositoryFactory
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
 @Tag(TestConstants.INTEGRATION_TEST)
 public class TestAggregateRepositoryImplIT
@@ -131,7 +132,7 @@ public class TestAggregateRepositoryImplIT
     }
 
     @SuppressWarnings("unused")
-    static Stream<Properties> repositoryConfig()
+    Stream<Properties> repositoryConfig()
     {
         return Stream.of( new Properties() );
     }
