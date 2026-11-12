@@ -33,6 +33,7 @@ public abstract class TypedEventListener<K, V> implements EventListener {
     }
     protected abstract void onEvent(V value);
 
+    @SuppressWarnings("java:S1172")
     protected void onEvent(K ignoredKey, V value)
     {
         onEvent(value);
