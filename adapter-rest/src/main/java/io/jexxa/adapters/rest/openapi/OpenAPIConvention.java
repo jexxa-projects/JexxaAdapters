@@ -334,7 +334,7 @@ public class OpenAPIConvention {
         return Json.pretty(openAPI);
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "java:S1170", "java:S116"})
     private static class BadRequestResponse {
         public final String Exception = "";
         public final String ExceptionType = "";

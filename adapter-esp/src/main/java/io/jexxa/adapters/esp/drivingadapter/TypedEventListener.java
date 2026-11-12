@@ -38,6 +38,7 @@ public abstract class TypedEventListener<K, V> implements EventListener {
         onEvent(value);
     }
 
+    @SuppressWarnings("java:S1172")
     protected void onEvent(K key, V value, Headers ignoredHeaders)
     {
         onEvent(key, value);
