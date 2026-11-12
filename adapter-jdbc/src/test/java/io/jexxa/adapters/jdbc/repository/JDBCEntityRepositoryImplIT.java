@@ -23,6 +23,7 @@ class JDBCEntityRepositoryImplIT extends TestEntityRepositoryImplIT
         return JDBCTestDatabase.repositoryConfigJDBC();
     }
 
+    @Override
     protected void reset(Properties properties)
     {
         try (JDBCConnection connection = new JDBCConnection(properties) ) {

@@ -21,6 +21,7 @@ import static io.jexxa.adapters.s3.facade.S3Properties.s3Endpoint;
 @Tag(TestConstants.INTEGRATION_TEST)
 class S3ObjectStoreIT extends IObjectStoreIT
 {
+    @Override
     protected void reset(Properties properties)
     {
         if (properties.containsKey(s3Endpoint())) {
