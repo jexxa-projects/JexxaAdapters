@@ -6,7 +6,7 @@
   <parent>
       <artifactId>parent</artifactId>
       <groupId>io.jexxa.adapters</groupId>
-      <version>5.0.0-RC2-SNAPSHOT</version>
+      <version>5.0.0-RC2</version>
   </parent>
 
   <artifactId>adapter-esp-test</artifactId>

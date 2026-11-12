@@ -6,7 +6,7 @@
   <parent>
     <groupId>io.jexxa.adapters</groupId>
     <artifactId>parent</artifactId>
-    <version>5.0.0-RC2-SNAPSHOT</version>
+    <version>5.0.0-RC2</version>
   </parent>
 
   <artifactId>adapter-jdbc</artifactId>
