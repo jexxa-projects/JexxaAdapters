@@ -231,6 +231,7 @@ public class IStringQueryIT
         testData.forEach(objectStore::add);
     }
 
+    @SuppressWarnings("java:S1172")
     protected void reset(Properties properties)
     {
         IMDBObjectStore.clear();

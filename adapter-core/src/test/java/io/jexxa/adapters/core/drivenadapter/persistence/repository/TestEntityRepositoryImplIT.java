@@ -178,6 +178,7 @@ public class TestEntityRepositoryImplIT
         return Stream.of( new Properties() );
     }
 
+    @SuppressWarnings("java:S1172")
     protected void reset(Properties properties)
     {
         IMDBRepository.clear();

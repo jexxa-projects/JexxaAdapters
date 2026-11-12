@@ -124,6 +124,7 @@ public class TestAggregateRepositoryImplIT
         objectUnderTest.get().forEach( element -> assertEquals(aggregateValue, element.getInternalValue()) );
     }
 
+    @SuppressWarnings("java:S1172")
     protected void reset(Properties properties)
     {
         IMDBRepository.clear();

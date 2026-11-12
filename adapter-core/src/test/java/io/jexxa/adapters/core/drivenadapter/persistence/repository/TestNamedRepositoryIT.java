@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Tag(TestConstants.INTEGRATION_TEST)
 public class TestNamedRepositoryIT
 {
-    private final String REPOSITORY_CONFIG = "repositoryConfig";
+    private static final String REPOSITORY_CONFIG = "repositoryConfig";
     private List<TestAggregate> aggregateList;
     protected static final String TABLE_NAME = "MyNamedRepository";
     @BeforeEach
@@ -129,6 +129,7 @@ public class TestNamedRepositoryIT
         return Stream.of(new Properties());
     }
 
+    @SuppressWarnings("java:S1172")
     protected void reset(Properties properties)
     {
         IMDBRepository.clear();

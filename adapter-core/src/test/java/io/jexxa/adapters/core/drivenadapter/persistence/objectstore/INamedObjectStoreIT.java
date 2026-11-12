@@ -202,6 +202,7 @@ public abstract class INamedObjectStoreIT
         setObjectStore(objectUnderTest);
     }
 
+    @SuppressWarnings("java:S1172")
     protected void reset(Properties properties) {
         IMDBObjectStore.clear();
     }
