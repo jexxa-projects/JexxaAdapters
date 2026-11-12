@@ -31,6 +31,7 @@ public class EventLogger extends EventSender
         logEvent(key, eventData, topic, timestamp, headers);
     }
 
+    @SuppressWarnings("java:S1172")
     private <K, V> void logEvent(K key, V eventData, String topic, Long timestamp, Properties headers) {
         EVENT_LOGGER.info("Begin> Send event");
         EVENT_LOGGER.info("Key               : {}", key);
