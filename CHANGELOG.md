@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## \[5.0.0-RC2] - 2026-11-12
+**Changed**
+- Refactored JexxaAdapters into independently usable Maven modules:
+  - `adapter-esp-test` – added test dependency for adapter-esp
+
+### Fixed
+- Updated dependencies 
+- Code cleanup 
+
 ## \[5.0.0-RC1] - 2026-11-08
 
 ### 5.0.0 – Modularization of JexxaAdapters

@@ -34,8 +34,8 @@ Maven:
 ```xml
 <dependency>
     <groupId>io.jexxa.adapters</groupId>
-    <artifactId>common-adapters</artifactId>
-    <version>4.2.0</version> <!-- latest version: see Maven Central badge above -->
+    <artifactId>adapter-core</artifactId>
+    <version>5.0.0-RC2</version> <!-- latest version: see Maven Central badge above -->
 </dependency>
 ```
 
@@ -43,22 +43,28 @@ Gradle (Groovy DSL):
 
 ```groovy
 dependencies {
-    implementation 'io.jexxa.adapters:common-adapters:4.2.0'
+    implementation 'io.jexxa.adapters:adapter-core:5.0.0-RC2'
 }
 ```
 
 ### Examples
 
-- [Driving adapter tests](adapter-core/src/test/java/io/jexxa/adapters/core/drivingadapter)
+- [Driving adapter tests](adapter-rest/src/test/java/io/jexxa/adapters/rest/RESTfulRPCAdapterIT.java )
 - [JexxaTutorials](https://github.com/jexxa-projects/JexxaTutorials): complete applications using these adapters
 - [JLegMed](https://github.com/jexxa-projects/JLegMed): reusable processing components and integrations
 
 ## Modules
 
-| Module            | Purpose                                                                                             |
-|-------------------|-----------------------------------------------------------------------------------------------------|
-| `adapter-api`     | Shared API used by the adapter libraries                                                            |
-| `adapter-core` | Reusable adapters, integration patterns, facades, health checks, and in-process messaging utilities |
+| Module               | Purpose                                                                                              |
+|----------------------|------------------------------------------------------------------------------------------------------|
+| `adapter-core`       | Shared infrastructure utilities, reusable adapters, integration patterns, facades, and health checks |
+| `adapter-jdbc`       | JDBC-based persistence adapters and repository implementations                                       |
+| `adapter-jms`        | JMS-based messaging adapters, message senders, and transactional outbox support                      |
+| `adapter-rest`       | REST-based adapters for HTTP communication                                                           |
+| `adapter-s3`         | S3-compatible storage adapters                                                                       |
+| `adapter-esp`        | Event-based messaging adapters for kafka                                                             |      
+| `adapter-esp-test`   | Simplify testing for event-based applications                                                        |      
+| `jexxa-adapters-bom` | Centralized dependency version management for all Jexxa adapter modules                              |
 
 
 ### Where it fits
