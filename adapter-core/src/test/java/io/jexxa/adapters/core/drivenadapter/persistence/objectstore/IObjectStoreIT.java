@@ -56,6 +56,7 @@ public abstract class IObjectStoreIT
         JexxaContext.cleanup();
     }
 
+    @SuppressWarnings("java:S1172")
     protected void reset(Properties properties)
     {
         IMDBObjectStore.clear();
