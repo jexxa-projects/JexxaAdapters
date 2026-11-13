@@ -45,7 +45,7 @@
     <gson.version>2.15.0</gson.version>
     <javax.jms.version>2.0.1</javax.jms.version>
     <slf4j.simple.version>2.0.20</slf4j.simple.version>
-    <aws.client.version>2.57.11</aws.client.version>
+    <aws.client.version>2.57.12</aws.client.version>
     <caffeine.version>3.3.1</caffeine.version>
 
     <kafka.json.schema.serializer>8.4.0</kafka.json.schema.serializer>
@@ -90,7 +90,7 @@
     <maven.reports.plugin>3.9.0</maven.reports.plugin>
     <maven.enforcer.plugin>3.7.0</maven.enforcer.plugin>
     <maven.javadoc.plugin>3.12.0</maven.javadoc.plugin>
-    <maven.versions.plugin>2.24.0</maven.versions.plugin>
+    <maven.versions.plugin>2.25.1</maven.versions.plugin>
     <maven.build.helper.version>3.4.0</maven.build.helper.version>
     <maven.templating.plugin>3.0.0</maven.templating.plugin>
     <maven.central.publishing.plugin>0.12.0</maven.central.publishing.plugin>
