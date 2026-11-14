@@ -2,6 +2,7 @@
 
 ### 🐛 Bug Fixes
 
+- *(build)* Corrected branches - ([2d92f8d](https://github.com/jexxa-projects/JexxaAdapters/commit/2d92f8df4705ab810e4c84a3f812eacd1575e0b0))
 - *(deps)* Define maven for codeql - ([5908795](https://github.com/jexxa-projects/JexxaAdapters/commit/5908795e00d2e02b6788d7c8358383a14d76a8ec))
 - *(deps)* Define maven for codeql - ([dd5bd28](https://github.com/jexxa-projects/JexxaAdapters/commit/dd5bd28d77e8f6bd01ef0052749b72ef36957110))
 - *(deps)* Define maven for codeql - ([4fea497](https://github.com/jexxa-projects/JexxaAdapters/commit/4fea497ec17a2f3e309868c7cbd85a00f2c5d785))
