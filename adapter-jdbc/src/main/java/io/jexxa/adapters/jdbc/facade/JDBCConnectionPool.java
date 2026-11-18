@@ -37,6 +37,7 @@ public final class JDBCConnectionPool implements AutoCloseable {
         {
             return JDBC_CONNECTION_POOL.getExclusiveConnection(properties, managingObject);
         }
+
         return JDBC_CONNECTION_POOL.getSharedConnection(properties, connectionName);
     }
 
@@ -46,6 +47,10 @@ public final class JDBCConnectionPool implements AutoCloseable {
         {
             return connection.isValid();
         }
+    }
+
+    public static void reset(){
+        JDBC_CONNECTION_POOL.close();
     }
 
     public static void configureExclusiveConnection(Object managingObject, JDBCConnection.IsolationLevel isolationLevel)
