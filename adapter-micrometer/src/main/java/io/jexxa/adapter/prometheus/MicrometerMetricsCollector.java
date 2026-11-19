@@ -11,6 +11,8 @@ import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.prometheusmetrics.PrometheusConfig;
 import io.micrometer.prometheusmetrics.PrometheusMeterRegistry;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.function.Consumer;
 
@@ -22,6 +24,7 @@ public class MicrometerMetricsCollector implements ManagedService {
     private int prometheusPort;
     private Javalin javalin;
     private final PrometheusMeterRegistry meterRegistry;
+    private final List<Consumer<MeterRegistry>> consumers = new ArrayList<>();
 
 
     MicrometerMetricsCollector(Properties properties) {
@@ -43,10 +46,11 @@ public class MicrometerMetricsCollector implements ManagedService {
         meterRegistry = new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
     }
 
-    public void registerMetrics(Consumer<MeterRegistry> consumer) { consumer.accept(meterRegistry); }
+    public void registerMetrics(Consumer<MeterRegistry> consumer) { consumers.add(consumer); }
 
     @Override
     public void start() {
+        consumers.forEach(consumer -> consumer.accept(meterRegistry));
         JavalinLogger.startupInfo = false;
         javalin = Javalin
                 .create( context -> this.initJavalin(context, meterRegistry));
