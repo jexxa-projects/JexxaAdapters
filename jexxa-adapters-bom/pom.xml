@@ -75,6 +75,12 @@
                 <scope>test</scope>
             </dependency>
 
+            <dependency>
+                <groupId>io.jexxa.adapters</groupId>
+                <artifactId>adapter-micrometer</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

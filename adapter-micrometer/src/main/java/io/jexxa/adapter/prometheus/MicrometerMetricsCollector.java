@@ -19,6 +19,7 @@ import java.util.function.Consumer;
 import static io.jexxa.adapter.prometheus.MicrometerProperties.prometheusEndpoint;
 import static io.jexxa.adapter.prometheus.MicrometerProperties.prometheusPort;
 
+
 public class MicrometerMetricsCollector implements ManagedService {
     private final String prometheusEndpoint;
     private int prometheusPort;
@@ -27,7 +28,7 @@ public class MicrometerMetricsCollector implements ManagedService {
     private final List<Consumer<MeterRegistry>> consumers = new ArrayList<>();
 
 
-    MicrometerMetricsCollector(Properties properties) {
+    public MicrometerMetricsCollector(Properties properties) {
         var endpoint = properties.getProperty(prometheusEndpoint(), "/metrics");
         prometheusEndpoint = endpoint.startsWith("/") ? endpoint : "/" + endpoint;
         var configuredPort = properties

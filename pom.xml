@@ -642,7 +642,7 @@
     <module>adapter-rest</module>
     <module>adapter-esp</module>
     <module>adapter-esp-test</module>
-    <module>adapter-micrometer</module>
     <module>jexxa-adapters-bom</module>
+    <module>adapter-micrometer</module>
   </modules>
 </project>
