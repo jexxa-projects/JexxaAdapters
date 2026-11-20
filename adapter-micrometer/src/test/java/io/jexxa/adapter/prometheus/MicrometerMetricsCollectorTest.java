@@ -4,11 +4,13 @@ import io.jexxa.adapters.api.drivingadapter.Diagnostics;
 import io.micrometer.core.instrument.FunctionCounter;
 import io.micrometer.core.instrument.MeterRegistry;
 import kong.unirest.Unirest;
+import org.jspecify.annotations.NonNull;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -45,6 +47,7 @@ class MicrometerMetricsCollectorTest {
         await().atMost(Duration.ofSeconds(5)).until(() -> getProcessedMessages(url) > 0);
         objectUnderTest.stop();
     }
+
 
 
     @Test
@@ -87,6 +90,63 @@ class MicrometerMetricsCollectorTest {
         );
         objectUnderTest.stop();
     }
+
+    @Test
+    void testMultipleDiagnostics()
+    {
+        // Arrange
+        var port = "7070";
+        var endpoint = "/metrics";
+        var url = "http://localhost:" + port + endpoint;
+
+        var properties = new Properties();
+        properties.setProperty(prometheusPort(), port);
+        properties.setProperty(prometheusEndpoint(), endpoint);
+
+        var timestamp = Instant.parse("2026-11-20T10:00:00Z");
+        var objectUnderTest = getObjectUnderTest(timestamp, properties);
+        var result = getMetrics(url);
+
+        // Assert
+        assertAll(
+                () -> assertTrue(result.contains(
+                        "jexxa_health_status{check=\"test_diagnostics1\",observed_object=\"MicrometerMetricsCollectorTest\"} 1.0"
+                )),
+                () -> assertTrue(result.contains(
+                        "jexxa_health_status{check=\"test_diagnostics2\",observed_object=\"MicrometerMetricsCollectorTest\"} 1.0"
+                )),
+                () -> assertTrue(result.contains(
+                        "jexxa_health_last_check_seconds{check=\"test_diagnostics1\",observed_object=\"MicrometerMetricsCollectorTest\"} "
+                                + (double) timestamp.getEpochSecond()
+                ))
+        );
+        objectUnderTest.stop();
+    }
+
+    private @NonNull MicrometerMetricsCollector getObjectUnderTest(Instant timestamp, Properties properties) {
+        var diagnostics1 = new AtomicReference<>(new Diagnostics(
+                "test_diagnostics1",
+                getClass().getSimpleName(),
+                true,
+                "Test",
+                timestamp
+        ));
+        var diagnostics2 = new AtomicReference<>(new Diagnostics(
+                "test_diagnostics2",
+                getClass().getSimpleName(),
+                true,
+                "Test",
+                timestamp
+        ));
+
+        var objectUnderTest = new MicrometerMetricsCollector(properties);
+        objectUnderTest.registerAll(() -> List.of(diagnostics1.get(),diagnostics2.get()));
+
+        // Act
+        objectUnderTest.start();
+        return objectUnderTest;
+    }
+
     private String getMetrics(String url) {
         String rawMetrics = Unirest.get(url).asString().getBody();
 

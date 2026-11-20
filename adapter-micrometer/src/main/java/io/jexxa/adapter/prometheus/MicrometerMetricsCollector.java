@@ -25,6 +25,10 @@ import static io.jexxa.adapter.prometheus.MicrometerProperties.prometheusPort;
 
 
 public class MicrometerMetricsCollector implements ManagedService {
+    static {
+        JavalinLogger.startupInfo = false;
+    }
+
     public static final String JEXXA_HEALTH_STATUS = "jexxa.health.status";
     public static final String JEXXA_HEALTH_LAST_CHECK = "jexxa.health.last.check.seconds";
 
@@ -59,7 +63,6 @@ public class MicrometerMetricsCollector implements ManagedService {
     @Override
     public void start() {
         consumers.forEach(consumer -> consumer.accept(meterRegistry));
-        JavalinLogger.startupInfo = false;
         javalin = Javalin
                 .create( context -> this.initJavalin(context, meterRegistry));
 
@@ -107,7 +110,7 @@ public class MicrometerMetricsCollector implements ManagedService {
     /**
      * Registriert eine Liste von Health-Checks, indem intern an register() delegiert wird.
      */
-    public void registerAll(MeterRegistry registry, Supplier<List<Diagnostics>> diagnosticsListSupplier) {
+    public void registerAll(Supplier<List<Diagnostics>> diagnosticsListSupplier) {
         Supplier<List<Diagnostics>> cachedListSupplier = memoize(diagnosticsListSupplier, Duration.ofSeconds(1));
         List<Diagnostics> initialList = cachedListSupplier.get();
 
@@ -135,19 +138,15 @@ public class MicrometerMetricsCollector implements ManagedService {
     // Kleiner Thread-sicherer Scrape-Cache (1 Sekunde)
     private static <T> Supplier<T> memoize(Supplier<T> delegate, Duration ttl) {
         return new Supplier<>() {
-            private volatile T cachedValue;
-            private volatile Instant expiresAt = Instant.MIN;
+            private T cachedValue;
+            private Instant expiresAt = Instant.MIN;
 
             @Override
-            public T get() {
+            public synchronized T get() {
                 Instant now = Instant.now();
                 if (now.isAfter(expiresAt)) {
-                    synchronized (this) {
-                        if (now.isAfter(expiresAt)) {
-                            cachedValue = delegate.get();
-                            expiresAt = now.plus(ttl);
-                        }
-                    }
+                    cachedValue = delegate.get();
+                    expiresAt = now.plus(ttl);
                 }
                 return cachedValue;
             }
