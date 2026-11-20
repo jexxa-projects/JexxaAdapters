@@ -24,7 +24,7 @@ public class JDBCSessionPool {
         }
         try {
             if (properties.containsKey(jdbcUrl())) {
-                var result = getJDBCConnection(properties, INSTANCE);
+                getJDBCConnection(properties, INSTANCE);
             }
         } catch ( RuntimeException e) {
             throw new ConfigurationFailedException("Could not init JDBC connection for filter properties " + properties.getProperty(jdbcUrl())
