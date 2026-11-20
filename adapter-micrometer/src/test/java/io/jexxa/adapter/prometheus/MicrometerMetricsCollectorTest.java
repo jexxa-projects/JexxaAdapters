@@ -43,6 +43,7 @@ class MicrometerMetricsCollectorTest {
 
         //ACT / ASSERT
         await().atMost(Duration.ofSeconds(5)).until(() -> getProcessedMessages(url) > 0);
+        objectUnderTest.stop();
     }
 
 
