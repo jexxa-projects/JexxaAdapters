@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## \[5.0.0-RC3] - 2026-11-20
+**Changed**
+- added adapter-micrometer
+
 ## \[5.0.0-RC2] - 2026-11-12
 **Changed**
 - Refactored JexxaAdapters into independently usable Maven modules:
