@@ -5,22 +5,29 @@ import io.javalin.Javalin;
 import io.javalin.config.JavalinConfig;
 import io.javalin.micrometer.MicrometerPlugin;
 import io.javalin.util.JavalinLogger;
+import io.jexxa.adapters.api.drivingadapter.Diagnostics;
 import io.jexxa.adapters.api.service.ManagedService;
 import io.jexxa.adapters.core.facade.logger.SLF4jLogger;
+import io.micrometer.core.instrument.Gauge;
 import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Tags;
 import io.micrometer.prometheusmetrics.PrometheusConfig;
 import io.micrometer.prometheusmetrics.PrometheusMeterRegistry;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import static io.jexxa.adapter.prometheus.MicrometerProperties.prometheusEndpoint;
 import static io.jexxa.adapter.prometheus.MicrometerProperties.prometheusPort;
 
 
 public class MicrometerMetricsCollector implements ManagedService {
+    public static final String JEXXA_HEALTH_STATUS = "jexxa.health.status";
+    public static final String JEXXA_HEALTH_LAST_CHECK = "jexxa.health.last.check.seconds";
+
     private final String prometheusEndpoint;
     private int prometheusPort;
     private Javalin javalin;
@@ -47,7 +54,7 @@ public class MicrometerMetricsCollector implements ManagedService {
         meterRegistry = new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
     }
 
-    public void registerMetrics(Consumer<MeterRegistry> consumer) { consumers.add(consumer); }
+    public void register(Consumer<MeterRegistry> consumer) { consumers.add(consumer); }
 
     @Override
     public void start() {
@@ -64,7 +71,88 @@ public class MicrometerMetricsCollector implements ManagedService {
     public void stop() {
         javalin.stop();
     }
+    public void register(Supplier<Diagnostics> diagnosticsSupplier) {
+        Diagnostics initial = diagnosticsSupplier.get();
+        if (initial == null) {
+            return;
+        }
 
+        // 1-Sekunden-Cache, damit der Supplier für Status- und Timestamp-Gauge nicht doppelt abgefragt wird
+        Supplier<Diagnostics> cachedSupplier = memoize(diagnosticsSupplier, Duration.ofSeconds(1));
+
+        Tags tags = Tags.of(
+                "check", nullSafe(initial.nameOfHealthCheck()),
+                "observed_object", nullSafe(initial.nameOfObservedObject())
+        );
+
+        Gauge.builder(JEXXA_HEALTH_STATUS, cachedSupplier, s -> {
+                    Diagnostics d = s.get();
+                    return (d != null && d.isHealthy()) ? 1.0 : 0.0;
+                })
+                .description("Health check status (1 = healthy, 0 = unhealthy)")
+                .tags(tags)
+                .strongReference(true)
+                .register(meterRegistry);
+
+        Gauge.builder(JEXXA_HEALTH_LAST_CHECK, cachedSupplier, s -> {
+                    Diagnostics d = s.get();
+                    return (d != null && d.timestamp() != null) ? (double) d.timestamp().getEpochSecond() : 0.0;
+                })
+                .description("Timestamp of the last health check execution in epoch seconds")
+                .strongReference(true)
+                .tags(tags)
+                .register(meterRegistry);
+    }
+
+    /**
+     * Registriert eine Liste von Health-Checks, indem intern an register() delegiert wird.
+     */
+    public void registerAll(MeterRegistry registry, Supplier<List<Diagnostics>> diagnosticsListSupplier) {
+        Supplier<List<Diagnostics>> cachedListSupplier = memoize(diagnosticsListSupplier, Duration.ofSeconds(1));
+        List<Diagnostics> initialList = cachedListSupplier.get();
+
+        if (initialList == null) {
+            return;
+        }
+
+        for (Diagnostics diag : initialList) {
+            String checkName = diag.nameOfHealthCheck();
+            String observedObject = diag.nameOfObservedObject();
+
+            Supplier<Diagnostics> singleSupplier = () -> cachedListSupplier.get().stream()
+                    .filter(d -> Objects.equals(checkName, d.nameOfHealthCheck())
+                            && Objects.equals(observedObject, d.nameOfObservedObject()))
+                    .findFirst()
+                    .orElse(null);
+
+            register(singleSupplier);
+        }
+    }
+
+    private static String nullSafe(String value) {
+        return value != null ? value : "unknown";
+    }
+    // Kleiner Thread-sicherer Scrape-Cache (1 Sekunde)
+    private static <T> Supplier<T> memoize(Supplier<T> delegate, Duration ttl) {
+        return new Supplier<>() {
+            private volatile T cachedValue;
+            private volatile Instant expiresAt = Instant.MIN;
+
+            @Override
+            public T get() {
+                Instant now = Instant.now();
+                if (now.isAfter(expiresAt)) {
+                    synchronized (this) {
+                        if (now.isAfter(expiresAt)) {
+                            cachedValue = delegate.get();
+                            expiresAt = now.plus(ttl);
+                        }
+                    }
+                }
+                return cachedValue;
+            }
+        };
+    }
 
 
     private void initJavalin(JavalinConfig config, PrometheusMeterRegistry registry)
@@ -85,4 +173,6 @@ public class MicrometerMetricsCollector implements ManagedService {
         });
 
     }
+
+
 }

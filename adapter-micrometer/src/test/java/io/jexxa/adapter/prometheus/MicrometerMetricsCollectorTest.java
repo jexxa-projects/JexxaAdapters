@@ -1,5 +1,6 @@
 package io.jexxa.adapter.prometheus;
 
+import io.jexxa.adapters.api.drivingadapter.Diagnostics;
 import io.micrometer.core.instrument.FunctionCounter;
 import io.micrometer.core.instrument.MeterRegistry;
 import kong.unirest.Unirest;
@@ -7,13 +8,16 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static io.jexxa.adapter.prometheus.MicrometerProperties.prometheusEndpoint;
 import static io.jexxa.adapter.prometheus.MicrometerProperties.prometheusPort;
 import static java.lang.Integer.parseInt;
 import static org.awaitility.Awaitility.await;
+import static org.junit.jupiter.api.Assertions.*;
 
 class MicrometerMetricsCollectorTest {
     private static final String MESSAGES_TOTAL = "messages_total";
@@ -23,8 +27,7 @@ class MicrometerMetricsCollectorTest {
     private final AtomicInteger counter = new AtomicInteger();
 
     @Test
-    void initFlowGraphMetrics()
-    {
+    void initMetrics() {
         //Arrange
         var properties = new Properties();
         properties.setProperty(prometheusPort(), "7070");
@@ -35,13 +38,62 @@ class MicrometerMetricsCollectorTest {
                 + properties.getProperty(prometheusEndpoint());
 
         MicrometerMetricsCollector objectUnderTest = new MicrometerMetricsCollector(properties);
-        objectUnderTest.registerMetrics(this::registerMetrics);
-
+        objectUnderTest.register(this::registerMetrics);
         objectUnderTest.start();
-
 
         //ACT / ASSERT
         await().atMost(Duration.ofSeconds(5)).until(() -> getProcessedMessages(url) > 0);
+    }
+
+
+    @Test
+    void testDiagnostics()
+    {
+        // Arrange
+        var port = "7070";
+        var endpoint = "/metrics";
+        var url = "http://localhost:" + port + endpoint;
+
+        var properties = new Properties();
+        properties.setProperty(prometheusPort(), port);
+        properties.setProperty(prometheusEndpoint(), endpoint);
+
+        var timestamp = Instant.parse("2026-11-20T10:00:00Z");
+        var diagnostics = new AtomicReference<>(new Diagnostics(
+                "test_diagnostics",
+                getClass().getSimpleName(),
+                true,
+                "Test",
+                timestamp
+        ));
+
+        var objectUnderTest = new MicrometerMetricsCollector(properties);
+        objectUnderTest.register(diagnostics::get);
+
+        // Act
+        objectUnderTest.start();
+        var result = getMetrics(url);
+
+        // Assert
+        assertAll(
+                () -> assertTrue(result.contains(
+                        "jexxa_health_status{check=\"test_diagnostics\",observed_object=\"MicrometerMetricsCollectorTest\"} 1.0"
+                )),
+                () -> assertTrue(result.contains(
+                        "jexxa_health_last_check_seconds{check=\"test_diagnostics\",observed_object=\"MicrometerMetricsCollectorTest\"} "
+                                + (double) timestamp.getEpochSecond()
+                ))
+        );
+        objectUnderTest.stop();
+    }
+    private String getMetrics(String url) {
+        String rawMetrics = Unirest.get(url).asString().getBody();
+
+        if (rawMetrics == null || rawMetrics.isBlank()) {
+            return "";
+        }
+
+        return rawMetrics;
     }
 
     int incrementAndGetCounter() {return counter.incrementAndGet();}
@@ -54,14 +106,9 @@ class MicrometerMetricsCollectorTest {
     }
 
     private int getProcessedMessages(String url) {
-        String rawMetrics = Unirest.get(url).asString().getBody();
-
-        if (rawMetrics == null || rawMetrics.isBlank()) {
-            return 0;
-        }
 
         // Zeilenweise verarbeiten - absolut linear, kein Backtracking möglich
-         return rawMetrics.lines()
+         return getMetrics(url).lines()
                 // 1. Nur die relevante Metrik-Zeile heraussuchen
                 .filter(line -> line.startsWith(MESSAGES_TOTAL) && line.contains("result=\"success\""))
                 .map(line -> {
