@@ -112,8 +112,8 @@ JexxaAdapters is part of **Jexxa Projects**: building blocks for durable busines
 
 | Project                                                          | Role                                                           | Status                                   |
 |------------------------------------------------------------------|----------------------------------------------------------------|------------------------------------------|
-| [Jexxa](https://github.com/jexxa-projects/Jexxa)                 | Framework for DDD and Ports & Adapters applications (Java)     | In production for 6 years                |
-| [JLegMed](https://github.com/jexxa-projects/JLegMed)             | Semantic bridging of legacy and modern systems (Java)          | In production for 1 year                 |
+| [Jexxa](https://github.com/jexxa-projects/Jexxa)                 | Framework for DDD and Ports & Adapters applications (Java)     | In production over 6 years                |
+| [JLegMed](https://github.com/jexxa-projects/JLegMed)             | Semantic bridging of legacy and modern systems (Java)          | In production over 3 years                 |
 | [DigiSpine](https://github.com/jexxa-projects/DigiSpine)         | Digital backbone connecting business domains via domain events | In production for 1 year                 |
 | CLegMed                                                          | C++23 counterpart to JLegMed                                   | In development                           |
 | [JexxaAdapters](https://github.com/jexxa-projects/JexxaAdapters) | Reusable infrastructure adapters and integration patterns      | Supporting library for Jexxa and JLegMed |
