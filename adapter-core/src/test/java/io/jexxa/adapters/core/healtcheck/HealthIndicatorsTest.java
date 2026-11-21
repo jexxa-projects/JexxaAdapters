@@ -35,6 +35,7 @@ class HealthIndicatorsTest {
 
         // Assert
         assertTrue(initResult);
+        assertFalse(objectUnderTest.getStatusMessage().isEmpty());
         assertFalse(objectUnderTest.healthy());
     }
 }
