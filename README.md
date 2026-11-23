@@ -12,7 +12,7 @@
 
 The components support different architectural styles, from modular monoliths to microservices.
 
-**Quick links:** [Quickstart](#quickstart) · [Capabilities](#capabilities) · [Ecosystem](#the-jexxa-projects-ecosystem)
+**Quick links:** [Quickstart](#quickstart) · [Modules](#modules) · [Capabilities](#capabilities) · [Build from source](#build-from-source)
 
 ## When to Use JexxaAdapters
 
@@ -24,34 +24,100 @@ Use JexxaAdapters if you
 
 
 ## Quickstart
+**Requirements:**: 
+- Java **25 or higher**
+- Maven or Gradle
 
-**Requirements:** Java 25 or higher, and Maven or Gradle.
+### Why Java 25?
 
-### Add the dependency
+Java 25 is not technically essential for JexxaAdapters. Requiring a current LTS release is a deliberate decision: the Jexxa Projects ecosystem is designed to connect legacy and modern systems, and any component that integrates legacy systems should itself be built on a modern language level. This keeps integration code maintainable and encourages updating legacy landscapes instead of conserving them.
 
-Maven:
+
+### Add dependencies
+
+You can add Jexxa Adapters to your project in two ways:
+
+- **BOM (recommended):** Manage consistent versions across all adapter modules and omit explicit version numbers when declaring dependencies.
+- **Individual dependencies:** Add specific adapter modules directly by specifying their versions.
+
+#### Option 1: Use the BOM (recommended)
+
+The `jexxa-adapters-bom` ensures compatible versions across all adapter modules so you only need to declare the modules you actually use without repeating version numbers.
+
+<summary><b>Maven</b></summary>
 
 ```xml
-<dependency>
-    <groupId>io.jexxa.adapters</groupId>
-    <artifactId>adapter-core</artifactId>
-    <version>5.0.0-RC3</version> <!-- latest version: see Maven Central badge above -->
-</dependency>
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>io.jexxa.adapters</groupId>
+            <artifactId>jexxa-adapters-bom</artifactId>
+            <version>10.0.0-RC2</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+
+<dependencies>
+    <dependency>
+        <groupId>io.jexxa.adapters</groupId>
+        <artifactId>adapter-rest</artifactId>
+    </dependency>
+    
+    <!-- Additional modules ... -->
+
+    <dependency>
+        <groupId>io.jexxa.adapters</groupId>
+        <artifactId>adapter-jdbc</artifactId>
+    </dependency>
+</dependencies>
 ```
 
-Gradle (Groovy DSL):
+<summary><b>Gradle (Groovy DSL)</b></summary>
 
 ```groovy
 dependencies {
-    implementation 'io.jexxa.adapters:adapter-core:5.0.0-RC3'
+    implementation platform('io.jexxa.adapters:jexxa-adapters-bom:10.0.0-RC2')
+    implementation 'io.jexxa.adapters:adapter-rest'
+    implementation 'io.jexxa.adapters:adapter-jdbc'
 }
 ```
 
-### Examples
 
-- [Driving adapter tests](adapter-rest/src/test/java/io/jexxa/adapters/rest/RESTfulRPCAdapterIT.java )
-- [JexxaTutorials](https://github.com/jexxa-projects/JexxaTutorials): complete applications using these adapters
-- [JLegMed](https://github.com/jexxa-projects/JLegMed): reusable processing components and integrations
+#### Option 2: Add individual dependencies directly
+
+If you only need a single adapter, you can declare it directly with an explicit version.
+
+<details>
+<summary><b>Maven</b></summary>
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>io.jexxa.adapters</groupId>
+        <artifactId>adapter-rest</artifactId>
+        <version>10.0.0-RC2</version>
+    </dependency>
+</dependencies>
+```
+
+</details>
+
+<details>
+<summary><b>Gradle (Groovy DSL)</b></summary>
+
+```groovy
+dependencies {
+    implementation 'io.jexxa.adapters:adapter-rest:10.0.0-RC2'
+}
+```
+
+</details>
+
+
+
+
 
 ## Modules
 
@@ -67,6 +133,12 @@ dependencies {
 | `adapter-micrometer` | Application metrics collection and Micrometer monitoring adapters for Prometheus                     |      
 | `jexxa-adapters-bom` | Centralized dependency version management for all Jexxa adapter modules                              |
 
+
+## Examples
+
+- [Driving adapter tests](adapter-rest/src/test/java/io/jexxa/adapters/rest/RESTfulRPCAdapterIT.java )
+- [JexxaTutorials](https://github.com/jexxa-projects/JexxaTutorials): complete applications using these adapters
+- [JLegMed](https://github.com/jexxa-projects/JLegMed): reusable processing components and integrations
 
 ### Where it fits
 
@@ -113,30 +185,8 @@ Reusable adapters connect applications to infrastructure technologies without co
 - **Health checks:** components for reporting application and infrastructure health
 - **In-process publish/subscribe (`InProcessPubSub`):** lightweight, synchronous, type-based messaging within a single JVM process. It provides no persistence, asynchronous delivery, or retries.
 
-## The Jexxa Projects Ecosystem
 
-JexxaAdapters is part of **Jexxa Projects**: building blocks for durable business systems, consisting of modern, domain-driven applications and the bridges that connect them to legacy systems. Legacy systems stay as they are; the components that integrate them are built on a modern language level.
 
-| Project                                                          | Role                                                           | Status                                   |
-|------------------------------------------------------------------|----------------------------------------------------------------|------------------------------------------|
-| [Jexxa](https://github.com/jexxa-projects/Jexxa)                 | Framework for DDD and Ports & Adapters applications (Java)     | In production for 6 years                |
-| [JLegMed](https://github.com/jexxa-projects/JLegMed)             | Semantic bridging of legacy and modern systems (Java)          | In production for 1 year                 |
-| [DigiSpine](https://github.com/jexxa-projects/DigiSpine)         | Digital backbone connecting business domains via domain events | In production for 1 year                 |
-| CLegMed                                                          | C++23 counterpart to JLegMed                                   | In development                           |
-| [JexxaAdapters](https://github.com/jexxa-projects/JexxaAdapters) | Reusable infrastructure adapters and integration patterns      | Supporting library for Jexxa and JLegMed |
-| [Addend](https://github.com/jexxa-projects/Addend)               | Domain annotations for DDD                                     | Supporting library                       |
-
-See the [Jexxa Projects overview](https://github.com/jexxa-projects) for all repositories.
-
-## Requirements and Compatibility
-
-- Java **25 or higher**
-- Maven or Gradle
-
-### Why Java 25?
-
-Java 25 is not technically essential for JexxaAdapters. Requiring a current LTS release is a deliberate decision: the Jexxa Projects ecosystem is designed to connect legacy and modern systems, and any component that integrates legacy systems should itself be built on a modern language level. This keeps integration code maintainable and encourages updating legacy landscapes instead of conserving them.
- 
 
 ## Build from Source
 
