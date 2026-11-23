@@ -152,8 +152,8 @@ flowchart LR
         PATTERNS["Integration patterns<br/>Transactional Outbox, Idempotent Consumer"]
     end
     subgraph Infra["Infrastructure"]
-        DB[("Database / object storage")]
-        MQ["Message broker"]
+        DB[("Database / \nObject storage")]
+        MQ["Message broker / \nEvent Streaming Plattform / \n Network connection"]
     end
     REPO -.->|implements| CORE
     PATTERNS -.->|implements| CORE
