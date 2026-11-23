@@ -5,6 +5,9 @@
 [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/12683/badge)](https://www.bestpractices.dev/projects/12683)
 
 # JexxaAdapters — Reusable Infrastructure for Ports & Adapters Applications
+**Quick links:** [Motivation](#motivation) · [When to Use](#when-to-use-jexxaadapters) · [Quickstart](#quickstart) · [Modules](#modules) · [Capabilities](#capabilities) · [Build from source](#build-from-source)
+
+## Motivation
 
 **JexxaAdapters** is a lightweight, modular Java library providing reusable infrastructure components for [Jexxa](https://github.com/jexxa-projects/Jexxa), [JLegMed](https://github.com/jexxa-projects/JLegMed), and any other Java application: ready-to-use infrastructure adapters, established integration patterns, and common utilities.
 
@@ -14,7 +17,6 @@ It is **not a framework** and does not compete with ecosystems like Spring Boot 
 
 The components support different architectural styles, from modular monoliths to microservices.
 
-**Quick links:** [Quickstart](#quickstart) · [Modules](#modules) · [Capabilities](#capabilities) · [Build from source](#build-from-source)
 
 ## When to Use JexxaAdapters
 
