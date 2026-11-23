@@ -35,7 +35,7 @@ Maven:
 <dependency>
     <groupId>io.jexxa.adapters</groupId>
     <artifactId>adapter-core</artifactId>
-    <version>5.0.0-RC2</version> <!-- latest version: see Maven Central badge above -->
+    <version>5.0.0-RC3</version> <!-- latest version: see Maven Central badge above -->
 </dependency>
 ```
 
@@ -43,7 +43,7 @@ Gradle (Groovy DSL):
 
 ```groovy
 dependencies {
-    implementation 'io.jexxa.adapters:adapter-core:5.0.0-RC2'
+    implementation 'io.jexxa.adapters:adapter-core:5.0.0-RC3'
 }
 ```
 
@@ -64,6 +64,7 @@ dependencies {
 | `adapter-s3`         | S3-compatible storage adapters                                                                       |
 | `adapter-esp`        | Event-based messaging adapters for kafka                                                             |      
 | `adapter-esp-test`   | Simplify testing for event-based applications                                                        |      
+| `adapter-micrometer` | Application metrics collection and Micrometer monitoring adapters for Prometheus                     |      
 | `jexxa-adapters-bom` | Centralized dependency version management for all Jexxa adapter modules                              |
 
 
