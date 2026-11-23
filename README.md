@@ -6,9 +6,11 @@
 
 # JexxaAdapters — Reusable Infrastructure for Ports & Adapters Applications
 
-**JexxaAdapters** provides reusable Java infrastructure components for [Jexxa](https://github.com/jexxa-projects/Jexxa), [JLegMed](https://github.com/jexxa-projects/JLegMed), and other applications: infrastructure adapters, established integration patterns, and common utilities.
+**JexxaAdapters** is a lightweight, modular Java library providing reusable infrastructure components for [Jexxa](https://github.com/jexxa-projects/Jexxa), [JLegMed](https://github.com/jexxa-projects/JLegMed), and any other Java application: ready-to-use infrastructure adapters, established integration patterns, and common utilities.
 
-> Application-specific logic stays in your application. Technical details such as JDBC, JMS, or S3 stay in adapters that you do not have to write yourself.
+It is **not a framework** and does not compete with ecosystems like Spring Boot or Quarkus. There is no reflection magic, no bytecode generation, and no mandatory DI container—just plain Java components with minimal transitive dependencies that you can use standalone or alongside your existing stack.
+
+> Application-specific logic stays in your application. Technical details such as JDBC, JMS, Kafka, S3, or Micrometer stay in lightweight adapters that you do not have to write yourself.
 
 The components support different architectural styles, from modular monoliths to microservices.
 
@@ -18,10 +20,10 @@ The components support different architectural styles, from modular monoliths to
 
 Use JexxaAdapters if you
 
-- build applications with [Jexxa](https://github.com/jexxa-projects/Jexxa) or [JLegMed](https://github.com/jexxa-projects/JLegMed) and need production-ready infrastructure for them,
-- want to switch between JDBC, in-memory, and S3 persistence without changing application code, or
-- need proven messaging patterns such as the transactional outbox or an idempotent consumer.
-
+- build applications with [Jexxa](https://github.com/jexxa-projects/Jexxa), [JLegMed](https://github.com/jexxa-projects/JLegMed), or plain Java and want production-ready infrastructure without framework lock-in,
+- want to complement existing stacks (such as Spring Boot or Quarkus) with explicit, zero-magic infrastructure adapters,
+- need to switch between JDBC, in-memory, and S3 persistence without changing application code, or
+- need proven messaging patterns such as the transactional outbox or an idempotent consumer—or standardized observability with Micrometer and Prometheus.
 
 ## Quickstart
 **Requirements:**: 
@@ -142,24 +144,38 @@ dependencies {
 
 ### Where it fits
 
+
 ```mermaid
-flowchart LR
-    subgraph App["Your application"]
-        CORE["Business core<br/>incl. driven ports (interfaces)"]
+flowchart TB
+    subgraph App["Your Application / Framework"]
+        CORE["<b>Business Core</b><br/>Driven Ports (Interfaces)"]
     end
+
     subgraph Adapters["JexxaAdapters"]
-        REPO["Repositories<br/>JDBC / IMDB / S3"]
-        PATTERNS["Integration patterns<br/>Transactional Outbox, Idempotent Consumer"]
+        REPO["<b>Persistence</b><br/>JDBC · IMDB · S3"]
+        MSG["<b>Messaging & Patterns</b><br/>Kafka · JMS · Outbox"]
+        REST["<b>HTTP / APIs</b><br/>REST Clients"]
+        OPS["<b>Observability</b><br/>Micrometer · Health Checks"]
     end
+
     subgraph Infra["Infrastructure"]
-        DB[("Database / \nObject storage")]
-        MQ["Message broker / \nEvent Streaming Plattform / \n Network connection"]
+        DB[("Database / S3")]
+        MQ["Kafka / JMS Broker"]
+        EXT["External REST APIs"]
+        MON["Prometheus"]
     end
-    REPO -.->|implements| CORE
-    PATTERNS -.->|implements| CORE
+
+    CORE <-.-|implements / monitors| MSG
+    CORE <-.-|implements / monitors| REST
+
     REPO --> DB
-    PATTERNS --> MQ
-```
+    MSG --> MQ
+    REST --> EXT
+    OPS --> MON
+
+
+``` 
+
 
 All arrows show source-code dependencies: the adapters depend on the ports of your business core, never the other way round.
 
