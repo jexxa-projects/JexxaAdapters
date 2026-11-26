@@ -56,7 +56,7 @@ The `jexxa-adapters-bom` ensures compatible versions across all adapter modules 
         <dependency>
             <groupId>io.jexxa.adapters</groupId>
             <artifactId>jexxa-adapters-bom</artifactId>
-            <version>10.0.0-RC2</version>
+            <version>10.0.0-RC4</version>
             <type>pom</type>
             <scope>import</scope>
         </dependency>
@@ -82,7 +82,7 @@ The `jexxa-adapters-bom` ensures compatible versions across all adapter modules 
 
 ```groovy
 dependencies {
-    implementation platform('io.jexxa.adapters:jexxa-adapters-bom:10.0.0-RC2')
+    implementation platform('io.jexxa.adapters:jexxa-adapters-bom:10.0.0-RC4')
     implementation 'io.jexxa.adapters:adapter-rest'
     implementation 'io.jexxa.adapters:adapter-jdbc'
 }
