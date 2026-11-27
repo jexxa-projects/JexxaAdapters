@@ -17,7 +17,7 @@
   <description>Implementation of various infrastructure adapters for jexxa-projects.</description> <!-- Einzigartig -->
   <properties>
     <netty.bom.version>4.2.19.Final</netty.bom.version>
-    <javalin.version>7.2.4</javalin.version>
+    <javalin.version>7.3.0</javalin.version>
     <jackson.core.version>3.2.4</jackson.core.version>
     <jackson.jsonschema.version>1.0.39</jackson.jsonschema.version>
     <jetty.version>12.1.14</jetty.version>
