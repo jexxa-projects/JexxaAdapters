@@ -21,7 +21,7 @@
     <jackson.core.version>3.2.4</jackson.core.version>
     <jackson.jsonschema.version>1.0.39</jackson.jsonschema.version>
     <jetty.version>12.1.14</jetty.version>
-    <micrometer.version>1.17.2</micrometer.version>
+    <micrometer.version>1.18.0</micrometer.version>
   </properties>
 
   <dependencyManagement>
