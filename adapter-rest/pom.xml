@@ -13,12 +13,12 @@
     <name>REST Adapter</name>
 
     <properties>
-        <javalin.version>7.2.4</javalin.version>
+        <javalin.version>7.3.0</javalin.version>
         <jackson.core.version>3.2.4</jackson.core.version>
         <jackson.jsonschema.version>1.0.39</jackson.jsonschema.version>
         <smallrye.openapi.core.version>4.3.5</smallrye.openapi.core.version>
         <smallrye.config.core.version>4.1.0</smallrye.config.core.version>
-        <jetty.version>12.1.14</jetty.version>
+        <jetty.version>12.1.15</jetty.version>
         <swagger.core.version>3.0.0</swagger.core.version>
     </properties>
     <dependencyManagement>
