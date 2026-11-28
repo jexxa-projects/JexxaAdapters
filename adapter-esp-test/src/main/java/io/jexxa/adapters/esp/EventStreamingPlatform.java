@@ -52,7 +52,7 @@ public class EventStreamingPlatform {
                 .withEnv("SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS", "PLAINTEXT://kafka:9092")
                 .withEnv("SCHEMA_REGISTRY_HOST_NAME", "schema-registry")
                 .withEnv("SCHEMA_REGISTRY_LISTENERS", "http://0.0.0.0:8081")
-                .withExposedPorts(Integer.valueOf(8081))
+                .withExposedPorts(8081)
                 .waitingFor(Wait.forHttp("/subjects"));
         schemaRegistry.start();
 
