@@ -50,7 +50,7 @@
 
     <kafka.json.schema.serializer>8.4.1</kafka.json.schema.serializer>
     <kafka.clients.version>8.4.1-ce</kafka.clients.version>
-    <apache.commons.lang3>3.21.0</apache.commons.lang3>
+    <apache.commons.lang3>3.22.0</apache.commons.lang3>
     <apache.commons.codec>1.23.0</apache.commons.codec>
     <apache.commons.compress>1.28.0</apache.commons.compress>
     <lz4.java.version>1.13.0</lz4.java.version>
