@@ -62,7 +62,7 @@
     <sqlilte.version>3.54.1.0</sqlilte.version>
     <junit.bom.version>6.1.3</junit.bom.version>
     <awaitility.version>4.3.0</awaitility.version>
-    <jackson.bom.version>3.2.4</jackson.bom.version>
+    <jackson.bom.version>3.3.0</jackson.bom.version>
     <netty.bom.version>4.2.21.Final</netty.bom.version>
     <netty.bom.version>4.2.20.Final</netty.bom.version>
     <unirest.java.version>3.14.5</unirest.java.version>
