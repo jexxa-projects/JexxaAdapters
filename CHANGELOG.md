@@ -4,6 +4,47 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## \[5.0.0] - 2026-11-28
+
+### 5.0.0 – Modularization of JexxaAdapters
+
+**Changed**
+- Refactored JexxaAdapters into independently usable Maven modules:
+  - `adapter-core` – shared adapter abstractions and interfaces.
+  - `adapter-jdbc` – JDBC integration.
+  - `adapter-jms` – JMS integration.
+  - `adapter-micrometer` – Micrometer integration
+  - `adapter-rest` – REST integration.
+  - `adapter-s3` – S3 integration.
+  - `adapter-esp`– Event Stream Processing integration
+  - `adapter-esp-test`– Test environment for Event Stream Processing integration
+- Replaced the previous `adapter-api` and `common-adapters` module structure.
+- Separated technology-specific dependencies to reduce unnecessary transitive dependencies.
+- Introduced `jexxa-adapters-bom` for centralized dependency version management.
+
+**Migration**
+- Replace dependencies on `adapter-api` and `common-adapters` with the required individual adapter modules.
+- Update affected imports to the new package structure.
+- Optionally import `jexxa-adapters-bom` to manage adapter versions centrally.
+
+**Breaking Change:** Existing Maven dependencies and affected Java package imports must be updated.
+
+### Changed
+* refactor(s3): replace minio-client with lightweight AWS SDK v2
+  - Switched dependency from `io.minio:minio` to `software.amazon.awssdk:s3` combined with `url-connection-client` to drastically reduce transitive dependencies (no Netty/Jackson) and eliminate AGPLv3-related licensing friction.
+  - Renamed `S3Client` to `S3Facade` to resolve naming conflicts with the official AWS `S3Client` interface and clean up fully qualified class names.
+  - Encapsulated configuration parsing into a typsafe internal `S3Config` record within `S3Facade` for fail-fast validation during construction.
+  - Introduced `io.jexxa.s3.force-path-style` property in `S3Properties` to allow toggleable URL routing, defaulted to `true` to ensure full out-of-the-box compatibility with local MinIO instances and test containers.
+  - Configured modern `S3Configuration` checksum calculations (`WHEN_REQUIRED`) together with `LegacyMd5Plugin` to prevent MD5 verification errors when using the native Java URL connection client or older S3 storage systems.
+* Added – Service Provider Discovery
+  - Introduced Java `ServiceLoader` support for automatic discovery of Driven Adapter implementations.
+  - Added `RepositoryProvider` and `MessageSenderProvider` interfaces.
+  - Adapter modules register their implementations via `META-INF/services` and select suitable strategies based on application properties.
+  - Preserved explicit strategy registration and default strategies, with existing in-memory and logging fallbacks.
+  - Removed the need for Jexxa Core to reference concrete JDBC, JMS, or S3 implementations.
+
+
 ## \[5.0.0-RC4] - 2026-11-26
 **fixed**
 - updated dependencies
