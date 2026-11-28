@@ -40,7 +40,7 @@ class GenericSQLDatabaseTest {
     @ParameterizedTest
     @CsvSource({
             "jdbc:oracle:thin:@localhost:1521:xe, 'VARCHAR(4000) '",
-            "jdbc:h2:mem:testdb, VARCHAR",
+            "jdbc:h2:mem:testdb, 'VARCHAR '",
             "jdbc:mysql://localhost:3306/db, 'VARCHAR(65535) '",
             "jdbc:postgresql://localhost:5432/db, 'VARCHAR(255) '"
     })
