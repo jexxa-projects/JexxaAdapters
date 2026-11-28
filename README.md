@@ -1,4 +1,4 @@
-[![Maven Central](https://img.shields.io/maven-central/v/io.jexxa.adapters/common-adapters)](https://central.sonatype.com/artifact/io.jexxa.adapters/common-adapters)
+[![Maven Central](https://img.shields.io/maven-central/v/io.jexxa.adapters/adapter-core)](https://central.sonatype.com/artifact/io.jexxa.adapters/adapter-core)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Maven Build](https://github.com/jexxa-projects/JexxaAdapters/actions/workflows/mavenBuild.yml/badge.svg)](https://github.com/jexxa-projects/JexxaAdapters/actions/workflows/mavenBuild.yml)
 [![CodeQL](https://github.com/jexxa-projects/JexxaAdapters/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/jexxa-projects/JexxaAdapters/actions/workflows/codeql-analysis.yml)
